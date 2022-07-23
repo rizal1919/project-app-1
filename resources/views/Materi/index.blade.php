@@ -9,14 +9,17 @@
                     <h4 class="card-title">Program</h4>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Short Course</p>
+                    <p class="card-text">{{ $dataMateri->nama_program }}</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-10 text-end">
         <button class="btn btn-primary">
-            <a href="/create" class="text-decoration-none text-light"> Tambah Program</a>
+            <a href="/create" class="text-decoration-none text-light"> Tambah Materi</a>
+        </button>
+        <button class="btn btn-primary">
+            <a href="/program" class="text-decoration-none text-light"> Kembali</a>
         </button>
     </div>
 </div>
@@ -50,22 +53,23 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th colspan="2">Program</th>
+                        <th>Materi</th>
+                        <th>Jumlah Pertemuan</th>
+                        <th>Menit</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i=1; ?>
-                    @foreach( $programs as $program)
+                <?php $i=1; ?>
+                @foreach( $dataMateri->materi as $materis )
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ $program->nama_program }}</td>
+                        <td>{{ $materis->nama_materi }}</td>
+                        <td>{{ $materis->jumlah_pertemuan }}</td>
+                        <td>{{ $materis->menit }}</td>
                         <td>
-                            <button class="btn btn-primary"><a href="/materi/{{ $program->id }}" class="text-decoration-none" style="color: white;">Tambah Materi</a></button>
-                        </td>
-                        <td>
-                            <a href="/show/{{ $program->nama_program }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                            <a href="/update/{{ $program->id }}" class="btn btn-primary"><i class="fas fa-pen-to-square"></i></a>
+                            <a href="/show-materi/{{ $materis->id }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                            <a href="/update/" class="btn btn-primary"><i class="fas fa-pen-to-square"></i></a>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <i class="fas fa-trash"></i>
                             </button>
@@ -75,7 +79,7 @@
                             <!-- Button trigger modal -->
                         </td>
                     </tr>
-                        <?php $i++; ?>
+                    <?php $i++; ?>
                     @endforeach
                 </tbody>
             </table>
@@ -85,31 +89,6 @@
         
 
 @endsection
-<!-- @push('modal')
-    @foreach($programs as $program)
-    <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="/delete/{{ $program->id }}" method="post" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-trash mx-2"></i>Hapus Program
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @csrf
-                    @method('delete')
-                    <p>Anda yakin ingin menghapus program ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Ya, Hapus !</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    @endforeach
-@endpush -->
 @push('modal')
 
 
@@ -117,7 +96,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-    <form action="/delete/{{ $program->id }}" method="post">
+    <form action="/delete/" method="post">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-trash mx-2"></i>Hapus Program</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Program extends Model
+class Materi extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function materi(){
-        return $this->hasMany(Materi::class);
+    public function program(){
+        return $this->belongsTo(Program::class);
     }
 }
