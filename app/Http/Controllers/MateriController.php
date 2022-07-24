@@ -8,18 +8,63 @@ use Illuminate\Http\Request;
 
 class MateriController extends Controller
 {
-    public function index(){
-        return view('Materi.index', [
-            'title' => 'Materi'
-        ]);
-    }
+    // public function index(){
+    //     return view('Materi.index', [
+    //         'title' => 'Materi'
+    //     ]);
+    // }
 
-    public function indexMateri(Materi $materi){
+    public function indexMateri(Request $request, Materi $materi){
+
+        // $materi = Materi::all();
+
+        $search = $request->search;
+        $dataMateri = Materi::when($search, function($query, $search){
+            return $query->where('nama_materi','like',"%$search%")->orWhere('jumlah_pertemuan','like',"%$search%");
+        })->paginate(10);
+
 
         return view('Materi.index', [
             'title' => 'Materi',
-            'dataMateri' =>  $materi->program->load('materi'),
+            'dataProgram' => $materi->program->load('materi'),
+            'dataMateri' =>  $dataMateri
         ]);
+    }
+
+    public function createMateri(Program $program){
+        return view('Materi.create', [
+            'title' => 'Create',
+            'dataMateri' => $program->load('materi')
+        ]);
+    }
+
+    public function storeMateri(Request $request, Materi $materi){
+
+        $validatedData = $request->validate([
+            'nama_materi'=>'required|between:5,200',
+            'program_id'=> 'required|numeric',
+            'jumlah_pertemuan' => 'required|numeric|between:1,3',
+            'menit' => 'required|numeric|between:30,60',
+        ],[
+            'nama_materi.required' => 'Silahkan isi terlebih dahulu nama materi',
+            'nama_materi.between' => 'Karakter harus berisi setidaknya 1 sampai 3 kata',
+            'jumlah_pertemuan.required' => 'Jumlah pertemuan wajib diisi',
+            'jumlah_pertemuan.numeric' => 'Jumlah pertemuan wajib diisi dengan angka',
+            'jumlah_pertemuan.between' => 'Jumlah pertemuan berisi nilai 1 sampai 3',
+            'menit.required' => 'Durasi menit wajib diisi',
+            'menit.numeric' => 'Wajib diisi dengan angka',
+            'menit.between' => 'Menit diisi dalam rentang 30 dan 60'
+        ]);
+
+        
+        Materi::create($validatedData);
+
+        $id = $validatedData['program_id'];
+
+        return redirect('/materi/' . $id)->with('success','Create Successfully!');
+
+
+        
     }
     
     public function showMateri(Materi $materi){
@@ -51,16 +96,30 @@ class MateriController extends Controller
         // $data = Program::where('id', $materi['program_id']);
         
 
+        // $validatedData = $request->validate([
+        //     'nama_materi'=>'required',
+        //     'program_id'=> 'required',
+        //     'jumlah_pertemuan' => 'required|numeric',
+        //     'menit' => 'required|numeric',
+        // ]);
+
         $validatedData = $request->validate([
-            'nama_materi'=>'required',
-            'program_id'=> 'required',
-            'jumlah_pertemuan' => 'required|numeric',
-            'menit' => 'required|numeric',
-            'id_program_besar' => 'required'
+            'nama_materi'=>'required|between:5,200',
+            'program_id'=> 'required|numeric',
+            'jumlah_pertemuan' => 'required|numeric|between:1,3',
+            'menit' => 'required|numeric|between:30,60',
+        ],[
+            'nama_materi.required' => 'Silahkan isi terlebih dahulu nama materi',
+            'nama_materi.between' => 'Karakter harus berisi setidaknya 1 sampai 3 kata',
+            'jumlah_pertemuan.required' => 'Jumlah pertemuan wajib diisi',
+            'jumlah_pertemuan.numeric' => 'Jumlah pertemuan wajib diisi dengan angka',
+            'jumlah_pertemuan.between' => 'Jumlah pertemuan berisi nilai 1 sampai 3',
+            'menit.required' => 'Durasi menit wajib diisi',
+            'menit.numeric' => 'Wajib diisi dengan angka',
+            'menit.between' => 'Menit diisi dalam rentang 30 dan 60'
         ]);
 
-        $id = $validatedData['id_program_besar'];
-        $dataMateri = $materi->program->load('materi');
+        $id = $validatedData['program_id'];
 
         $materi->update([
             'nama_materi'=> $validatedData['nama_materi'],

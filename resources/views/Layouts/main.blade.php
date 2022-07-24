@@ -13,9 +13,11 @@
         @yield('content')
     </div>
     @stack('modal')
-    @stack('js')
-    <script src="{{ asset('js/jquery.slim.main.js') }}"></script>
+    
     <script src="{{ asset('bs/js/bootstrap.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    @stack('js')
+
 
 </body>
 </html>

@@ -6,17 +6,22 @@
         <div class="col-lg-3" style="margin-left: 60px;">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Program</h4>
+                    <h4 class="card-title"><i class="fa-solid fa-address-card mx-2"></i>Program</h4>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">{{ $dataMateri->nama_program }}</p>
+                    <p class="card-text">{{ $dataProgram->nama_program }}</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-10 text-end">
+        <form action="/materi/{{ $dataProgram->id }}" method="get" class="d-inline">
+            @csrf
+            <input type="text" id="search" name="search" class="form-control d-inline" style="width: 20%;" placeholder="Search">
+            <button class="btn btn-primary" id="basic-addon2">Go!</button>
+        </form>
         <button class="btn btn-primary">
-            <a href="/create" class="text-decoration-none text-light"> Tambah Materi</a>
+            <a href="/create-materi/{{ $dataProgram->id }}" class="text-decoration-none text-light"><i class="fa-solid fa-plus"></i>Tambah Materi</a>
         </button>
         <button class="btn btn-primary">
             <a href="/program" class="text-decoration-none text-light"> Kembali</a>
@@ -37,9 +42,9 @@
         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-    @if( session('create') )
+    @if( session('success') )
     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('create') }}</strong> Materi telah berhasil ditambahkan.
+        <strong>{{ session('success') }}</strong> Materi telah berhasil ditambahkan.
         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
@@ -61,7 +66,7 @@
                 </thead>
                 <tbody>
                 <?php $i=1; ?>
-                @foreach( $dataMateri->materi as $materis )
+                @foreach( $dataProgram->materi as $materis )
                 
                     <tr>
                         <td>{{ $i }}</td>
@@ -69,8 +74,8 @@
                         <td>{{ $materis->jumlah_pertemuan }}</td>
                         <td>{{ $materis->menit }}</td>
                         <td>
-                            <a href="/show-materi/{{ $materis->id }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                            <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
+                            <a href="/show-materi/{{ $materis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
+                            <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
                             <!-- <button type="button" class="btn btn-danger deteleCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}"  data-bs-target="#exampleModal" data-url="/delete-materi?id={{ $materis->id }}">
                             <i class="fas fa-trash"></i>
                             </button> -->
@@ -82,7 +87,7 @@
                             </button> -->
                             
                             <!-- <a href="/delete-materi/{{ $materis->id }}" class="btn btn-primay text-decoration-none" data-bs-toggle="modal" onclick="deleteModal()"  data-bs-target="#exampleModal"><i class="fas fa-trash"></i></a> -->
-                            <a href="/delete-materi/{{ $materis->id }}" class="btn btn-danger text-decoration-none" onclick="confirm('Anda yakin?')"><i class="fas fa-trash"></i></a>
+                            <a href="/delete-materi/{{ $materis->id }}" class="btn btn-danger text-decoration-none text-dark" onclick="confirm('Anda yakin?')"><i class="fas fa-trash"></i></a>
                             
                         </td>
                     </tr>

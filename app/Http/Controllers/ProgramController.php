@@ -7,12 +7,32 @@ use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+
+        $programs = Program::all();
+
+        
+        $search = $request->search;
+        $programs = Program::when($search, function($query, $search){
+            return $query->where('nama_program','like',"%$search%");
+        })->paginate(10);
+
+        // if( request('search') ){
+        //     $programs = Program::when($search, function($query, $search){
+        //         return $query->where('nama_program','like',"%$search%");
+        //     })->paginate(5);
+        // }
+
+        // if( request('search') ){
+        //     $programs = Program::where('nama_program', 'like', "%$search%")->get();
+        // }
+
         return view('Program.index', [
             'title' => 'Programs',
-            'programs' => Program::all()
+            'programs' => $programs
         ]);
     }
+
 
     public function create(Program $program){
         return view('Program.create', [

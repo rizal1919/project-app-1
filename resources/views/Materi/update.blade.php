@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-lg">
-    <div class="row justify-content-center" style="margin-top: 150px;">
+    <div class="row justify-content-center" style="margin-top: 100px;">
         <div class="col-lg-3" style="height: 30%;">
             <div class="card">
                 <div class="card-header">
@@ -37,7 +37,6 @@
                     </div>
                     <div class="mb-1">
                         <input type="hidden" class="form-control @error('program_id') is-invalid @enderror" id="program_id" name="program_id" value="{{ $t->program_id }}" required>
-                        <input type="hidden" class="form-control @error('id_program_besar') is-invalid @enderror" id="id_program_besar" name="id_program_besar" value="{{ $dataMateri->id }}" required>
                     </div>
                         <button type="submit" class="btn btn-primary mb-3">Submit</button>
                     </form>

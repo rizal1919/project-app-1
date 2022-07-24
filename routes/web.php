@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 // routes program
 Route::get('/program', [ProgramController::class, 'index']);
+Route::post('/program', [ProgramController::class, 'index']);
 
 Route::get('/show/{program:nama_program}', [ProgramController::class, 'show']);
 
@@ -36,6 +37,9 @@ Route::get('/delete/{program}', [ProgramController::class, 'destroy']);
 // routes materi
 // Route::get('/materi', [MateriController::class, 'index']);
 Route::get('/materi/{materi:program_id}', [MateriController::class, 'indexMateri']);
+
+Route::get('/create-materi/{program:id}', [MateriController::class, 'createMateri']);
+Route::post('/create-materi', [MateriController::class, 'storeMateri']);
 
 Route::get('/show-materi/{materi:id}', [MateriController::class, 'showMateri']);
 
