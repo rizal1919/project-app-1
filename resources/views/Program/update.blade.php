@@ -11,13 +11,13 @@
                 <div class="card-body">
                 <form action="/update/{{ $programs->id }}" method="post">
                     @csrf
-                    <div class="mb-3">
-                        <label for="nama_program" class="form-label">Nama Program</label>
-                        <input type="text" class="form-control @error('nama_program') is-invalid @enderror" id="nama_program" name="nama_program" aria-describedby="emailHelp" value="{{ $programs->nama_program }}" autofocus required>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control @error('nama_program') is-invalid @enderror" id="nama_program" name="nama_program" aria-describedby="emailHelp" value="{{ $programs->nama_program }}" placeholder="Nama Program" autofocus required>
                         <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                         @error('nama_program')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        <label for="nama_program" class="form-label">Nama Program</label>
                     </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

@@ -16,5 +16,6 @@
     @stack('js')
     <script src="{{ asset('js/jquery.slim.main.js') }}"></script>
     <script src="{{ asset('bs/js/bootstrap.min.js') }}"></script>
+
 </body>
 </html>

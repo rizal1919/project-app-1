@@ -50,7 +50,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th colspan="2">Program</th>
+                        <th colspan="2">Program | ID</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -59,20 +59,22 @@
                     @foreach( $programs as $program)
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ $program->nama_program }}</td>
+                        <td>{{ $program->nama_program }} | {{ $program->id }}</td>
                         <td>
                             <button class="btn btn-primary"><a href="/materi/{{ $program->id }}" class="text-decoration-none" style="color: white;">Tambah Materi</a></button>
                         </td>
                         <td>
-                            <a href="/show/{{ $program->nama_program }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                            <a href="/update/{{ $program->id }}" class="btn btn-primary"><i class="fas fa-pen-to-square"></i></a>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <a href="/show/{{ $program->nama_program }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                            <a href="/update/{{ $program->id }}" class="btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
+                            <!-- <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <i class="fas fa-trash"></i>
-                            </button>
+                            </button> -->
                             <!-- <button type="button" id="delete" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                 <i class="fas fa-trash"></i>
                             </button> -->
                             <!-- Button trigger modal -->
+
+                            <a href="/delete/{{ $program->id }}" class="btn btn-danger text-decoration-none" onclick="confirm('Anda yakin?')"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                         <?php $i++; ?>
@@ -82,73 +84,23 @@
         </div>
     </div>
 </div>
-        
 
 @endsection
-<!-- @push('modal')
-    @foreach($programs as $program)
-    <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="/delete/{{ $program->id }}" method="post" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-trash mx-2"></i>Hapus Program
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @csrf
-                    @method('delete')
-                    <p>Anda yakin ingin menghapus program ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Ya, Hapus !</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    @endforeach
-@endpush -->
-@push('modal')
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    <form action="/delete/{{ $program->id }}" method="post">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-trash mx-2"></i>Hapus Program</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        @csrf
-        <p class="card-text">Anda yakin ingin menghapus program ?</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
-        </div>
-    </form>
-    </div>
-  </div>
-</div>
-@endpush
-
 @push('js')
 <script>
-function changeStyle(){
+    function changeStyle(){
         var element = document.getElementById("hide");
         element.style.display = "none";
     }
 </script>
 <script>
-        const myModal = document.getElementById('modal')
-        const myInput = document.getElementById('#staticBackdrop')
+    const myModal = document.getElementById('modal')
+    const myInput = document.getElementById('#staticBackdrop')
 
-        myModal.addEventListener('shown.bs.modal', () => {
-        myInput.focus()
-        })
-    </script>
+    myModal.addEventListener('shown.bs.modal', () => {
+    myInput.focus()
+    })
+</script>
 @endpush
+
+

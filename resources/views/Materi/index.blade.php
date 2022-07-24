@@ -27,19 +27,19 @@
     <div class="col-10">
     @if( session('update') )
     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('update') }}</strong> Program telah berhasil diubah.
+        <strong>{{ session('update') }}</strong> Materi telah berhasil diubah.
         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
     @if( session('destroy') )
     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('destroy') }}</strong> Program telah berhasil dihapus.
+        <strong>{{ session('destroy') }}</strong> Materi telah berhasil dihapus.
         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
     @if( session('create') )
     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('create') }}</strong> Program telah berhasil ditambahkan.
+        <strong>{{ session('create') }}</strong> Materi telah berhasil ditambahkan.
         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
@@ -53,7 +53,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Materi</th>
+                        <th>Materi | Program ID</th>
                         <th>Jumlah Pertemuan</th>
                         <th>Menit</th>
                         <th>Aksi</th>
@@ -62,21 +62,28 @@
                 <tbody>
                 <?php $i=1; ?>
                 @foreach( $dataMateri->materi as $materis )
+                
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ $materis->nama_materi }}</td>
+                        <td>{{ $materis->nama_materi }} | {{ $materis->program_id }}</td>
                         <td>{{ $materis->jumlah_pertemuan }}</td>
                         <td>{{ $materis->menit }}</td>
                         <td>
-                            <a href="/show-materi/{{ $materis->id }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                            <a href="/update/" class="btn btn-primary"><i class="fas fa-pen-to-square"></i></a>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <a href="/show-materi/{{ $materis->id }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                            <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
+                            <!-- <button type="button" class="btn btn-danger deteleCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}"  data-bs-target="#exampleModal" data-url="/delete-materi?id={{ $materis->id }}">
                             <i class="fas fa-trash"></i>
-                            </button>
-                            <!-- <button type="button" id="delete" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="fas fa-trash"></i>
                             </button> -->
-                            <!-- Button trigger modal -->
+
+                            <!-- <a href="/delete-materi/" class="btn btn-danger delete deleteCategoryBtn" data-bs-toggle="modal" value="4" data-bs-target="#exampleModal" data-url="/delete-materi/{{ $materis->id }}"><i class="fas fa-trash"></i></a> -->
+
+                            <!-- <button type="button" class="btn btn-danger deleteCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}" data-bs-target="#exampleModal">
+                            <i class="fas fa-trash"></i>
+                            </button> -->
+                            
+                            <!-- <a href="/delete-materi/{{ $materis->id }}" class="btn btn-primay text-decoration-none" data-bs-toggle="modal" onclick="deleteModal()"  data-bs-target="#exampleModal"><i class="fas fa-trash"></i></a> -->
+                            <a href="/delete-materi/{{ $materis->id }}" class="btn btn-danger text-decoration-none" onclick="confirm('Anda yakin?')"><i class="fas fa-trash"></i></a>
+                            
                         </td>
                     </tr>
                     <?php $i++; ?>
@@ -88,20 +95,15 @@
 </div>
         
 
-@endsection
-@push('modal')
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-    <form action="/delete/" method="post">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-trash mx-2"></i>Hapus Program</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+            <input type="text" name="category_delete_id" id="category_id">
         @csrf
         <p class="card-text">Anda yakin ingin menghapus program ?</p>
         </div>
@@ -109,11 +111,10 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
             <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
         </div>
-    </form>
     </div>
   </div>
-</div>
-@endpush
+</div> -->
+@endsection
 
 @push('js')
 <script>
@@ -123,11 +124,36 @@ function changeStyle(){
     }
 </script>
 <script>
+    
+
         const myModal = document.getElementById('modal')
         const myInput = document.getElementById('#staticBackdrop')
 
         myModal.addEventListener('shown.bs.modal', () => {
         myInput.focus()
         })
-    </script>
+</script>
+<script>
+// $(function(){
+// let exampleModal = new bootstrap.Modal( $('#exampleModal') );
+// $('.delete').click(function(){
+//     let url = $(this).attr('data-url');
+//     $('#category_id').val(url);
+//     $("#category_id").val("Glenn Quagmire");
+//     $('#exampleModal form').attr('action', url);
+//     exampleModal.show();
+//     $('#exampleModal').modal('show');
+// });
+// })
+
+// $(document).ready(function(){
+//     $('.deleteCategoryBtn').click(function (e){
+//         e.preventDefault();
+
+//         var materi_id = $(this).val();
+//         $('#category_id').val(materi_id);
+//         $('#exampleModal').modal('show');
+//     })
+// })
+</script>
 @endpush

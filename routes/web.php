@@ -31,11 +31,16 @@ Route::get('/create', [ProgramController::class, 'create']);
 Route::get('/update/{program}', [ProgramController::class, 'edit']);
 Route::post('/update/{program}', [ProgramController::class, 'update']);
 
-Route::post('/delete/{program}', [ProgramController::class, 'destroy']);
+Route::get('/delete/{program}', [ProgramController::class, 'destroy']);
 
 // routes materi
-Route::get('/materi', [MateriController::class, 'index']);
+// Route::get('/materi', [MateriController::class, 'index']);
 Route::get('/materi/{materi:program_id}', [MateriController::class, 'indexMateri']);
 
 Route::get('/show-materi/{materi:id}', [MateriController::class, 'showMateri']);
+
+Route::get('/update-materi/{materi:id}', [MateriController::class, 'editMateri']);
+Route::post('/update-materi/{materi:id}', [MateriController::class, 'updateMateri']);
+
+Route::get('/delete-materi/{materi:id}', [MateriController::class, 'destroyMateri']);
 
