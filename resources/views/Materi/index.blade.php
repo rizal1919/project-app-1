@@ -66,7 +66,7 @@
                 </thead>
                 <tbody>
                 <?php $i=1; ?>
-                @foreach( $dataProgram->materi as $materis )
+                @foreach( $dataMateri as $materis )
                 
                     <tr>
                         <td>{{ $i }}</td>
@@ -95,6 +95,9 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="card-body mt-2 mb-5">
+            {{ $dataMateri->links('vendor.pagination.bootstrap-5') }}
         </div>
     </div>
 </div>

@@ -18,16 +18,40 @@ class MateriController extends Controller
 
         // $materi = Materi::all();
 
+        $id = $materi->program_id;
+        // // dd($id);
         $search = $request->search;
-        $dataMateri = Materi::when($search, function($query, $search){
-            return $query->where('nama_materi','like',"%$search%")->orWhere('jumlah_pertemuan','like',"%$search%");
-        })->paginate(10);
+        // $data = Materi::all();
+        // $data = $materi->program;
 
+        
+        // $dataMateri = $data->where('nama_program','like',"%$search%");
+        // $dataMateri = $data->where('program_id','=', $id);
+        
+            
+        
+        
+        // $dataMateri = Materi::when($search, function($query, $search, $id){
+        //     return $query->where('program_id','=', $id);
+        // })->paginate(5);
+
+
+        // $id  = $materi->program->load('materi')->id;
+        // dd($materi->program->load('materi')->id);
+
+        // $matchThese = ['program_id' => $id];
+        
+        // $results = Materi::where('nama_materi','LIKE', "%{$search}%")
+        //     ->orWhere('program_id', '=', $id)
+        //     ->get();
+        
+        // dd($results);
+        $data = Materi::filter(request(['search']))->Active($id)->paginate(5)->withQueryString();
 
         return view('Materi.index', [
             'title' => 'Materi',
             'dataProgram' => $materi->program->load('materi'),
-            'dataMateri' =>  $dataMateri
+            'dataMateri' => $data
         ]);
     }
 

@@ -14,4 +14,20 @@ class Materi extends Model
     public function program(){
         return $this->belongsTo(Program::class);
     }
+
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+
+            return $query->where(function($query) use ($search){
+
+                $query->where('nama_materi', 'like', '%' . $search . '%');
+            });
+            
+        });
+
+    }
+
+    public function scopeActive($query, $id){
+        return $query->where('program_id','=',$id);
+    }
 }
