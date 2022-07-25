@@ -36,7 +36,8 @@ Route::get('/delete/{program}', [ProgramController::class, 'destroy']);
 
 // routes materi
 // Route::get('/materi', [MateriController::class, 'index']);
-Route::get('/materi/{materi:program_id}', [MateriController::class, 'indexMateri']);
+// Route::get('/materi/{materi:program_id}', [MateriController::class, 'indexMateri']);
+Route::get('/materi/{program:id}', [ProgramController::class, 'indexMateri']);
 
 Route::get('/create-materi/{program:id}', [MateriController::class, 'createMateri']);
 Route::post('/create-materi', [MateriController::class, 'storeMateri']);

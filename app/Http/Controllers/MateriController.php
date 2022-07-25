@@ -14,53 +14,55 @@ class MateriController extends Controller
     //     ]);
     // }
 
-    public function indexMateri(Request $request, Materi $materi){
+    // public function indexMateri(Request $request, Program $program){
 
-        // $materi = Materi::all();
+    //     // $materi = Materi::all();
 
-        $id = $materi->program_id;
-        // // dd($id);
-        $search = $request->search;
-        // $data = Materi::all();
-        // $data = $materi->program;
+    //     $id = $program->id;
+
+    //     $data = $program->materi;
+    //     dd($data);
+    //     $search = $request->search;
+    //     // $data = Program::all();
+    //     // $data = $materi->program;
 
         
-        // $dataMateri = $data->where('nama_program','like',"%$search%");
-        // $dataMateri = $data->where('program_id','=', $id);
+    //     // $dataMateri = $data->where('nama_program','like',"%$search%");
+    //     // $dataMateri = $data->where('program_id','=', $id);
         
             
         
         
-        // $dataMateri = Materi::when($search, function($query, $search, $id){
-        //     return $query->where('program_id','=', $id);
-        // })->paginate(5);
+    //     // $dataMateri = Materi::when($search, function($query, $search, $id){
+    //     //     return $query->where('program_id','=', $id);
+    //     // })->paginate(5);
 
 
-        // $id  = $materi->program->load('materi')->id;
-        // dd($materi->program->load('materi')->id);
+    //     // $id  = $materi->program->load('materi')->id;
+    //     // dd($materi->program->load('materi')->id);
 
-        // $matchThese = ['program_id' => $id];
+    //     // $matchThese = ['program_id' => $id];
         
-        // $results = Materi::where('nama_materi','LIKE', "%{$search}%")
-        //     ->orWhere('program_id', '=', $id)
-        //     ->get();
+    //     // $results = Materi::where('nama_materi','LIKE', "%{$search}%")
+    //     //     ->orWhere('program_id', '=', $id)
+    //     //     ->get();
         
-        // dd($results);
-        $data = Materi::filter(request(['search']))->Active($id)->paginate(5)->withQueryString();
+    //     // dd($results);
+    //     $data = Materi::filter(request(['search']))->Active($id)->paginate(5)->withQueryString();
 
-        return view('Materi.index', [
-            'title' => 'Materi',
-            'dataProgram' => $materi->program->load('materi'),
-            'dataMateri' => $data
-        ]);
-    }
+    //     return view('Materi.index', [
+    //         'title' => 'Materi',
+    //         'dataProgram' => $program->materi->load('materi'),
+    //         'dataMateri' => $data
+    //     ]);
+    // }
 
-    public function createMateri(Program $program){
-        return view('Materi.create', [
-            'title' => 'Create',
-            'dataMateri' => $program->load('materi')
-        ]);
-    }
+    // public function createMateri(Program $program){
+    //     return view('Materi.create', [
+    //         'title' => 'Create',
+    //         'dataMateri' => $program->load('materi')
+    //     ]);
+    // }
 
     public function storeMateri(Request $request, Materi $materi){
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use App\Models\Materi;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
@@ -15,7 +16,7 @@ class ProgramController extends Controller
         $search = $request->search;
         $programs = Program::when($search, function($query, $search){
             return $query->where('nama_program','like',"%$search%");
-        })->paginate(10);
+        })->paginate(5);
 
         // if( request('search') ){
         //     $programs = Program::when($search, function($query, $search){
@@ -31,6 +32,28 @@ class ProgramController extends Controller
             'title' => 'Programs',
             'programs' => $programs
         ]);
+    }
+
+    public function indexMateri(Request $request, Program $program){
+
+        // dd($program->materi());
+
+        // $id = $program->materi;
+        $id = $program->id;
+        // dd($id);
+
+
+        // $data = Materi::Active($id)->paginate(5)->withQueryString();
+        $data = Materi::filter(request(['search']))->Active($id)->paginate(5)->withQueryString();
+
+
+        // dd($data);
+        return view('Materi.index', [
+            'title' => 'Materi',
+            'dataProgram' => $program,
+            'dataMateri' => $data
+        ]);
+
     }
 
 
