@@ -7,10 +7,10 @@
     <a class="navbar-brand {{ ($active === 'Dashboard Admin') ? 'active' : '' }}" href="/dashboard">DASHBOARD</a>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
       <div class="navbar-nav">
+        <a class="nav-link {{ ($active === 'Pendaftaran') ? 'active fw-bold' : '' }}" href="/pendaftaran">Pendaftaran</a>
+        <a class="nav-link {{ ($active === 'Kelas') ? 'active fw-bold' : '' }}" href="#">Kelas</a>
         <a class="nav-link {{ ($active === 'Data Siswa') ? 'active fw-bold' : '' }}" href="#">Data Siswa</a>
         <a class="nav-link {{ ($active === 'Daftar Kurikulum') ? 'active fw-bold' : '' }}" href="/program">Daftar Kurikulum</a>
-        <a class="nav-link {{ ($active === 'Kelas') ? 'active fw-bold' : '' }}" href="#">Kelas</a>
-        <a class="nav-link {{ ($active === 'Pendaftaran') ? 'active fw-bold' : '' }}" href="#">Pendaftaran</a>
       </div>
       <div class="navbar-nav">
         @auth
@@ -23,9 +23,9 @@
             <li><hr class="dropdown-divider"></li>
             <form action="/logout-admin" method="post">
               @csrf
-            <!-- <li><a class="dropdown-item" href="/logout-admin"><i class="fa-solid fa-square-caret-left mx-1"></i>Logout</a></li> -->
-            <li><button class="dropdown-item" type="submit"><i class="fa-solid fa-square-caret-left mx-1"></i>Logout</button></li>  
-          </form>
+              <!-- <li><a class="dropdown-item" href="/logout-admin"><i class="fa-solid fa-square-caret-left mx-1"></i>Logout</a></li> -->
+              <li><button class="dropdown-item" type="submit"><i class="fa-solid fa-square-caret-left mx-1"></i>Logout</button></li>  
+            </form>
           </ul>
         </li>
         @else

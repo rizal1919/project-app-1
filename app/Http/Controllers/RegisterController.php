@@ -21,13 +21,14 @@ class RegisterController extends Controller
         $credentials = $request->validate([
 
             'name_admin' => 'required|max:255',
-            'username_admin' => 'required|between:5,255|alpha',
+            'username_admin' => 'required|between:5,255|alpha|unique:user_admins',
             'email' => 'required|email:dns|unique:user_admins',
             'password' => 'required'
         ],[
 
             'name_admin.required' => 'Nama admin belum terisi',
             'username_admin.required' => 'Pastikan nama anda sudah terisi',
+            'username_admin.unique' => 'Username telah digunakan',
             'username_admin.between' => 'Nama setidaknya terdiri dari 5-255 karakter',
             'username_admin.alpha' => 'Nama terdiri hanya huruf tanpa spasi',
             'email.required' => 'Pastikan email anda sudah terisi',

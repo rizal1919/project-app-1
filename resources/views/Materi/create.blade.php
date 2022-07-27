@@ -1,6 +1,7 @@
 
-@extends('layouts.main')
+@extends('Layouts.main')
 
+@include('Layouts/Navbar/navbar')
 @section('content')
 <div class="container-lg">
     <div class="row justify-content-center" style="margin-top: 50px;">

@@ -13,7 +13,7 @@
     <title>{{ $title }} Page</title>
 </head>
 <body>
-    @include('layouts/Navbar/navbar')
+    
     <div class="row mt-5">
         @yield('content')
     </div>

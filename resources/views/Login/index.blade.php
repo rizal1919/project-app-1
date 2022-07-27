@@ -26,7 +26,7 @@
         </div>
     </div>
         
-    <div class="row justify-content-center align-items-center" style='height: 300px; margin-bottom: -1px;'>
+    <div class="row justify-content-center align-items-center" style='height: 500px; margin-bottom: -1px;'>
         <div class="col-lg-3">
         <main class="form-signin w-100 m-auto">
         <form action="/login-admin" method="post">

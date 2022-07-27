@@ -5,6 +5,7 @@ use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RegisterController;
 use GuzzleHttp\Middleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -42,34 +43,41 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('aut
 
 
 
+
+// route pendaftaran
+Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->middleware('auth');
+
+
+
+
 // routes program
-Route::get('/program', [ProgramController::class, 'index']);
+Route::get('/program', [ProgramController::class, 'index'])->Middleware('auth');
 Route::post('/program', [ProgramController::class, 'index']);
 
 Route::get('/show/{program:nama_program}', [ProgramController::class, 'show']);
 
 Route::post('/create', [ProgramController::class, 'store']);
-Route::get('/create', [ProgramController::class, 'create']);
+Route::get('/create', [ProgramController::class, 'create'])->Middleware('auth');
 
-Route::get('/update/{program}', [ProgramController::class, 'edit']);
+Route::get('/update/{program}', [ProgramController::class, 'edit'])->Middleware('auth');
 Route::post('/update/{program}', [ProgramController::class, 'update']);
 
-Route::get('/delete/{program}', [ProgramController::class, 'destroy']);
+Route::get('/delete/{program}', [ProgramController::class, 'destroy'])->Middleware('auth');
 
 // routes materi
 // Route::get('/materi', [MateriController::class, 'index']);
 // Route::get('/materi/{materi:program_id}', [MateriController::class, 'indexMateri']);
-Route::get('/materi/{program:id}', [ProgramController::class, 'indexMateri']);
+Route::get('/materi/{program:id}', [ProgramController::class, 'indexMateri'])->Middleware('auth');
 
-Route::get('/create-materi/{program:id}', [MateriController::class, 'createMateri']);
+Route::get('/create-materi/{program:id}', [MateriController::class, 'createMateri'])->Middleware('auth');
 Route::post('/create-materi', [MateriController::class, 'storeMateri']);
 
-Route::get('/show-materi/{materi:id}', [MateriController::class, 'showMateri']);
+Route::get('/show-materi/{materi:id}', [MateriController::class, 'showMateri'])->Middleware('auth');
 
-Route::get('/update-materi/{materi:id}', [MateriController::class, 'editMateri']);
+Route::get('/update-materi/{materi:id}', [MateriController::class, 'editMateri'])->Middleware('auth');
 Route::post('/update-materi/{materi:id}', [MateriController::class, 'updateMateri']);
 
-Route::get('/delete-materi/{materi:id}', [MateriController::class, 'destroyMateri']);
+Route::get('/delete-materi/{materi:id}', [MateriController::class, 'destroyMateri'])->Middleware('auth');
 
 
 

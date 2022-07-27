@@ -49,6 +49,7 @@ class ProgramController extends Controller
         // dd($data);
         return view('Materi.index', [
             'title' => 'Materi',
+            'active' => 'Daftar Kurikulum',
             'dataProgram' => $program,
             'dataMateri' => $data
         ]);
@@ -59,6 +60,7 @@ class ProgramController extends Controller
     public function create(Program $program){
         return view('Program.create', [
             'title' => 'Create',
+            'active' => 'Daftar Kurikulum',
             'programs' => $program
         ]);
     }
@@ -77,6 +79,7 @@ class ProgramController extends Controller
     public function show(Program $program){
         return view('Program.show', [
             'title' => 'Read',
+            'active' => 'Daftar Kurikulum',
             'programs' => $program
         ]);
     }
@@ -85,6 +88,7 @@ class ProgramController extends Controller
 
         return view('Program.update', [
             'title'=> 'Update',
+            'active' => 'Daftar Kurikulum',
             'programs' => $program
         ]);
     }
