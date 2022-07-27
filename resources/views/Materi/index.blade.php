@@ -85,9 +85,10 @@
                             <!-- <button type="button" class="btn btn-danger deleteCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}" data-bs-target="#exampleModal">
                             <i class="fas fa-trash"></i>
                             </button> -->
-                            
+                            <button class="btn btn-danger text-dark" onclick="confirmation('{{ $materis->id }}')"><i class="fas fa-trash"></i></button>
+                        
                             <!-- <a href="/delete-materi/{{ $materis->id }}" class="btn btn-primay text-decoration-none" data-bs-toggle="modal" onclick="deleteModal()"  data-bs-target="#exampleModal"><i class="fas fa-trash"></i></a> -->
-                            <a href="/delete-materi/{{ $materis->id }}" class="btn btn-danger text-decoration-none text-dark" onclick="confirm('Anda yakin?')"><i class="fas fa-trash"></i></a>
+                            <!-- <a href="/delete-materi/{{ $materis->id }}" class="btn btn-danger text-decoration-none text-dark" onclick="confirm('Anda yakin?')"><i class="fas fa-trash"></i></a> -->
                             
                         </td>
                     </tr>
@@ -132,8 +133,6 @@ function changeStyle(){
     }
 </script>
 <script>
-    
-
         const myModal = document.getElementById('modal')
         const myInput = document.getElementById('#staticBackdrop')
 
@@ -142,26 +141,12 @@ function changeStyle(){
         })
 </script>
 <script>
-// $(function(){
-// let exampleModal = new bootstrap.Modal( $('#exampleModal') );
-// $('.delete').click(function(){
-//     let url = $(this).attr('data-url');
-//     $('#category_id').val(url);
-//     $("#category_id").val("Glenn Quagmire");
-//     $('#exampleModal form').attr('action', url);
-//     exampleModal.show();
-//     $('#exampleModal').modal('show');
-// });
-// })
-
-// $(document).ready(function(){
-//     $('.deleteCategoryBtn').click(function (e){
-//         e.preventDefault();
-
-//         var materi_id = $(this).val();
-//         $('#category_id').val(materi_id);
-//         $('#exampleModal').modal('show');
-//     })
-// })
+    function confirmation(delId){
+    var del=confirm(`Anda yakin ingin menghapus materi dengan id ${delId} ?`);
+    if (del==true){
+        window.location.href=`/delete-materi/${delId}`;
+    }
+    return del;
+    }
 </script>
 @endpush

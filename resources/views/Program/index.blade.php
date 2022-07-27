@@ -73,15 +73,7 @@
                         <td>
                             <a href="/show/{{ $program->nama_program }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
                             <a href="/update/{{ $program->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <!-- <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fas fa-trash"></i>
-                            </button> -->
-                            <!-- <button type="button" id="delete" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="fas fa-trash"></i>
-                            </button> -->
-                            <!-- Button trigger modal -->
-
-                            <a href="/delete/{{ $program->id }}" class="btn btn-danger text-decoration-none text-dark" onclick="confirm('Anda yakin?')"><i class="fas fa-trash"></i></a>
+                            <button class="btn btn-danger text-dark" onclick="confirmation('{{ $program->id }}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                         <?php $i++; ?>
@@ -104,6 +96,16 @@
     function changeStyle(){
         var element = document.getElementById("hide");
         element.style.display = "none";
+    }
+    
+</script>
+<script>
+    function confirmation(delName){
+    var del=confirm(`Anda yakin ingin menghapus program dengan id ${delName} ?`);
+    if (del==true){
+        window.location.href=`/delete/${delName}`;
+    }
+    return del;
     }
 </script>
 <!-- <script>

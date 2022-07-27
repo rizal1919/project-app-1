@@ -1,8 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProgramController;
-use App\Http\Controllers\MateriController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
+use GuzzleHttp\Middleware;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
 /*
@@ -19,6 +24,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+// routes login
+Route::get('/login-admin', [LoginController::class, 'index'])->name('login')->Middleware('guest');
+Route::post('/login-admin', [LoginController::class, 'authenticate']);
+Route::post('/logout-admin', [LoginController::class, 'logout']);
+
+
+Route::get('/register-admin', [RegisterController::class, 'index'])->Middleware('guest');
+Route::post('/register-admin', [RegisterController::class, 'store']);
+
+
+// routes dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('auth');
+
+
 
 // routes program
 Route::get('/program', [ProgramController::class, 'index']);
@@ -48,4 +70,8 @@ Route::get('/update-materi/{materi:id}', [MateriController::class, 'editMateri']
 Route::post('/update-materi/{materi:id}', [MateriController::class, 'updateMateri']);
 
 Route::get('/delete-materi/{materi:id}', [MateriController::class, 'destroyMateri']);
+
+
+
+
 

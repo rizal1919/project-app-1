@@ -11,8 +11,6 @@ class ProgramController extends Controller
     public function index(Request $request){
 
         $programs = Program::all();
-
-        
         $search = $request->search;
         $programs = Program::when($search, function($query, $search){
             return $query->where('nama_program','like',"%$search%");
@@ -30,6 +28,7 @@ class ProgramController extends Controller
 
         return view('Program.index', [
             'title' => 'Programs',
+            'active' => 'Daftar Kurikulum',
             'programs' => $programs
         ]);
     }
