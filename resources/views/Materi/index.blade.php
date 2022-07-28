@@ -77,9 +77,9 @@
                         <td>
                             <a href="/show-materi/{{ $materis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
                             <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <!-- <button type="button" class="btn btn-danger deteleCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}"  data-bs-target="#exampleModal" data-url="/delete-materi?id={{ $materis->id }}">
+                            <button type="button" class="btn btn-danger deteleCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}"  data-bs-target="#exampleModal" data-url="#">
                             <i class="fas fa-trash"></i>
-                            </button> -->
+                            </button>
 
                             <!-- <a href="/delete-materi/" class="btn btn-danger delete deleteCategoryBtn" data-bs-toggle="modal" value="4" data-bs-target="#exampleModal" data-url="/delete-materi/{{ $materis->id }}"><i class="fas fa-trash"></i></a> -->
 
@@ -105,25 +105,29 @@
 </div>
         
 
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-trash mx-2"></i>Hapus Program</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <input type="text" name="category_delete_id" id="category_id">
-        @csrf
-        <p class="card-text">Anda yakin ingin menghapus program ?</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
-        </div>
+        <form action="#" method="get" id="destroys">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-trash mx-2"></i>Hapus Program</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" name="category_delete_id" id="category_id">
+            @csrf
+            <p class="card-text">Anda yakin ingin menghapus program ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+            </div>
+        </form>
     </div>
   </div>
-</div> -->
+</div>
+
+
 @endsection
 
 @push('js')

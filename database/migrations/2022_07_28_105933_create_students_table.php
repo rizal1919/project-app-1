@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('nama_siswa');
-            $table->foreignId('nis');
-            // lets say ada 3 program yang bisa diikuti oleh siswa ['1','9','12']
+            $table->foreignId('paket_pilihan');
+            // kode unik untuk menghubungkan ke database program atau materi
 
-            $table->integer('ktp')->unique();
+            $table->string('ktp')->unique();
             $table->string('email')->unique();
             $table->date('tanggal_lahir');
             $table->string('password');
-            $table->string('nomor_pendaftaran');
+            $table->string('nomor_pendaftaran')->unique();
             // ini berupa 6 angka pertama adalah nomor pendaftaran + dua angka terakhir tahun mendaftar
 
             $table->year('tahun_daftar');

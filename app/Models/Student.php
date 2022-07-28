@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+    protected $hidden = ['remember_token'];
+
+    public function program(){
+        return $this->belongsTo(Program::class);
+    }
 }
