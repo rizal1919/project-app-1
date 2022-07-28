@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\KelasAdminController;
 use GuzzleHttp\Middleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -47,6 +48,14 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('aut
 // route pendaftaran
 Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->middleware('auth');
 Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->middleware('auth');
+
+
+
+// route kelas
+Route::get('/kelas-admin', [KelasAdminController::class, 'index'])->middleware('auth');
+Route::post('/kelas-admin', [KelasAdminController::class, 'index']);
+
+Route::get('/kelas-admin/show/{program:id}', [KelasAdminController::class, 'show'])->middleware('auth');
 
 
 
