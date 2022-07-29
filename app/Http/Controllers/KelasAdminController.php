@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class KelasAdminController extends Controller
@@ -26,11 +27,17 @@ class KelasAdminController extends Controller
         ]);
     }
 
-    public function show(){
+    public function show(Request $request, Program $program){
 
+        // dd($program->id);
+        // dd(Student::with('program')->Active($program->id)->get());
+
+        $dataSiswa = Student::with('program')->Active($program->id)->get();
         return view('Kelas.show', [
             'title' => 'Kelas',
-            'active' => 'Kelas'
+            'active' => 'Kelas',
+            'dataSiswa' => $dataSiswa,
+            'program' => $program
         ]);
     }
 }

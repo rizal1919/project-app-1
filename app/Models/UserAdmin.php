@@ -14,5 +14,6 @@ class UserAdmin extends Model
     protected $hidden = [
         'remember_token'
     ];
+
     
 }

@@ -34,4 +34,8 @@ class Program extends Model
     public function scopeActive($query, $id){
         return $query->where('program_id','=',$id);
     }
+
+    public function scopeMencariSiswa($query, $id){
+        return $query->where('paket_pilihan','=',$id);
+    }
 }   

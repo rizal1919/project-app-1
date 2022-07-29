@@ -15,4 +15,8 @@ class Student extends Model
     public function program(){
         return $this->belongsTo(Program::class);
     }
+
+    public function scopeActive($query, $id){
+        return $query->where('paket_pilihan','=',$id);
+    }
 }

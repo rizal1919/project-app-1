@@ -86,7 +86,7 @@ class PendaftaranController extends Controller
 
             'nama_siswa' => 'required',
             'paket_pilihan' => 'required|between:1,100',
-            'ktp' => 'required|min:16|max:16',
+            'ktp' => 'required',
             'email' => 'required|email:dns|unique:students',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
             'password' => 'required',
@@ -97,8 +97,6 @@ class PendaftaranController extends Controller
             'paket_pilihan.required' => 'Paket pilihan tidak boleh kosong',
             'paket_pilihan.between' => 'Pilihan paket harus dipilih minimal 1' ,
             'ktp.required' => 'KTP tidak boleh kosong',
-            'ktp.min' => 'KTP berisi setidaknya 16 digit angka',
-            'ktp.max' => 'KTP berisi maksimal 16 digit angka',
             'email.required' => 'Email tidak boleh kosong',
             'email.email' => 'Pastikan email seperti example@yes.com',
             'email.unique' => 'Email telah terdaftar',
