@@ -77,10 +77,79 @@ class KelasAdminController extends Controller
 
     public function editStudent(Student $student){
 
+
         return view('Kelas.Students.update',[
             'title' => 'Update Student',
-            'active' => 'Kelas'
+            'active' => 'Kelas',
+            'year' => date('Y'),
+            'date' => date("Y-m-d"),
+            'student' => $student,
+            'programs' => Program::all()
 
         ]);
+    }
+
+    public function storeStudent(Request $request, Student $student){
+
+        // dd($request);
+
+        $validatedData = $request->validate([
+
+            'nama_siswa' => 'required',
+            'paket_pilihan' => 'required',
+            'ktp' => 'required|min:16|max:16',
+            'email' => 'required|email:dns',
+            'tanggal_lahir' => 'required|date_format:Y-m-d',
+            'password' => 'required',
+            'nomor_pendaftaran' => 'required',
+            'tahun_daftar' => 'required'
+        ],[
+            'nama_siswa.required' => 'Nama harus diisi',
+            'paket_pilihan.required' => 'Paket pilihan tidak boleh kosong',
+            'ktp.required' => 'KTP tidak boleh kosong',
+            'ktp.min' => 'KTP terdiri dari minimal 16 angka',
+            'ktp.max' => 'KTP terdiri dari maksimal 16 angka',
+            'email.required' => 'Email tidak boleh kosong',
+            'email.email' => 'Pastikan email seperti example@gmail.com',
+            'email.unique' => 'Email telah terdaftar',
+            'tanggal_lahir' => 'Tanggal lahir tidak boleh kosong',
+            'tanggal_lahir' => 'Format tanggal tidak sesuai',
+        ]);
+
+        $id = $student->id;
+
+        if($validatedData['paket_pilihan'] == 0){
+
+            return redirect('/kelas-admin/update/student/' . $id)->with('updateGagal', 'Update Gagal!!');
+        }
+
+        $student->update([
+            'nama_siswa' => $validatedData['nama_siswa'],
+            'paket_pilihan' => $validatedData['paket_pilihan'],
+            'ktp' => $validatedData['ktp'],
+            'email' => $validatedData['email'],
+            'tanggal_lahir' => $validatedData['tanggal_lahir'],
+            'password' => $validatedData['password'],
+            'nomor_pendaftaran' => $validatedData['nomor_pendaftaran'],
+            'tahun_daftar' => $validatedData['tahun_daftar'],
+        ]);
+
+        return redirect('/kelas-admin/update/student/' . $id)->with('updateBerhasil', 'Berhasil Ubah Data!! ');
+
+    }
+
+    public function destroyStudent(Request $request, Student $student)
+    {
+        // $program->delete($request);
+        // return back()->with('destroy','Deleted Successfully!');
+
+        
+        $id = $student->paket_pilihan;
+
+        Student::find($student->id)->delete();
+    
+        return redirect('/kelas-admin/show/' . $id)->with('destroy', 'Deleted Successfully!');
+        
+        
     }
 }

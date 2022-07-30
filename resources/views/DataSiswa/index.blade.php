@@ -6,13 +6,13 @@
     <div class="row d-flex justify-content-center">
         <div class="col-lg-11">
         <div class="card p-3">
-            <div class="card-header mb-1 rounded">
-                <h4 class="card-title">Data Siswa - Program {{ $program->nama_program }}</h4>
+            <div class="card-header mb-1 rounded text-center">
+                <h4 class="card-title">DATA SISWA-SISWI SC ACADEMY</h4>
             </div>
             <div class="card-body">
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-12 d-flex mt-4 justify-content-end">
-                        <form action="/kelas-admin/show/{{ $program->id }}" method="get" class="mx-2" style="width: 70%;" >
+                        <form action="/data-siswa" method="post" class="mx-2" style="width: 70%;" >
                             @csrf
                             <div class="input-group">
                                 <input type="text" name="nama" value="{{ request()->nama }}" class="form-control text-end" placeholder="Nama">
@@ -28,7 +28,7 @@
                             <a href="/kelas-admin" class="text-decoration-none text-light"> Hapus</a>
                         </button> -->
                         <button class="btn btn-primary" style="width: 10%; height: 70%;">
-                            <a href="/kelas-admin" class="text-decoration-none text-light self-align-center">
+                            <a href="/dashboard" class="text-decoration-none text-light self-align-center">
                                 Kembali
                             </a>
                         </button>

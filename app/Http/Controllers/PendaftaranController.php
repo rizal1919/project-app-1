@@ -88,7 +88,7 @@ class PendaftaranController extends Controller
 
             'nama_siswa' => 'required',
             'paket_pilihan' => 'required',
-            'ktp' => 'required|min:16|max:16',
+            'ktp' => 'required|min:16|max:16|unique:students',
             'email' => 'required|email:dns|unique:students',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
             'password' => 'required',
@@ -98,6 +98,7 @@ class PendaftaranController extends Controller
             'nama_siswa.required' => 'Nama harus diisi',
             'paket_pilihan.required' => 'Paket pilihan tidak boleh kosong',
             'ktp.required' => 'KTP tidak boleh kosong',
+            'ktp.unique' => 'KTP telah digunakan',
             'ktp.min' => 'KTP terdiri dari minimal 16 angka',
             'ktp.max' => 'KTP terdiri dari maksimal 16 angka',
             'email.required' => 'Email tidak boleh kosong',

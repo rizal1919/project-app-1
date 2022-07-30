@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\KelasAdminController;
+use App\Http\Controllers\StudentController;
 use GuzzleHttp\Middleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -58,8 +59,13 @@ Route::post('/kelas-admin', [KelasAdminController::class, 'index']);
 Route::get('/kelas-admin/show/{program:id}', [KelasAdminController::class, 'show'])->middleware('auth');
 Route::get('/kelas-admin/show/student/{student:id}', [KelasAdminController::class, 'showStudent'])->middleware('auth');
 Route::get('/kelas-admin/update/student/{student:id}', [KelasAdminController::class, 'editStudent'])->middleware('auth');
+Route::post('/kelas-admin/update/student/{student:id}', [KelasAdminController::class, 'storeStudent'])->middleware('auth');
+Route::get('/kelas-admin/delete/student/{student:id}', [KelasAdminController::class, 'destroyStudent'])->middleware('auth');
 
 
+// route data-siswa
+Route::get('/data-siswa', [StudentController::class, 'index']);
+Route::post('/data-siswa', [StudentController::class, 'index']);
 
 
 // routes program
