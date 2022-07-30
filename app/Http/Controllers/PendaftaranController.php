@@ -82,11 +82,13 @@ class PendaftaranController extends Controller
 
         $programs = count(Program::all());
 
+
+        
         $validatedData = $request->validate([
 
             'nama_siswa' => 'required',
-            'paket_pilihan' => 'required|between:1,100',
-            'ktp' => 'required',
+            'paket_pilihan' => 'required',
+            'ktp' => 'required|min:16|max:16',
             'email' => 'required|email:dns|unique:students',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
             'password' => 'required',
@@ -95,10 +97,11 @@ class PendaftaranController extends Controller
         ],[
             'nama_siswa.required' => 'Nama harus diisi',
             'paket_pilihan.required' => 'Paket pilihan tidak boleh kosong',
-            'paket_pilihan.between' => 'Pilihan paket harus dipilih minimal 1' ,
             'ktp.required' => 'KTP tidak boleh kosong',
+            'ktp.min' => 'KTP terdiri dari minimal 16 angka',
+            'ktp.max' => 'KTP terdiri dari maksimal 16 angka',
             'email.required' => 'Email tidak boleh kosong',
-            'email.email' => 'Pastikan email seperti example@yes.com',
+            'email.email' => 'Pastikan email seperti example@gmail.com',
             'email.unique' => 'Email telah terdaftar',
             'tanggal_lahir' => 'Tanggal lahir tidak boleh kosong',
             'tanggal_lahir' => 'Format tanggal tidak sesuai',

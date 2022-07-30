@@ -57,12 +57,13 @@ class MateriController extends Controller
     //     ]);
     // }
 
-    // public function createMateri(Program $program){
-    //     return view('Materi.create', [
-    //         'title' => 'Create',
-    //         'dataMateri' => $program->load('materi')
-    //     ]);
-    // }
+    public function createMateri(Program $program){
+        return view('Materi.create', [
+            'title' => 'Create',
+            'active' => 'Daftar Kurikulum',
+            'dataMateri' => $program->load('materi')
+        ]);
+    }
 
     public function storeMateri(Request $request, Materi $materi){
 
@@ -100,6 +101,7 @@ class MateriController extends Controller
 
         return view('Materi.show', [
             'title' => 'Materi',
+            'active' => 'Daftar Kurikulum',
             'dataMateri' => $materi->program->load('materi'),
             'id' => $id
         ]);
@@ -112,6 +114,7 @@ class MateriController extends Controller
 
         return view('Materi.update', [
             'title' => 'Materi',
+            'active' => 'Daftar Kurikulum',
             'dataMateri' => $materi->program->load('materi'),
             'id' => $id
         ]);

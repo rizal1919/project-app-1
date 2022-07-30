@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-light p-4 ml-5">
+<nav class="navbar navbar-expand-lg bg-light p-3 ml-5">
   <div class="container-lg">
     <a class="navbar-brand" href="/dashboard">
         <i class="fa-solid fa-building-columns"></i>
@@ -9,7 +9,7 @@
       <div class="navbar-nav">
         <a class="nav-link {{ ($active === 'Pendaftaran') ? 'active fw-bold' : '' }}" href="/pendaftaran">Pendaftaran</a>
         <a class="nav-link {{ ($active === 'Kelas') ? 'active fw-bold' : '' }}" href="/kelas-admin">Kelas</a>
-        <a class="nav-link {{ ($active === 'Data Siswa') ? 'active fw-bold' : '' }}" href="#">Data Siswa</a>
+        <a class="nav-link {{ ($active === 'Data Siswa') ? 'active fw-bold' : '' }}" href="/data-siswa">Data Siswa</a>
         <a class="nav-link {{ ($active === 'Daftar Kurikulum') ? 'active fw-bold' : '' }}" href="/program">Daftar Kurikulum</a>
       </div>
       <div class="navbar-nav">

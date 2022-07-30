@@ -56,6 +56,8 @@ Route::get('/kelas-admin', [KelasAdminController::class, 'index'])->middleware('
 Route::post('/kelas-admin', [KelasAdminController::class, 'index']);
 
 Route::get('/kelas-admin/show/{program:id}', [KelasAdminController::class, 'show'])->middleware('auth');
+Route::get('/kelas-admin/show/student/{student:id}', [KelasAdminController::class, 'showStudent'])->middleware('auth');
+Route::get('/kelas-admin/update/student/{student:id}', [KelasAdminController::class, 'editStudent'])->middleware('auth');
 
 
 

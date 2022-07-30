@@ -4,7 +4,7 @@
 @include('Layouts/Navbar/navbar')
 @section('content')
 <div class="container-lg">
-    <div class="row justify-content-center" style="margin-top: 50px;">
+    <div class="row justify-content-center" style="margin-top: 0px;">
         <div class="col-lg-3" style="height: 30%;">
             <div class="card">
                 <div class="card-header">

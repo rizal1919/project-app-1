@@ -9,60 +9,67 @@
             <div class="card-header mb-1 rounded">
                 <h4 class="card-title">Data Siswa - Program {{ $program->nama_program }}</h4>
             </div>
-            <div class="card-body mb-1">
+            <div class="card-body">
                 <div class="row d-flex justify-content-end">
-                    <div class="col-md-12 text-end">
-                        <form action="/materi/" method="get" class="d-inline">
+                    <div class="col-md-12 d-flex mt-4 justify-content-end">
+                        <form action="/kelas-admin/show/{{ $program->id }}" method="get" class="mx-2" style="width: 70%;" >
                             @csrf
-                            <input type="text" id="search" name="search" class="form-control d-inline" style="width: 50%;" placeholder="Search">
-                            <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                            <div class="input-group">
+                                <input type="text" name="nama" value="{{ request()->nama }}" class="form-control text-end" placeholder="Nama">
+                                <input type="text" name="ktp" value="{{  request()->ktp }}" class="form-control text-end" placeholder="No KTP">
+                                <input type="text" name="tahun" value="{{ request()->tahun }}" class="form-control text-end" placeholder="Tahun">
+                                <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                            </div>
                         </form>
-                        <button class="btn btn-warning">
+                        <!-- <button class="btn btn-warning">
                             <a href="/kelas-admin" class="text-decoration-none text-light"> Update status</a>
                         </button>
                         <button class="btn btn-danger">
                             <a href="/kelas-admin" class="text-decoration-none text-light"> Hapus</a>
-                        </button>
-                        <button class="btn btn-primary">
-                            <a href="/kelas-admin" class="text-decoration-none text-light"> Kembali</a>
+                        </button> -->
+                        <button class="btn btn-primary" style="width: 10%; height: 70%;">
+                            <a href="/kelas-admin" class="text-decoration-none text-light self-align-center">
+                                Kembali
+                            </a>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="body">
+            <div class="card-body">
                 <div class="card p-3">
                     <table class="table table-light table-hover table-striped" style="border-radius: 5px;">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Nama Siswa</th>
-                                <th >Program | ID Program</th>
+                                <th>Email | ID Siswa</th>
                                 <th>KTP</th>
-                                <th class="text-center">Status</th>
+                                <th class="text-center">Status (optional field)</th>
                                 <th class="text-center">Tahun Diterima</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i=1; ?>
                             @foreach( $dataSiswa as $dasis )
                             <tr>
-                                <td>{{ $i; }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $dasis->nama_siswa }}</td>
-                                <td>{{ $program->nama_program }} | {{ $program->id }}</td>
+                                <td>{{ $dasis->email }} | {{ $dasis->nomor_pendaftaran }}</td>
                                 <td>{{ $dasis->ktp }}</td>
                                 <td class="text-center"><span class="badge text-bg-primary">Diterima</span></td>
                                 <td class="text-center">{{ $dasis->tahun_daftar }}</td>
                                 <td>
-                                    <button class="btn btn-info"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-warning"><i class="fas fa-pen-to-square"></i></button>
+                                    <a href="/kelas-admin/show/student/{{ $dasis->id }}" class="btn btn-primary text-decoration-none"><i class="fas fa-eye"></i></a>
+                                    <a href="/kelas-admin/update/student/{{ $dasis->id }}" class="btn btn-warning text-decoration-none text-light"><i class="fas fa-pen-to-square"></i></a>
                                     <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
-                            <?php $i++; ?>
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="mt-2">
+                    {{ $dataSiswa->links('vendor.pagination.bootstrap-5') }}
                 </div>
             </div>
         </div>

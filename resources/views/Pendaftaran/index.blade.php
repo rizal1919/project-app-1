@@ -50,7 +50,7 @@
                         @enderror
                     </div>
                     <div class="form-floating">
-                        <input type="date" name="tanggal_lahir" class="@error('tanggal_lahir') is-invalid @enderror form-control" id="tanggal_lahir" placeholder="dd-mm-yyyy" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" max="{{ $date }}" value="1999-06-19"  required>
+                        <input type="date" name="tanggal_lahir" class="@error('tanggal_lahir') is-invalid @enderror form-control" id="tanggal_lahir" placeholder="dd-mm-yyyy" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" max="{{ $date }}" value="19-06-1999"  required>
                         <!-- jadi value nya di buat terbalik agar inputannya dapat menjadi tanggal-bln-tahun -->
 
                         <label for="tanggal_lahir">Tanggal Lahir</label>

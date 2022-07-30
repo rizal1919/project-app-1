@@ -6,7 +6,7 @@
         <div class="col-lg-6 text-center mx-auto" >
         @if( session('success') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-            <strong>{{ session('success') }}</strong> Silahkan login untuk informasi pendaftaran selanjutnya.
+            <strong>{{ session('success') }}</strong> Silahkan login untuk informasi lainnya.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif

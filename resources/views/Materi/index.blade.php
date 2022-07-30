@@ -77,9 +77,9 @@
                         <td>
                             <a href="/show-materi/{{ $materis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
                             <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <button type="button" class="btn btn-danger deteleCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}"  data-bs-target="#exampleModal" data-url="#">
+                            <!-- <button type="button" class="btn btn-danger deteleCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}"  data-bs-target="#exampleModal" data-url="#">
                             <i class="fas fa-trash"></i>
-                            </button>
+                            </button> -->
 
                             <!-- <a href="/delete-materi/" class="btn btn-danger delete deleteCategoryBtn" data-bs-toggle="modal" value="4" data-bs-target="#exampleModal" data-url="/delete-materi/{{ $materis->id }}"><i class="fas fa-trash"></i></a> -->
 

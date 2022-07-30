@@ -1,3 +1,8 @@
 .button-registered-or-unregistered:hover {
     font-weight: bold;
 }
+
+.profile-hover:hover{
+    background-color: burlywood;
+    border: 1px solid red;
+}
