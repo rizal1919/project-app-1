@@ -16,10 +16,6 @@ class Student extends Model
         return $this->belongsTo(Program::class);
     }
 
-    public function scopeActive($query, $id){
-        return $query->where('paket_pilihan','=',$id);
-    }
-
     public function scopeFilter($query, array $filters){
         
         $query->when($filters['nama'] ?? false, function($query, $nama){
@@ -27,6 +23,35 @@ class Student extends Model
             return $query->where('nama_siswa', 'like', '%' . $nama . '%');
             
         });
+
+        $query->when($filters['nama_program'] ?? false, function($query, $nama_program){
+
+            $id = Program::where('nama_program', 'like', '%' . $nama_program . '%')->get();
+
+            // var_dump($id);
+
+            $i=0;
+            $arr = [];
+            while( $i<count($id) ){
+                
+                $box = ['program_id', '=', $id[$i]->id];
+                array_push($arr, $box);
+                $i++;
+            }
+
+            // var_dump($query->where($arr)->get());
+
+            // dd($arr);
+            
+            // return $query->where('nama_program', 'like', '%' . $nama_program . '%');
+            return $query->where($arr)->get();
+            
+        });
+
+        
+        // $nama_program = $filters['nama_program'];
+
+        
 
         $query->when($filters['ktp'] ?? false, function($query, $ktp){
 

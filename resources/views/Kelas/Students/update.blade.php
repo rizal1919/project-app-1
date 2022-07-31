@@ -64,8 +64,8 @@
                     </div>
 
                     <div class="form-control d-flex justify-content-between" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;">
-                        <label for="paket_pilihan" placeholder="Pilihan 1">Pilihan Paket</label>
-                        <select name="paket_pilihan" id="paket_pilihan" class="p-1 bg-secondary text-center text-light" style="border-radius: 5px;">
+                        <label for="program_id" placeholder="Pilihan 1">Pilihan Paket</label>
+                        <select name="program_id" id="program_id" class="p-1 bg-secondary text-center text-light" style="border-radius: 5px;">
                             <option value="0">Tidak memilih paket</option>
                             @foreach( $programs as $program )
                             <option value="{{ $program->id }}">{{ $program->nama_program }}</option>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <button class="w-45 btn btn-primary mx-2 text-center d-flex justify-content-center align-items-center" type="submit">Ubah Data<i class="fa-solid fa-file-pen mx-2"></i></button>
-                        <a href="/kelas-admin/show/{{ $student->paket_pilihan}}" class="btn btn-primary text-decoration-none text-light" style="height: 50%;">
+                        <a href="/kelas-admin/show/{{ $student->program_id}}" class="btn btn-primary text-decoration-none text-light" style="height: 50%;">
                             Kembali
                         </a>
                     </div>

@@ -29,6 +29,12 @@ class Program extends Model
             
         });
 
+        $query->when($filters['nama_program'] ?? false, function($query, $nama_program){
+
+            return $query->where('nama_program', 'like', '%' . $nama_program . '%');
+            
+        });
+
     }
     
     public function scopeActive($query, $id){

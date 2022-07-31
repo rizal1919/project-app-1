@@ -43,7 +43,7 @@ class KelasAdminController extends Controller
         // $dataSiswa = Student::Nama()->get();
 
 
-        $dataSiswa = Student::where('paket_pilihan', $program->id)->filter(request(['nama','ktp','tahun']))->paginate(5)->withQueryString();
+        $dataSiswa = Student::where('program_id', $program->id)->filter(request(['nama','ktp','tahun']))->paginate(5)->withQueryString();
         return view('Kelas.show', [
             'title' => 'Kelas',
             'active' => 'Kelas',
@@ -96,7 +96,7 @@ class KelasAdminController extends Controller
         $validatedData = $request->validate([
 
             'nama_siswa' => 'required',
-            'paket_pilihan' => 'required',
+            'program_id' => 'required',
             'ktp' => 'required|min:16|max:16',
             'email' => 'required|email:dns',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
@@ -105,7 +105,7 @@ class KelasAdminController extends Controller
             'tahun_daftar' => 'required'
         ],[
             'nama_siswa.required' => 'Nama harus diisi',
-            'paket_pilihan.required' => 'Paket pilihan tidak boleh kosong',
+            'program_id.required' => 'Paket pilihan tidak boleh kosong',
             'ktp.required' => 'KTP tidak boleh kosong',
             'ktp.min' => 'KTP terdiri dari minimal 16 angka',
             'ktp.max' => 'KTP terdiri dari maksimal 16 angka',
@@ -118,14 +118,14 @@ class KelasAdminController extends Controller
 
         $id = $student->id;
 
-        if($validatedData['paket_pilihan'] == 0){
+        if($validatedData['program_id'] == 0){
 
             return redirect('/kelas-admin/update/student/' . $id)->with('updateGagal', 'Update Gagal!!');
         }
 
         $student->update([
             'nama_siswa' => $validatedData['nama_siswa'],
-            'paket_pilihan' => $validatedData['paket_pilihan'],
+            'program_id' => $validatedData['program_id'],
             'ktp' => $validatedData['ktp'],
             'email' => $validatedData['email'],
             'tanggal_lahir' => $validatedData['tanggal_lahir'],
@@ -144,7 +144,7 @@ class KelasAdminController extends Controller
         // return back()->with('destroy','Deleted Successfully!');
 
         
-        $id = $student->paket_pilihan;
+        $id = $student->program_id;
 
         Student::find($student->id)->delete();
     

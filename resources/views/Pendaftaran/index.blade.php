@@ -1,5 +1,7 @@
 @extends('Layouts.main')
 
+
+
 @include('Layouts/Navbar/navbar')
 @section('content')
 <div class="row align-items-center" style='height: 500px; margin-left: 100px; margin-bottom: 150px;'>
@@ -64,12 +66,16 @@
                     </div>
 
                     <div class="form-control d-flex justify-content-between" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;">
-                        <label for="paket_pilihan" placeholder="Pilihan 1">Pilihan Paket</label>
-                        <select name="paket_pilihan" id="paket_pilihan" class="p-1 bg-secondary text-center text-light" style="border-radius: 5px;">
+                        <label for="program_id" placeholder="Pilihan 1">Pilihan Paket</label>
+                        <select name="program_id" id="program_id" class="p-1 bg-secondary text-center text-light" style="border-radius: 5px;">
+
                             <option value="0">Tidak memilih paket</option>
+
+                           
                             @foreach( $programs as $program )
-                            <option value="{{ $program->id }}">{{ $program->nama_program }}</option>
+                            <option value="{{ $program['id'] }}">{{ $program['nama_program'] }}</option>
                             @endforeach
+                          
                         </select>
                     </div>
                     <div class="form-floating">
@@ -110,7 +116,7 @@
 
                             <?php $count= $jumlahDataProgramTersedia-($jumlahDataProgramTersedia-$i); ?>
                             @if( $i == $count )
-                                <button onclick="details('{{ $i }}')" class="btn btn-primary d-block mt-1 text-start tombol" id="pencet" style="width: 100%; border-radius: 5px 5px 0px 0px;" value="0">{{ $programs[$i]->nama_program }}<i id="icon" data-icon-type="{{ $i }}" class="fa-solid fa-arrow-right mx-3"></i>
+                                <button onclick="details('{{ $i }}')" class="btn btn-primary d-block mt-1 text-start tombol" id="pencet" style="width: 100%; border-radius: 5px 5px 0px 0px;" value="0">{{ $programs[$i]['nama_program'] }}<i id="icon" data-icon-type="{{ $i }}" class="fa-solid fa-arrow-right mx-3"></i>
                                 </button>
                                 <div class="card" style="border-radius: 0px 0px 5px 5px;">
                                     <div class="card-body">
@@ -230,58 +236,6 @@ function Function() {
     
 
     }
-
-
-
-    
-    
-    
-    
-
-    // function left(){
-
-    //     // alert(element);
-    //     let element = document.getElementById("hitung").innerHTML;
-    //     alert(element);
-    //     // document.getElementById("button").innerHTML = `{{ $programs[0]->nama_program }}`;
-
-    //     if( element == 0 ){
-    //         element = element;
-
-    //         // alert(element);
-    //         document.getElementById("hitung").innerHTML = element;
-    //         document.getElementById("button").innerHTML = `{{ $programs[0]->nama_program }}`;
-    //     }else if( element > 0 )
-    //     {   
-    //         alert(element);
-    //         element = Number(element)-1;
-    //         document.getElementById("hitung").innerHTML = element;
-    //         document.getElementById("button").innerHTML = `{{ $programs[0]->nama_program }}`;
-    //     }
-
-    //     // let judul = document.getElementById("button").innerHTML;
-        
-
-    // }
-
-    // function right(counters){
-
-    //     let element = document.getElementById("hitung").innerHTML;
-
-    //     if( element == counters ){
-    //         alert('disini zal');
-    //         alert(element);
-    //         element = element;
-            
-
-
-    //     }else if( element < counters ){
-    //         alert('bawah zal');
-    //         alert(element);
-    //         element = Number(element)+1;
-            
-        
-    // }
 
 
     function details(id){

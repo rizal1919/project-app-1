@@ -65,6 +65,26 @@ class PendaftaranController extends Controller
         }
 
 
+        // ini kondisi ketika belum ada program sama sekali di dalam database
+        // jadi disiasati menggunakan fake program yang nantinya bisa dipanggil lewat index. 
+        // namun ketika nantinya ada program baru ditambahkan. maka isi program di bawah ini akan di override
+        if( count($programs) == 0 ){
+           
+            $programs = ([
+
+                [
+                    'id' => 1,
+                    'nama_program' => 'Tidak Ada Program'
+                ]
+            ]);
+
+            
+        }
+        
+
+
+        
+
         return view('Pendaftaran.index', [
 
             'title' => 'Pendaftaran',
@@ -87,7 +107,7 @@ class PendaftaranController extends Controller
         $validatedData = $request->validate([
 
             'nama_siswa' => 'required',
-            'paket_pilihan' => 'required',
+            'program_id' => 'required',
             'ktp' => 'required|min:16|max:16|unique:students',
             'email' => 'required|email:dns|unique:students',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
@@ -96,7 +116,7 @@ class PendaftaranController extends Controller
             'tahun_daftar' => 'required'
         ],[
             'nama_siswa.required' => 'Nama harus diisi',
-            'paket_pilihan.required' => 'Paket pilihan tidak boleh kosong',
+            'program_id.required' => 'Paket pilihan tidak boleh kosong',
             'ktp.required' => 'KTP tidak boleh kosong',
             'ktp.unique' => 'KTP telah digunakan',
             'ktp.min' => 'KTP terdiri dari minimal 16 angka',
@@ -108,7 +128,7 @@ class PendaftaranController extends Controller
             'tanggal_lahir' => 'Format tanggal tidak sesuai',
         ]);
 
-        if($validatedData['paket_pilihan'] == 0){
+        if($validatedData['program_id'] == 0){
 
             return redirect('/pendaftaran')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
         }
