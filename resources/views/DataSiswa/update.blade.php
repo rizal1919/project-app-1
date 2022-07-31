@@ -2,7 +2,7 @@
 
 @include('Layouts.Navbar.navbar')
 @section('content')
-<div class="container-lg d-flex justify-content-center mt-5">
+<div class="container-lg d-flex justify-content-center  mt-5">
     <div class="col-lg-6">
         @if( session('updateGagal') )
         <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
@@ -19,7 +19,7 @@
         <div class="card">
             <div class="card-body">
                 <main class="w-70 m-auto">
-                <form action="/kelas-admin/update/student/{{ $student->id }}" method="post">
+                <form action="/data-siswa/update/student/{{ $student->id }}" method="post">
                     @csrf
                     <h1 class="h3 mb-4 fw-normal text-center"></i>Update Informasi Siswa {{ $student->nama_siswa }}</h1>
                     <div class="form-floating">
@@ -78,7 +78,7 @@
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <button class="w-45 btn btn-primary mx-2 text-center d-flex justify-content-center align-items-center" type="submit">Ubah Data<i class="fa-solid fa-file-pen mx-2"></i></button>
-                        <a href="/kelas-admin/show/{{ $student->program_id}}" class="btn btn-primary text-decoration-none text-light" style="height: 50%;">
+                        <a href="/data-siswa" class="btn btn-primary text-decoration-none text-light" style="height: 50%;">
                             Kembali
                         </a>
                     </div>

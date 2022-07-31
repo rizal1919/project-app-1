@@ -59,13 +59,18 @@ Route::post('/kelas-admin', [KelasAdminController::class, 'index']);
 Route::get('/kelas-admin/show/{program:id}', [KelasAdminController::class, 'show'])->middleware('auth');
 Route::get('/kelas-admin/show/student/{student:id}', [KelasAdminController::class, 'showStudent'])->middleware('auth');
 Route::get('/kelas-admin/update/student/{student:id}', [KelasAdminController::class, 'editStudent'])->middleware('auth');
-Route::post('/kelas-admin/update/student/{student:id}', [KelasAdminController::class, 'storeStudent'])->middleware('auth');
+Route::post('/kelas-admin/update/student/{student:id}', [KelasAdminController::class, 'updateStudent'])->middleware('auth');
 Route::get('/kelas-admin/delete/student/{student:id}', [KelasAdminController::class, 'destroyStudent'])->middleware('auth');
 
 
 // route data-siswa
 Route::get('/data-siswa', [StudentController::class, 'index']);
 Route::post('/data-siswa', [StudentController::class, 'index']);
+Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, 'show']);
+Route::get('/data-siswa/update/student/{student:id}', [StudentController::class, 'edit']);
+Route::post('/data-siswa/update/student/{student:id}', [StudentController::class, 'update']);
+Route::get('/data-siswa/delete/student/{student:id}', [StudentController::class, 'destroy']);
+
 
 
 // routes program

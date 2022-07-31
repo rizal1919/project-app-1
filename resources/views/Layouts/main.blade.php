@@ -14,7 +14,7 @@
 </head>
 <body>
     
-    <div class="row mt-5">
+    <div class="row">
         @yield('content')
     </div>
     @stack('modal')

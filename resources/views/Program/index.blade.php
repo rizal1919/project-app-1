@@ -2,7 +2,7 @@
 
 @include('Layouts/Navbar/navbar')
 @section('content')
-<div class="container-lg mt-2 mx-5" >
+<div class="container-lg mt-5 mx-5" >
     <div class="row">
         <div class="col-lg-3" style="margin-left: 60px;">
             <div class="card">
@@ -72,9 +72,9 @@
                         <button class="btn btn-primary"><i class="fa-solid fa-plus mx-1"></i><a href="/materi/{{ $program->id }}" class="text-decoration-none" style="color: white;">Tambah Materi</a></button>
                         </td>
                         <td>
-                            <a href="/show/{{ $program->nama_program }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
-                            <a href="/update/{{ $program->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <button class="btn btn-danger text-dark" onclick="confirmation('{{ $program->id }}')"><i class="fas fa-trash"></i></button>
+                            <a href="/show/{{ $program->nama_program }}" class="btn btn-info text-light"><i class="fas fa-eye"></i></a>
+                            <a href="/update/{{ $program->id }}" class="btn btn-warning text-light"><i class="fas fa-pen-to-square"></i></a>
+                            <button class="btn btn-danger text-light" onclick="confirmation('{{ $program->id }}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                         <?php $i++; ?>

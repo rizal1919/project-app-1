@@ -2,7 +2,7 @@
 
 @include('Layouts.Navbar.navbar')
 @section('content')
-<div class="container text-center my-3">
+<div class="container text-center my-3  mt-5">
     <h1>All Classes</h1>
 </div>
 <div class="container-lg">
@@ -10,7 +10,7 @@
         <div class="col-lg-10 d-flex justify-content-center text-center">
             <form action="/kelas-admin" method="post" class="" style="width: 100%; display:inline-block;">
                 @csrf
-                <input type="text" id="search" name="search" class="form-control d-inline" style="width: 80%;" placeholder="Search">
+                <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 80%;" placeholder="Search">
                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
             </form>
         </div>

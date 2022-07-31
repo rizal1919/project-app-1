@@ -2,7 +2,7 @@
 
 @include('Layouts.Navbar.navbar')
 @section('content')
-<div class="container-lg mb-5 mt-5">
+<div class="container-lg mb-5  mt-5">
     <div class="row w-100 d-flex justify-content-center ">
         <div class="col-lg-10 d-flex flex-row justify-content-center ">
             <div class="card mx-1" style="width: 30%; margin-right: 50px;">
@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <div class="mb-1 p-2 bg-info text-dark fw-bold rounded" style="border: 0px solid gray;">
                         <h4 class="card-title">KELAS</h4>
-                        <p class="card-text text-light">{{ $program[0]->nama_program }}</p>
+                        <p class="card-text text-light">{{ $student->program->nama_program }}</p>
                     </div>
                     <div class="mb-1 p-2 bg-info text-dark fw-bold rounded" style="border: 0px solid gray;">
                         <h4 class="card-title">ID SISWA</h4>
@@ -49,7 +49,7 @@
         </div>
         <div class="col-8 text-center d-flex justify-content-end mt-5">
             <button class="btn btn-primary d-flex justify-content-center">
-                <a href="/kelas-admin/show/{{ $program[0]->id}}" class="btn btn-primary text-decoration-none text-light">
+                <a href="/data-siswa" class="btn btn-primary text-decoration-none text-light">
                     Kembali
                 </a>
             </button>

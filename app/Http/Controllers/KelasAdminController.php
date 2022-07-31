@@ -32,16 +32,6 @@ class KelasAdminController extends Controller
 
     public function show(Request $request, Program $program){
 
-        // dd($program->id);
-        // dd(Student::with('program')->Active($program->id)->get());
-
-        // $dataSiswa = Student::with('program')->Active($program->id)->get();
-        // $data = Materi::filter(request(['search']))->Active($id)->paginate(5)->withQueryString();
-
-
-        // $dataSiswa = Student::where('paket_pilihan', $program->id)->get();
-        // $dataSiswa = Student::Nama()->get();
-
 
         $dataSiswa = Student::where('program_id', $program->id)->filter(request(['nama','ktp','tahun']))->paginate(5)->withQueryString();
         return view('Kelas.show', [
@@ -55,7 +45,7 @@ class KelasAdminController extends Controller
     public function showStudent(Student $student){
 
         // $program = Program::with('student')->get();
-        $program = Program::where('id', $student->paket_pilihan)->get();
+        $program = Program::where('id', $student->program_id)->get();
 
 
         // untuk mengubah format tanggal menjadi dd-mm-yyyy
@@ -89,7 +79,7 @@ class KelasAdminController extends Controller
         ]);
     }
 
-    public function storeStudent(Request $request, Student $student){
+    public function updateStudent(Request $request, Student $student){
 
         // dd($request);
 

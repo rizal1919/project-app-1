@@ -2,7 +2,7 @@
 
 @include('Layouts/Navbar/navbar')
 @section('content')
-<div class="container-lg mt-2 mx-5" >
+<div class="container-lg mt-5 mx-5" >
     <div class="row">
         <div class="col-lg-3" style="margin-left: 60px;">
             <div class="card">

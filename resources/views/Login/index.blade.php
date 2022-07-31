@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="container mt-5">
         <div class="col-lg-6 text-center mx-auto" >
         @if( session('success') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">

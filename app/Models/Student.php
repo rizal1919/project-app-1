@@ -28,8 +28,6 @@ class Student extends Model
 
             $id = Program::where('nama_program', 'like', '%' . $nama_program . '%')->get();
 
-            // var_dump($id);
-
             $i=0;
             $arr = [];
             while( $i<count($id) ){
@@ -38,25 +36,20 @@ class Student extends Model
                 array_push($arr, $box);
                 $i++;
             }
+            // output [ ['program_id', '=', 3, ['program_id', '=', 2] ]
 
-            // var_dump($query->where($arr)->get());
-
-            // dd($arr);
             
-            // return $query->where('nama_program', 'like', '%' . $nama_program . '%');
             return $query->where($arr)->get();
+            // disini dilakukan query untuk mencari program sesuai dengan id yang didapat dari array
             
         });
-
-        
-        // $nama_program = $filters['nama_program'];
-
-        
 
         $query->when($filters['ktp'] ?? false, function($query, $ktp){
 
             return $query->where('ktp', '=', $ktp);
         });
+
+
         $query->when($filters['ktp'] ?? false, function($query, $ktp){
 
             return $query->where('ktp', '=', $ktp);

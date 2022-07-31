@@ -4,7 +4,7 @@
 
 @include('Layouts/Navbar/navbar')
 @section('content')
-<div class="row align-items-center" style='height: 500px; margin-left: 100px; margin-bottom: 150px;'>
+<div class="row align-items-center mt-5" style='height: 500px; margin-left: 100px; margin-bottom: 150px;'>
     <div class="col-lg-4">
         @if( session('pendaftaranGagal') )
         <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="row justify-content-center align-items-center" style='height: 500px;'>
+    <div class="row justify-content-center mt-5 align-items-center" style='height: 500px;'>
         <div class="col-lg-4">
         <main class="form-registration w-100 m-auto">
         <form action="/register-admin" method="post">
