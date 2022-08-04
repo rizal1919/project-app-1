@@ -25,7 +25,7 @@
             <a href="/create-materi/{{ $dataProgram->id }}" class="text-decoration-none text-light"><i class="fa-solid fa-plus"></i>Tambah Materi</a>
         </button>
         <button class="btn btn-primary">
-            <a href="/program" class="text-decoration-none text-light"> Kembali</a>
+            <a href="/program/{{ $dataProgram->kurikulum_id }}" class="text-decoration-none text-light"> Kembali</a>
         </button>
     </div>
 </div>

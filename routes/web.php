@@ -8,7 +8,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\KelasAdminController;
+use App\Http\Controllers\KurikulumController;
 use App\Http\Controllers\StudentController;
+use App\Models\Kurikulum;
 use GuzzleHttp\Middleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -72,20 +74,28 @@ Route::post('/data-siswa/update/student/{student:id}', [StudentController::class
 Route::get('/data-siswa/delete/student/{student:id}', [StudentController::class, 'destroy']);
 
 
+// routes kurikulum
+Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware('auth');
+Route::get('/create-kurikulum', [KurikulumController::class, 'create'])->middleware('auth');
+Route::post('/store-kurikulum', [KurikulumController::class, 'store']);
+Route::get('/show/{kurikulum:id}', [KurikulumController::class, 'show']);
+Route::get('/update/{kurikulum:id}', [KurikulumController::class, 'edit']);
+Route::post('/update/{kurikulum:id}', [KurikulumController::class, 'update']);
+Route::get('/delete-kurikulum/{kurikulum:id}', [KurikulumController::class, 'destroy']);
+
 
 // routes program
-Route::get('/program', [ProgramController::class, 'index'])->Middleware('auth');
-Route::post('/program', [ProgramController::class, 'index']);
+Route::get('/program/{kurikulum:id}', [ProgramController::class, 'index'])->Middleware('auth');
 
 Route::get('/show/{program:nama_program}', [ProgramController::class, 'show']);
 
+Route::get('/create/{kurikulum:id}', [ProgramController::class, 'create'])->Middleware('auth');
 Route::post('/create', [ProgramController::class, 'store']);
-Route::get('/create', [ProgramController::class, 'create'])->Middleware('auth');
 
-Route::get('/update/{program}', [ProgramController::class, 'edit'])->Middleware('auth');
-Route::post('/update/{program}', [ProgramController::class, 'update']);
+Route::get('/update-program/{program:id}', [ProgramController::class, 'edit'])->Middleware('auth');
+Route::post('/update-program/{program:id}', [ProgramController::class, 'update']);
 
-Route::get('/delete/{program}', [ProgramController::class, 'destroy'])->Middleware('auth');
+Route::get('/delete-program/{program:id}', [ProgramController::class, 'destroy'])->Middleware('auth');
 
 // routes materi
 // Route::get('/materi', [MateriController::class, 'index']);

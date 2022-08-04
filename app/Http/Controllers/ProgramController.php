@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kurikulum;
 use App\Models\Program;
 use App\Models\Materi;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request, Kurikulum $kurikulum){
 
-        $programs = Program::all();
-        $search = $request->search;
-        $programs = Program::when($search, function($query, $search){
-            return $query->where('nama_program','like',"%$search%");
-        })->paginate(5);
+        // $programs = Program::all();
+        // $search = $request->search;
+        // $programs = Program::when($search, function($query, $search){
+        //     return $query->where('nama_program','like',"%$search%");
+        // })->paginate(5);
+        $data = Program::where('kurikulum_id', '=', $kurikulum->id)->Filter(request(['search']))->paginate(5)->withQueryString();
+        // dd($data);
+
 
         // if( request('search') ){
         //     $programs = Program::when($search, function($query, $search){
@@ -29,7 +33,8 @@ class ProgramController extends Controller
         return view('Program.index', [
             'title' => 'Programs',
             'active' => 'Daftar Kurikulum',
-            'programs' => $programs
+            'programs' => $data,
+            'kurikulum' => $kurikulum
         ]);
     }
 
@@ -57,23 +62,26 @@ class ProgramController extends Controller
     }
 
 
-    public function create(Program $program){
+    public function create(Kurikulum $kurikulum){
+
         return view('Program.create', [
             'title' => 'Create',
             'active' => 'Daftar Kurikulum',
-            'programs' => $program
+            'kurikulum' => $kurikulum
         ]);
     }
 
-    public function store(Request $request, Program $program){
+    public function store(Request $request){
+
 
         $validatedData = $request->validate([
-            'nama_program' => 'required|unique:programs|between:3,100'
+            'nama_program' => 'required',
+            'kurikulum_id' => 'required'
         ]);
 
         Program::create($validatedData);
 
-        return redirect('/program')->with('create','Create Successfully!');
+        return redirect('/program/' . $validatedData['kurikulum_id'])->with('create','Create Successfully!');
     }
 
     public function show(Program $program){
@@ -86,24 +94,33 @@ class ProgramController extends Controller
 
     public function edit(Program $program){
 
+        $dataKurikulum = Kurikulum::where('id', '=', $program->kurikulum_id)->first();
+        // dd($dataKurikulum);
+
+
+
         return view('Program.update', [
             'title'=> 'Update',
             'active' => 'Daftar Kurikulum',
-            'programs' => $program
+            'programs' => $program,
+            'kurikulum' => $dataKurikulum
         ]);
     }
 
     public function update(Request $request, Program $program)
     {
         $validatedData = $request->validate([
-            'nama_program'=>'required|between:3,100',
+            'nama_program'=>'required',
+            'kurikulum_id' => 'required'
         ]);
 
+        // dd($validatedData);
         $program->update([
             'nama_program' => $validatedData['nama_program'],
+            'kurikulum_id' => $validatedData['kurikulum_id'],
         ]);
 
-        return redirect('/program')->with('update','Update Successfully!');
+        return redirect('/program/' . $validatedData['kurikulum_id'])->with('update','Update Successfully!');
     }
 
     public function destroy(Request $request, Program $program)
@@ -114,7 +131,7 @@ class ProgramController extends Controller
         
         Program::find($program->id)->delete();
     
-        return redirect('/program')->with('destroy', 'Deleted Successfully!');
+        return redirect('/program/' . $program->kurikulum_id)->with('destroy', 'Deleted Successfully!');
         
         
     }

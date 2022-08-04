@@ -10,7 +10,7 @@
         <a class="nav-link {{ ($active === 'Pendaftaran') ? 'active fw-bold' : '' }}" href="/pendaftaran">Pendaftaran</a>
         <a class="nav-link {{ ($active === 'Kelas') ? 'active fw-bold' : '' }}" href="/kelas-admin">Kelas</a>
         <a class="nav-link {{ ($active === 'Data Siswa') ? 'active fw-bold' : '' }}" href="/data-siswa">Data Siswa</a>
-        <a class="nav-link {{ ($active === 'Daftar Kurikulum') ? 'active fw-bold' : '' }}" href="/program">Daftar Kurikulum</a>
+        <a class="nav-link {{ ($active === 'Daftar Kurikulum') ? 'active fw-bold' : '' }}" href="/kurikulum">Daftar Kurikulum</a>
       </div>
       <div class="navbar-nav">
         @auth

@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('kurikulums', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_program')->unique();
-            $table->foreignId('kurikulum_id');
+            $table->string('nama_kurikulum');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('kurikulums');
     }
 };

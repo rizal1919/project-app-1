@@ -7,27 +7,24 @@
         <div class="col-lg-3" style="margin-left: 60px;">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"><i class="fa-solid fa-address-card mx-2"></i>Kurikulum</h4>
+                    <h4 class="card-title"><i class="fa-solid fa-address-card mx-2"></i>Daftar Kurikulum</h4>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">{{ $kurikulum->nama_kurikulum }}</p>
+                    <p class="card-text">Short Course Academy</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-10 text-end">
         <button class="btn btn-primary">
-            <i class="fa-solid fa-plus mx-1"></i><a href="/create/{{ $kurikulum->id }}" class="text-decoration-none text-light">Tambah Program</a>
+            <i class="fa-solid fa-plus mx-1"></i><a href="/create-kurikulum" class="text-decoration-none text-light">Tambah Kurikulum</a>
         </button>
 
-        <form action="/program/{{ $kurikulum->id }}" method="get" class="d-inline">
+        <form action="" method="post" class="d-inline">
             @csrf
             <input type="text" id="search" name="search" class="form-control d-inline" style="width: 20%;" placeholder="Search">
             <button class="btn btn-primary" id="basic-addon2">Go!</button>
         </form>
-        <button class="btn btn-primary">
-            <a href="/kurikulum" class="text-decoration-none text-light">Kembali</a>
-        </button>
     </div>
     
 </div>
@@ -35,19 +32,19 @@
     <div class="col-10">
     @if( session('update') )
     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('update') }}</strong> Program telah berhasil diubah.
+        <strong>{{ session('update') }}</strong> Kurikulum telah berhasil diubah.
         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
     @if( session('destroy') )
     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('destroy') }}</strong> Program telah berhasil dihapus.
+        <strong>{{ session('destroy') }}</strong> Kurikulum telah berhasil dihapus.
         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
     @if( session('create') )
     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('create') }}</strong> Program telah berhasil ditambahkan.
+        <strong>{{ session('create') }}</strong> Kurikulum telah berhasil ditambahkan.
         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
@@ -61,23 +58,22 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th colspan="2">Program | ID</th>
+                        <th colspan="2">Kurikulum | ID</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i=1; ?>
-                    @foreach( $programs as $program)
+                    @foreach( $kurikulums as $kurikulum)
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ $program->nama_program }} | {{ $program->id }}</td>
+                        <td>{{ $kurikulum->nama_kurikulum }} | {{ $kurikulum->id }}</td>
+                        <td></td>
                         <td>
-                        <button class="btn btn-primary"><i class="fa-solid fa-plus mx-1"></i><a href="/materi/{{ $program->id }}" class="text-decoration-none" style="color: white;">Tambah Materi</a></button>
-                        </td>
-                        <td>
-                            <a href="/show/{{ $program->nama_program }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
-                            <a href="/update-program/{{ $program->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <button class="btn btn-danger text-dark" onclick="confirmation('{{ $program->id }}')"><i class="fas fa-trash"></i></button>
+                                <a href="/show/{{ $kurikulum->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
+                                <a href="/update/{{ $kurikulum->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
+                                <button class="btn btn-danger text-dark" style="margin-right: 50px;" onclick="confirmation('{{ $kurikulum->id }}')"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-primary"><i class="fa-solid fa-plus mx-1"></i><a href="/program/{{ $kurikulum->id }}" class="text-decoration-none" style="color: white;">Tambah Program</a></button>
                         </td>
                     </tr>
                         <?php $i++; ?>
@@ -86,7 +82,7 @@
             </table>
         </div>
         <div class="card-body mt-2 mb-5">
-            {{ $programs->links('vendor.pagination.bootstrap-5') }}
+            {{ $kurikulums->links('vendor.pagination.bootstrap-5') }}
         </div>
     </div>
     
@@ -104,9 +100,9 @@
 </script>
 <script>
     function confirmation(delName){
-    var del=confirm(`Anda yakin ingin menghapus program dengan id ${delName} ?`);
+    var del=confirm(`Anda yakin ingin menghapus kurikulum dengan id ${delName} ?`);
     if (del==true){
-        window.location.href=`/delete-program/${delName}`;
+        window.location.href=`/delete-kurikulum/${delName}`;
     }
     return del;
     }

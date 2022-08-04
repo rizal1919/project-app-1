@@ -5,8 +5,8 @@
 
 @section('content')
 <div class="container-lg mt-5">
-    <div class="row justify-content-center" style="margin-top: 80px;">
-        <div class="col-lg-3" style="height: 30%;">
+    <div class="row justify-content-center" style="margin-top: 70px;">
+        <div class="col-lg-5" style="height: 30%;">
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">ACADEMY</h5>
@@ -22,8 +22,11 @@
                         @enderror
                         <label for="nama_program">Nama Program</label>
                     </div>
+                    <div class="form-floating mb-3">
+                        <input type="hidden" class="form-control" id="kurikulum_id" name="kurikulum_id" value="{{ $kurikulum->id }}">
+                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                </form>
                 </div>
                 <button class="btn btn-primary mt-3 rounded-bottom" style="border-radius: 0px;">
                     <a href="/program" class="text-decoration-none" style="color: white;">Kembali</a>

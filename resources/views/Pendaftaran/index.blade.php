@@ -4,8 +4,8 @@
 
 @include('Layouts/Navbar/navbar')
 @section('content')
-<div class="row align-items-center mt-5" style='height: 500px; margin-left: 100px; margin-bottom: 150px;'>
-    <div class="col-lg-4">
+<div class="row justify-content-center mt-5" style='height: 500px; margin-left: 50px; margin-bottom: 100px;'>
+    <div class="col-lg-10">
         @if( session('pendaftaranGagal') )
         <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
             <strong>{{ session('pendaftaranGagal') }}</strong> Pilihan paket belum dipilih.
@@ -20,7 +20,6 @@
         @endif
         <div class="card">
             <div class="card-body">
-                <main class="w-70 m-auto">
                 <form action="/pendaftaran" method="post">
                     @csrf
                     <h1 class="h3 mb-4 fw-normal text-center"></i>Form Pendaftaran Siswa Baru</h1>
@@ -95,15 +94,11 @@
                     <button class="w-100 btn btn-lg btn-primary mt-3 mb-3" type="submit">Daftar</button>
                     
                 </form>
-                <!-- <div class="col-lg-12 text-center">
-                    <p class="text-center d-inline mx-1 ">Sudah pernah mendaftar?</p><a class="text-decoration-none button-registered-or-unregistered " href="/login-admin">Masuk</a>
-                </div> -->
-                </main>
             </div>
         </div>
     </div>
    
-    <div class="col-lg-6 mx-5">
+    <!-- <div class="col-lg-6 mx-5">
         <?php $jumlahDataProgramTersedia = $count ?>
             <div class="card">
                 <div class="card-header">
@@ -141,16 +136,10 @@
                             <em>Copyright By Short Course Academy <mark> Since 2022</mark>.</em>
                         </p>
                     </div>
-                    <!-- <button class="btn btn-primary d-inline" onclick="left()"><i class="fa-solid fa-arrow-left mx-1"></i>Klik</button> -->
-                        <!-- <p id="counter" class="btn btn-warning d-inline" onclick="right('{{ $count }}')">0</p> -->
-                    <!-- <button class="btn btn-primary" onclick="right('{{ $count }}')">Klik<i class="fa-solid fa-arrow-right mx-1"></i></button> -->
-                    <!-- <a href="#0"  onclick="left('{{ $count }}')" id="tombol" class="btn btn-primary">NEXT</a>
-                    <a href="#0"  onclick="right('{{ $count }}')" id="tombols" class="btn btn-primary">KEMBALI KE ATAS</a> -->
-                    
                 </div>
             </div>
         </div>
-    </div>
+</div> -->
 
 @endsection
 

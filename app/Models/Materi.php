@@ -15,6 +15,10 @@ class Materi extends Model
         return $this->belongsTo(Program::class);
     }
 
+    public function kurikulum(){
+        return $this->belongsTo(Kurikulum::class);
+    }
+
     public function scopeFilter($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search){
 

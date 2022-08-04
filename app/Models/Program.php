@@ -11,6 +11,10 @@ class Program extends Model
 
     protected $guarded = ['id'];
 
+    public function kurikulum(){
+        return $this->belongsTo(Kurikulum::class);
+    }
+
     public function materi(){
         return $this->hasMany(Materi::class);
     }
@@ -20,20 +24,21 @@ class Program extends Model
     }
 
     public function scopeFilter($query, array $filters){
+        
         $query->when($filters['search'] ?? false, function($query, $search){
 
             return $query->where(function($query) use ($search){
 
-                $query->where('nama_materi', 'like', '%' . $search . '%');
+                $query->where('nama_program', 'like', '%' . $search . '%');
             });
             
         });
 
-        $query->when($filters['nama_program'] ?? false, function($query, $nama_program){
+        // $query->when($filters['nama_program'] ?? false, function($query, $nama_program){
 
-            return $query->where('nama_program', 'like', '%' . $nama_program . '%');
+        //     return $query->where('nama_program', 'like', '%' . $nama_program . '%');
             
-        });
+        // });
 
     }
     
