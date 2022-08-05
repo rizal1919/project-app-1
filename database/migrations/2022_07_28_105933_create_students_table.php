@@ -16,9 +16,11 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('nama_siswa');
-            $table->foreignId('program_id');
+            $table->foreignId('kurikulum_id')->nullable();
+            $table->string('program_id')->nullable();
             // kode unik untuk menghubungkan ke database program atau materi
 
+            $table->string('status')->nullable();
             $table->string('ktp')->unique();
             $table->string('email')->unique();
             $table->date('tanggal_lahir');

@@ -41,7 +41,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/pendaftaran">
+                <a class="nav-link" href="/form-registrasi-1">
                   <span data-feather="file" class="align-text-bottom"></span>
                   Pendaftaran
                 </a>
@@ -71,6 +71,12 @@
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Welcome, {{ auth()->user()->name_admin }}</h1>
           </div>
+          @if( session('pendaftaranBerhasil') )
+          <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+              <strong>{{ session('pendaftaranBerhasil') }}</strong> adalah kode untuk aktivasi program.
+              <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          @endif
             <table class="table table-hover mt-5 table-striped">
               <thead>
                 <tr>

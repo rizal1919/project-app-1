@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kurikulum;
 use App\Models\Program;
 use App\Models\Student;
 use App\Models\UserAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Mockery\Undefined;
 
 class PendaftaranController extends Controller
 {
     public function index(){
 
-        $programs = Program::all();
+        $kurikulum = Kurikulum::all();
         $nomorUrut = Student::all()->last();
 
         
@@ -68,13 +70,13 @@ class PendaftaranController extends Controller
         // ini kondisi ketika belum ada program sama sekali di dalam database
         // jadi disiasati menggunakan fake program yang nantinya bisa dipanggil lewat index. 
         // namun ketika nantinya ada program baru ditambahkan. maka isi program di bawah ini akan di override
-        if( count($programs) == 0 ){
+        if( count($kurikulum) == 0 ){
            
-            $programs = ([
+            $kurikulum = ([
 
                 [
                     'id' => 1,
-                    'nama_program' => 'Tidak Ada Program'
+                    'nama_kurikulum' => 'Tidak Ada Kurikulum'
                 ]
             ]);
 
@@ -90,14 +92,14 @@ class PendaftaranController extends Controller
             'title' => 'Pendaftaran',
             'active' => 'Pendaftaran',
             'nomor' => $hasilAkhirNoUrut,
-            'programs' => $programs,
-            'count' => count($programs),
+            'kurikulums' => $kurikulum,
+            'count' => count($kurikulum),
             'year' => $normalYear,
             'date' => $date
         ]);
     }
 
-    public function store(Request $request){
+    public function store1(Request $request){
 
 
         $programs = count(Program::all());
@@ -107,7 +109,8 @@ class PendaftaranController extends Controller
         $validatedData = $request->validate([
 
             'nama_siswa' => 'required',
-            'program_id' => 'required',
+            'kurikulum_id' => 'required',
+            'status' => 'required',
             'ktp' => 'required|min:16|max:16|unique:students',
             'email' => 'required|email:dns|unique:students',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
@@ -116,7 +119,7 @@ class PendaftaranController extends Controller
             'tahun_daftar' => 'required'
         ],[
             'nama_siswa.required' => 'Nama harus diisi',
-            'program_id.required' => 'Paket pilihan tidak boleh kosong',
+            'kurikulum_id.required' => 'Paket pilihan tidak boleh kosong',
             'ktp.required' => 'KTP tidak boleh kosong',
             'ktp.unique' => 'KTP telah digunakan',
             'ktp.min' => 'KTP terdiri dari minimal 16 angka',
@@ -128,14 +131,63 @@ class PendaftaranController extends Controller
             'tanggal_lahir' => 'Format tanggal tidak sesuai',
         ]);
 
-        if($validatedData['program_id'] == 0){
+        if($validatedData['kurikulum_id'] == 0){
 
-            return redirect('/pendaftaran')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
+            return redirect('/form-registrasi-1')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
         }
 
         Student::create($validatedData);
 
-        return redirect('/pendaftaran')->with('pendaftaranBerhasil', 'Pendaftaran Berhasil!! ' . $validatedData['password'] . ' ');
+        return redirect('/form-registrasi-2/' . $validatedData['kurikulum_id'])->with('pendaftaranBerhasil', 'Data Berhasil Tersimpan!');
+
+    }
+
+    public function store2(Student $student){
+
+        // $students = Student::all()->find($student->id)->kurikulum;
+        // dd($students);
+
+        $dataProgram = Program::where('kurikulum_id', '=', $student->kurikulum_id)->get();
+
+        // dd($dataProgram);
+
+        return view('Pendaftaran.index_2',[
+            'title' => 'registrasi kedua',
+            'active' => 'Pendaftaran',
+            'kurikulum' => Student::all()->find($student->id)->kurikulum,
+            'programs' => $dataProgram,
+            'student' => $student
+
+        ]);
+    }
+
+    public function update(Request $request, Student $student){
+
+        $hasil = $request->collect()->skip(1);
+        // kenapa skip(1), karna id 1 itu berisi token form yang ga dibutuhin
+
+        // dd($hasil);
+
+        $idProgram = [];
+        for( $i=1; $i<=count($hasil)+1; $i++ ){
+
+            if(!isset($hasil['Program_' . $i])){
+                continue;
+            }else{
+                array_push($idProgram, $hasil['Program_' . $i]);
+            }
+        }
+
+        $idProgram = implode("-",$idProgram);
+
+        // dd(gettype($idProgram));
+        // dd($idProgram);
+        
+        $student->update([
+            'program_id' => $idProgram
+        ]);
+
+        return redirect('/dashboard')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $student['nomor_pendaftaran'] . ' ');
 
     }
 }
