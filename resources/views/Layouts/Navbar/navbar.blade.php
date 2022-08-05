@@ -7,7 +7,7 @@
     <a class="navbar-brand {{ ($active === 'Dashboard Admin') ? 'active' : '' }}" href="/dashboard">DASHBOARD</a>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link {{ ($active === 'Pendaftaran') ? 'active fw-bold' : '' }}" href="/pendaftaran">Pendaftaran</a>
+        <a class="nav-link {{ ($active === 'Pendaftaran') ? 'active fw-bold' : '' }}" href="/form-registrasi-1">Pendaftaran</a>
         <a class="nav-link {{ ($active === 'Kelas') ? 'active fw-bold' : '' }}" href="/kelas-admin">Kelas</a>
         <a class="nav-link {{ ($active === 'Data Siswa') ? 'active fw-bold' : '' }}" href="/data-siswa">Data Siswa</a>
         <a class="nav-link {{ ($active === 'Daftar Kurikulum') ? 'active fw-bold' : '' }}" href="/kurikulum">Daftar Kurikulum</a>
