@@ -7,6 +7,12 @@
 
     <div class="container d-flex justify-content-center mt-4">
         <div class="card col-10 justify-content-center">
+            @if( session('pendaftaranGagal') )
+            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <div class="card-header">
                 <p class="card-title">
                     Form Registrasi
@@ -46,7 +52,7 @@
                         @enderror
 
                         <label for="tanggal_lahir" class="col-form-label">TANGGAL LAHIR</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" value="{{ old('tanggal_lahir') }}">
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}">
                         @error('tanggal_lahir')
                         <div class="invalid-feedback">
                             {{ $message }}

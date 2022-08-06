@@ -61,7 +61,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="/kurikulum">
                   <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-                  Program
+                  Data Kurikulum
                 </a>
               </li>
             </ul>

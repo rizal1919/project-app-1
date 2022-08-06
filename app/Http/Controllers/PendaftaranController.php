@@ -101,22 +101,16 @@ class PendaftaranController extends Controller
 
     public function store1(Request $request){
 
-
-        $programs = count(Program::all());
-
-
         
         $validatedData = $request->validate([
-
+            
             'nama_siswa' => 'required',
             'kurikulum_id' => 'required',
-            'status' => 'required',
             'ktp' => 'required|min:16|max:16|unique:students',
             'email' => 'required|email:dns|unique:students',
-            'tanggal_lahir' => 'required|date_format:Y-m-d',
-            'password' => 'required',
-            'nomor_pendaftaran' => 'required|unique:students',
-            'tahun_daftar' => 'required'
+            'tanggal_lahir' => 'required',
+            
+            
         ],[
             'nama_siswa.required' => 'Nama harus diisi',
             'kurikulum_id.required' => 'Paket pilihan tidak boleh kosong',
@@ -125,20 +119,24 @@ class PendaftaranController extends Controller
             'ktp.min' => 'KTP terdiri dari minimal 16 angka',
             'ktp.max' => 'KTP terdiri dari maksimal 16 angka',
             'email.required' => 'Email tidak boleh kosong',
-            'email.email' => 'Pastikan email seperti example@gmail.com',
             'email.unique' => 'Email telah terdaftar',
-            'tanggal_lahir' => 'Tanggal lahir tidak boleh kosong',
-            'tanggal_lahir' => 'Format tanggal tidak sesuai',
+            'tanggal_lahir.required' => 'Tanggal lahir tidak boleh kosong',
         ]);
-
+        
+        $validatedData = $request->collect();
+        $validatedData = current( (Array) $validatedData );
+        // kenapa dipanggil dengan collection? karna data yang tidak diinputkan user itu selalu gagal divalidasi.
+        // disini makanya diinputkan collection, kemudian dari obj dijadikan array. kemudian di create
+        
         if($validatedData['kurikulum_id'] == 0){
-
+            
             return redirect('/form-registrasi-1')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
         }
-
+        
+        // dd($validatedData);
         Student::create($validatedData);
 
-        return redirect('/form-registrasi-2/' . $validatedData['kurikulum_id'])->with('pendaftaranBerhasil', 'Data Berhasil Tersimpan!');
+        return redirect('/form-registrasi-2/' . $validatedData['nomor_pendaftaran'])->with('pendaftaranBerhasil', 'Data Berhasil Tersimpan!');
 
     }
 
@@ -163,29 +161,38 @@ class PendaftaranController extends Controller
 
     public function update(Request $request, Student $student){
 
-        $hasil = $request->collect()->skip(1);
+        // dd($student);
+
+        $hasil = $request->collect()->skip(1)->sortDesc();
         // kenapa skip(1), karna id 1 itu berisi token form yang ga dibutuhin
 
         // dd($hasil);
-
+        
+        $hasil = current( (Array)$hasil );
+        // ini untuk mengconvert obj menjadi arr dari hasil collection sebelumnya
+        
+        $keyPalingBesarUntukCount = array_key_first($hasil);
+        // ini untuk mengambil key array paling besar untuk dijadikan angka kondisi looping di dalam for
+        
         $idProgram = [];
-        for( $i=1; $i<=count($hasil)+1; $i++ ){
+        for( $i=1; $i<=$keyPalingBesarUntukCount; $i++ ){
 
-            if(!isset($hasil['Program_' . $i])){
+            if(!isset($hasil[$i])){
                 continue;
             }else{
-                array_push($idProgram, $hasil['Program_' . $i]);
+                array_push($idProgram, $hasil[$i]);
             }
         }
-
+        // looping untuk mengambil value dari array
+        
         $idProgram = implode("-",$idProgram);
-
-        // dd(gettype($idProgram));
+        // integer dari hasil looping di implode dijadikan string dengan pembeda -
         // dd($idProgram);
         
         $student->update([
             'program_id' => $idProgram
         ]);
+        // disimpan ke data siswa
 
         return redirect('/dashboard')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $student['nomor_pendaftaran'] . ' ');
 

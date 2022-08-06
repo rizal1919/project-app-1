@@ -16,7 +16,7 @@
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-body">
                 <main class="w-70 m-auto">
                 <form action="/kelas-admin/update/student/{{ $student->id }}" method="post">
@@ -50,6 +50,15 @@
                         @enderror
                     </div>
                     <div class="form-floating">
+                        <input type="text" name="status" class="@error('status') is-invalid @enderror form-control" id="status" placeholder="status@example.com" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $student->status }}"  required>
+                        <label for="status">Status</label>
+                        @error('status')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="form-floating">
                         <input type="date" name="tanggal_lahir" class="@error('tanggal_lahir') is-invalid @enderror form-control" id="tanggal_lahir" placeholder="dd-mm-yyyy" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" max="{{ $date }}" value="{{ $student->tanggal_lahir }}"  required>
                         <!-- jadi value nya di buat terbalik agar inputannya dapat menjadi tanggal-bln-tahun -->
 
@@ -63,22 +72,42 @@
                         <input type="hidden" name="tahun_daftar" class="@error('tahun_daftar') is-invalid @enderror form-control" id="tahun_daftar" placeholder="tahun_daftar" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $year }}"  required>
                     </div>
 
-                    <div class="form-control d-flex justify-content-between" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;">
-                        <label for="program_id" placeholder="Pilihan 1">Pilihan Paket</label>
-                        <select name="program_id" id="program_id" class="p-1 bg-secondary text-center text-light" style="border-radius: 5px;">
-                            <option value="0">Tidak memilih paket</option>
-                            @foreach( $programs as $program )
-                            <option value="{{ $program->id }}" {{ ($student->program_id == $program->id) ? 'Selected' : '' }}>{{ $program->nama_program }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <!-- <div class="form-control d-flex justify-content-between" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;"> -->
                     <div class="form-floating text-center mb-4">
                         
                         <input type="hidden" id="myInput" name="password" autocomplete="off" class="@error('password') is-invalid @enderror form-control" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;" id="password" value="{{ $student->nomor_pendaftaran }}" placeholder="Password" required>
                     </div>
+                    <div class="form-floating p-4">
+                            <h5 class="card-text mb-3">Program yang sebelumnya dipilih</h5>
+                            <?php $len = count($idProgram); ?>
+                            @foreach( $programs as $program )
+                                <ul class="list-group"> 
+                                    @for( $i=0; $i<$len; $i++ )
+
+                                        @if( $idProgram[$i] == $program->id )
+                                            <li class="list-group-item">{{ $program->nama_program }}</li>
+                                        @endif
+
+                                    @endfor
+
+                                </ul>
+                            @endforeach
+
+                            <h5 class="card-text my-3">Program tersedia pada kurikulum {{ $student->kurikulum->nama_kurikulum }}</h5>
+                            
+                            @foreach( $programs as $program )
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="{{ $loop->iteration }}" value="{{ $program->id }}" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{ $program->nama_program }}
+                                </label>
+                            </div>
+                            @endforeach
+                    <!-- </div> -->
+                    </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <button class="w-45 btn btn-primary mx-2 text-center d-flex justify-content-center align-items-center" type="submit">Ubah Data<i class="fa-solid fa-file-pen mx-2"></i></button>
-                        <a href="/kelas-admin/show/{{ $student->program_id}}" class="btn btn-primary text-decoration-none text-light" style="height: 50%;">
+                        <a href="/kelas-admin/show/{{ $student->kurikulum_id}}" class="btn btn-primary text-decoration-none text-light" style="height: 50%;">
                             Kembali
                         </a>
                     </div>

@@ -7,12 +7,12 @@
         <div class="col-lg-11">
         <div class="card p-3">
             <div class="card-header mb-1 rounded">
-                <h4 class="card-title">Data Siswa - Program {{ $program->nama_program }}</h4>
+                <h4 class="card-title">Data Siswa - Kurikulum {{ $kurikulum->nama_kurikulum }}</h4>
             </div>
             <div class="card-body">
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-12 d-flex mt-4 justify-content-end">
-                        <form action="/kelas-admin/show/{{ $program->id }}" method="get" class="mx-2" style="width: 90%;" >
+                        <form action="/kelas-admin/show/{{ $kurikulum->id }}" method="get" class="mx-2" style="width: 90%;" >
                             @csrf
                             <div class="input-group">
                                 <input type="text" name="nama" value="{{ request()->nama }}" class="form-control text-end" placeholder="Nama">
@@ -59,10 +59,10 @@
                                 <td class="text-center"><span class="badge text-bg-primary">Diterima</span></td>
                                 <td class="text-center">{{ $dasis->tahun_daftar }}</td>
                                 <td>
-                                    <a href="/kelas-admin/show/student/{{ $dasis->id }}" class="btn btn-primary text-decoration-none"><i class="fas fa-eye"></i></a>
-                                    <a href="/kelas-admin/update/student/{{ $dasis->id }}" class="btn btn-warning text-decoration-none text-light"><i class="fas fa-pen-to-square"></i></a>
-                                    <!-- <a href="/kelas-admin/delete/student/{{ $dasis->id }}" class="btn btn-danger text-decoration-none text-light"><i class="fas fa-trash"></i></a> -->
-                                    <button class="btn btn-danger text-light" onclick="confirmation('{{ $dasis->id }}')"><i class="fas fa-trash"></i></button>
+                                    <a href="/kelas-admin/show/student/{{ $dasis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
+                                    <a href="/kelas-admin/update/student/{{ $dasis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
+                                    <!-- <a href="/kelas-admin/delete/student/{{ $dasis->id }}" class="btn btn-danger text-decoration-none text-dark"><i class="fas fa-trash"></i></a> -->
+                                    <button class="btn btn-danger text-dark" onclick="confirmation('{{ $dasis->nama_siswa }}')"><i class="fas fa-trash"></i></button>
                         
                                 </td>
                             </tr>
@@ -89,7 +89,7 @@ function changeStyle(){
 </script>
 <script>
     function confirmation(delId){
-    var del=confirm(`Anda yakin ingin menghapus siswa dengan id ${delId} ?`);
+    var del=confirm(`Anda yakin ingin menghapus siswa dengan nama ${delId} ?`);
     if (del==true){
         window.location.href=`/kelas-admin/delete/student/${delId}`;
     }

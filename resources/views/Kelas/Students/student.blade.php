@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <div class="mb-1 p-2 bg-info text-dark fw-bold rounded" style="border: 0px solid gray;">
                         <h4 class="card-title">KELAS</h4>
-                        <p class="card-text text-light">{{ $program[0]->nama_program }}</p>
+                        <p class="card-text text-light">{{ $kurikulum[0]->nama_kurikulum }}</p>
                     </div>
                     <div class="mb-1 p-2 bg-info text-dark fw-bold rounded" style="border: 0px solid gray;">
                         <h4 class="card-title">ID SISWA</h4>
@@ -49,7 +49,7 @@
         </div>
         <div class="col-8 text-center d-flex justify-content-end mt-5">
             <button class="btn btn-primary d-flex justify-content-center">
-                <a href="/kelas-admin/show/{{ $program[0]->id}}" class="btn btn-primary text-decoration-none text-light">
+                <a href="/kelas-admin/show/{{ $kurikulum[0]->id}}" class="btn btn-primary text-decoration-none text-light">
                     Kembali
                 </a>
             </button>

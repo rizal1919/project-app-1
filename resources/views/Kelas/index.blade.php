@@ -19,21 +19,21 @@
 <div class="container p-4 d-flex justify-content-center">
     <div class="row d-flex justify-content-center">
         <div class="col-10 d-flex flex-row flex-wrap justify-content-center">
-            @foreach( $programs as $program )
+            @foreach( $kurikulums as $kurikulum )
                 <div class="card mx-3 my-3" style="width: 30%;">
                     <img src="https://source.unsplash.com/300x300?{{ $category[mt_rand(0,6)] }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $program->nama_program }}</h5>
+                        <h5 class="card-title">{{ $kurikulum->nama_kurikulum }}</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                     <div class="card-body text-end">
-                        <a href="/kelas-admin/show/{{ $program->id }}" class="btn btn-primary">Lihat Kelas</a>
+                        <a href="/kelas-admin/show/{{ $kurikulum->id }}" class="btn btn-primary">Lihat Kelas</a>
                     </div>
                 </div>
             @endforeach
         </div>
         <div class="col-8 mt-2 mb-5">
-            {{ $programs->links('vendor.pagination.bootstrap-5') }}
+            {{ $kurikulums->links('vendor.pagination.bootstrap-5') }}
         </div>
     </div>
 </div>

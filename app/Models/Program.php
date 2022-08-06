@@ -19,10 +19,6 @@ class Program extends Model
         return $this->hasMany(Materi::class);
     }
     
-    public function student(){
-        return $this->hasMany(Student::class);
-    }
-
     public function scopeFilter($query, array $filters){
         
         $query->when($filters['search'] ?? false, function($query, $search){

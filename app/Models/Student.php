@@ -12,10 +12,6 @@ class Student extends Model
     protected $guarded = ['id'];
     protected $hidden = ['remember_token'];
 
-    public function program(){
-        return $this->belongsTo(Program::class);
-    }
-
     public function kurikulum(){
         return $this->belongsTo(Kurikulum::class);
     }
@@ -28,15 +24,17 @@ class Student extends Model
             
         });
 
-        $query->when($filters['nama_program'] ?? false, function($query, $nama_program){
+        $query->when($filters['nama_kurikulum'] ?? false, function($query, $nama_kurikulum){
 
-            $id = Program::where('nama_program', 'like', '%' . $nama_program . '%')->get();
+            $id = Kurikulum::where('nama_kurikulum', 'like', '%' . $nama_kurikulum . '%')->get();
+
+            // dd($id);
 
             $i=0;
             $arr = [];
             while( $i<count($id) ){
                 
-                $box = ['program_id', '=', $id[$i]->id];
+                $box = ['kurikulum_id', '=', $id[$i]->id];
                 array_push($arr, $box);
                 $i++;
             }

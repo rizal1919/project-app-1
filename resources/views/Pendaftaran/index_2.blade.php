@@ -33,7 +33,7 @@
                         <div class="col-auto"> 
                             @foreach( $programs as $program )
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="Program {{ $loop->iteration }}" value="{{ $program->id }}" id="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" name="{{ $loop->iteration }}" value="{{ $program->id }}" id="flexCheckDefault">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     {{ $program->nama_program }}
                                 </label>

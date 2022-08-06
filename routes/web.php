@@ -51,7 +51,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('aut
 // route pendaftaran
 Route::get('/form-registrasi-1', [PendaftaranController::class, 'index'])->middleware('auth');
 Route::post('/form-registrasi-1', [PendaftaranController::class, 'store1'])->middleware('auth');
-Route::get('/form-registrasi-2/{student:kurikulum_id}', [PendaftaranController::class, 'store2'])->middleware('auth');
+Route::get('/form-registrasi-2/{student:nomor_pendaftaran}', [PendaftaranController::class, 'store2'])->middleware('auth');
 Route::post('/form-registrasi-2/{student:id}', [PendaftaranController::class, 'update'])->middleware('auth');
 
 
@@ -59,12 +59,20 @@ Route::post('/form-registrasi-2/{student:id}', [PendaftaranController::class, 'u
 // route kelas
 Route::get('/kelas-admin', [KelasAdminController::class, 'index'])->middleware('auth');
 Route::post('/kelas-admin', [KelasAdminController::class, 'index']);
+// ----> untuk search engine
 
-Route::get('/kelas-admin/show/{program:id}', [KelasAdminController::class, 'show'])->middleware('auth');
+Route::get('/kelas-admin/show/{kurikulum:id}', [KelasAdminController::class, 'show'])->middleware('auth');
+// ----> untuk melihat kelas berdasarkan kurikulum
+
 Route::get('/kelas-admin/show/student/{student:id}', [KelasAdminController::class, 'showStudent'])->middleware('auth');
+// ----> untuk melihat profile siswa detail
+
 Route::get('/kelas-admin/update/student/{student:id}', [KelasAdminController::class, 'editStudent'])->middleware('auth');
 Route::post('/kelas-admin/update/student/{student:id}', [KelasAdminController::class, 'updateStudent'])->middleware('auth');
-Route::get('/kelas-admin/delete/student/{student:id}', [KelasAdminController::class, 'destroyStudent'])->middleware('auth');
+// ----> proses menyimpan data yang telah diubah
+
+
+Route::get('/kelas-admin/delete/student/{student:nama_siswa}', [KelasAdminController::class, 'destroyStudent'])->middleware('auth');
 
 
 // route data-siswa
