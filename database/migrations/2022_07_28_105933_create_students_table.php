@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_siswa');
             $table->foreignId('kurikulum_id')->nullable();
-            $table->string('program_id')->nullable();
-            // kode unik untuk menghubungkan ke database program atau materi
+            // kode unik untuk menghubungkan ke database kurikulum
 
             $table->string('status')->nullable();
             $table->string('ktp')->unique();

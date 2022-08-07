@@ -1,16 +1,15 @@
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
-@include('Layouts.Navbar.navbar')
-@section('content')
-<div class="container text-center my-3  mt-5">
-    <h1>All Classes</h1>
+@section('container')
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Halaman {{ $active }}</h1>
 </div>
-<div class="container-lg">
+<div class="container">
     <div class="row d-flex justify-content-center">
-        <div class="col-lg-10 d-flex justify-content-center text-center">
+        <div class="col-lg-12 d-flex justify-content-center text-center">
             <form action="/kelas-admin" method="post" class="" style="width: 100%; display:inline-block;">
                 @csrf
-                <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 80%;" placeholder="Search">
+                <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 90%;" placeholder="Search">
                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
             </form>
         </div>
@@ -18,7 +17,7 @@
 </div>
 <div class="container p-4 d-flex justify-content-center">
     <div class="row d-flex justify-content-center">
-        <div class="col-10 d-flex flex-row flex-wrap justify-content-center">
+        <div class="col-12 d-flex flex-row flex-wrap justify-content-center">
             @foreach( $kurikulums as $kurikulum )
                 <div class="card mx-3 my-3" style="width: 30%;">
                     <img src="https://source.unsplash.com/300x300?{{ $category[mt_rand(0,6)] }}" class="card-img-top" alt="...">

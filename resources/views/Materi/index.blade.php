@@ -1,60 +1,57 @@
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
-@include('Layouts/Navbar/navbar')
-@section('content')
-<div class="container-lg mt-5 mx-5" >
-    <div class="row">
-        <div class="col-lg-3" style="margin-left: 60px;">
-            <div class="card">
+@section('container')
+<div class="container-lg mt-5" >
+    <div class="container-fluid d-flex justify-content-center mb-3">
+        <div class="col-lg-12 d-flex justify-content-center align-items-center mt-2">
+            <div class="card" style="width: 100%;">
                 <div class="card-header">
-                    <h4 class="card-title"><i class="fa-solid fa-address-card mx-2"></i>Program</h4>
+                    <h4 class="card-text"><i class="fa-solid fa-address-card mx-2"></i>Program</h4>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">{{ $dataProgram->nama_program }}</p>
+                    <h6 class="card-text">{{ $dataProgram->nama_program }}</h6>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-10 text-end">
-        <form action="/materi/{{ $dataProgram->id }}" method="get" class="d-inline">
-            @csrf
-            <input type="text" id="search" name="search" class="form-control d-inline" style="width: 20%;" placeholder="Search">
-            <button class="btn btn-primary" id="basic-addon2">Go!</button>
-        </form>
-        <button class="btn btn-primary">
-            <a href="/create-materi/{{ $dataProgram->id }}" class="text-decoration-none text-light"><i class="fa-solid fa-plus"></i>Tambah Materi</a>
-        </button>
-        <button class="btn btn-primary">
-            <a href="/program/{{ $dataProgram->kurikulum_id }}" class="text-decoration-none text-light"> Kembali</a>
-        </button>
+    <div class="container-fluid d-flex justify-content-center mb-3">
+        <div class="col-11 text-end">
+            <form action="/materi/{{ $dataProgram->id }}" method="get" class="d-inline">
+                @csrf
+                <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 20%;" placeholder="Search">
+                <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+            </form>
+            <a href="/create-materi/{{ $dataProgram->id }}" class="btn btn-primary text-decoration-none text-light"><i class="fa-solid fa-plus"></i>Tambah Materi</a>
+            <a href="/program/{{ $dataProgram->kurikulum_id }}" class="btn btn-success text-decoration-none text-light">Kembali</a>
+        </div>
     </div>
 </div>
 <div class="row justify-content-center my-3">
-    <div class="col-10">
-    @if( session('update') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('update') }}</strong> Materi telah berhasil diubah.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if( session('destroy') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('destroy') }}</strong> Materi telah berhasil dihapus.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if( session('success') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('success') }}</strong> Materi telah berhasil ditambahkan.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
+    <div class="col-11">
+        @if( session('update') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('update') }}</strong> Materi telah berhasil diubah.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if( session('destroy') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('destroy') }}</strong> Materi telah berhasil dihapus.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if( session('success') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('success') }}</strong> Materi telah berhasil ditambahkan.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
     </div>
 </div>
 
 <div class="row justify-content-center mt-1 mb-5">
-    <div class="col-10">
-        <div class="card">
+    <div class="col-lg-11">
+        <div class="card p-3">
         <table class="table table-light table-striped table-hover m-0">
                 <thead>
                     <tr>
@@ -77,20 +74,7 @@
                         <td>
                             <a href="/show-materi/{{ $materis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
                             <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <!-- <button type="button" class="btn btn-danger deteleCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}"  data-bs-target="#exampleModal" data-url="#">
-                            <i class="fas fa-trash"></i>
-                            </button> -->
-
-                            <!-- <a href="/delete-materi/" class="btn btn-danger delete deleteCategoryBtn" data-bs-toggle="modal" value="4" data-bs-target="#exampleModal" data-url="/delete-materi/{{ $materis->id }}"><i class="fas fa-trash"></i></a> -->
-
-                            <!-- <button type="button" class="btn btn-danger deleteCategoryBtn" data-bs-toggle="modal" value="{{ $materis->id }}" data-bs-target="#exampleModal">
-                            <i class="fas fa-trash"></i>
-                            </button> -->
                             <button class="btn btn-danger text-dark" onclick="confirmation('{{ $materis->id }}')"><i class="fas fa-trash"></i></button>
-                        
-                            <!-- <a href="/delete-materi/{{ $materis->id }}" class="btn btn-primay text-decoration-none" data-bs-toggle="modal" onclick="deleteModal()"  data-bs-target="#exampleModal"><i class="fas fa-trash"></i></a> -->
-                            <!-- <a href="/delete-materi/{{ $materis->id }}" class="btn btn-danger text-decoration-none text-dark" onclick="confirm('Anda yakin?')"><i class="fas fa-trash"></i></a> -->
-                            
                         </td>
                     </tr>
                     <?php $i++; ?>

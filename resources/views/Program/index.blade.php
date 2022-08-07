@@ -1,62 +1,60 @@
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
-@include('Layouts/Navbar/navbar')
-@section('content')
-<div class="container-lg mt-5 mx-5" >
-    <div class="row">
-        <div class="col-lg-3" style="margin-left: 60px;">
-            <div class="card">
+@section('container')
+<div class="container-lg mt-5" >
+    <div class="container-fluid d-flex justify-content-center mb-3">
+        <div class="col-lg-12 d-flex justify-content-center align-items-center mt-2">
+            <div class="card" style="width: 100%;">
                 <div class="card-header">
-                    <h4 class="card-title"><i class="fa-solid fa-address-card mx-2"></i>Kurikulum</h4>
+                    <h4 class="card-text"><i class="fa-solid fa-address-card mx-2"></i>Paket Kurikulum</h4>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">{{ $kurikulum->nama_kurikulum }}</p>
+                    <h6 class="card-text">{{ $kurikulum->nama_kurikulum }}</h6>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-10 text-end">
-        <button class="btn btn-primary">
-            <i class="fa-solid fa-plus mx-1"></i><a href="/create/{{ $kurikulum->id }}" class="text-decoration-none text-light">Tambah Program</a>
-        </button>
+    <div class="container-fluid d-flex justify-content-center mb-3">
+        <div class="col-11 text-end">
+            
+            <a href="/create/{{ $kurikulum->id }}" class="btn btn-primary text-decoration-none text-light"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
 
-        <form action="/program/{{ $kurikulum->id }}" method="get" class="d-inline">
-            @csrf
-            <input type="text" id="search" name="search" class="form-control d-inline" style="width: 20%;" placeholder="Search">
-            <button class="btn btn-primary" id="basic-addon2">Go!</button>
-        </form>
-        <button class="btn btn-primary">
-            <a href="/kurikulum" class="text-decoration-none text-light">Kembali</a>
-        </button>
+            <form action="/program/{{ $kurikulum->id }}" method="get" class="d-inline">
+                @csrf
+                <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 20%;" placeholder="Search">
+                <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+            </form>
+            <a href="/kurikulum" class="btn btn-success text-decoration-none text-light">Kembali</a>
+        </div>
     </div>
     
 </div>
 <div class="row justify-content-center my-3">
-    <div class="col-10">
-    @if( session('update') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('update') }}</strong> Program telah berhasil diubah.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if( session('destroy') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('destroy') }}</strong> Program telah berhasil dihapus.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if( session('create') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('create') }}</strong> Program telah berhasil ditambahkan.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
+    <div class="col-11">
+        @if( session('update') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('update') }}</strong> Program telah berhasil diubah.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if( session('destroy') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('destroy') }}</strong> Program telah berhasil dihapus.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if( session('create') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('create') }}</strong> Program telah berhasil ditambahkan.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
     </div>
 </div>
 
 <div class="row justify-content-center mt-1 mb-5">
-    <div class="col-10">
-        <div class="card">
+    <div class="col-lg-11">
+        <div class="card p-3">
         <table class="table table-light table-striped table-hover m-0">
                 <thead>
                     <tr>
@@ -75,7 +73,7 @@
                         <button class="btn btn-primary"><i class="fa-solid fa-plus mx-1"></i><a href="/materi/{{ $program->id }}" class="text-decoration-none" style="color: white;">Tambah Materi</a></button>
                         </td>
                         <td>
-                            <a href="/show/{{ $program->nama_program }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
+                            <a href="/show-program/{{ $program->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
                             <a href="/update-program/{{ $program->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
                             <button class="btn btn-danger text-dark" onclick="confirmation('{{ $program->id }}')"><i class="fas fa-trash"></i></button>
                         </td>

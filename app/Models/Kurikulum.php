@@ -16,4 +16,16 @@ class Kurikulum extends Model
         $this->hasMany(Program::class);
     }
 
+    public function student(){
+        $this->hasMany(Student::class);
+    }
+
+    public function scopeFilter($query, array $filters){
+
+        $query->when($filters['search'] ?? false, function( $query, $search ){
+
+            return $query->where('nama_kurikulum', 'like', '%' . $search . '%');
+        });
+    }
+
 }

@@ -1,9 +1,11 @@
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
-@include('Layouts.Navbar.navbar')
-@section('content')
-<div class="container-lg d-flex justify-content-center mt-5">
-    <div class="col-lg-6">
+@section('container')
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-2 border-bottom">
+    <h1 class="h2">Halaman Ubah {{ $active }}</h1>
+</div>
+<div class="container-fluid d-flex justify-content-center my-5">
+    <div class="col-lg-8">
         @if( session('updateGagal') )
         <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
             <strong>{{ session('updateGagal') }}</strong> Pilihan paket belum dipilih.
@@ -23,7 +25,7 @@
                     @csrf
                     <h1 class="h3 mb-4 fw-normal text-center"></i>Update Informasi Siswa {{ $student->nama_siswa }}</h1>
                     <div class="form-floating">
-                        <input type="text" name="nama_siswa" class="@error('nama_siswa') is-invalid @enderror form-control" id="nama_siswa" style="border-radius: 5px 5px 0px 0px; margin-bottom: -1px;" placeholder="Nama Lengkap" value="{{ $student->nama_siswa }}" autofocus required>
+                        <input type="text" name="nama_siswa" class="@error('nama_siswa') is-invalid @enderror form-control" id="nama_siswa" style="border-radius: 5px 5px 0px 0px; margin-bottom: -1px;" placeholder="Nama Lengkap" value="{{ old('nama_siswa', $student->nama_siswa) }}" autofocus required>
                         <label for="nama_siswa">Nama Lengkap</label>
                         @error('nama_siswa')
                             <div class="invalid-feedback">
@@ -32,7 +34,7 @@
                         @enderror
                     </div>
                     <div class="form-floating">
-                        <input type="text" name="ktp" class="@error('ktp') is-invalid @enderror form-control" id="ktp" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $student->ktp }}" placeholder="No KTP" required>
+                        <input type="text" name="ktp" class="@error('ktp') is-invalid @enderror form-control" id="ktp" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ old('ktp', $student->ktp) }}" placeholder="No KTP" required>
                         <label for="ktp">No KTP</label>
                         @error('ktp')
                             <div class="invalid-feedback">
@@ -41,7 +43,7 @@
                         @enderror
                     </div>
                     <div class="form-floating">
-                        <input type="email" name="email" class="@error('email') is-invalid @enderror form-control" id="email" placeholder="email@example.com" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $student->email }}"  required>
+                        <input type="email" name="email" class="@error('email') is-invalid @enderror form-control" id="email" placeholder="email@example.com" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ old('email', $student->email) }}"  required>
                         <label for="email">Email</label>
                         @error('email')
                             <div class="invalid-feedback">
@@ -50,7 +52,7 @@
                         @enderror
                     </div>
                     <div class="form-floating">
-                        <input type="text" name="status" class="@error('status') is-invalid @enderror form-control" id="status" placeholder="status@example.com" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $student->status }}"  required>
+                        <input type="text" name="status" class="@error('status') is-invalid @enderror form-control" id="status" placeholder="status@example.com" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ old('status',  $student->status) }}"  required>
                         <label for="status">Status</label>
                         @error('status')
                             <div class="invalid-feedback">
@@ -59,7 +61,7 @@
                         @enderror
                     </div>
                     <div class="form-floating">
-                        <input type="date" name="tanggal_lahir" class="@error('tanggal_lahir') is-invalid @enderror form-control" id="tanggal_lahir" placeholder="dd-mm-yyyy" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" max="{{ $date }}" value="{{ $student->tanggal_lahir }}"  required>
+                        <input type="date" name="tanggal_lahir" class="@error('tanggal_lahir') is-invalid @enderror form-control" id="tanggal_lahir" placeholder="dd-mm-yyyy" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" max="{{ $date }}" value="{{ old('tanggal_lahir', $student->tanggal_lahir) }}"  required>
                         <!-- jadi value nya di buat terbalik agar inputannya dapat menjadi tanggal-bln-tahun -->
 
                         <label for="tanggal_lahir">Tanggal Lahir</label>
@@ -77,31 +79,13 @@
                         
                         <input type="hidden" id="myInput" name="password" autocomplete="off" class="@error('password') is-invalid @enderror form-control" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;" id="password" value="{{ $student->nomor_pendaftaran }}" placeholder="Password" required>
                     </div>
-                    <div class="form-floating p-4">
-                            <h5 class="card-text mb-3">Program yang sebelumnya dipilih</h5>
-                            <?php $len = count($idProgram); ?>
-                            @foreach( $programs as $program )
-                                <ul class="list-group"> 
-                                    @for( $i=0; $i<$len; $i++ )
-
-                                        @if( $idProgram[$i] == $program->id )
-                                            <li class="list-group-item">{{ $program->nama_program }}</li>
-                                        @endif
-
-                                    @endfor
-
-                                </ul>
-                            @endforeach
-
-                            <h5 class="card-text my-3">Program tersedia pada kurikulum {{ $student->kurikulum->nama_kurikulum }}</h5>
+                    <div class="form-floating p-2">
+                            <h5 class="card-text mb-3">Program tersedia pada kurikulum {{ $student->kurikulum->nama_kurikulum }}</h5>
                             
                             @foreach( $programs as $program )
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="{{ $loop->iteration }}" value="{{ $program->id }}" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    {{ $program->nama_program }}
-                                </label>
-                            </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item">{{ $program->nama_program }}</li>
+                                </ul>
                             @endforeach
                     <!-- </div> -->
                     </div>

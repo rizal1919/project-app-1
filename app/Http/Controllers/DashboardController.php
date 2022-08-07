@@ -12,8 +12,8 @@ class DashboardController extends Controller
         
 
         return view('Dashboard.index', [
-            'title' => 'Dashboard Admin',
-            'active' => 'Dashboard Admin',
+            'title' => 'Dashboard | ',
+            'active' => 'Dashboard',
             'admins' => UserAdmin::all()
         ]);
     }

@@ -81,11 +81,12 @@ Route::post('/data-siswa', [StudentController::class, 'index']);
 Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, 'show']);
 Route::get('/data-siswa/update/student/{student:id}', [StudentController::class, 'edit']);
 Route::post('/data-siswa/update/student/{student:id}', [StudentController::class, 'update']);
-Route::get('/data-siswa/delete/student/{student:id}', [StudentController::class, 'destroy']);
+Route::get('/data-siswa/delete/student/{student:nama_siswa}', [StudentController::class, 'destroy']);
 
 
 // routes kurikulum
 Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware('auth');
+Route::post('/kurikulum', [KurikulumController::class, 'index'])->middleware('auth');
 Route::get('/create-kurikulum', [KurikulumController::class, 'create'])->middleware('auth');
 Route::post('/store-kurikulum', [KurikulumController::class, 'store']);
 Route::get('/show/{kurikulum:id}', [KurikulumController::class, 'show']);
@@ -97,7 +98,7 @@ Route::get('/delete-kurikulum/{kurikulum:id}', [KurikulumController::class, 'des
 // routes program
 Route::get('/program/{kurikulum:id}', [ProgramController::class, 'index'])->Middleware('auth');
 
-Route::get('/show/{program:nama_program}', [ProgramController::class, 'show']);
+Route::get('/show-program/{program:id}', [ProgramController::class, 'show']);
 
 Route::get('/create/{kurikulum:id}', [ProgramController::class, 'create'])->Middleware('auth');
 Route::post('/create', [ProgramController::class, 'store']);

@@ -136,65 +136,65 @@ class PendaftaranController extends Controller
         // dd($validatedData);
         Student::create($validatedData);
 
-        return redirect('/form-registrasi-2/' . $validatedData['nomor_pendaftaran'])->with('pendaftaranBerhasil', 'Data Berhasil Tersimpan!');
+        return redirect('/form-registrasi-1')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $validatedData['nomor_pendaftaran'] . ' ');
 
     }
 
-    public function store2(Student $student){
+    // public function store2(Student $student){
 
-        // $students = Student::all()->find($student->id)->kurikulum;
-        // dd($students);
+    //     // $students = Student::all()->find($student->id)->kurikulum;
+    //     // dd($students);
 
-        $dataProgram = Program::where('kurikulum_id', '=', $student->kurikulum_id)->get();
+    //     $dataProgram = Program::where('kurikulum_id', '=', $student->kurikulum_id)->get();
 
-        // dd($dataProgram);
+    //     // dd($dataProgram);
 
-        return view('Pendaftaran.index_2',[
-            'title' => 'registrasi kedua',
-            'active' => 'Pendaftaran',
-            'kurikulum' => Student::all()->find($student->id)->kurikulum,
-            'programs' => $dataProgram,
-            'student' => $student
+    //     return view('Pendaftaran.index_2',[
+    //         'title' => 'registrasi kedua',
+    //         'active' => 'Pendaftaran',
+    //         'kurikulum' => Student::all()->find($student->id)->kurikulum,
+    //         'programs' => $dataProgram,
+    //         'student' => $student
 
-        ]);
-    }
+    //     ]);
+    // }
 
-    public function update(Request $request, Student $student){
+    // public function update(Request $request, Student $student){
 
-        // dd($student);
+    //     // dd($student);
 
-        $hasil = $request->collect()->skip(1)->sortDesc();
-        // kenapa skip(1), karna id 1 itu berisi token form yang ga dibutuhin
+    //     $hasil = $request->collect()->skip(1)->sortDesc();
+    //     // kenapa skip(1), karna id 1 itu berisi token form yang ga dibutuhin
 
-        // dd($hasil);
+    //     // dd($hasil);
         
-        $hasil = current( (Array)$hasil );
-        // ini untuk mengconvert obj menjadi arr dari hasil collection sebelumnya
+    //     $hasil = current( (Array)$hasil );
+    //     // ini untuk mengconvert obj menjadi arr dari hasil collection sebelumnya
         
-        $keyPalingBesarUntukCount = array_key_first($hasil);
-        // ini untuk mengambil key array paling besar untuk dijadikan angka kondisi looping di dalam for
+    //     $keyPalingBesarUntukCount = array_key_first($hasil);
+    //     // ini untuk mengambil key array paling besar untuk dijadikan angka kondisi looping di dalam for
         
-        $idProgram = [];
-        for( $i=1; $i<=$keyPalingBesarUntukCount; $i++ ){
+    //     $idProgram = [];
+    //     for( $i=1; $i<=$keyPalingBesarUntukCount; $i++ ){
 
-            if(!isset($hasil[$i])){
-                continue;
-            }else{
-                array_push($idProgram, $hasil[$i]);
-            }
-        }
-        // looping untuk mengambil value dari array
+    //         if(!isset($hasil[$i])){
+    //             continue;
+    //         }else{
+    //             array_push($idProgram, $hasil[$i]);
+    //         }
+    //     }
+    //     // looping untuk mengambil value dari array
         
-        $idProgram = implode("-",$idProgram);
-        // integer dari hasil looping di implode dijadikan string dengan pembeda -
-        // dd($idProgram);
+    //     $idProgram = implode("-",$idProgram);
+    //     // integer dari hasil looping di implode dijadikan string dengan pembeda -
+    //     // dd($idProgram);
         
-        $student->update([
-            'program_id' => $idProgram
-        ]);
-        // disimpan ke data siswa
+    //     $student->update([
+    //         'program_id' => $idProgram
+    //     ]);
+    //     // disimpan ke data siswa
 
-        return redirect('/dashboard')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $student['nomor_pendaftaran'] . ' ');
+    //     return redirect('/dashboard')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $student['nomor_pendaftaran'] . ' ');
 
-    }
+    // }
 }

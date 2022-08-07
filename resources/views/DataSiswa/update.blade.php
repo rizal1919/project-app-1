@@ -1,8 +1,10 @@
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
-@include('Layouts.Navbar.navbar')
-@section('content')
-<div class="container-lg d-flex justify-content-center  mt-5">
+@section('container')
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mx-5 pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Halaman Ubah {{ $active }}</h1>
+</div>
+<div class="container-lg d-flex justify-content-center mt-5">
     <div class="col-lg-6">
         @if( session('updateGagal') )
         <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
@@ -23,7 +25,7 @@
                     @csrf
                     <h1 class="h3 mb-4 fw-normal text-center"></i>Update Informasi Siswa {{ $student->nama_siswa }}</h1>
                     <div class="form-floating">
-                        <input type="text" name="nama_siswa" class="@error('nama_siswa') is-invalid @enderror form-control" id="nama_siswa" style="border-radius: 5px 5px 0px 0px; margin-bottom: -1px;" placeholder="Nama Lengkap" value="{{ $student->nama_siswa }}" autofocus required>
+                        <input type="text" name="nama_siswa" class="@error('nama_siswa') is-invalid @enderror form-control" id="nama_siswa" style="border-radius: 5px 5px 0px 0px; margin-bottom: -1px;" placeholder="Nama Lengkap" value="{{ old('nama_siswa', $student->nama_siswa) }}" autofocus required>
                         <label for="nama_siswa">Nama Lengkap</label>
                         @error('nama_siswa')
                             <div class="invalid-feedback">
@@ -32,7 +34,7 @@
                         @enderror
                     </div>
                     <div class="form-floating">
-                        <input type="text" name="ktp" class="@error('ktp') is-invalid @enderror form-control" id="ktp" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $student->ktp }}" placeholder="No KTP" required>
+                        <input type="text" name="ktp" class="@error('ktp') is-invalid @enderror form-control" id="ktp" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ old('ktp', $student->ktp) }}" placeholder="No KTP" required>
                         <label for="ktp">No KTP</label>
                         @error('ktp')
                             <div class="invalid-feedback">
@@ -41,7 +43,7 @@
                         @enderror
                     </div>
                     <div class="form-floating">
-                        <input type="email" name="email" class="@error('email') is-invalid @enderror form-control" id="email" placeholder="email@example.com" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $student->email }}"  required>
+                        <input type="email" name="email" class="@error('email') is-invalid @enderror form-control" id="email" placeholder="email@example.com" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ old('email', $student->email) }}"  required>
                         <label for="email">Email</label>
                         @error('email')
                             <div class="invalid-feedback">
@@ -64,11 +66,11 @@
                     </div>
 
                     <div class="form-control d-flex justify-content-between" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;">
-                        <label for="program_id" placeholder="Pilihan 1">Pilihan Paket</label>
-                        <select name="program_id" id="program_id" class="p-1 bg-secondary text-center text-light" style="border-radius: 5px;">
+                        <label for="kurikulum_id" placeholder="Pilihan 1">Pilihan Paket</label>
+                        <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-secondary text-center text-light" style="border-radius: 5px;">
                             <option value="0">Tidak memilih paket</option>
-                            @foreach( $programs as $program )
-                            <option value="{{ $program->id }}" {{ ($student->program_id == $program->id) ? 'Selected' : '' }}>{{ $program->nama_program }}</option>
+                            @foreach( $kurikulums as $kurikulum )
+                            <option value="{{ $kurikulum->id }}" {{ ($student->kurikulum_id == $kurikulum->id) ? 'Selected' : '' }}>{{ $kurikulum->nama_kurikulum }}</option>
                             @endforeach
                         </select>
                     </div>

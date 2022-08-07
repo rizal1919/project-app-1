@@ -1,16 +1,17 @@
 
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
 
-@include('Layouts/Navbar/navbar')
-@section('content')
-
-<div class="container-lg mt-5">
+@section('container')
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Detail Materi</h1>
+</div>
+<div class="container-lg mt-6">
     <div class="row justify-content-center" style="margin-top: 70px;">
-        <div class="col-lg-5" style="height: 30%;">
+        <div class="col-lg-6" style="height: 30%;">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">ACADEMY</h5>
+                    <h5 class="card-title">ACADEMY - Kurikulum {{ $kurikulum->nama_kurikulum }}</h5>
                 </div>
                 <div class="card-body">
                     <?php $i=0; ?>
@@ -25,9 +26,7 @@
                         <?php $i++; ?>
                     @endforeach
                 </div>
-                <button class="btn btn-primary mt-3 rounded-bottom" style="border-radius: 0px;">
-                    <a href="/materi/{{ $dataMateri->id }}" class="text-decoration-none" style="color: white;">Kembali</a>
-                </button>
+                <a href="/materi/{{ $dataMateri->id }}" style="border-radius: 0px;" class="btn btn-primary mt-3 rounded-bottom text-decoration-none" style="color: white;">Kembali</a>
             </div>
         </div>
     </div>

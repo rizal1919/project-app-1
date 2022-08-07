@@ -29,26 +29,31 @@ class Student extends Model
             $id = Kurikulum::where('nama_kurikulum', 'like', '%' . $nama_kurikulum . '%')->get();
 
             // dd($id);
-
-            $i=0;
             $arr = [];
-            while( $i<count($id) ){
-                
-                $box = ['kurikulum_id', '=', $id[$i]->id];
-                array_push($arr, $box);
-                $i++;
+            if( count($id) == 0){
+                array_push($arr, ['kurikulum_id', '=', 0]);
+            }else{
+
+                $i=0;
+                while( $i<count($id) ){
+                    
+                    $box = ['kurikulum_id', '=', $id[$i]->id];
+                    array_push($arr, $box);
+                    $i++;
+                }
             }
+
             // output [ ['program_id', '=', 3, ['program_id', '=', 2] ]
 
-            
+            // dd($arr);
             return $query->where($arr)->get();
             // disini dilakukan query untuk mencari program sesuai dengan id yang didapat dari array
             
         });
 
-        $query->when($filters['ktp'] ?? false, function($query, $ktp){
+        $query->when($filters['tahun'] ?? false, function($query, $tahun){
 
-            return $query->where('ktp', '=', $ktp);
+            return $query->where('tahun_daftar', '=', $tahun);
         });
 
 

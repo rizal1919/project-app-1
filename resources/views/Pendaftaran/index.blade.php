@@ -1,15 +1,20 @@
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
-
-
-@include('Layouts/Navbar/navbar')
-@section('content')
-
-    <div class="container d-flex justify-content-center mt-4">
-        <div class="card col-10 justify-content-center">
+@section('container')
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Halaman {{ $active }}</h1>
+</div>
+    <div class="container d-flex justify-content-center my-4">
+        <div class="card col-12 justify-content-center">
             @if( session('pendaftaranGagal') )
             <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
                 <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if( session('pendaftaranBerhasil') )
+            <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('pendaftaranBerhasil') }}</strong> adalah kode untuk aktivasi program.
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
@@ -20,7 +25,7 @@
             </div>
             <div class="card-body">
                 <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
                 </div>
             </div>
             <form action="/form-registrasi-1" method="post">
@@ -91,6 +96,7 @@
             </form>
         </div>
     </div>
+
    
 @endsection
 

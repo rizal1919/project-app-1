@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kurikulum;
 use App\Models\Materi;
 use App\Models\Program;
 use Illuminate\Http\Request;
@@ -58,10 +59,14 @@ class MateriController extends Controller
     // }
 
     public function createMateri(Program $program){
+
+
+        
+
         return view('Materi.create', [
             'title' => 'Create',
             'active' => 'Daftar Kurikulum',
-            'dataMateri' => $program->load('materi')
+            'dataProgram' => $program,
         ]);
     }
 
@@ -99,11 +104,13 @@ class MateriController extends Controller
         // $data = Program::where('id', $materi['program_id']);
         $id = $materi['id'];
 
+
         return view('Materi.show', [
             'title' => 'Materi',
             'active' => 'Daftar Kurikulum',
             'dataMateri' => $materi->program->load('materi'),
-            'id' => $id
+            'id' => $id,
+            'kurikulum' => Program::find($materi->program->id)->kurikulum
         ]);
     }
 
@@ -115,22 +122,13 @@ class MateriController extends Controller
         return view('Materi.update', [
             'title' => 'Materi',
             'active' => 'Daftar Kurikulum',
-            'dataMateri' => $materi->program->load('materi'),
-            'id' => $id
+            'dataMateri' => $materi,
+            'id' => $id,
+            'kurikulum' => Program::find($materi->program->id)->kurikulum
         ]);
     }
 
     public function updateMateri(Request $request, Materi $materi){
-
-        // $data = Program::where('id', $materi['program_id']);
-        
-
-        // $validatedData = $request->validate([
-        //     'nama_materi'=>'required',
-        //     'program_id'=> 'required',
-        //     'jumlah_pertemuan' => 'required|numeric',
-        //     'menit' => 'required|numeric',
-        // ]);
 
         $validatedData = $request->validate([
             'nama_materi'=>'required|between:5,200',

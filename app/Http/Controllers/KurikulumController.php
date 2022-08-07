@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kurikulum;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class KurikulumController extends Controller
@@ -11,15 +12,17 @@ class KurikulumController extends Controller
 
     public function index(Request $request){
 
-        $kurikulums = Kurikulum::all();
-        $search = $request->search;
-        $kurikulums = Kurikulum::when($search, function($query, $search){
-            return $query->where('nama_kurikulum','like',"%$search%");
-        })->paginate(5);
+        // $kurikulums = Kurikulum::all();
+        // $search = $request->search;
+        // $kurikulums = Kurikulum::when($search, function($query, $search){
+        //     return $query->where('nama_kurikulum','like',"%$search%");
+        // })->paginate(5);
+
+        $kurikulums = Kurikulum::Filter(Request(['search']))->paginate(5)->withQueryString();
 
         return view('Kurikulum.index', [
             'title' => 'Kurikulum | ',
-            'active' => 'Daftar Kurikulum',
+            'active' => 'Data Kurikulum',
             'kurikulums' => $kurikulums
         ]);
     }
@@ -29,7 +32,7 @@ class KurikulumController extends Controller
 
         return view('Kurikulum.create', [
             'title' => 'Kurikulum | ',
-            'active' => 'Daftar Kurikulum'
+            'active' => 'Data Kurikulum'
         ]);
     }
 
@@ -87,11 +90,13 @@ class KurikulumController extends Controller
 
         $validatedData = $request->validate([
 
-            'nama_kurikulum' => 'required|max:255'
+            'nama_kurikulum' => 'required|max:255',
+            
         ]);
 
         $kurikulum->update([
-            'nama_kurikulum' => $validatedData['nama_kurikulum']
+            'nama_kurikulum' => $validatedData['nama_kurikulum'],
+            
         ]);
 
         return redirect('/kurikulum')->with('update', 'Berhasil! ');
@@ -99,9 +104,13 @@ class KurikulumController extends Controller
 
     public function destroy(Kurikulum $kurikulum){
 
+
+        $tes = Student::where('kurikulum_id', '=', $kurikulum->id)->get();
+        if( count($tes) > 0 ){
+            return redirect('/kurikulum')->with('destroyFailed', 'Gagal Menghapus!');
+        }
+
         Kurikulum::find($kurikulum->id)->delete();
-        // Materi::firstWhere('id', $materi->id);
-        // $id = $materi->program_id;
     
         return redirect('/kurikulum')->with('destroy', 'Berhasil!');
     }

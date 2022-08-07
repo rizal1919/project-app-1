@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kurikulum;
 use App\Models\Program;
 use App\Models\Student;
 use Illuminate\Http\Request;
+
+use function PHPUnit\Framework\isNull;
 
 class StudentController extends Controller
 {
@@ -12,15 +15,16 @@ class StudentController extends Controller
 
 
         $dataSiswa = Student::filter(request(['nama','ktp','nama_kurikulum','tahun']))->orderBy('id', 'desc')->paginate(5)->withQueryString();
-        $kurikulum = Student::all();
-
+        $students = Student::all();
+        // dd($tes->kurikulum->nama_kurikulum);
+           
         
         return view('DataSiswa.index',[
 
             'title' => 'Data Siswa | ',
             'active' => 'Data Siswa',
             'dataSiswa' => $dataSiswa,
-            'kurikulum' => $kurikulum
+            'students' => $students
         ]);
     }
 
@@ -52,20 +56,21 @@ class StudentController extends Controller
             'student' => $student,
             'year' => date('Y'),
             'date' => date("Y-m-d"),
-            'programs' => Program::all()
+            'kurikulums' => Kurikulum::all()
         ]);
     }
 
     public function update(Request $request, Student $student){
 
 
+
         $validatedData = $request->validate([
 
             'nama_siswa' => 'required',
-            'ktp' => 'required|min:16|max:16',
-            'program_id' => 'required',
+            'kurikulum_id' => 'required',
+            'ktp' => 'required|min:16|max:16|unique:students,ktp,'.$student->id,
             'tanggal_lahir' => 'required',
-            'email' => 'required|email:dns',
+            'email' => 'required|email:dns|unique:students,email,'.$student->id,
             'password' => 'required',
             'nomor_pendaftaran' => 'required',
             'tahun_daftar' => 'required'
@@ -74,14 +79,14 @@ class StudentController extends Controller
 
         $id = $student->id;
 
-        if($validatedData['program_id'] == 0){
+        if($validatedData['kurikulum_id'] == 0){
 
             return redirect('/data-siswa/update/student/' . $id)->with('updateGagal', 'Update Gagal!!');
         }
 
         $student->update([
             'nama_siswa' => $validatedData['nama_siswa'],
-            'program_id' => $validatedData['program_id'],
+            'kurikulum_id' => $validatedData['kurikulum_id'],
             'ktp' => $validatedData['ktp'],
             'email' => $validatedData['email'],
             'tanggal_lahir' => $validatedData['tanggal_lahir'],

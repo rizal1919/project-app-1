@@ -1,59 +1,67 @@
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
-@include('Layouts/Navbar/navbar')
-@section('content')
-<div class="container-lg mt-5 mx-5" >
-    <div class="row">
-        <div class="col-lg-3" style="margin-left: 60px;">
-            <div class="card">
+@section('container')
+<div class="container-lg mt-5" >
+    <div class="container-fluid d-flex justify-content-center mb-3">
+        <div class="col-lg-12 d-flex justify-content-center align-items-center mt-2">
+            <div class="card" style="width: 100%;">
                 <div class="card-header">
-                    <h4 class="card-title"><i class="fa-solid fa-address-card mx-2"></i>Daftar Kurikulum</h4>
+                    <h4 class="card-text"><i class="fa-solid fa-address-card mx-2"></i>Daftar Kurikulum</h4>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Short Course Academy</p>
+                    <p class="card-text">Short Course Curriculums</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-10 text-end">
-        <button class="btn btn-primary">
-            <i class="fa-solid fa-plus mx-1"></i><a href="/create-kurikulum" class="text-decoration-none text-light">Tambah Kurikulum</a>
-        </button>
 
-        <form action="" method="post" class="d-inline">
-            @csrf
-            <input type="text" id="search" name="search" class="form-control d-inline" style="width: 20%;" placeholder="Search">
-            <button class="btn btn-primary" id="basic-addon2">Go!</button>
-        </form>
+    <div class="container-fluid d-flex justify-content-center mb-3">
+        <div class="col-11 text-end">
+            <button class="btn btn-primary">
+                <i class="fa-solid fa-plus mx-1"></i><a href="/create-kurikulum" class="text-decoration-none text-light">Tambah Kurikulum</a>
+            </button>
+
+            <form action="/kurikulum" method="post" class="d-inline">
+                @csrf
+                <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 20%;" placeholder="Search">
+                <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+            </form>
+        </div>
     </div>
     
 </div>
 <div class="row justify-content-center my-3">
-    <div class="col-10">
-    @if( session('update') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('update') }}</strong> Kurikulum telah berhasil diubah.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if( session('destroy') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('destroy') }}</strong> Kurikulum telah berhasil dihapus.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if( session('create') )
-    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-        <strong>{{ session('create') }}</strong> Kurikulum telah berhasil ditambahkan.
-        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <div class="col-11">
+        @if( session('update') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('update') }}</strong> Kurikulum telah berhasil diubah.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if( session('destroy') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('destroy') }}</strong> Kurikulum telah berhasil dihapus.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if( session('destroyFailed') )
+        <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('destroyFailed') }}</strong> Anda tidak bisa menghapus kurikulum yang masih memiliki siswa.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if( session('create') )
+        <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+            <strong>{{ session('create') }}</strong> Kurikulum telah berhasil ditambahkan.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
     </div>
 </div>
 
 <div class="row justify-content-center mt-1 mb-5">
-    <div class="col-10">
-        <div class="card">
+    <div class="col-lg-11">
+        <div class="card p-3">
         <table class="table table-light table-striped table-hover m-0">
                 <thead>
                     <tr>
