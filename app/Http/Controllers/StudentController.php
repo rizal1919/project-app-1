@@ -1,16 +1,131 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Kurikulum;
 use App\Models\Program;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
-use function PHPUnit\Framework\isNull;
-
 class StudentController extends Controller
 {
+
+    // public function ajax(){
+
+    //     return view('DataSiswa.ajax');
+    // }
+
+    public function autocomplete(Request $request)
+    {
+
+        if($request->ajax()){
+
+            
+            $data =  Student::where('nama_siswa', 'like', '%'. $request->nama_siswa . '%')->get();
+            $output = '';
+            if( $request->nama_siswa == '' ){
+
+                $output = '';
+            }elseif(count($data) > 0 ){
+
+                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+                foreach( $data as $row ){
+                    $output .= '<li class="list-group-item" id="n">' . $row->nama_siswa . '</li>';
+                }
+
+                $output .= '</ul>';
+            }else{
+
+                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+                $output .= '<li class="list-group-item" id="n"> Data Tidak Ditemukan </li>';
+                $output .= '</ul>';
+            }
+            return $output;
+            
+            
+        }
+
+        return view('DataSiswa.ajax');
+    }
+    
+    public function ktp(Request $request)
+    {
+
+        if($request->ajax()){
+
+            
+            $data =  Student::where('ktp', 'like', '%'. $request->ktp . '%')->get();
+
+            
+            $output = '';
+            if( $request->ktp == '' ){
+                $data = [''];
+                $output = '';
+            }elseif(count($data) > 0 ){
+
+                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+                foreach( $data as $row ){
+                    $output .= '<li class="list-group-item" id="k">' . $row->ktp . '</li>';
+                }
+
+                $output .= '</ul>';
+            }else{
+
+                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+                $output .= '<li class="list-group-item" id="k"> Data Tidak Ditemukan </li>';
+                $output .= '</ul>';
+            }
+            return $data;
+            
+            
+        }
+
+        return view('DataSiswa.ajax');
+    }
+
+    public function alamatEmail(Request $request)
+    {
+
+        if($request->ajax()){
+
+            
+            $data =  Student::where('email', 'like', '%'. $request->email . '%')->get();
+            $output = '';
+            if( $request->email == '' ){
+
+                $output = '';
+            }elseif(count($data) > 0 ){
+
+                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+                foreach( $data as $row ){
+                    $output .= '<li class="list-group-item" id="e">' . $row->email . '</li>';
+                }
+
+                $output .= '</ul>';
+            }else{
+
+                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+                $output .= '<li class="list-group-item" id="e"> Data Tidak Ditemukan </li>';
+                $output .= '</ul>';
+            }
+            return $output;
+            
+            
+        }
+
+        return view('DataSiswa.ajax');
+    }
+
+    // public function autocomplete(Request $request)
+    // {
+    //     $data = Student::select("nama_siswa")
+    //             ->where("nama_siswa","LIKE","%{$request->term}%")
+    //             ->get();
+
+    //     // $data = Student::where('nama_siswa', 'LIKE', '%' . $request->input('query') . '%')->get();
+    //     // dd($data);
+    //     return response()->json($data);
+    // }
+
     public function index(){
 
 

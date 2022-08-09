@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aktivasi;
 use App\Models\Kurikulum;
 use App\Models\Program;
 use App\Models\Student;
@@ -95,7 +96,8 @@ class PendaftaranController extends Controller
             'kurikulums' => $kurikulum,
             'count' => count($kurikulum),
             'year' => $normalYear,
-            'date' => $date
+            'date' => $date,
+            'aktivasi' => Aktivasi::all()
         ]);
     }
 

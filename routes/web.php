@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AktivasiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ProgramController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\KelasAdminController;
 use App\Http\Controllers\KurikulumController;
 use App\Http\Controllers\StudentController;
 use App\Models\Kurikulum;
+use App\Models\Student;
 use GuzzleHttp\Middleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -27,8 +29,11 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('Home.index', [
+        'title' => 'Home | ',
+        'active' => 'Home'
+   ]);
+})->name('home')->middleware('guest');
 
 
 
@@ -82,7 +87,20 @@ Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, '
 Route::get('/data-siswa/update/student/{student:id}', [StudentController::class, 'edit']);
 Route::post('/data-siswa/update/student/{student:id}', [StudentController::class, 'update']);
 Route::get('/data-siswa/delete/student/{student:nama_siswa}', [StudentController::class, 'destroy']);
+// ajax autocomplete
+Route::get('/autocomplete', [StudentController::class, 'autocomplete'])->name('search');
+Route::get('/autocomplete-ktp', [StudentController::class, 'ktp'])->name('ktp');
+Route::get('/autocomplete-email', [StudentController::class, 'alamatEmail'])->name('email');
 
+
+// route aktivasi
+Route::get('/aktivasi', [AktivasiController::class, 'index']);
+Route::get('/create-aktivasi', [AktivasiController::class, 'create']);
+Route::post('/create-aktivasi', [AktivasiController::class, 'store']);
+Route::get('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'edit']);
+Route::post('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'update']);
+Route::get('/show-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'show']);
+Route::get('/delete-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'destroy']);
 
 // routes kurikulum
 Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware('auth');

@@ -32,21 +32,24 @@
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
-                        <label for="nama_siswa" class="col-form-label">NAMA</label>
-                        <input type="text" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}">
-                        @error('nama_siswa')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-
                         <label for="ktp" class="col-form-label">KTP</label>
-                        <input type="text" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}">
+                        <input type="text" autocomplete="off" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}">
                         @error('ktp')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
+                        <div id="noktp"></div>
+
+                        <label for="nama_siswa" class="col-form-label">NAMA</label>
+                        <input type="text" autocomplete="off" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}">
+                        @error('nama_siswa')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                        <div id="nama"></div>
+
 
                         <label for="email" class="col-form-label">EMAIL</label>
                         <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
@@ -55,6 +58,7 @@
                             {{ $message }}
                         </div>
                         @enderror
+                        <div id="alamatemail"></div>
 
                         <label for="tanggal_lahir" class="col-form-label">TANGGAL LAHIR</label>
                         <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}">
@@ -71,7 +75,7 @@
                     </div>
                     <div class="col-auto">
                         
-                        <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET </label>
+                        <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET REGULER</label>
                         <div class="col-auto"> 
                             <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
 
@@ -84,10 +88,25 @@
                         </div>
 
                     </div>
+                    <div class="col-auto">
+                        
+                        <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
+                        <div class="col-auto"> 
+                            <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+
+                                <option value="0">Tidak memilih paket</option>
+                                @foreach( $aktivasi as $aktif )
+                                <option value="{{ $aktif->id }}">{{ $aktif->nama_aktivasi }}</option>
+                                @endforeach
+                            
+                            </select>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
                     <div class="col-10 p-2 d-flex justify-content-center align-items-end">
-                        <p><em><small>Pastikan semua data terisi dengan benar. Anda tidak dapat kembali ke halaman ini setelah mengklik tombol submit data.</small></em></p>
+                        <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
                         <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
@@ -97,7 +116,88 @@
         </div>
     </div>
 
-   
+<script>
+    $(document).ready(function(){
+    
+        
+        $('#nama_siswa').on('keyup', function(){
+            var value = $(this).val();
+            $.ajax({
+                url:"{{ route('search') }}",
+                type:"GET",
+                data:{'nama_siswa':value},
+                success:function(data){
+
+                    
+
+                    $('#nama').html(data);
+                    
+                    
+                    
+                }
+            });
+        });
+
+
+        $(document).on('click', '#n', function(){
+            var value = $(this).text();
+            $("#nama_siswa").val(value);
+            $('#nama').html('');
+        });
+
+        $('#ktp').on('keyup', function(){
+            var value = $(this).val();
+            $.ajax({
+                url:"{{ route('ktp') }}",
+                type:"GET",
+                data:{'ktp':value},
+                success:function(data){
+
+                    
+
+                    console.log( data[0]['nama_siswa'] );
+
+                    $('#noktp').html(data);
+                    $('#nama_siswa').val(data[0]['nama_siswa']);
+                    $('#email').val(data[0]['email']);
+                    $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                    
+                }
+            });
+        });
+
+
+        $(document).on('click', '#k', function(){
+            var value = $(this).text();
+            $("#ktp").val(value);
+            $('#noktp').html('');
+        });
+
+        $('#email').on('keyup', function(){
+            var value = $(this).val();
+            $.ajax({
+                url:"{{ route('email') }}",
+                type:"GET",
+                data:{'email':value},
+                success:function(data){
+
+                    $('#alamatemail').html(data);
+                    
+                }
+            });
+        });
+
+
+        $(document).on('click', '#e', function(){
+            var value = $(this).text();
+            $("#email").val(value);
+            $('#alamatemail').html('');
+        });
+
+
+
+    });
+</script>
 @endsection
 
 

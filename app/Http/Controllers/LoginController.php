@@ -48,7 +48,7 @@ class LoginController extends Controller
     
         $request->session()->regenerateToken();
     
-        return redirect('/login-admin')->with('logoutSuccess','Logout Berhasil!');
+        return redirect('/');
     }
 
     // public function logout(Request $request) {

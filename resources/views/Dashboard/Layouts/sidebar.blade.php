@@ -29,6 +29,24 @@
                   Data Kurikulum
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link {{ ($active == 'Aktivasi') ? 'active' : '' }}" href="/aktivasi">
+                  <span data-feather="fast-forward" class="align-text-bottom"></span>
+                  Aktivasi
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{ ($active == 'Sekolah') ? 'active' : '' }}" href="#">
+                  <span data-feather="archive" class="align-text-bottom"></span>
+                  Master Sekolah
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{ ($active == 'PIC') ? 'active' : '' }}" href="#">
+                  <span data-feather="user" class="align-text-bottom"></span>
+                  Master PIC
+                </a>
+              </li>
             </ul>
             <h6 class="sidebar-heading d-flex justify-content-between px-3 mt-4 align-items-center text-muted text-uppercase">
               <span>LAYANAN</span>
@@ -36,7 +54,7 @@
             </h6>
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a href="/form-registrasi-1" class="nav-link">
+                <a href="/form-registrasi-1" class="nav-link {{ ($active == 'Pendaftaran') ? 'active' : '' }}">
                 <span data-feather="trello" class="align-text-bottom"></span>
                   Pendaftaran
                 </a>
