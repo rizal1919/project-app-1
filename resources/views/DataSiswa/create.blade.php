@@ -20,7 +20,7 @@
             @endif
             <div class="card-header">
                 <p class="card-title">
-                    Form Registrasi
+                    Form Tambah Siswa Baru
                 </p>
             </div>
             <div class="card-body">
@@ -28,12 +28,12 @@
                 <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
                 </div>
             </div>
-            <form action="/form-registrasi-1" method="post">
+            <form action="/data-siswa/create/student" method="post">
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
                         <label for="ktp" class="col-form-label">KTP</label>
-                        <input type="text" autocomplete="off" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="nomor ktp">
+                        <input type="text" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}">
                         @error('ktp')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -42,7 +42,7 @@
                         <div id="noktp"></div>
 
                         <label for="nama_siswa" class="col-form-label">NAMA</label>
-                        <input type="text" autocomplete="off" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}"  placeholder="nama">
+                        <input type="text" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}">
                         @error('nama_siswa')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -52,7 +52,7 @@
 
 
                         <label for="email" class="col-form-label">EMAIL</label>
-                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"  placeholder="example@gmail.com">
+                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
                         @error('email')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -73,36 +73,6 @@
                         <input type="hidden" name="password" class="@error('password') is-invalid @enderror form-control" id="password" placeholder="password" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $nomor }}"  required>
                         <input type="hidden" name="status" class="@error('status') is-invalid @enderror form-control" id="status" placeholder="status" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="diterima"  required>
                     </div>
-                    <div class="col-auto">
-                        
-                        <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET REGULER</label>
-                        <div class="col-auto"> 
-                            <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-
-                                <option value="0">Tidak memilih paket</option>
-                                @foreach( $kurikulums as $kurikulum )
-                                <option value="{{ $kurikulum['id'] }}">{{ $kurikulum['nama_kurikulum'] }}</option>
-                                @endforeach
-                            
-                            </select>
-                        </div>
-
-                    </div>
-                    <div class="col-auto">
-                        
-                        <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
-                        <div class="col-auto"> 
-                            <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-
-                                <option value="0">Tidak memilih paket</option>
-                                @foreach( $aktivasi as $aktif )
-                                <option value="{{ $aktif->id }}">{{ $aktif->nama_aktivasi }}</option>
-                                @endforeach
-                            
-                            </select>
-                        </div>
-
-                    </div>
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
                     <div class="col-10 p-2 d-flex justify-content-center align-items-end">
@@ -116,88 +86,7 @@
         </div>
     </div>
 
-<script>
-    $(document).ready(function(){
-    
-        
-        $('#nama_siswa').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('search') }}",
-                type:"GET",
-                data:{'nama_siswa':value},
-                success:function(data){
 
-                    
-
-                    $('#nama').html(data);
-                    
-                    
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#n', function(){
-            var value = $(this).text();
-            $("#nama_siswa").val(value);
-            $('#nama').html('');
-        });
-
-        $('#ktp').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('ktp') }}",
-                type:"GET",
-                data:{'ktp':value},
-                success:function(data){
-
-                    
-                    console.log(data);
-                    console.log( data[0]['nama_siswa'] );
-
-                    $('#noktp').html(data);
-                    $('#nama_siswa').val(data[0]['nama_siswa']);
-                    $('#email').val(data[0]['email']);
-                    $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#k', function(){
-            var value = $(this).text();
-            $("#ktp").val(value);
-            $('#noktp').html('');
-        });
-
-        $('#email').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('email') }}",
-                type:"GET",
-                data:{'email':value},
-                success:function(data){
-
-                    $('#alamatemail').html(data);
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#e', function(){
-            var value = $(this).text();
-            $("#email").val(value);
-            $('#alamatemail').html('');
-        });
-
-
-
-    });
-</script>
 @endsection
 
 

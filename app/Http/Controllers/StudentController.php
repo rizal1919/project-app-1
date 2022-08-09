@@ -53,26 +53,15 @@ class StudentController extends Controller
         if($request->ajax()){
 
             
-            $data =  Student::where('ktp', 'like', '%'. $request->ktp . '%')->get();
+            $data =  Student::where('ktp', '=', $request->ktp)->get();
 
-            
-            $output = '';
             if( $request->ktp == '' ){
                 $data = [''];
-                $output = '';
-            }elseif(count($data) > 0 ){
+                
+            }
 
-                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
-                foreach( $data as $row ){
-                    $output .= '<li class="list-group-item" id="k">' . $row->ktp . '</li>';
-                }
-
-                $output .= '</ul>';
-            }else{
-
-                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
-                $output .= '<li class="list-group-item" id="k"> Data Tidak Ditemukan </li>';
-                $output .= '</ul>';
+            if(count($data) == 0){
+                $data = [''];
             }
             return $data;
             
@@ -141,6 +130,114 @@ class StudentController extends Controller
             'dataSiswa' => $dataSiswa,
             'students' => $students
         ]);
+    }
+
+    public function create(){
+
+        $nomorUrut = Student::all()->last();
+
+        
+
+        $year = date("Y")[3] . date("Y")[2];
+        // mengambil 2 angka akhir pada tahun
+
+        $normalYear = date('Y');
+        $date = date("Y-m-d");
+        
+        if($nomorUrut === null){
+            $hasilAkhirNoUrut = '00001' . $year;
+            // dd($hasilAkhirNoUrut);
+        }else{
+            
+            // $str = (string)$nomorUrut;
+            // $tes = $str[4];
+            $nomorUrut = $nomorUrut->nomor_pendaftaran;
+
+            $array = [];
+            for ($i=0; $i < 5; $i++) { 
+                
+                if( $nomorUrut[$i] == 0 ){
+                    continue;
+                }
+                $array[] = $nomorUrut[$i];
+            }
+
+            $str = join("",$array);
+            $int = (int)$str;
+            $result = $int+1;
+            $str = (string)$result;
+            $length = count($array);
+            
+            if( $length == 1 ){
+                $hasilAkhirNoUrut = '0000' . $str . $year;
+            }elseif( $length == 2 ){
+                $hasilAkhirNoUrut = '000' . $str . $year;
+            }elseif( $length == 3 ){
+                $hasilAkhirNoUrut = '00' . $str . $year;
+            }elseif( $length == 4 ){
+                $hasilAkhirNoUrut = '0' . $str . $year;
+            }elseif( $length == 5 ){
+                $hasilAkhirNoUrut = $str . $year;
+            }
+
+            
+            $hasilAkhirNoUrut;
+        
+        }
+
+        return view('DataSiswa.create', [
+
+            'title' => 'Pendaftaran',
+            'active' => 'Pendaftaran',
+            'nomor' => $hasilAkhirNoUrut,
+            'year' => $normalYear,
+            'date' => $date,
+        ]);
+    }
+
+    public function store(Request $request){
+
+        // dd($request->collect());
+        
+        $validatedData = $request->validate([
+            
+            'nama_siswa' => 'required',
+            'ktp' => 'required|min:16|max:16|unique:students',
+            'email' => 'required|email:dns|unique:students',
+            'tanggal_lahir' => 'required',
+            'nomor_pendaftaran' => 'required',
+            'tahun_daftar' => 'required',
+            'password' => 'required',
+            'status' => 'required'
+            
+            
+        ],[
+            'nama_siswa.required' => 'Nama harus diisi',
+            'kurikulum_id.required' => 'Paket pilihan tidak boleh kosong',
+            'ktp.required' => 'KTP tidak boleh kosong',
+            'ktp.unique' => 'KTP telah digunakan',
+            'ktp.min' => 'KTP terdiri dari minimal 16 angka',
+            'ktp.max' => 'KTP terdiri dari maksimal 16 angka',
+            'email.required' => 'Email tidak boleh kosong',
+            'email.unique' => 'Email telah terdaftar',
+            'tanggal_lahir.required' => 'Tanggal lahir tidak boleh kosong',
+        ]);
+        
+        $validatedData = $request->collect();
+        $validatedData = current( (Array) $validatedData );
+        // kenapa dipanggil dengan collection? karna data yang tidak diinputkan user itu selalu gagal divalidasi.
+        // disini makanya diinputkan collection, kemudian dari obj dijadikan array. kemudian di create
+        
+        // if($validatedData['kurikulum_id'] == 0){
+            
+        //     return redirect('/form-registrasi-1')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
+        // }
+        
+        // dd($validatedData);
+        Student::create($validatedData);
+
+        return redirect('/data-siswa')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $validatedData['nomor_pendaftaran'] . ' ');
+
     }
 
     public function show(Student $student){

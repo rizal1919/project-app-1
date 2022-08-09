@@ -56,10 +56,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('aut
 // route pendaftaran
 Route::get('/form-registrasi-1', [PendaftaranController::class, 'index'])->middleware('auth');
 Route::post('/form-registrasi-1', [PendaftaranController::class, 'store1'])->middleware('auth');
-Route::get('/form-registrasi-2/{student:nomor_pendaftaran}', [PendaftaranController::class, 'store2'])->middleware('auth');
-Route::post('/form-registrasi-2/{student:id}', [PendaftaranController::class, 'update'])->middleware('auth');
-
-
 
 // route kelas
 Route::get('/kelas-admin', [KelasAdminController::class, 'index'])->middleware('auth');
@@ -83,6 +79,8 @@ Route::get('/kelas-admin/delete/student/{student:nama_siswa}', [KelasAdminContro
 // route data-siswa
 Route::get('/data-siswa', [StudentController::class, 'index']);
 Route::post('/data-siswa', [StudentController::class, 'index']);
+Route::get('/data-siswa/create/student', [StudentController::class, 'create']);
+Route::post('/data-siswa/create/student', [StudentController::class, 'store']);
 Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, 'show']);
 Route::get('/data-siswa/update/student/{student:id}', [StudentController::class, 'edit']);
 Route::post('/data-siswa/update/student/{student:id}', [StudentController::class, 'update']);

@@ -9,15 +9,21 @@
                 <h4 class="card-title">DATA SISWA-SISWI SC ACADEMY</h4>
             </div>
             <div class="card-body">
-                @if( session('destroy') )
+                    @if( session('destroy') )
                     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
                         <strong>{{ session('destroy') }}</strong> Data siswa telah berhasil dihapus.
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
+                    @if( session('pendaftaranBerhasil') )
+                    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                        <strong>{{ session('pendaftaranBerhasil') }}</strong> adalah nomor pendaftaran siswa.
+                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-12 d-flex mt-4 justify-content-end">
-                        <form action="/data-siswa" method="get" class="mx-2" style="width: 60%;" >
+                        <form action="/data-siswa" method="get" class="mx-2" style="width: 70%;" >
                             @csrf
                             <div class="input-group">
                                 <input type="text" name="nama" value="{{ request()->nama }}" class="form-control text-end" placeholder="Nama">
@@ -26,7 +32,7 @@
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                             </div>
                         </form>
-                        <a href="" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Tambah Siswa</a>
+                        <a href="/data-siswa/create/student" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Tambah Siswa</a>
                         <button class="btn btn-primary" style="width: 10%; height: 100%;">
                             <a href="/dashboard" class="text-decoration-none text-light self-align-center">
                                 Kembali
