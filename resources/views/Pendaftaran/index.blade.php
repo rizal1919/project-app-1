@@ -9,34 +9,33 @@
         <div class="col-lg-12">
         <div class="card p-3">
             <div class="card-header mb-1 rounded text-center">
-                <h4 class="card-title">DATA SISWA-SISWI SC ACADEMY</h4>
+                <h4 class="card-title">DATA PENDAFTAR SC ACADEMY</h4>
             </div>
             <div class="card-body">
                     @if( session('destroy') )
                     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        <strong>{{ session('destroy') }}</strong> Data siswa telah berhasil dihapus.
+                        <strong>{{ session('destroy') }}</strong> Data siswa pendaftar telah berhasil dihapus.
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
                     @if( session('pendaftaranBerhasil') )
                     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        <strong>{{ session('pendaftaranBerhasil') }}</strong> adalah nomor pendaftaran siswa.
+                        Siswa atas nama <strong>{{ session('pendaftaranBerhasil') }}</strong> berhasil terdaftar dalam program.
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-12 d-flex mt-4 justify-content-start">
-                        <a href="/data-siswa/create/student" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Tambah Siswa</a>
+                        <a href="/form-registrasi/reguler" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Tambah Siswa</a>
                         
-                        <!-- <form action="/data-siswa" method="get" class="mx-2" style="width: 70%;" >
+                        <form action="/form-registrasi" method="get" class="mx-2" style="width: 80%;" >
                             @csrf
                             <div class="input-group">
-                                <input type="text" name="nama" value="" class="form-control text-end" placeholder="Nama">
-                                <input type="text" name="ktp" value="" class="form-control text-end" placeholder="No KTP">
-                                <input type="text" name="tahun" value="" class="form-control text-end" placeholder="Tahun">
+                                <input type="text" name="nama_siswa" value="" class="form-control text-end" placeholder="Nama">
+                                <input type="text" name="nama_program" value="" class="form-control text-end" placeholder="Kelas">
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                             </div>
-                        </form> -->
+                        </form>
                         
                         <!-- <a href="/dashboard" style="width: 10%; height: 100%;" class="btn btn-primary text-decoration-none text-light self-align-center">Kembali </a> -->
                         
@@ -51,7 +50,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Siswa</th>
-                                <th>Kelas (Kurikulum)</th>
+                                <th>Kelas</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -62,11 +61,12 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $dasis['nama_siswa'] }}</td>
-                                    <td>{{ $dasis['nama_kurikulum'] }}</td>
+                                    <td>{{ $dasis['nama_program'] }}</td>
                                     <td>
+                                        <?php $id = $dasis['id']; ?>
                                         <!-- <a href="/data-siswa/show/student/" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a> -->
-                                        <a href="/data-siswa/update/student/" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                        <button class="btn btn-danger text-dark border-0" onclick="confirmation('')"><i class="fas fa-trash"></i></button>
+                                        <!-- <a href="/data-siswa/update/student/" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a> -->
+                                        <button class="btn btn-danger text-dark border-0" onclick="confirmation('{{ $id }}')"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                                   
@@ -83,7 +83,15 @@
     </div>
 </div>
 
-
+<script>
+    function confirmation(delName){
+    var del=confirm(`Anda yakin ingin menghapus program dengan id ${delName} ?`);
+    if (del==true){
+        window.location.href=`/form-registrasi-delete/${delName}`;
+    }
+    return del;
+    }
+</script>
 <script>
     $(document).ready(function(){
     

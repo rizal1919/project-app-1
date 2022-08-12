@@ -28,7 +28,7 @@
                 <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
                 </div>
             </div>
-            <form action="/form-registrasi-1" method="post">
+            <form action="/form-registrasi/reguler-create" method="post">
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
@@ -68,12 +68,8 @@
                         </div>
                         @enderror
 
-                        <input type="hidden" name="nomor_pendaftaran" class="@error('nomor_pendaftaran') is-invalid @enderror form-control" id="nomor_pendaftaran" placeholder="nomor_pendaftaran" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $nomor }}"  required>
-                        <input type="hidden" name="tahun_daftar" class="@error('tahun_daftar') is-invalid @enderror form-control" id="tahun_daftar" placeholder="tahun_daftar" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $year }}"  required>
-                        <input type="hidden" name="password" class="@error('password') is-invalid @enderror form-control" id="password" placeholder="password" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $nomor }}"  required>
-                        <input type="hidden" name="status" class="@error('status') is-invalid @enderror form-control" id="status" placeholder="status" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="diterima"  required>
                     </div>
-                    <!-- <div class="col-auto">
+                    <div class="col-auto">
                         
                         <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET REGULER</label>
                         <div class="col-auto"> 
@@ -87,7 +83,7 @@
                             </select>
                         </div>
 
-                    </div> -->
+                    </div>
                     <!-- <div class="col-auto">
                         
                         <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
@@ -95,10 +91,9 @@
                             <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
 
                                 <option value="0">Tidak memilih paket</option>
-                                @foreach( $aktivasi as $aktif )
-                                <option value="{{ $aktif->id }}">{{ $aktif->nama_aktivasi }}</option>
-                                @endforeach
-                            
+                                
+                                <option value=""></option>
+                               
                             </select>
                         </div>
 

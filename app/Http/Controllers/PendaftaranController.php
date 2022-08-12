@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktivasi;
+use App\Models\AktivasiStudent;
 use App\Models\Kurikulum;
+use App\Models\Kurikulum_Student;
+use App\Models\KurikulumStudent;
 use App\Models\Program;
 use App\Models\Student;
 use App\Models\UserAdmin;
@@ -13,33 +16,49 @@ use Mockery\Undefined;
 
 class PendaftaranController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
         
+        // $array = [
 
-        $array = [
+        //     [
+        //         'student_id' => 1,
+        //         'nama_siswa' => 'Rizal Fathurrahman',
+        //         'nama_kurikulum' => 'Bisnis terpadu'
+        //     ],
 
-            [
-                'student_id' => 1,
-                'nama_siswa' => 'Rizal Fathurrahman',
-                'nama_kurikulum' => 'Bisnis terpadu'
-            ],
+        //     [
+        //         'student_id' => 1,
+        //         'nama_siswa' => 'Rizal Fathurrahman',
+        //         'nama_kurikulum' => 'Bisnis terpadu'
+        //     ]
 
-            [
-                'student_id' => 1,
-                'nama_siswa' => 'Rizal Fathurrahman',
-                'nama_kurikulum' => 'Bisnis terpadu'
-            ]
+        // ];
 
-        ];
-
-        function jadikanSatuArrayReguler($idstudent, $nama_siswa, $nama_kurikulum){
+        function jadikanSatuArrayReguler($idstudent, $nama_siswa, $nama_kurikulum, $idregularprogram, $updatedAt){
 
             $array = [ 
 
+                'id' => $idregularprogram,
                 'student_id' => $idstudent,
                 'nama_siswa' => $nama_siswa,
-                'nama_kurikulum' => $nama_kurikulum
+                'nama_program' => 'Reguler - ' . $nama_kurikulum,
+                'updated_at' => $updatedAt
+                
+            ];
+
+            return $array;
+        }
+
+        function jadikanSatuArrayAktivasi($idstudent, $nama_siswa, $nama_aktivasi, $idregularprogram, $updatedAt){
+
+            $array = [ 
+
+                'id' => $idregularprogram,
+                'student_id' => $idstudent,
+                'nama_siswa' => $nama_siswa,
+                'nama_program' => 'Aktivasi - ' . $nama_aktivasi,
+                'updated_at' => $updatedAt
                 
             ];
 
@@ -48,36 +67,82 @@ class PendaftaranController extends Controller
         
        
         $dataKurikulum = Kurikulum::all();
+        $dataAktivasi = Aktivasi::all();
         $dataStudent = Student::all();
 
         
 
-       $dataRegulerStudent = DB::table('kurikulum_student')->get();
-    //    dd($dataRegulerStudent[0]);
-
-       $rakDataStudentKurikulum = [];
-       $i = 0;
-       foreach( $dataRegulerStudent as $RegStudent ){
-
-            $idKurikulumDidapat = $dataRegulerStudent[$i]->kurikulum_id;
-            $namaKurikulumDidapat = $dataKurikulum->find($idKurikulumDidapat)->nama_kurikulum;
-
-            $idStudentDidapat = $dataRegulerStudent[$i]->student_id;
-            $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
-
-            
-            $hasilArray = jadikanSatuArrayReguler($idStudentDidapat, $namaStudentDidapat, $namaKurikulumDidapat);
-            array_push($rakDataStudentKurikulum, $hasilArray);
-            
-
-            $i++;
-       }
+       $dataRegulerStudent = DB::table('kurikulum_students')->get();
+       $dataAktivasiStudent = DB::table('aktivasi_students')->get();
+    
 
        
 
+       function ambilNamaTerkait($dataProgramDiDaftarkan, $dataPilihanProgram, $dataStudent){
+
+        $rakDataStudentKurikulum = [];
+        
+        foreach( $dataProgramDiDaftarkan as $ReqStudent ){
+ 
+             $idKurikulumDidapat = $ReqStudent->kurikulum_id;
+             $namaKurikulumDidapat = $dataPilihanProgram->find($idKurikulumDidapat)->nama_kurikulum;
+ 
+             $idStudentDidapat = $ReqStudent->student_id;
+             $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
+ 
+             $updateAtStudentDidapat = $ReqStudent->updated_at;
+ 
+             $hasilArray = jadikanSatuArrayReguler($idStudentDidapat, $namaStudentDidapat, $namaKurikulumDidapat, $ReqStudent->id, $updateAtStudentDidapat);
+             array_push($rakDataStudentKurikulum, $hasilArray);
+             
+ 
+             
+        }
+
+        return $rakDataStudentKurikulum;
+
+       }
+
+       function ambilNamaAktivasiTerkait($dataProgramDiDaftarkan, $dataPilihanProgram, $dataStudent){
+
+        $rakDataStudentAktivasi = [];
+        
+        foreach( $dataProgramDiDaftarkan as $ReqStudent ){
+ 
+             $idAktivasiDidapat = $ReqStudent->aktivasi_id;
+             $namaAktivasiDidapat = $dataPilihanProgram->find($idAktivasiDidapat)->nama_aktivasi;
+ 
+             $idStudentDidapat = $ReqStudent->student_id;
+             $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
+ 
+             $updateAtStudentDidapat = $ReqStudent->updated_at;
+ 
+             $hasilArray = jadikanSatuArrayAktivasi($idStudentDidapat, $namaStudentDidapat, $namaAktivasiDidapat, $ReqStudent->id, $updateAtStudentDidapat);
+             array_push($rakDataStudentAktivasi, $hasilArray);
+             
+ 
+             
+        }
+
+        return $rakDataStudentAktivasi;
+
+       }
+
+       
+       $rakDataStudentKurikulum = ambilNamaTerkait($dataRegulerStudent, $dataKurikulum, $dataStudent);
+       $rakDataStudentAktivasi = ambilNamaAktivasiTerkait($dataAktivasiStudent, $dataAktivasi, $dataStudent);
+       $rakMergeData = array_merge($rakDataStudentKurikulum, $rakDataStudentAktivasi);
+       
+       $rakSemuaHasilData = collect($rakMergeData)->sortByDesc('updated_at');
+       
+
+        
+       
+
+
     
         
-        
+        // dd($rakSemuaHasilData);
 
         // ini kondisi ketika belum ada program sama sekali di dalam database
         // jadi disiasati menggunakan fake program yang nantinya bisa dipanggil lewat index. 
@@ -103,12 +168,8 @@ class PendaftaranController extends Controller
 
             'title' => 'Pendaftaran',
             'active' => 'Pendaftaran',
-            'dataSiswaReguler' => $rakDataStudentKurikulum
-            // 'kurikulums' => $kurikulum,
-            // 'count' => count($kurikulum),
-            // 'year' => $normalYear,
-            // 'date' => $date,
-            // 'aktivasi' => Aktivasi::all()
+            'dataSiswaReguler' => $rakSemuaHasilData
+    
         ]);
     }
 
@@ -153,61 +214,53 @@ class PendaftaranController extends Controller
 
     }
 
-    // public function store2(Student $student){
+    public function indexReguler(){
 
-    //     // $students = Student::all()->find($student->id)->kurikulum;
-    //     // dd($students);
-
-    //     $dataProgram = Program::where('kurikulum_id', '=', $student->kurikulum_id)->get();
-
-    //     // dd($dataProgram);
-
-    //     return view('Pendaftaran.index_2',[
-    //         'title' => 'registrasi kedua',
-    //         'active' => 'Pendaftaran',
-    //         'kurikulum' => Student::all()->find($student->id)->kurikulum,
-    //         'programs' => $dataProgram,
-    //         'student' => $student
-
-    //     ]);
-    // }
-
-    // public function update(Request $request, Student $student){
-
-    //     // dd($student);
-
-    //     $hasil = $request->collect()->skip(1)->sortDesc();
-    //     // kenapa skip(1), karna id 1 itu berisi token form yang ga dibutuhin
-
-    //     // dd($hasil);
         
-    //     $hasil = current( (Array)$hasil );
-    //     // ini untuk mengconvert obj menjadi arr dari hasil collection sebelumnya
-        
-    //     $keyPalingBesarUntukCount = array_key_first($hasil);
-    //     // ini untuk mengambil key array paling besar untuk dijadikan angka kondisi looping di dalam for
-        
-    //     $idProgram = [];
-    //     for( $i=1; $i<=$keyPalingBesarUntukCount; $i++ ){
 
-    //         if(!isset($hasil[$i])){
-    //             continue;
-    //         }else{
-    //             array_push($idProgram, $hasil[$i]);
-    //         }
-    //     }
-    //     // looping untuk mengambil value dari array
-        
-    //     $idProgram = implode("-",$idProgram);
-    //     // integer dari hasil looping di implode dijadikan string dengan pembeda -
-    //     // dd($idProgram);
-        
-    //     $student->update([
-    //         'program_id' => $idProgram
-    //     ]);
-    //     // disimpan ke data siswa
+        $date = date("Y-m-d");
 
-    //     return redirect('/dashboard')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $student['nomor_pendaftaran'] . ' ');
+        return view('Pendaftaran.create_reguler',[
 
-    // }
+            'active' => 'Pendaftaran',
+            'title' => 'Tambah Reguler | ',
+            'kurikulums' => Kurikulum::all(),
+            'date' => $date
+        ]);
+    }
+
+    public function storeReguler(Request $request){
+
+        $data = $request->collect();
+
+        // dd($data['ktp']);
+
+        $dataStudent = Student::where('ktp', '=', $data['ktp'])->get();
+
+        // dd($dataStudent[0]->id);
+
+        $dataPendaftar = [
+
+            'student_id' => $dataStudent[0]->id,
+            'kurikulum_id' => $data['kurikulum_id'],
+        ];
+
+
+
+        KurikulumStudent::create($dataPendaftar);
+
+        return redirect('/form-registrasi')->with('pendaftaranBerhasil', $data['nama_siswa']);
+    }
+
+    
+
+    public function destroyStudentReguler($id){
+
+        
+        // dd($id);
+
+        KurikulumStudent::find($id)->delete();
+
+        return redirect('/form-registrasi')->with('destroy', 'Informasi Terhapus');
+    }
 }

@@ -55,6 +55,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('aut
 
 // route pendaftaran
 Route::get('/form-registrasi', [PendaftaranController::class, 'index'])->middleware('auth');
+Route::get('/form-registrasi-delete/{kurikulum_students:id}', [PendaftaranController::class, 'destroyStudentReguler'])->middleware('auth');
+Route::get('/form-registrasi/reguler', [PendaftaranController::class, 'indexReguler'])->middleware('auth');
+Route::post('/form-registrasi/reguler-create', [PendaftaranController::class, 'storeReguler'])->middleware('auth');
 // Route::post('/form-registrasi-1', [PendaftaranController::class, 'store1'])->middleware('auth');
 
 // route kelas
