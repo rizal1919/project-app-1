@@ -15,74 +15,85 @@ class PendaftaranController extends Controller
 {
     public function index(){
 
-        $kurikulum = Kurikulum::all();
-        $nomorUrut = Student::all()->last();
-
         
 
-        $year = date("Y")[3] . date("Y")[2];
-        // mengambil 2 angka akhir pada tahun
+        $array = [
 
-        $normalYear = date('Y');
-        $date = date("Y-m-d");
-        
-        if($nomorUrut === null){
-            $hasilAkhirNoUrut = '00001' . $year;
-            // dd($hasilAkhirNoUrut);
-        }else{
-            
-            // $str = (string)$nomorUrut;
-            // $tes = $str[4];
-            $nomorUrut = $nomorUrut->nomor_pendaftaran;
+            [
+                'student_id' => 1,
+                'nama_siswa' => 'Rizal Fathurrahman',
+                'nama_kurikulum' => 'Bisnis terpadu'
+            ],
 
-            $array = [];
-            for ($i=0; $i < 5; $i++) { 
+            [
+                'student_id' => 1,
+                'nama_siswa' => 'Rizal Fathurrahman',
+                'nama_kurikulum' => 'Bisnis terpadu'
+            ]
+
+        ];
+
+        function jadikanSatuArrayReguler($idstudent, $nama_siswa, $nama_kurikulum){
+
+            $array = [ 
+
+                'student_id' => $idstudent,
+                'nama_siswa' => $nama_siswa,
+                'nama_kurikulum' => $nama_kurikulum
                 
-                if( $nomorUrut[$i] == 0 ){
-                    continue;
-                }
-                $array[] = $nomorUrut[$i];
-            }
+            ];
 
-            $str = join("",$array);
-            $int = (int)$str;
-            $result = $int+1;
-            $str = (string)$result;
-            $length = count($array);
-            
-            if( $length == 1 ){
-                $hasilAkhirNoUrut = '0000' . $str . $year;
-            }elseif( $length == 2 ){
-                $hasilAkhirNoUrut = '000' . $str . $year;
-            }elseif( $length == 3 ){
-                $hasilAkhirNoUrut = '00' . $str . $year;
-            }elseif( $length == 4 ){
-                $hasilAkhirNoUrut = '0' . $str . $year;
-            }elseif( $length == 5 ){
-                $hasilAkhirNoUrut = $str . $year;
-            }
-
-            
-            $hasilAkhirNoUrut;
-        
+            return $array;
         }
+        
+       
+        $dataKurikulum = Kurikulum::all();
+        $dataStudent = Student::all();
 
+        
+
+       $dataRegulerStudent = DB::table('kurikulum_student')->get();
+    //    dd($dataRegulerStudent[0]);
+
+       $rakDataStudentKurikulum = [];
+       $i = 0;
+       foreach( $dataRegulerStudent as $RegStudent ){
+
+            $idKurikulumDidapat = $dataRegulerStudent[$i]->kurikulum_id;
+            $namaKurikulumDidapat = $dataKurikulum->find($idKurikulumDidapat)->nama_kurikulum;
+
+            $idStudentDidapat = $dataRegulerStudent[$i]->student_id;
+            $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
+
+            
+            $hasilArray = jadikanSatuArrayReguler($idStudentDidapat, $namaStudentDidapat, $namaKurikulumDidapat);
+            array_push($rakDataStudentKurikulum, $hasilArray);
+            
+
+            $i++;
+       }
+
+       
+
+    
+        
+        
 
         // ini kondisi ketika belum ada program sama sekali di dalam database
         // jadi disiasati menggunakan fake program yang nantinya bisa dipanggil lewat index. 
         // namun ketika nantinya ada program baru ditambahkan. maka isi program di bawah ini akan di override
-        if( count($kurikulum) == 0 ){
+        // if( count($kurikulum) == 0 ){
            
-            $kurikulum = ([
+        //     $kurikulum = ([
 
-                [
-                    'id' => 1,
-                    'nama_kurikulum' => 'Tidak Ada Kurikulum'
-                ]
-            ]);
+        //         [
+        //             'id' => 1,
+        //             'nama_kurikulum' => 'Tidak Ada Kurikulum'
+        //         ]
+        //     ]);
 
             
-        }
+        // }
         
 
 
@@ -92,22 +103,21 @@ class PendaftaranController extends Controller
 
             'title' => 'Pendaftaran',
             'active' => 'Pendaftaran',
-            'nomor' => $hasilAkhirNoUrut,
-            'kurikulums' => $kurikulum,
-            'count' => count($kurikulum),
-            'year' => $normalYear,
-            'date' => $date,
-            'aktivasi' => Aktivasi::all()
+            'dataSiswaReguler' => $rakDataStudentKurikulum
+            // 'kurikulums' => $kurikulum,
+            // 'count' => count($kurikulum),
+            // 'year' => $normalYear,
+            // 'date' => $date,
+            // 'aktivasi' => Aktivasi::all()
         ]);
     }
 
     public function store1(Request $request){
 
-        
+        dd($request);
         $validatedData = $request->validate([
             
             'nama_siswa' => 'required',
-            'kurikulum_id' => 'required',
             'ktp' => 'required|min:16|max:16|unique:students',
             'email' => 'required|email:dns|unique:students',
             'tanggal_lahir' => 'required',
@@ -115,7 +125,6 @@ class PendaftaranController extends Controller
             
         ],[
             'nama_siswa.required' => 'Nama harus diisi',
-            'kurikulum_id.required' => 'Paket pilihan tidak boleh kosong',
             'ktp.required' => 'KTP tidak boleh kosong',
             'ktp.unique' => 'KTP telah digunakan',
             'ktp.min' => 'KTP terdiri dari minimal 16 angka',
@@ -126,6 +135,8 @@ class PendaftaranController extends Controller
         ]);
         
         $validatedData = $request->collect();
+
+        
         $validatedData = current( (Array) $validatedData );
         // kenapa dipanggil dengan collection? karna data yang tidak diinputkan user itu selalu gagal divalidasi.
         // disini makanya diinputkan collection, kemudian dari obj dijadikan array. kemudian di create

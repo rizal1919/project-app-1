@@ -213,7 +213,6 @@ class StudentController extends Controller
             
         ],[
             'nama_siswa.required' => 'Nama harus diisi',
-            'kurikulum_id.required' => 'Paket pilihan tidak boleh kosong',
             'ktp.required' => 'KTP tidak boleh kosong',
             'ktp.unique' => 'KTP telah digunakan',
             'ktp.min' => 'KTP terdiri dari minimal 16 angka',

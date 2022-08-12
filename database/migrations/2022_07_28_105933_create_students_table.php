@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('nama_siswa');
-            $table->foreignId('kurikulum_id')->nullable();
             // kode unik untuk menghubungkan ke database kurikulum
 
             $table->string('status')->nullable();

@@ -35,10 +35,6 @@
             <div class="card mx-1" style="width: 25%;">
                 <div class="card-body">
                     <div class="mb-1 p-2 bg-info text-dark fw-bold rounded" style="border: 0px solid gray;">
-                        <h4 class="card-title">KELAS</h4>
-                        <p class="card-text text-light">{{ $student->kurikulum->nama_kurikulum }}</p>
-                    </div>
-                    <div class="mb-1 p-2 bg-info text-dark fw-bold rounded" style="border: 0px solid gray;">
                         <h4 class="card-title">ID SISWA</h4>
                         <p class="card-text text-light">{{ $student->nomor_pendaftaran }}</p>
                     </div>

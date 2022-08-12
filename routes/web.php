@@ -54,8 +54,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('aut
 
 
 // route pendaftaran
-Route::get('/form-registrasi-1', [PendaftaranController::class, 'index'])->middleware('auth');
-Route::post('/form-registrasi-1', [PendaftaranController::class, 'store1'])->middleware('auth');
+Route::get('/form-registrasi', [PendaftaranController::class, 'index'])->middleware('auth');
+// Route::post('/form-registrasi-1', [PendaftaranController::class, 'store1'])->middleware('auth');
 
 // route kelas
 Route::get('/kelas-admin', [KelasAdminController::class, 'index'])->middleware('auth');

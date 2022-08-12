@@ -54,7 +54,7 @@
             </h6>
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a href="/form-registrasi-1" class="nav-link {{ ($active == 'Pendaftaran') ? 'active' : '' }}">
+                <a href="/form-registrasi" class="nav-link {{ ($active == 'Pendaftaran') ? 'active' : '' }}">
                 <span data-feather="trello" class="align-text-bottom"></span>
                   Pendaftaran
                 </a>
