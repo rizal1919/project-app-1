@@ -156,6 +156,8 @@ class PendaftaranController extends Controller
         // ganti namespace nya jadi App\Models, kemudian panggil library nya use App\Models\Collection;
         // kemudian cara pakei nya seperti eloquent
 
+        
+        
 
         return view('Pendaftaran.index', [
 
@@ -247,13 +249,32 @@ class PendaftaranController extends Controller
 
     
 
-    public function destroyStudentReguler($id){
+    public function destroyStudentReguler($nama, $id){
 
         
-        // dd($id);
 
-        KurikulumStudent::find($id)->delete();
+        if(stripos($nama, 'Reguler') == false){
+
+            AktivasiStudent::find($id)->delete();
+            
+        }else{
+
+            
+            KurikulumStudent::find($id)->delete();
+
+        }
+
 
         return redirect('/form-registrasi')->with('destroy', 'Informasi Terhapus');
     }
+
+    // public function destroyStudentAktivasi($id){
+
+        
+    //     // dd($id);
+
+    //     AktivasiStudent::find($id)->delete();
+
+    //     return redirect('/form-registrasi')->with('destroy', 'Informasi Terhapus');
+    // }
 }

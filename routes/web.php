@@ -53,12 +53,17 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('aut
 
 
 
-// route pendaftaran
+// route pendaftaran reguler
 Route::get('/form-registrasi', [PendaftaranController::class, 'index'])->middleware('auth');
-Route::get('/form-registrasi-delete/{kurikulum_students:id}', [PendaftaranController::class, 'destroyStudentReguler'])->middleware('auth');
 Route::get('/form-registrasi/reguler', [PendaftaranController::class, 'indexReguler'])->middleware('auth');
 Route::post('/form-registrasi/reguler-create', [PendaftaranController::class, 'storeReguler'])->middleware('auth');
-// Route::post('/form-registrasi-1', [PendaftaranController::class, 'store1'])->middleware('auth');
+Route::get('/form-registrasi-delete/{nama_aktivasi}/{id}', [PendaftaranController::class, 'destroyStudentReguler'])->middleware('auth');
+
+// route pendaftaran aktivasi
+Route::get('/form-registrasi/aktivasi', [PendaftaranController::class, 'indexAktivasi'])->middleware('auth');
+Route::post('/form-registrasi/aktivasi-create', [PendaftaranController::class, 'storeAktivasi'])->middleware('auth');
+// Route::get('/form-registrasi-delete-aktivasi/{aktivasi_students:id}', [PendaftaranController::class, 'destroyStudentAktivasi'])->middleware('auth');
+
 
 // route kelas
 Route::get('/kelas-admin', [KelasAdminController::class, 'index'])->middleware('auth');

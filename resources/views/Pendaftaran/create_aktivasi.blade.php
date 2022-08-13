@@ -4,102 +4,101 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Halaman {{ $active }}</h1>
 </div>
-<div class="container-lg mt-5">
-    <div class="row d-flex justify-content-center">
-        <div class="col-lg-12">
-        <div class="card p-3">
-            <div class="card-header mb-1 rounded text-center">
-                <h4 class="card-title">DATA PENDAFTAR SC ACADEMY</h4>
+    <div class="container d-flex justify-content-center my-4">
+        <div class="card col-12 justify-content-center">
+            @if( session('pendaftaranGagal') )
+            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if( session('pendaftaranBerhasil') )
+            <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('pendaftaranBerhasil') }}</strong> adalah kode untuk aktivasi program.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            <div class="card-header">
+                <p class="card-title">
+                    Form Registrasi Short Course
+                </p>
             </div>
             <div class="card-body">
-                    @if( session('destroy') )
-                    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        <strong>{{ session('destroy') }}</strong> Data siswa pendaftar telah berhasil dihapus.
-                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
-                    @if( session('pendaftaranBerhasil') )
-                    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        Siswa atas nama <strong>{{ session('pendaftaranBerhasil') }}</strong> berhasil terdaftar dalam program.
-                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
-                <div class="row d-flex justify-content-end">
-                    <div class="col-md-12 d-flex mt-4 justify-content-start">
-                        <a href="/form-registrasi/reguler" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Daftar Reguler</a>
-                        <a href="/form-registrasi/aktivasi" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Daftar Short Course</a>
-                        
-                        <form action="/form-registrasi" method="get" class="mx-2" style="width: 60%;" >
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" name="nama_siswa" value="" class="form-control text-end" placeholder="Nama">
-                                <input type="text" name="nama_program" value="" class="form-control text-end" placeholder="Kelas">
-                                <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                </div>
+            </div>
+            <form action="/form-registrasi/reguler-create" method="post">
+                @csrf
+                <div class="row p-4 align-items-start justify-content-center">
+                    <div class="col-auto mx-5">
+                        <label for="ktp" class="col-form-label">KTP</label>
+                        <input type="text" autocomplete="off" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="nomor ktp">
+                        @error('ktp')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
-                        </form>
+                        @enderror
+                        <div id="noktp"></div>
+
+                        <label for="nama_siswa" class="col-form-label">NAMA</label>
+                        <input type="text" autocomplete="off" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}"  placeholder="nama">
+                        @error('nama_siswa')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                        <div id="nama"></div>
+
+
+                        <label for="email" class="col-form-label">EMAIL</label>
+                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"  placeholder="example@gmail.com">
+                        @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                        <div id="alamatemail"></div>
+
+                        <label for="tanggal_lahir" class="col-form-label">TANGGAL LAHIR</label>
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}">
+                        @error('tanggal_lahir')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+
+                    </div>
+                    <div class="col-auto">
                         
-                        <!-- <a href="/dashboard" style="width: 10%; height: 100%;" class="btn btn-primary text-decoration-none text-light self-align-center">Kembali </a> -->
-                        
+                        <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
+                        <div class="col-auto"> 
+                            <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+
+                                <option value="0">Tidak memilih paket</option>
+                                @foreach( $aktivasis as $aktivasi )
+                                <option value="{{ $aktivasi['id'] }}">{{ $aktivasi['nama_aktivasi'] }}</option>
+                                @endforeach
+                            
+                            </select>
+                        </div>
+
                     </div>
                 </div>
-                
-            </div>
-            <div class="card-body">
-                <div class="card p-3">
-                    <table class="table table-light table-hover table-striped" style="border-radius: 5px;">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Siswa</th>
-                                <th>Kelas | ID</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                                
-                        @foreach( $dataSiswaReguler as $dasis )
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $dasis['nama_siswa'] }}</td>
-                                    <td>{{ $dasis['nama_program'] }} | {{ $dasis['id'] }}</td>
-                                    <td>
-                                        <?php $nama = $dasis['nama_program']; ?>
-                                        <?php $id = $dasis['id']; ?>
-                                        <!-- <a href="/data-siswa/show/student/" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a> -->
-                                        <!-- <a href="/data-siswa/update/student/" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a> -->
-                                        
+                <div class="row d-flex justify-content-end mx-3 mt-3">
+                    <div class="col-7 p-2 d-flex justify-content-center align-items-end">
+                        <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
+                        <a href="/form-registrasi" class="btn btn-primary">Kembali</a>
+                    </div>
+                    
+                </div>
+            </form>
 
-                                        
-        <button id="reguler" class="btn btn-danger text-dark border-0" onclick="confirmationReguler('{{ $nama }}', '{{ $id }}')"><i class="fas fa-trash"></i></button>
-                                            
-                                            
-                                       
-                                    </td>
-                                </tr>
-                                  
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-2 d-flex justify-content-center">
-                    {{ $dataSiswaReguler->links() }}
-                </div>
-            </div>
-        </div>
         </div>
     </div>
-</div>
-
-<script>
-    function confirmationReguler(delName, id){
-        var del=confirm(`Anda yakin ingin menghapus siswa dengan program ${delName} ?`);
-        if (del==true){
-            window.location.href=`/form-registrasi-delete/${delName}/${id}`;
-        }
-        return del;
-    }
-</script>
 
 <script>
     $(document).ready(function(){

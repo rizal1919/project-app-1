@@ -100,14 +100,17 @@
                     </div> -->
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
-                    <div class="col-10 p-2 d-flex justify-content-center align-items-end">
+                    <div class="col-7 p-2 d-flex justify-content-center align-items-end">
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
                         <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
+                        <a href="/form-registrasi" class="btn btn-primary">Kembali</a>
                     </div>
+                    
                 </div>
             </form>
+
         </div>
     </div>
 
