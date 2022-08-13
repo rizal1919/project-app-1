@@ -10,7 +10,9 @@ use App\Models\KurikulumStudent;
 use App\Models\Program;
 use App\Models\Student;
 use App\Models\UserAdmin;
+use App\Models\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Mockery\Undefined;
 
@@ -135,34 +137,25 @@ class PendaftaranController extends Controller
        
        $rakSemuaHasilData = collect($rakMergeData)->sortByDesc('updated_at');
        
+       $items = $request->nama_siswa;
+       $kelas = $request->nama_program;
+       $rakSemuaHasilData = collect($rakSemuaHasilData)->filter(function ($item) use ($items) {
+        // replace stristr with your choice of matching function
+            return false !== stristr($item['nama_siswa'], $items);
+        });
+       $rakSemuaHasilData = collect($rakSemuaHasilData)->filter(function ($item) use ($kelas) {
+        // replace stristr with your choice of matching function
+            return false !== stristr($item['nama_program'], $kelas);
+        });
 
         
-       
-
-
-    
         
-        // dd($rakSemuaHasilData);
+        $rakSemuaHasilData = (new Collection($rakSemuaHasilData))->paginate(5);
+        // dapet code di atas dari sini -> https://gist.github.com/simonhamp/549e8821946e2c40a617c85d2cf5af5e
+        // kemudian bikin file Collection.php di models
+        // ganti namespace nya jadi App\Models, kemudian panggil library nya use App\Models\Collection;
+        // kemudian cara pakei nya seperti eloquent
 
-        // ini kondisi ketika belum ada program sama sekali di dalam database
-        // jadi disiasati menggunakan fake program yang nantinya bisa dipanggil lewat index. 
-        // namun ketika nantinya ada program baru ditambahkan. maka isi program di bawah ini akan di override
-        // if( count($kurikulum) == 0 ){
-           
-        //     $kurikulum = ([
-
-        //         [
-        //             'id' => 1,
-        //             'nama_kurikulum' => 'Tidak Ada Kurikulum'
-        //         ]
-        //     ]);
-
-            
-        // }
-        
-
-
-        
 
         return view('Pendaftaran.index', [
 

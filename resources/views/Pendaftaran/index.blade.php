@@ -74,8 +74,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-2">
-                    
+                <div class="mt-2 d-flex justify-content-center">
+                    {{ $dataSiswaReguler->links() }}
                 </div>
             </div>
         </div>
