@@ -42,9 +42,9 @@
                     <button type="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah materi baru</button>
                     </form>
                 </div>
-                <button class="btn btn-primary mt-3 rounded-bottom" style="border-radius: 0px;">
-                    <a href="/materi/{{ $dataProgram->id }}" class="text-decoration-none" style="color: white;">Kembali</a>
-                </button>
+                
+                <a href="/materi/{{ $dataProgram->id }}" style="border-radius: 0px;" class="text-decoration-none btn btn-primary mt-3 rounded-bottom" style="color: white;">Kembali</a>
+                
             </div>
         </div>
     </div>

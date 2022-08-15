@@ -28,9 +28,9 @@
                     <button type="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Submit</button>
                 </form>
                 </div>
-                <button class="btn btn-primary mt-3 rounded-bottom" style="border-radius: 0px;">
-                    <a href="/program" class="text-decoration-none" style="color: white;">Kembali</a>
-                </button>
+                
+                <a href="/program/{{ $kurikulum->id }}" style="border-radius: 0px;" class="text-decoration-none btn btn-primary mt-3 rounded-bottom" style="color: white;">Kembali</a>
+                
             </div>
         </div>
     </div>

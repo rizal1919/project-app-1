@@ -79,7 +79,7 @@
 
                                         
                                         <button id="reguler" class="btn btn-warning text-dark border-0" onclick="confirmationReguler('{{ $nama }}', '{{ $id }}', '{{ $nama_siswa }}')"><i class="fas fa-trash"></i></button>
-                                        <button id="reguler" class="btn btn-success border-0 text-light" onclick="confirmationRestore('{{ $nama }}', '{{ $id }}', '{{ $nama_siswa }}')"><i class="fa-solid fa-arrow-rotate-right mx-1"></i>restore</button>
+                                        <!-- <button id="reguler" class="btn btn-success border-0 text-light" onclick="confirmationRestore('{{ $nama }}', '{{ $id }}', '{{ $nama_siswa }}')"><i class="fa-solid fa-arrow-rotate-right mx-1"></i>restore</button> -->
                                           
                                             
                                        
