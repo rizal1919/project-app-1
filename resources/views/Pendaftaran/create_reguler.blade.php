@@ -84,20 +84,7 @@
                         </div>
 
                     </div>
-                    <!-- <div class="col-auto">
-                        
-                        <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
-                        <div class="col-auto"> 
-                            <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-
-                                <option value="0">Tidak memilih paket</option>
-                                
-                                <option value=""></option>
-                               
-                            </select>
-                        </div>
-
-                    </div> -->
+                    
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
                     <div class="col-7 p-2 d-flex justify-content-center align-items-end">

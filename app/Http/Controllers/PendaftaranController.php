@@ -37,32 +37,74 @@ class PendaftaranController extends Controller
 
         // ];
 
-        function jadikanSatuArrayReguler($idstudent, $nama_siswa, $nama_kurikulum, $idregularprogram, $updatedAt){
+        function jadikanSatuArrayReguler($idstudent, $nama_siswa, $nama_kurikulum, $idregularprogram, $updatedAt, $deletedAt){
 
-            $array = [ 
+            if( $deletedAt === null ){
 
-                'id' => $idregularprogram,
-                'student_id' => $idstudent,
-                'nama_siswa' => $nama_siswa,
-                'nama_program' => 'Reguler - ' . $nama_kurikulum,
-                'updated_at' => $updatedAt
-                
-            ];
+                $deletedAt = 'active';
+
+                $array = [ 
+    
+                    'id' => $idregularprogram,
+                    'student_id' => $idstudent,
+                    'deleted_at' => $deletedAt,
+                    'nama_siswa' => $nama_siswa,
+                    'nama_program' => 'Reguler - ' . $nama_kurikulum,
+                    'updated_at' => $updatedAt
+                    
+                ];
+            }else{
+
+                $deletedAt = 'unactive';
+
+                $array = [ 
+    
+                    'id' => $idregularprogram,
+                    'student_id' => $idstudent,
+                    'deleted_at' => $deletedAt,
+                    'nama_siswa' => $nama_siswa,
+                    'nama_program' => 'Reguler - ' . $nama_kurikulum,
+                    'updated_at' => $updatedAt
+                ];
+                    
+            }
+
 
             return $array;
         }
 
-        function jadikanSatuArrayAktivasi($idstudent, $nama_siswa, $nama_aktivasi, $idregularprogram, $updatedAt){
+        function jadikanSatuArrayAktivasi($idstudent, $nama_siswa, $nama_aktivasi, $idregularprogram, $updatedAt, $deletedAt){
 
-            $array = [ 
 
-                'id' => $idregularprogram,
-                'student_id' => $idstudent,
-                'nama_siswa' => $nama_siswa,
-                'nama_program' => 'Aktivasi - ' . $nama_aktivasi,
-                'updated_at' => $updatedAt
-                
-            ];
+            if( $deletedAt === null ){
+
+                $deletedAt = 'active';
+
+                $array = [ 
+    
+                    'id' => $idregularprogram,
+                    'student_id' => $idstudent,
+                    'deleted_at' => $deletedAt,
+                    'nama_siswa' => $nama_siswa,
+                    'nama_program' => 'Aktivasi - ' . $nama_aktivasi,
+                    'updated_at' => $updatedAt
+                    
+                ];
+            }else{
+
+                $deletedAt = 'unactive';
+
+                $array = [ 
+    
+                    'id' => $idregularprogram,
+                    'student_id' => $idstudent,
+                    'deleted_at' => $deletedAt,
+                    'nama_siswa' => $nama_siswa,
+                    'nama_program' => 'Aktivasi - ' . $nama_aktivasi,
+                    'updated_at' => $updatedAt
+                    
+                ];
+            }
 
             return $array;
         }
@@ -76,6 +118,8 @@ class PendaftaranController extends Controller
 
        $dataRegulerStudent = DB::table('kurikulum_students')->get();
        $dataAktivasiStudent = DB::table('aktivasi_students')->get();
+
+       
     
 
        
@@ -93,8 +137,9 @@ class PendaftaranController extends Controller
              $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
  
              $updateAtStudentDidapat = $ReqStudent->updated_at;
+             $deletedAtStudentDidapat = $ReqStudent->deleted_at;
  
-             $hasilArray = jadikanSatuArrayReguler($idStudentDidapat, $namaStudentDidapat, $namaKurikulumDidapat, $ReqStudent->id, $updateAtStudentDidapat);
+             $hasilArray = jadikanSatuArrayReguler($idStudentDidapat, $namaStudentDidapat, $namaKurikulumDidapat, $ReqStudent->id, $updateAtStudentDidapat, $deletedAtStudentDidapat);
              array_push($rakDataStudentKurikulum, $hasilArray);
              
  
@@ -118,8 +163,9 @@ class PendaftaranController extends Controller
              $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
  
              $updateAtStudentDidapat = $ReqStudent->updated_at;
+             $deletedAtStudentDidapat = $ReqStudent->deleted_at;
  
-             $hasilArray = jadikanSatuArrayAktivasi($idStudentDidapat, $namaStudentDidapat, $namaAktivasiDidapat, $ReqStudent->id, $updateAtStudentDidapat);
+             $hasilArray = jadikanSatuArrayAktivasi($idStudentDidapat, $namaStudentDidapat, $namaAktivasiDidapat, $ReqStudent->id, $updateAtStudentDidapat, $deletedAtStudentDidapat);
              array_push($rakDataStudentAktivasi, $hasilArray);
              
  
@@ -168,47 +214,6 @@ class PendaftaranController extends Controller
         ]);
     }
 
-    public function store1(Request $request){
-
-        dd($request);
-        $validatedData = $request->validate([
-            
-            'nama_siswa' => 'required',
-            'ktp' => 'required|min:16|max:16|unique:students',
-            'email' => 'required|email:dns|unique:students',
-            'tanggal_lahir' => 'required',
-            
-            
-        ],[
-            'nama_siswa.required' => 'Nama harus diisi',
-            'ktp.required' => 'KTP tidak boleh kosong',
-            'ktp.unique' => 'KTP telah digunakan',
-            'ktp.min' => 'KTP terdiri dari minimal 16 angka',
-            'ktp.max' => 'KTP terdiri dari maksimal 16 angka',
-            'email.required' => 'Email tidak boleh kosong',
-            'email.unique' => 'Email telah terdaftar',
-            'tanggal_lahir.required' => 'Tanggal lahir tidak boleh kosong',
-        ]);
-        
-        $validatedData = $request->collect();
-
-        
-        $validatedData = current( (Array) $validatedData );
-        // kenapa dipanggil dengan collection? karna data yang tidak diinputkan user itu selalu gagal divalidasi.
-        // disini makanya diinputkan collection, kemudian dari obj dijadikan array. kemudian di create
-        
-        if($validatedData['kurikulum_id'] == 0){
-            
-            return redirect('/form-registrasi-1')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
-        }
-        
-        // dd($validatedData);
-        Student::create($validatedData);
-
-        return redirect('/form-registrasi-1')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $validatedData['nomor_pendaftaran'] . ' ');
-
-    }
-
     public function indexReguler(){
 
         
@@ -220,6 +225,21 @@ class PendaftaranController extends Controller
             'active' => 'Pendaftaran',
             'title' => 'Tambah Reguler | ',
             'kurikulums' => Kurikulum::all(),
+            'date' => $date
+        ]);
+    }
+
+    public function indexAktivasi(){
+
+        
+
+        $date = date("Y-m-d");
+
+        return view('Pendaftaran.create_aktivasi',[
+
+            'active' => 'Pendaftaran',
+            'title' => 'Tambah Reguler | ',
+            'aktivasis' => Aktivasi::all(),
             'date' => $date
         ]);
     }
@@ -247,17 +267,45 @@ class PendaftaranController extends Controller
         return redirect('/form-registrasi')->with('pendaftaranBerhasil', $data['nama_siswa']);
     }
 
+    public function storeAktivasi(Request $request){
+
+        $data = $request->collect();
+
+        // dd($data['ktp']);
+
+        // dd($data);
+
+        $dataStudent = Student::where('ktp', '=', $data['ktp'])->get();
+
+        // dd($dataStudent[0]->id);
+
+        $dataPendaftar = [
+
+            'student_id' => $dataStudent[0]->id,
+            'aktivasi_id' => $data['aktivasi_id'],
+        ];
+
+
+
+        AktivasiStudent::create($dataPendaftar);
+
+        return redirect('/form-registrasi')->with('pendaftaranBerhasil', $data['nama_siswa']);
+    }
+
     
 
-    public function destroyStudentReguler($nama, $id){
+    public function softDeleteStudent($nama, $id, $namaSiswa){
+
+        // dd($namaSiswa);
 
         
 
-        if(stripos($nama, 'Reguler') == false){
+        if(stripos($nama, 'Reguler') === false){
 
+            
             AktivasiStudent::find($id)->delete();
             
-        }else{
+        }elseif( stripos($nama, 'Reguler') === 0 ){
 
             
             KurikulumStudent::find($id)->delete();
@@ -265,16 +313,23 @@ class PendaftaranController extends Controller
         }
 
 
-        return redirect('/form-registrasi')->with('destroy', 'Informasi Terhapus');
+        return redirect('/form-registrasi')->with('destroy', $namaSiswa);
     }
 
-    // public function destroyStudentAktivasi($id){
+    public function restoreStudent($nama, $id, $namaSiswa){
 
-        
-    //     // dd($id);
+        // dd($namaSiswa);
 
-    //     AktivasiStudent::find($id)->delete();
+        if(stripos($nama, 'Reguler') === false){
+            
+            AktivasiStudent::withTrashed()->find($id)->restore();
+            
+        }elseif( stripos($nama, 'Reguler') === 0 ){
+            
+            KurikulumStudent::withTrashed()->find($id)->restore();
 
-    //     return redirect('/form-registrasi')->with('destroy', 'Informasi Terhapus');
-    // }
+        }
+
+        return redirect('/form-registrasi')->with('restore', $namaSiswa);
+    }
 }

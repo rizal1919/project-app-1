@@ -28,7 +28,7 @@
                 <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
                 </div>
             </div>
-            <form action="/form-registrasi/reguler-create" method="post">
+            <form action="/form-registrasi/aktivasi-create" method="post">
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
@@ -71,9 +71,9 @@
                     </div>
                     <div class="col-auto">
                         
-                        <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
+                        <label for="aktivasi_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
                         <div class="col-auto"> 
-                            <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                            <select name="aktivasi_id" id="aktivasi_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
 
                                 <option value="0">Tidak memilih paket</option>
                                 @foreach( $aktivasis as $aktivasi )

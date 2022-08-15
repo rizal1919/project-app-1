@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('aktivasi_id')->nullable();
             $table->integer('student_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -13,8 +13,14 @@
             </div>
             <div class="card-body">
                     @if( session('destroy') )
+                    <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
+                        Informasi siswa atas nama <strong>{{ session('destroy') }}</strong> telah dinonaktifkan.
+                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+                    @if( session('restore') )
                     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        <strong>{{ session('destroy') }}</strong> Data siswa pendaftar telah berhasil dihapus.
+                        Informasi siswa atas nama <strong>{{ session('restore') }}</strong> berhasil diaktifkan.
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
@@ -52,27 +58,29 @@
                                 <th>No</th>
                                 <th>Nama Siswa</th>
                                 <th>Kelas | ID</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             
-                                
+                        
                         @foreach( $dataSiswaReguler as $dasis )
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $dasis['nama_siswa'] }}</td>
                                     <td>{{ $dasis['nama_program'] }} | {{ $dasis['id'] }}</td>
+                                    <td><p class="badge bg-primary">{{ $dasis['deleted_at'] }}</p></td>
                                     <td>
                                         <?php $nama = $dasis['nama_program']; ?>
                                         <?php $id = $dasis['id']; ?>
-                                        <!-- <a href="/data-siswa/show/student/" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a> -->
-                                        <!-- <a href="/data-siswa/update/student/" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a> -->
-                                        
+                                        <?php $nama_siswa = $dasis['nama_siswa']; ?>
+                                       
 
                                         
-        <button id="reguler" class="btn btn-danger text-dark border-0" onclick="confirmationReguler('{{ $nama }}', '{{ $id }}')"><i class="fas fa-trash"></i></button>
-                                            
+                                        <button id="reguler" class="btn btn-warning text-dark border-0" onclick="confirmationReguler('{{ $nama }}', '{{ $id }}', '{{ $nama_siswa }}')"><i class="fas fa-trash"></i></button>
+                                        <button id="reguler" class="btn btn-success border-0 text-light" onclick="confirmationRestore('{{ $nama }}', '{{ $id }}', '{{ $nama_siswa }}')"><i class="fa-solid fa-arrow-rotate-right mx-1"></i>restore</button>
+                                          
                                             
                                        
                                     </td>
@@ -92,13 +100,23 @@
 </div>
 
 <script>
-    function confirmationReguler(delName, id){
-        var del=confirm(`Anda yakin ingin menghapus siswa dengan program ${delName} ?`);
+    function confirmationReguler(delName, id, namaSiswa){
+        var del=confirm(`Anda yakin ingin menonaktifkan siswa dengan program ${delName} ?`);
         if (del==true){
-            window.location.href=`/form-registrasi-delete/${delName}/${id}`;
+            window.location.href=`/form-registrasi-softdelete/${delName}/${id}/${namaSiswa}`;
         }
         return del;
     }
+
+    function confirmationRestore(delName, id, namaSiswa){
+        var del=confirm(`Anda yakin ingin mengaktifkan siswa dengan program ${delName} ?`);
+        if (del==true){
+            window.location.href=`/form-registrasi-restore/${delName}/${id}/${namaSiswa}`;
+        }
+        return del;
+    }
+
+    
 </script>
 
 <script>
