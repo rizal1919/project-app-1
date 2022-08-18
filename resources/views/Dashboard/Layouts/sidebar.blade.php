@@ -36,7 +36,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {{ ($active == 'Sekolah') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ ($active == 'Sekolah') ? 'active' : '' }}" href="/sekolah">
                   <span data-feather="archive" class="align-text-bottom"></span>
                   Master Sekolah
                 </a>

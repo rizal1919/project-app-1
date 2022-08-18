@@ -23,11 +23,7 @@
                 Form Registrasi
             </p>
         </div>
-        <div class="card-body">
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-            </div>
-        </div>
+        
         <form action="/form-registrasi/reguler-create" method="post">
             @csrf
             <div class="row p-4 align-items-start justify-content-center">

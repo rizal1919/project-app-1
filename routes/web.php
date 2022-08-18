@@ -11,6 +11,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\KelasAdminController;
 use App\Http\Controllers\KurikulumController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SekolahController;
 use App\Models\Kurikulum;
 use App\Models\Student;
 use GuzzleHttp\Middleware;
@@ -149,6 +150,14 @@ Route::post('/update-materi/{materi:id}', [MateriController::class, 'updateMater
 Route::get('/delete-materi/{materi:id}', [MateriController::class, 'destroyMateri'])->Middleware('auth');
 
 
+// route sekolah
+Route::get('/sekolah', [SekolahController::class, 'index'])->middleware('auth');
+Route::get('/sekolah/create', [SekolahController::class, 'create'])->middleware('auth');
+Route::post('/sekolah/store', [SekolahController::class, 'store'])->middleware('auth');
+Route::get('/sekolah-show/{sekolah:id}', [SekolahController::class, 'show'])->middleware('auth');
+Route::get('/sekolah-update/{sekolah:id}', [SekolahController::class, 'edit'])->middleware('auth');
+Route::post('/sekolah-update/{sekolah:id}', [SekolahController::class, 'update'])->middleware('auth');
+Route::get('/sekolah-delete/{sekolah:id}', [SekolahController::class, 'delete'])->middleware('auth');
 
 
 
