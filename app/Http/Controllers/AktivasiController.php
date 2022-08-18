@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktivasi;
+use App\Models\Program;
+
 use Illuminate\Http\Request;
 
 class AktivasiController extends Controller
@@ -10,13 +12,15 @@ class AktivasiController extends Controller
     public function index(Request $request){
 
         $data = Aktivasi::Filter(Request(['search']))->orderByDesc('id')->paginate(5)->withQueryString();
-
+       
+        // dd($data->find(6)->program->nama_program);
         
 
         return view('Aktivasi.index', [
             'active' => 'Aktivasi',
             'title' => 'Menu Aktivasi | ',
-            'aktivasi' => $data
+            'aktivasi' => $data,
+           
         ]);
     }
 
@@ -32,25 +36,33 @@ class AktivasiController extends Controller
 
     public function create(){
 
+        $data = Program::all();
+        
+
         return view('Aktivasi.create', [
             'active' => 'Aktivasi',
-            'title' => 'Menu Aktivasi | '
+            'title' => 'Menu Aktivasi | ',
+            'programs' => $data
         ]);
     }
 
     public function store(Request $request){
 
-        // dd($request->collect());
+        // dd($request['program_id']);
+
+        if($request['program_id'] == 0 || $request['status'] == 0){
+            // dd('yepii');
+            return redirect('/create-aktivasi')->with('pendaftaranGagal', 'Nama Program / Status Aktivasi');
+        }
 
         $validatedData = $request->validate([
 
             'nama_aktivasi' => 'required',
             'harga' => 'required',
-            'program' => 'required',
+            'program_id' => 'required',
             'status' => 'required',
             'periode' => 'required'
         ]);
-
         
         Aktivasi::create($validatedData);
 

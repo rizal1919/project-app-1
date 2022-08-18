@@ -11,6 +11,10 @@ class Aktivasi extends Model
 
     protected $guarded = ['id'];
 
+    public function program(){
+        return $this->belongsTo(Program::class);
+    }
+
     public function scopeFilter($query, array $filters){
 
         $query->when($filters['search'] ?? false, function( $query, $search ) {

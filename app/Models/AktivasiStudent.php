@@ -13,7 +13,7 @@ class AktivasiStudent extends Model
 
     protected $guarded = ['id'];
 
-    public function program(){
-        return $this->belongsTo(Program::class);
-    }
+    // public function program(){
+    //     return $this->belongsTo(Program::class);
+    // }
 }

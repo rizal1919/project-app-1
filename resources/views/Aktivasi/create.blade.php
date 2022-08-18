@@ -29,7 +29,7 @@
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
                         <label for="nama_aktivasi" class="col-form-label">Nama Aktivasi</label>
-                        <input type="text" autocomplete="off" name="nama_aktivasi" id="nama_aktivasi" class="form-control @error('nama_aktivasi') is-invalid @enderror" value="{{ old('nama_aktivasi') }}">
+                        <input type="text" autocomplete="off" name="nama_aktivasi" id="nama_aktivasi" class="form-control @error('nama_aktivasi') is-invalid @enderror" value="{{ old('nama_aktivasi') }}" required>
                         @error('nama_aktivasi')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -38,7 +38,7 @@
                         <div id="nama"></div>
 
                         <label for="harga" class="col-form-label">Harga</label>
-                        <input type="text" autocomplete="off" name="harga" id="harga" class="form-control @error('harga') is-invalid @enderror" value="{{ old('harga') }}">
+                        <input type="text" autocomplete="off" name="harga" id="harga" class="form-control @error('harga') is-invalid @enderror" value="{{ old('harga') }}" required>
                         @error('harga')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -47,7 +47,7 @@
                         <div id="noktp"></div>
 
                         <label for="periode" class="col-form-label">Periode</label>
-                        <input type="text" name="periode" id="periode" class="form-control @error('periode') is-invalid @enderror" value="{{ old('periode') }}">
+                        <input type="text" name="periode" id="periode" class="form-control @error('periode') is-invalid @enderror" value="{{ old('periode') }}" required>
                         @error('periode')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -57,13 +57,13 @@
                     </div>
                     <div class="col-auto">
                         
-                        <label for="program" class="col-form-label">Nama Program</label>
-                        <input type="text" name="program" id="program" class="form-control @error('program') is-invalid @enderror" value="{{ old('program') }}">
-                        @error('program')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
+                        <label for="program_id" class="col-form-label">Nama Program</label>
+                        <select class="form-select bg-primary text-light " name="program_id" id="program_id">
+                            <option value="0">Pilih Program</option>
+                            @foreach( $programs as $program )
+                                <option value="{{ $program->id }}">{{ $program->nama_program }}</option>
+                            @endforeach
+                        </select>
 
                         <label for="status" class="col-form-label">Status</label>
                         <select class="form-select bg-primary text-light " name="status" id="status">
@@ -80,7 +80,7 @@
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Tambah Program Aktivasi</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-2"></i>Tambah Program Aktivasi</button>
                         <a href="/aktivasi" class="btn btn-primary">Kembali</a>
                     </div>
                 </div>

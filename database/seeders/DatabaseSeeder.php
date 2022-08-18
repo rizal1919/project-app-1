@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Program;
 use App\Models\Materi;
 use App\Models\Student;
+use App\Models\UserAdmin;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,11 +20,11 @@ class DatabaseSeeder extends Seeder
     {
         // Program::factory(20)->create();
         // Materi::factory(10)->create();
-        // Student::factory(15)->create();
+        UserAdmin::factory(1)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
+        // UserAdmin::factory()->create([
+        //     'name' => 'admin',
+        //     'email' => 'admin@gmail.com',
         // ]);
         
     }
