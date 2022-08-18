@@ -10,6 +10,7 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\KelasAdminController;
 use App\Http\Controllers\KurikulumController;
+use App\Http\Controllers\PICController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SekolahController;
 use App\Models\Kurikulum;
@@ -158,6 +159,15 @@ Route::get('/sekolah-show/{sekolah:id}', [SekolahController::class, 'show'])->mi
 Route::get('/sekolah-update/{sekolah:id}', [SekolahController::class, 'edit'])->middleware('auth');
 Route::post('/sekolah-update/{sekolah:id}', [SekolahController::class, 'update'])->middleware('auth');
 Route::get('/sekolah-delete/{sekolah:id}', [SekolahController::class, 'delete'])->middleware('auth');
+
+// route pic
+Route::get('/pic', [PICController::class, 'index'])->middleware('auth');
+Route::get('/pic-create', [PICController::class, 'create'])->middleware('auth');
+Route::post('/pic-store', [PICController::class, 'store'])->middleware('auth');
+Route::get('/pic-show/{pic:id}', [PICController::class, 'show'])->middleware('auth');
+Route::get('/pic-update/{pic:id}', [PICController::class, 'edit'])->middleware('auth');
+Route::post('/pic-update/{pic:id}', [PICController::class, 'update'])->middleware('auth');
+Route::get('/pic-delete/{pic:id}', [PICController::class, 'delete'])->middleware('auth');
 
 
 

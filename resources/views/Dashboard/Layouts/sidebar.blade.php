@@ -38,13 +38,13 @@
               <li class="nav-item">
                 <a class="nav-link {{ ($active == 'Sekolah') ? 'active' : '' }}" href="/sekolah">
                   <span data-feather="archive" class="align-text-bottom"></span>
-                  Master Sekolah
+                  Sekolah
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {{ ($active == 'PIC') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ ($active == 'PIC') ? 'active' : '' }}" href="/pic">
                   <span data-feather="user" class="align-text-bottom"></span>
-                  Master PIC
+                  PIC (Person In Charge)
                 </a>
               </li>
             </ul>

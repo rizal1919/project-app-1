@@ -9,7 +9,7 @@ class SekolahController extends Controller
 {
     public function index(Request $request){
 
-        $data = Sekolah::Filter(request(['nama_sekolah']))->orderBy('id', 'desc')->paginate(5)->withQueryString();
+        $data = Sekolah::Filter(request(['nama_sekolah']))->orderBy('id', 'desc')->paginate(3)->withQueryString();
         // dd($data);
 
         return view('Sekolah.index', [
