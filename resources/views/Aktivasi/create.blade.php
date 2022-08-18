@@ -80,8 +80,8 @@
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
-                        <a href="/aktivasi" class="btn btn-primary"><span data-feather="arrow-left"></span> Kembali</a>
+                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Tambah Program Aktivasi</button>
+                        <a href="/aktivasi" class="btn btn-primary">Kembali</a>
                     </div>
                 </div>
             </form>

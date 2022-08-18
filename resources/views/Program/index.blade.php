@@ -59,7 +59,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th colspan="2">Program | ID</th>
+                        <th colspan="2">Program</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -68,9 +68,9 @@
                     @foreach( $programs as $program)
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ $program->nama_program }} | {{ $program->id }}</td>
+                        <td>{{ $program->nama_program }}</td>
                         <td>
-                        <button class="btn btn-primary"><i class="fa-solid fa-plus mx-1"></i><a href="/materi/{{ $program->id }}" class="text-decoration-none" style="color: white;">Tambah Materi</a></button>
+                        <a href="/materi/{{ $program->id }}" class="text-decoration-none btn btn-primary" style="color: white;"><i class="fa-solid fa-plus mx-1"></i>Tambah Materi</a>
                         </td>
                         <td>
                             <a href="/show-program/{{ $program->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>

@@ -187,8 +187,8 @@ class StudentController extends Controller
 
         return view('DataSiswa.create', [
 
-            'title' => 'Pendaftaran',
-            'active' => 'Pendaftaran',
+            'title' => 'Daftar Siswa',
+            'active' => 'Data Siswa',
             'nomor' => $hasilAkhirNoUrut,
             'year' => $normalYear,
             'date' => $date,

@@ -2,7 +2,7 @@
 
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Halaman {{ $active }}</h1>
+    <h1 class="h2">Halaman Daftar Siswa</h1>
 </div>
     <div class="container d-flex justify-content-center my-4">
         <div class="card col-12 justify-content-center">
@@ -23,11 +23,11 @@
                     Form Tambah Siswa Baru
                 </p>
             </div>
-            <div class="card-body">
+            <!-- <div class="card-body">
                 <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
                 </div>
-            </div>
+            </div> -->
             <form action="/data-siswa/create/student" method="post">
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
@@ -75,11 +75,12 @@
                     </div>
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
-                    <div class="col-10 p-2 d-flex justify-content-center align-items-end">
+                    <div class="col-6 p-2 d-flex justify-content-center align-items-end">
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Tambah Siswa</button>
+                        <a href="/data-siswa" class="btn btn-primary">Kembali</a>
                     </div>
                 </div>
             </form>

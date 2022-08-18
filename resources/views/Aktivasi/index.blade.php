@@ -66,7 +66,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th >Nama Aktivasi | ID</th>
+                        <th >Nama Aktivasi</th>
                         <th>Program</th>
                         <th>Harga</th>
                         <th>Periode</th>
@@ -79,7 +79,7 @@
                     @foreach( $aktivasi as $aktif )
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $aktif->nama_aktivasi }} | {{ $aktif->id }}</td>
+                        <td>{{ $aktif->nama_aktivasi }}</td>
                         <td>{{ $aktif->program }}</td>
                         <td>{{ $aktif->harga }}</td>
                         <td>{{ $aktif->periode }}</td>
@@ -88,7 +88,6 @@
                                 <a href="/show-aktivasi-program/{{ $aktif->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
                                 <a href="/update-aktivasi-program/{{ $aktif->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
                                 <button class="btn btn-danger text-dark" style="margin-right: 50px;" onclick="confirmation('{{ $aktif->id }}')"><i class="fas fa-trash"></i></button>
-
                         </td>
                     </tr>
                     @endforeach

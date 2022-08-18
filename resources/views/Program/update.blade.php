@@ -25,8 +25,8 @@
                     <div class="form-floating mb-3">
                         <input type="hidden" class="form-control @error('kurikulum_id') is-invalid @enderror" id="kurikulum_id" name="kurikulum_id" aria-describedby="emailHelp" value="{{ $kurikulum->id }}">
                     </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-pen-to-square mx-1"></i>Ubah Data</button>
+                </form>
                 </div>
                 
                 <a href="/program/{{ $programs->kurikulum_id }}" style="border-radius: 0px;" class="btn btn-primary mt-3 rounded-bottom text-decoration-none" style="color: white;">Kembali</a>

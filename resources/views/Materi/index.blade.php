@@ -21,7 +21,7 @@
                 <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 20%;" placeholder="Search">
                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
             </form>
-            <a href="/create-materi/{{ $dataProgram->id }}" class="btn btn-primary text-decoration-none text-light"><i class="fa-solid fa-plus"></i>Tambah Materi</a>
+            <a href="/create-materi/{{ $dataProgram->id }}" class="btn btn-primary text-decoration-none text-light"><i class="fa-solid fa-plus mx-1"></i>Tambah Materi</a>
             <a href="/program/{{ $dataProgram->kurikulum_id }}" class="btn btn-success text-decoration-none text-light">Kembali</a>
         </div>
     </div>
@@ -56,7 +56,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Materi | Program ID</th>
+                        <th>Materi</th>
                         <th>Jumlah Pertemuan</th>
                         <th>Menit</th>
                         <th>Aksi</th>
@@ -68,7 +68,7 @@
                 
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ $materis->nama_materi }} | {{ $materis->program_id }}</td>
+                        <td>{{ $materis->nama_materi }}</td>
                         <td>{{ $materis->jumlah_pertemuan }}</td>
                         <td>{{ $materis->menit }}</td>
                         <td>

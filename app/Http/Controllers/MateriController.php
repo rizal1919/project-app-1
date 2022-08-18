@@ -65,7 +65,7 @@ class MateriController extends Controller
 
         return view('Materi.create', [
             'title' => 'Create',
-            'active' => 'Daftar Kurikulum',
+            'active' => 'Data Kurikulum',
             'dataProgram' => $program,
         ]);
     }
@@ -107,7 +107,7 @@ class MateriController extends Controller
 
         return view('Materi.show', [
             'title' => 'Materi',
-            'active' => 'Daftar Kurikulum',
+            'active' => 'Data Kurikulum',
             'dataMateri' => $materi->program->load('materi'),
             'id' => $id,
             'kurikulum' => Program::find($materi->program->id)->kurikulum
@@ -121,7 +121,7 @@ class MateriController extends Controller
 
         return view('Materi.update', [
             'title' => 'Materi',
-            'active' => 'Daftar Kurikulum',
+            'active' => 'Data Kurikulum',
             'dataMateri' => $materi,
             'id' => $id,
             'kurikulum' => Program::find($materi->program->id)->kurikulum

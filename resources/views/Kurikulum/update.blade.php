@@ -2,6 +2,9 @@
 
 
 @section('container')
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Edit Kurikulum</h1>
+</div>
 <div class="container-lg mt-5">
     <div class="row justify-content-center" style="margin-top: 100px;">
         <div class="col-lg-8" style="height: 30%;">
@@ -22,9 +25,7 @@
                         <button type="submit" class="btn btn-primary"><i class="fas fa-pen-to-square mx-1"></i>Ubah Nama Kurikulum</button>
                     </form>
                 </div>
-                <button class="btn btn-primary mt-3 rounded-bottom" style="border-radius: 0px;">
-                    <a href="/kurikulum" class="text-decoration-none" style="color: white;">Kembali</a>
-                </button>
+                <a href="/kurikulum" class="text-decoration-none btn btn-primary mt-3 rounded-bottom" style="color: white; border-radius: 0px;">Kembali</a>
             </div>
         </div>
     </div>

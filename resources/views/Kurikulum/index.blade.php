@@ -17,9 +17,9 @@
 
     <div class="container-fluid d-flex justify-content-center mb-3">
         <div class="col-11 text-end">
-            <button class="btn btn-primary">
-                <i class="fa-solid fa-plus mx-1"></i><a href="/create-kurikulum" class="text-decoration-none text-light">Tambah Kurikulum</a>
-            </button>
+            
+            <a href="/create-kurikulum" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Kurikulum</a>
+            
 
             <form action="/kurikulum" method="post" class="d-inline">
                 @csrf
@@ -66,7 +66,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th colspan="2">Kurikulum | ID</th>
+                        <th colspan="2">Kurikulum</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -75,7 +75,7 @@
                     @foreach( $kurikulums as $kurikulum)
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ $kurikulum->nama_kurikulum }} | {{ $kurikulum->id }}</td>
+                        <td>{{ $kurikulum->nama_kurikulum }}</td>
                         <td></td>
                         <td>
                                 <a href="/show/{{ $kurikulum->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>

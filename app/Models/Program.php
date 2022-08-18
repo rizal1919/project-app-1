@@ -18,6 +18,10 @@ class Program extends Model
     public function materi(){
         return $this->hasMany(Materi::class);
     }
+
+    public function aktivasi(){
+        return $this->hasMany(Aktivasi::class);
+    }
     
     public function scopeFilter($query, array $filters){
         

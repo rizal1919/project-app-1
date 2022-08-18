@@ -25,7 +25,7 @@
                     <div class="form-floating mb-3">
                         <input type="hidden" class="form-control" id="kurikulum_id" name="kurikulum_id" value="{{ $kurikulum->id }}">
                     </div>
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Submit</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Program Baru</button>
                 </form>
                 </div>
                 

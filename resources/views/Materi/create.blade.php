@@ -39,7 +39,7 @@
                     <div class="form-floating mb-1">
                         <input type="hidden" class="form-control @error('program_id') is-invalid @enderror" id="program_id" name="program_id" value="{{ $dataProgram->id }}" required>
                     </div>
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah materi baru</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Materi Baru</button>
                     </form>
                 </div>
                 

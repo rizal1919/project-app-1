@@ -12,4 +12,8 @@ class AktivasiStudent extends Model
     use SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function program(){
+        return $this->belongsTo(Program::class);
+    }
 }
