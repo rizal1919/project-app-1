@@ -81,7 +81,7 @@
                         
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $aktif->nama_aktivasi }}</td>
-                        <td>{{ $aktivasi->find($aktif->id)->program->nama_program }}</td>
+                        <td>{{ $aktif->program->nama_program }}</td>
                         <td>{{ $aktif->harga }}</td>
                         <td>{{ $aktif->periode }}</td>
                         <td><p class="badge bg-primary text-light">{{ $aktif->status }}</p></td>

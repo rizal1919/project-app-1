@@ -9,15 +9,13 @@
                     <h5 class="card-title">ACADEMY - SHORTCOURSE</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">ID : 1</p>
-                    <p class="card-text">Nama Program : Lorem</p>
-                    <p class="card-text">Harga : Rp.400.000,00</p>
-                    <p class="card-text">Periode : 2022</p>
-                    <p class="card-text">Dibuat : 5 minutes ago</p>
+                    <p class="card-text">ID : {{ $dataAktivasi->id }}</p>
+                    <p class="card-text">Nama Program : {{ $dataAktivasi->program->nama_program }}</p>
+                    <p class="card-text">Harga : {{ $dataAktivasi->harga }}</p>
+                    <p class="card-text">Periode : {{ $dataAktivasi->periode }}</p>
+                    <p class="card-text">Dibuat : {{ $dataAktivasi->created_at->diffForHumans() }}</p>
                 </div>
-                <button class="btn btn-primary mt-3 rounded-bottom" style="border-radius: 0px;">
-                    <a href="/aktivasi" class="text-decoration-none" style="color: white;">Kembali</a>
-                </button>
+                <a href="/aktivasi" class="text-decoration-none btn btn-primary mt-3 rounded-bottom" style="color: white; border-radius: 0px;">Kembali</a>
             </div>
         </div>
     </div>

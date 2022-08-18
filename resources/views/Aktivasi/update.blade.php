@@ -58,19 +58,23 @@
                     </div>
                     <div class="col-auto">
                         
-                        <label for="program" class="col-form-label">Nama Program</label>
-                        <input type="text" name="program" id="program" class="form-control @error('program') is-invalid @enderror" value="{{ old('program', $aktivasi->program) }}">
-                        @error('program')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
+                        <label for="program_id" class="col-form-label">Nama Program</label>
+                        <select class="form-select bg-primary text-light " name="program_id" id="program_id">
+                            <option value="0">Pilih Program</option>
+                            @foreach( $programs as $program )
+                                @if( $program->id == $aktivasi->program_id )
+                                    <option value="{{ $program->id }}" selected>{{ $program->nama_program }}</option>
+                                @else
+                                    <option value="{{ $program->id }}">{{ $program->nama_program }}</option>
+                                @endif
+                            @endforeach
+                        </select>
 
                         <label for="status" class="col-form-label">Status</label>
                         <select class="form-select bg-primary text-light " name="status" id="status">
                             <option value="0">Pilih status aktivasi</option>
                             <option value="Aktif">Aktif</option>
-                            <option value="tidak Aktif">Tidak Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
                         </select>
 
                     </div>

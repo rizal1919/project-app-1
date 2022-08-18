@@ -24,13 +24,14 @@ class AktivasiController extends Controller
         ]);
     }
 
-    public function show(){
+    public function show(Aktivasi $aktivasi){
 
 
 
         return view('Aktivasi.show', [
             'active' => 'Aktivasi',
-            'title' => 'Menu Aktivasi | '
+            'title' => 'Menu Aktivasi | ',
+            'dataAktivasi' => $aktivasi
         ]);
     }
 
@@ -76,24 +77,25 @@ class AktivasiController extends Controller
         return view('Aktivasi.update', [
             'active' => 'Aktivasi',
             'title' => 'Menu Aktivasi | ',
-            'aktivasi' => $aktivasi
+            'aktivasi' => $aktivasi,
+            'programs' => Program::all()
         ]);
     }
 
     public function update(Request $request, Aktivasi $aktivasi){
 
-       
+        // dd($request->collect());
 
         $validatedData = $request->validate([
 
             'nama_aktivasi' => 'required',
             'harga' => 'required',
-            'program' => 'required',
+            'program_id' => 'required',
             'status' => 'required',
             'periode' => 'required'
         ]);
 
-        if( $validatedData['status'] == '0' ){
+        if( $validatedData['status'] == 0 ){
 
             return redirect('/update-aktivasi-program/' . $request->id)->with('gagal', $validatedData['nama_aktivasi']);
         }
@@ -101,7 +103,7 @@ class AktivasiController extends Controller
         $aktivasi->update([
             'nama_aktivasi' => $validatedData['nama_aktivasi'],
             'harga' => $validatedData['harga'],
-            'program' => $validatedData['program'],
+            'program_id' => $validatedData['program_id'],
             'status' => $validatedData['status'],
             'periode' => $validatedData['periode']
         ]);
