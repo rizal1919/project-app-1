@@ -14,6 +14,13 @@ class StudentController extends Controller
     //     return view('DataSiswa.ajax');
     // }
 
+    public function getSiswa(){
+        $d = array();
+        $data = Student::get(['nama_siswa AS text', 'id']);
+        $d["results"] = $data;
+        return $d;
+    }
+
     public function autocomplete(Request $request)
     {
 

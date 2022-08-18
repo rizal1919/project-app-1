@@ -86,6 +86,7 @@ Route::get('/kelas-admin/delete/student/{student:nama_siswa}', [KelasAdminContro
 
 // route data-siswa
 Route::get('/data-siswa', [StudentController::class, 'index']);
+Route::get('/autocomplete-data-siswa', [StudentController::class, 'getSiswa']);
 Route::post('/data-siswa', [StudentController::class, 'index']);
 Route::get('/data-siswa/create/student', [StudentController::class, 'create']);
 Route::post('/data-siswa/create/student', [StudentController::class, 'store']);

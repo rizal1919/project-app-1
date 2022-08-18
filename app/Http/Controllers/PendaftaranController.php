@@ -18,9 +18,10 @@ use Mockery\Undefined;
 
 class PendaftaranController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
-        
+
         // $array = [
 
         //     [
@@ -37,28 +38,29 @@ class PendaftaranController extends Controller
 
         // ];
 
-        function jadikanSatuArrayReguler($idstudent, $nama_siswa, $nama_kurikulum, $idregularprogram, $updatedAt, $deletedAt){
+        function jadikanSatuArrayReguler($idstudent, $nama_siswa, $nama_kurikulum, $idregularprogram, $updatedAt, $deletedAt)
+        {
 
-            if( $deletedAt === null ){
+            if ($deletedAt === null) {
 
                 $deletedAt = 'active';
 
-                $array = [ 
-    
+                $array = [
+
                     'id' => $idregularprogram,
                     'student_id' => $idstudent,
                     'deleted_at' => $deletedAt,
                     'nama_siswa' => $nama_siswa,
                     'nama_program' => 'Reguler - ' . $nama_kurikulum,
                     'updated_at' => $updatedAt
-                    
+
                 ];
-            }else{
+            } else {
 
                 $deletedAt = 'unactive';
 
-                $array = [ 
-    
+                $array = [
+
                     'id' => $idregularprogram,
                     'student_id' => $idstudent,
                     'deleted_at' => $deletedAt,
@@ -66,161 +68,144 @@ class PendaftaranController extends Controller
                     'nama_program' => 'Reguler - ' . $nama_kurikulum,
                     'updated_at' => $updatedAt
                 ];
-                    
             }
 
 
             return $array;
         }
 
-        function jadikanSatuArrayAktivasi($idstudent, $nama_siswa, $nama_aktivasi, $idregularprogram, $updatedAt, $deletedAt){
-
-
-            if( $deletedAt === null ){
+        function jadikanSatuArrayAktivasi($idstudent, $nama_siswa, $nama_aktivasi, $idregularprogram, $updatedAt, $deletedAt)
+        {
+            if ($deletedAt === null) {
 
                 $deletedAt = 'active';
 
-                $array = [ 
-    
+                $array = [
+
                     'id' => $idregularprogram,
                     'student_id' => $idstudent,
                     'deleted_at' => $deletedAt,
                     'nama_siswa' => $nama_siswa,
                     'nama_program' => 'Aktivasi - ' . $nama_aktivasi,
                     'updated_at' => $updatedAt
-                    
+
                 ];
-            }else{
+            } else {
 
                 $deletedAt = 'unactive';
 
-                $array = [ 
-    
+                $array = [
+
                     'id' => $idregularprogram,
                     'student_id' => $idstudent,
                     'deleted_at' => $deletedAt,
                     'nama_siswa' => $nama_siswa,
                     'nama_program' => 'Aktivasi - ' . $nama_aktivasi,
                     'updated_at' => $updatedAt
-                    
+
                 ];
             }
 
             return $array;
         }
-        
-       
+
+
         $dataKurikulum = Kurikulum::all();
         $dataAktivasi = Aktivasi::all();
         $dataStudent = Student::all();
 
-        
+        $dataRegulerStudent = DB::table('kurikulum_students')->get();
+        $dataAktivasiStudent = DB::table('aktivasi_students')->get();
 
-       $dataRegulerStudent = DB::table('kurikulum_students')->get();
-       $dataAktivasiStudent = DB::table('aktivasi_students')->get();
+        function ambilNamaTerkait($dataProgramDiDaftarkan, $dataPilihanProgram, $dataStudent)
+        {
 
-       
-    
+            $rakDataStudentKurikulum = [];
 
-       
+            foreach ($dataProgramDiDaftarkan as $ReqStudent) {
 
-       function ambilNamaTerkait($dataProgramDiDaftarkan, $dataPilihanProgram, $dataStudent){
+                $idKurikulumDidapat = $ReqStudent->kurikulum_id;
+                $namaKurikulumDidapat = $dataPilihanProgram->find($idKurikulumDidapat)->nama_kurikulum;
 
-        $rakDataStudentKurikulum = [];
-        
-        foreach( $dataProgramDiDaftarkan as $ReqStudent ){
- 
-             $idKurikulumDidapat = $ReqStudent->kurikulum_id;
-             $namaKurikulumDidapat = $dataPilihanProgram->find($idKurikulumDidapat)->nama_kurikulum;
- 
-             $idStudentDidapat = $ReqStudent->student_id;
-             $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
- 
-             $updateAtStudentDidapat = $ReqStudent->updated_at;
-             $deletedAtStudentDidapat = $ReqStudent->deleted_at;
- 
-             $hasilArray = jadikanSatuArrayReguler($idStudentDidapat, $namaStudentDidapat, $namaKurikulumDidapat, $ReqStudent->id, $updateAtStudentDidapat, $deletedAtStudentDidapat);
-             array_push($rakDataStudentKurikulum, $hasilArray);
-             
- 
-             
+                $idStudentDidapat = $ReqStudent->student_id;
+                $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
+
+                $updateAtStudentDidapat = $ReqStudent->updated_at;
+                $deletedAtStudentDidapat = $ReqStudent->deleted_at;
+
+                $hasilArray = jadikanSatuArrayReguler($idStudentDidapat, $namaStudentDidapat, $namaKurikulumDidapat, $ReqStudent->id, $updateAtStudentDidapat, $deletedAtStudentDidapat);
+                array_push($rakDataStudentKurikulum, $hasilArray);
+            }
+
+            return $rakDataStudentKurikulum;
         }
 
-        return $rakDataStudentKurikulum;
+        function ambilNamaAktivasiTerkait($dataProgramDiDaftarkan, $dataPilihanProgram, $dataStudent)
+        {
 
-       }
+            $rakDataStudentAktivasi = [];
 
-       function ambilNamaAktivasiTerkait($dataProgramDiDaftarkan, $dataPilihanProgram, $dataStudent){
+            foreach ($dataProgramDiDaftarkan as $ReqStudent) {
 
-        $rakDataStudentAktivasi = [];
-        
-        foreach( $dataProgramDiDaftarkan as $ReqStudent ){
- 
-             $idAktivasiDidapat = $ReqStudent->aktivasi_id;
-             $namaAktivasiDidapat = $dataPilihanProgram->find($idAktivasiDidapat)->nama_aktivasi;
- 
-             $idStudentDidapat = $ReqStudent->student_id;
-             $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
- 
-             $updateAtStudentDidapat = $ReqStudent->updated_at;
-             $deletedAtStudentDidapat = $ReqStudent->deleted_at;
- 
-             $hasilArray = jadikanSatuArrayAktivasi($idStudentDidapat, $namaStudentDidapat, $namaAktivasiDidapat, $ReqStudent->id, $updateAtStudentDidapat, $deletedAtStudentDidapat);
-             array_push($rakDataStudentAktivasi, $hasilArray);
-             
- 
-             
+                $idAktivasiDidapat = $ReqStudent->aktivasi_id;
+                $namaAktivasiDidapat = $dataPilihanProgram->find($idAktivasiDidapat)->nama_aktivasi;
+
+                $idStudentDidapat = $ReqStudent->student_id;
+                $namaStudentDidapat = $dataStudent->find($idStudentDidapat)->nama_siswa;
+
+                $updateAtStudentDidapat = $ReqStudent->updated_at;
+                $deletedAtStudentDidapat = $ReqStudent->deleted_at;
+
+                $hasilArray = jadikanSatuArrayAktivasi($idStudentDidapat, $namaStudentDidapat, $namaAktivasiDidapat, $ReqStudent->id, $updateAtStudentDidapat, $deletedAtStudentDidapat);
+                array_push($rakDataStudentAktivasi, $hasilArray);
+            }
+
+            return $rakDataStudentAktivasi;
         }
 
-        return $rakDataStudentAktivasi;
 
-       }
+        $rakDataStudentKurikulum = ambilNamaTerkait($dataRegulerStudent, $dataKurikulum, $dataStudent);
+        $rakDataStudentAktivasi = ambilNamaAktivasiTerkait($dataAktivasiStudent, $dataAktivasi, $dataStudent);
+        $rakMergeData = array_merge($rakDataStudentKurikulum, $rakDataStudentAktivasi);
 
-       
-       $rakDataStudentKurikulum = ambilNamaTerkait($dataRegulerStudent, $dataKurikulum, $dataStudent);
-       $rakDataStudentAktivasi = ambilNamaAktivasiTerkait($dataAktivasiStudent, $dataAktivasi, $dataStudent);
-       $rakMergeData = array_merge($rakDataStudentKurikulum, $rakDataStudentAktivasi);
-       
-       $rakSemuaHasilData = collect($rakMergeData)->sortByDesc('updated_at');
-       
-       $items = $request->nama_siswa;
-       $kelas = $request->nama_program;
-       $rakSemuaHasilData = collect($rakSemuaHasilData)->filter(function ($item) use ($items) {
-        // replace stristr with your choice of matching function
+        $rakSemuaHasilData = collect($rakMergeData)->sortByDesc('updated_at');
+
+        $items = $request->nama_siswa;
+        $kelas = $request->nama_program;
+        $rakSemuaHasilData = collect($rakSemuaHasilData)->filter(function ($item) use ($items) {
+            // replace stristr with your choice of matching function
             return false !== stristr($item['nama_siswa'], $items);
         });
-       $rakSemuaHasilData = collect($rakSemuaHasilData)->filter(function ($item) use ($kelas) {
-        // replace stristr with your choice of matching function
+        $rakSemuaHasilData = collect($rakSemuaHasilData)->filter(function ($item) use ($kelas) {
+            // replace stristr with your choice of matching function
             return false !== stristr($item['nama_program'], $kelas);
         });
 
-        
-        
+
+
         $rakSemuaHasilData = (new Collection($rakSemuaHasilData))->paginate(5);
         // dapet code di atas dari sini -> https://gist.github.com/simonhamp/549e8821946e2c40a617c85d2cf5af5e
         // kemudian bikin file Collection.php di models
         // ganti namespace nya jadi App\Models, kemudian panggil library nya use App\Models\Collection;
         // kemudian cara pakei nya seperti eloquent
 
-        
-        
+
+
 
         return view('Pendaftaran.index', [
 
             'title' => 'Pendaftaran',
             'active' => 'Pendaftaran',
             'dataSiswaReguler' => $rakSemuaHasilData
-    
+
         ]);
     }
 
-    public function indexReguler(){
-
-        
-
+    public function indexReguler()
+    {
         $date = date("Y-m-d");
 
-        return view('Pendaftaran.create_reguler',[
+        return view('Pendaftaran.create_reguler', [
 
             'active' => 'Pendaftaran',
             'title' => 'Tambah Reguler | ',
@@ -229,13 +214,11 @@ class PendaftaranController extends Controller
         ]);
     }
 
-    public function indexAktivasi(){
-
-        
-
+    public function indexAktivasi()
+    {
         $date = date("Y-m-d");
 
-        return view('Pendaftaran.create_aktivasi',[
+        return view('Pendaftaran.create_aktivasi', [
 
             'active' => 'Pendaftaran',
             'title' => 'Tambah Reguler | ',
@@ -244,7 +227,8 @@ class PendaftaranController extends Controller
         ]);
     }
 
-    public function storeReguler(Request $request){
+    public function storeReguler(Request $request)
+    {
 
         $data = $request->collect();
 
@@ -267,7 +251,8 @@ class PendaftaranController extends Controller
         return redirect('/form-registrasi')->with('pendaftaranBerhasil', $data['nama_siswa']);
     }
 
-    public function storeAktivasi(Request $request){
+    public function storeAktivasi(Request $request)
+    {
 
         $data = $request->collect();
 
@@ -292,42 +277,35 @@ class PendaftaranController extends Controller
         return redirect('/form-registrasi')->with('pendaftaranBerhasil', $data['nama_siswa']);
     }
 
-    
 
-    public function softDeleteStudent($nama, $id, $namaSiswa){
+
+    public function softDeleteStudent($nama, $id, $namaSiswa)
+    {
 
         // dd($namaSiswa);
+        if (stripos($nama, 'Reguler') === false) {
 
-        
 
-        if(stripos($nama, 'Reguler') === false){
-
-            
             AktivasiStudent::find($id)->delete();
-            
-        }elseif( stripos($nama, 'Reguler') === 0 ){
+        } elseif (stripos($nama, 'Reguler') === 0) {
 
-            
+
             KurikulumStudent::find($id)->delete();
-
         }
 
 
         return redirect('/form-registrasi')->with('destroy', $namaSiswa);
     }
 
-    public function restoreStudent($nama, $id, $namaSiswa){
-
+    public function restoreStudent($nama, $id, $namaSiswa)
+    {
         // dd($namaSiswa);
+        if (stripos($nama, 'Reguler') === false) {
 
-        if(stripos($nama, 'Reguler') === false){
-            
             AktivasiStudent::withTrashed()->find($id)->restore();
-            
-        }elseif( stripos($nama, 'Reguler') === 0 ){
-            
-            KurikulumStudent::withTrashed()->find($id)->restore();
+        } elseif (stripos($nama, 'Reguler') === 0) {
 
+            KurikulumStudent::withTrashed()->find($id)->restore();
         }
 
         return redirect('/form-registrasi')->with('restore', $namaSiswa);
