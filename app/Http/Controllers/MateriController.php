@@ -161,17 +161,23 @@ class MateriController extends Controller
         // ada . $id itu untuk mengembalikan ke halaman materi yang id nya sama dengan program sebelumnya diakses
     }
 
-    public function destroyMateri(Materi $materi)
+    public function destroyMateri(Request $request, Materi $materi)
     {
         // $program->delete($request);
         // return back()->with('destroy','Deleted Successfully!');
+
         
         
-        Materi::find($materi->id)->delete();
-        // Materi::firstWhere('id', $materi->id);
-        $id = $materi->program_id;
+        
+        $namaMateri = $materi->nama_materi;
+        $idProgram = $materi->program->id;
+
+        // dd($idProgram);
+        Materi::find($request->id)->delete();
+        // dd($tes);
+        // $id = $materi->program_id;
     
-        return redirect('/materi/' . $id)->with('destroy', 'Deleted Successfully!');
+        return redirect('/materi/' . $idProgram)->with('destroy', $namaMateri);
         
         
     }

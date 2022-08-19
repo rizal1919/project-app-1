@@ -39,7 +39,7 @@
         @endif
         @if( session('destroy') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-            <strong>{{ session('destroy') }}</strong> Program telah berhasil dihapus.
+            Informasi program <strong>{{ session('destroy') }}</strong> telah berhasil dihapus.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
@@ -75,7 +75,8 @@
                         <td>
                             <a href="/show-program/{{ $program->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
                             <a href="/update-program/{{ $program->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <button class="btn btn-danger text-dark" onclick="confirmation('{{ $program->id }}')"><i class="fas fa-trash"></i></button>
+                            <!-- <button class="btn btn-danger text-dark" onclick="confirmation('{{ $program->id }}')"><i class="fas fa-trash"></i></button> -->
+                            <button type="button" id="delete" data-url="/delete-program/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $program->id }}', '{{ $program->nama_program }}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                         <?php $i++; ?>
@@ -90,6 +91,29 @@
     
 </div>
 
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="post" id="forms" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-trash mx-2"></i>Hapus Data
+                </h5>
+                <input type="hidden" id="name" name="id">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @csrf
+                <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- End Delete Modal --> 
 
 @endsection
 @push('js')
@@ -101,45 +125,24 @@
     
 </script>
 <script>
-    function confirmation(delName){
-    var del=confirm(`Anda yakin ingin menghapus program dengan id ${delName} ?`);
-    if (del==true){
-        window.location.href=`/delete-program/${delName}`;
-    }
-    return del;
+    function confirmation(delId, namaProgram){
+
+        let url = document.getElementById('delete').getAttribute('data-url');
+        let completeUrl = url + delId;
+        // output = delete-materi/1
+
+        $('#name').val(delId);
+        $('#forms').attr('action', completeUrl);
+
+        let comment = document.getElementById('message');
+        comment.innerHTML = '<p> Anda yakin ingin menghapus program berjudul ' + '<strong>' + namaProgram +  '</strong>' + ' ? </p>';
+
+        $('#staticBackdrop').modal('show');
+        // menampilkan modal box
+
     }
 </script>
-<!-- <script>
-    const myModal = document.getElementById('modal')
-    const myInput = document.getElementById('#staticBackdrop')
 
-    myModal.addEventListener('shown.bs.modal', () => {
-    myInput.focus()
-    })
-</script> -->
-<!-- <script>
-$(document).ready(function(){
-
-    $("#search").keyup(function(){
-
-        var input = $(this).val();
-        // alert(input);
-
-        if( input != ""){
-            $.ajax({
-
-                url:"/program/" + input,
-                method:"POST",
-                data:{'search':input},
-
-                success:function(data){
-                    $('#Content').html(data);
-                }
-            })
-        }
-    });
-});
-</script> -->
 @endpush
 
 

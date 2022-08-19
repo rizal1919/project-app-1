@@ -133,7 +133,7 @@ Route::post('/create', [ProgramController::class, 'store']);
 Route::get('/update-program/{program:id}', [ProgramController::class, 'edit'])->Middleware('auth');
 Route::post('/update-program/{program:id}', [ProgramController::class, 'update']);
 
-Route::get('/delete-program/{program:id}', [ProgramController::class, 'destroy'])->Middleware('auth');
+Route::post('/delete-program/{program:id}', [ProgramController::class, 'destroy'])->Middleware('auth');
 
 // routes materi
 // Route::get('/materi', [MateriController::class, 'index']);
@@ -148,7 +148,7 @@ Route::get('/show-materi/{materi:id}', [MateriController::class, 'showMateri'])-
 Route::get('/update-materi/{materi:id}', [MateriController::class, 'editMateri'])->Middleware('auth');
 Route::post('/update-materi/{materi:id}', [MateriController::class, 'updateMateri']);
 
-Route::get('/delete-materi/{materi:id}', [MateriController::class, 'destroyMateri'])->Middleware('auth');
+Route::post('/delete-materi/{materi:id}', [MateriController::class, 'destroyMateri'])->Middleware('auth');
 
 
 // route sekolah

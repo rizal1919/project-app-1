@@ -36,7 +36,7 @@
         @endif
         @if( session('destroy') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-            <strong>{{ session('destroy') }}</strong> Materi telah berhasil dihapus.
+            Informasi materi <strong>{{ session('destroy') }}</strong> telah berhasil dihapus.
             <button type="button" class="btn-close" id="matikan" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
@@ -63,21 +63,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php $i=1; ?>
                 @foreach( $dataMateri as $materis )
                 
                     <tr>
-                        <td>{{ $i }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $materis->nama_materi }}</td>
                         <td>{{ $materis->jumlah_pertemuan }}</td>
                         <td>{{ $materis->menit }}</td>
                         <td>
+                            <?php $id = $materis->id; ?>
                             <a href="/show-materi/{{ $materis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
                             <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <button class="btn btn-danger text-dark" onclick="confirmation('{{ $materis->id }}')"><i class="fas fa-trash"></i></button>
+                            <button type="button" id="delete" data-url="/delete-materi/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $materis->id }}', '{{ $materis->nama_materi }}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
-                    <?php $i++; ?>
                     @endforeach
                 </tbody>
             </table>
@@ -88,19 +87,20 @@
     </div>
 </div>
         
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <form action="#" method="get" id="destroys">
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="post" id="forms" class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-trash mx-2"></i>Hapus Program</h5>
+                <h5 class="modal-title">
+                    <i class="fas fa-trash mx-2"></i>Hapus Data
+                </h5>
+                <input type="hidden" id="name" name="id">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="text" name="category_delete_id" id="category_id">
-            @csrf
-            <p class="card-text">Anda yakin ingin menghapus program ?</p>
+                @csrf
+                <p id="message"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -108,8 +108,8 @@
             </div>
         </form>
     </div>
-  </div>
 </div>
+<!-- End Delete Modal --> 
 
 
 @endsection
@@ -122,23 +122,24 @@
     } 
     document.getElementById('matikan').addEventListener('click', changeStyle);
     // madebyrizalfathurrahman
-    
-</script>
-<script>
-        const myModal = document.getElementById('modal')
-        const myInput = document.getElementById('#staticBackdrop')
 
-        myModal.addEventListener('shown.bs.modal', () => {
-        myInput.focus()
-        })
 </script>
 <script>
-    function confirmation(delId){
-    var del=confirm(`Anda yakin ingin menghapus materi dengan id ${delId} ?`);
-    if (del==true){
-        window.location.href=`/delete-materi/${delId}`;
-    }
-    return del;
+    function confirmation(delId, namaMateri){
+
+        let url = document.getElementById('delete').getAttribute('data-url');
+        let completeUrl = url + delId;
+        // output = delete-materi/1
+
+        $('#name').val(delId);
+        $('#forms').attr('action', completeUrl);
+
+        let comment = document.getElementById('message');
+        comment.innerHTML = '<p> Anda yakin ingin menghapus materi berjudul ' + '<strong>' + namaMateri +  '</strong>' + ' ? </p>';
+
+        $('#staticBackdrop').modal('show');
+        // menampilkan modal box
+    
     }
 </script>
 @endpush

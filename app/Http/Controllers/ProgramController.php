@@ -132,7 +132,7 @@ class ProgramController extends Controller
         
         Program::find($program->id)->delete();
     
-        return redirect('/program/' . $program->kurikulum_id)->with('destroy', 'Deleted Successfully!');
+        return redirect('/program/' . $program->kurikulum_id)->with('destroy', $program->nama_program);
         
         
     }
