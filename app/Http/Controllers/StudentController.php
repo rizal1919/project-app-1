@@ -280,12 +280,11 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student){
 
-
+        // dd($request->collect());
 
         $validatedData = $request->validate([
 
             'nama_siswa' => 'required',
-            'kurikulum_id' => 'required',
             'ktp' => 'required|min:16|max:16|unique:students,ktp,'.$student->id,
             'tanggal_lahir' => 'required',
             'email' => 'required|email:dns|unique:students,email,'.$student->id,
@@ -297,14 +296,8 @@ class StudentController extends Controller
 
         $id = $student->id;
 
-        if($validatedData['kurikulum_id'] == 0){
-
-            return redirect('/data-siswa/update/student/' . $id)->with('updateGagal', 'Update Gagal!!');
-        }
-
         $student->update([
             'nama_siswa' => $validatedData['nama_siswa'],
-            'kurikulum_id' => $validatedData['kurikulum_id'],
             'ktp' => $validatedData['ktp'],
             'email' => $validatedData['email'],
             'tanggal_lahir' => $validatedData['tanggal_lahir'],

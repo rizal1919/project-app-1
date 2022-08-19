@@ -62,7 +62,7 @@
 <div class="row justify-content-center mt-1 mb-5">
     <div class="col-lg-11">
         <div class="card p-3">
-        <table class="table table-light table-striped table-hover m-0">
+            <table class="table table-light table-striped table-hover m-0">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -81,7 +81,7 @@
                                 <a href="/show/{{ $kurikulum->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
                                 <a href="/update/{{ $kurikulum->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
                                 <button class="btn btn-danger text-dark" style="margin-right: 50px;" onclick="confirmation('{{ $kurikulum->id }}')"><i class="fas fa-trash"></i></button>
-                                <button class="btn btn-primary"><i class="fa-solid fa-plus mx-1"></i><a href="/program/{{ $kurikulum->id }}" class="text-decoration-none" style="color: white;">Tambah Program</a></button>
+                                <a href="/program/{{ $kurikulum->id }}" class="text-decoration-none btn btn-primary" style="color: white;"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
                         </td>
                     </tr>
                         <?php $i++; ?>

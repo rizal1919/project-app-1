@@ -87,6 +87,12 @@ class SekolahController extends Controller
 
     public function delete(Sekolah $sekolah){
 
+        $angka = count($sekolah->pic);
+
+        if( $angka > 0 ){
+            return redirect('/sekolah')->with('deleteFailed', $sekolah->nama_sekolah);
+        }
+
         Sekolah::find($sekolah->id)->delete();
 
         return redirect('/sekolah')->with('delete', $sekolah->nama_sekolah);

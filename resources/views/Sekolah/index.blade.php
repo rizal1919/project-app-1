@@ -28,9 +28,16 @@
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
+            
             @if( session('update') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
                 Informasi data <strong>{{ session('update') }}</strong> telah berhasil diubah.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if( session('deleteFailed') )
+            <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
+                Silahkan hapus PIC untuk sekolah <strong>{{ session('deleteFailed') }}</strong> terlebih dahulu.
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif

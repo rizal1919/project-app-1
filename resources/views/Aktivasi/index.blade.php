@@ -3,10 +3,10 @@
 @section('container')
 <div class="container-lg mt-5" >
     <div class="container-fluid d-flex justify-content-center mb-3">
-        <div class="col-lg-11 d-flex justify-content-center align-items-center mt-2">
+        <div class="col-lg-12 d-flex justify-content-center align-items-center mt-2">
             <div class="card" style="width: 100%;">
                 <div class="card-header">
-                    <h4 class="card-text"><i class="fa-solid fa-address-card mx-2"></i>Program Short Course</h4>
+                    <h4 class="card-text"><i class="fa-solid fa-address-card mx-2"></i>Daftar Program Aktivasi</h4>
                 </div>
                 <div class="card-body">
                     <p class="card-text">Program List</p>
@@ -19,8 +19,6 @@
         <div class="col-11 text-end">
             
             <a href="/create-aktivasi" class="btn btn-primary text-decoration-none text-light"><i class="fa-solid fa-plus mx-1"></i> Program Aktivasi</a>
-            
-
             <form action="/aktivasi" method="get" class="d-inline">
                 @csrf
                 <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 20%;" placeholder="Search">

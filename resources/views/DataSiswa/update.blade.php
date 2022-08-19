@@ -52,7 +52,7 @@
                         @enderror
                     </div>
                     <div class="form-floating">
-                        <input type="date" name="tanggal_lahir" class="@error('tanggal_lahir') is-invalid @enderror form-control" id="tanggal_lahir" placeholder="dd-mm-yyyy" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" max="{{ $date }}" value="{{ $student->tanggal_lahir }}"  required>
+                        <input type="date" name="tanggal_lahir" class="@error('tanggal_lahir') is-invalid @enderror form-control" id="tanggal_lahir" placeholder="dd-mm-yyyy" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;" max="{{ $date }}" value="{{ $student->tanggal_lahir }}"  required>
                         <!-- jadi value nya di buat terbalik agar inputannya dapat menjadi tanggal-bln-tahun -->
 
                         <label for="tanggal_lahir">Tanggal Lahir</label>
@@ -64,22 +64,12 @@
                         <input type="hidden" name="nomor_pendaftaran" class="@error('nomor_pendaftaran') is-invalid @enderror form-control" id="nomor_pendaftaran" placeholder="nomor_pendaftaran" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $student->nomor_pendaftaran }}"  required>
                         <input type="hidden" name="tahun_daftar" class="@error('tahun_daftar') is-invalid @enderror form-control" id="tahun_daftar" placeholder="tahun_daftar" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $year }}"  required>
                     </div>
-
-                    <div class="form-control d-flex justify-content-between" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;">
-                        <label for="kurikulum_id" placeholder="Pilihan 1">Pilihan Paket</label>
-                        <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-secondary text-center text-light" style="border-radius: 5px;">
-                            <option value="0">Tidak memilih paket</option>
-                            @foreach( $kurikulums as $kurikulum )
-                            <option value="{{ $kurikulum->id }}" {{ ($student->kurikulum_id == $kurikulum->id) ? 'Selected' : '' }}>{{ $kurikulum->nama_kurikulum }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div class="form-floating text-center mb-4">
                         
                         <input type="hidden" id="myInput" name="password" autocomplete="off" class="@error('password') is-invalid @enderror form-control" style="border-radius: 0px 0px 5px 5px; margin-bottom: -1px;" id="password" value="{{ $student->nomor_pendaftaran }}" placeholder="Password" required>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center">
-                        <button class="w-45 btn btn-primary mx-2 text-center d-flex justify-content-center align-items-center" type="submit">Ubah Data<i class="fa-solid fa-file-pen mx-2"></i></button>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <button class="w-45 btn btn-primary mx-2 text-center d-flex justify-content-center align-items-center" type="submit"><i class="fas fa-pen-to-square mx-2"></i>Ubah Data</button>
                         <a href="/data-siswa" class="btn btn-primary text-decoration-none text-light" style="height: 50%;">
                             Kembali
                         </a>
