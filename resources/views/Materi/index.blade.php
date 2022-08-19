@@ -31,19 +31,19 @@
         @if( session('update') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
             <strong>{{ session('update') }}</strong> Materi telah berhasil diubah.
-            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" id="matikan" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
         @if( session('destroy') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
             <strong>{{ session('destroy') }}</strong> Materi telah berhasil dihapus.
-            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" id="matikan" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
         @if( session('success') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
             <strong>{{ session('success') }}</strong> Materi telah berhasil ditambahkan.
-            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" id="matikan" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
     </div>
@@ -116,10 +116,13 @@
 
 @push('js')
 <script>
-function changeStyle(){
+    function changeStyle(){
         var element = document.getElementById("hide");
         element.style.display = "none";
-    }
+    } 
+    document.getElementById('matikan').addEventListener('click', changeStyle);
+    // madebyrizalfathurrahman
+    
 </script>
 <script>
         const myModal = document.getElementById('modal')

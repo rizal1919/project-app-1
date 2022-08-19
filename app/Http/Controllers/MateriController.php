@@ -73,12 +73,13 @@ class MateriController extends Controller
     public function storeMateri(Request $request, Materi $materi){
 
         $validatedData = $request->validate([
-            'nama_materi'=>'required|between:5,200',
+            'nama_materi'=>'required|between:5,200|unique:materis',
             'program_id'=> 'required|numeric',
             'jumlah_pertemuan' => 'required|numeric|between:1,3',
             'menit' => 'required|numeric|between:30,60',
         ],[
             'nama_materi.required' => 'Silahkan isi terlebih dahulu nama materi',
+            'nama_materi.unique' => 'Nama materi telah digunakan, silahkan gunakan nama yang berbeda',
             'nama_materi.between' => 'Karakter harus berisi setidaknya 1 sampai 3 kata',
             'jumlah_pertemuan.required' => 'Jumlah pertemuan wajib diisi',
             'jumlah_pertemuan.numeric' => 'Jumlah pertemuan wajib diisi dengan angka',
@@ -131,12 +132,13 @@ class MateriController extends Controller
     public function updateMateri(Request $request, Materi $materi){
 
         $validatedData = $request->validate([
-            'nama_materi'=>'required|between:5,200',
+            'nama_materi'=>'required|between:5,200|unique:materis,nama_materi,'.$materi->id,
             'program_id'=> 'required|numeric',
             'jumlah_pertemuan' => 'required|numeric|between:1,3',
             'menit' => 'required|numeric|between:30,60',
         ],[
             'nama_materi.required' => 'Silahkan isi terlebih dahulu nama materi',
+            'nama_materi.unique' => 'Nama materi telah digunakan, silahkan pilih nama lain',
             'nama_materi.between' => 'Karakter harus berisi setidaknya 1 sampai 3 kata',
             'jumlah_pertemuan.required' => 'Jumlah pertemuan wajib diisi',
             'jumlah_pertemuan.numeric' => 'Jumlah pertemuan wajib diisi dengan angka',
