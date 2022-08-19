@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kurikulum;
+use App\Models\KurikulumStudent;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -104,14 +105,15 @@ class KurikulumController extends Controller
 
     public function destroy(Kurikulum $kurikulum){
 
-
-        $tes = Student::where('kurikulum_id', '=', $kurikulum->id)->get();
-        if( count($tes) > 0 ){
-            return redirect('/kurikulum')->with('destroyFailed', 'Gagal Menghapus!');
+        
+        $siswaTerdaftar = KurikulumStudent::where('kurikulum_id', $kurikulum->id)->get();
+        
+        if( count($siswaTerdaftar) > 0 ){
+            return redirect('/kurikulum')->with('destroyFailed', $kurikulum->nama_kurikulum);
         }
 
         Kurikulum::find($kurikulum->id)->delete();
     
-        return redirect('/kurikulum')->with('destroy', 'Berhasil!');
+        return redirect('/kurikulum')->with('destroy', $kurikulum->nama_kurikulum);
     }
 }

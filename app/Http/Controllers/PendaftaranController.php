@@ -168,7 +168,10 @@ class PendaftaranController extends Controller
         $rakDataStudentAktivasi = ambilNamaAktivasiTerkait($dataAktivasiStudent, $dataAktivasi, $dataStudent);
         $rakMergeData = array_merge($rakDataStudentKurikulum, $rakDataStudentAktivasi);
 
-        $rakSemuaHasilData = collect($rakMergeData)->sortByDesc('updated_at');
+        $rakSemuaHasilData = collect($rakMergeData)->sortByDesc('updated_at')->sortBy('deleted_at');
+        // sorting ini dilakukan untuk :
+        // 1. mencari data paling baru diupdate terlebih dahulu
+        // 2. mencari data yang statusnya masih aktif 
 
         $items = $request->nama_siswa;
         $kelas = $request->nama_program;

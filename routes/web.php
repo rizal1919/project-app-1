@@ -59,8 +59,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('aut
 Route::get('/form-registrasi', [PendaftaranController::class, 'index'])->middleware('auth');
 Route::get('/form-registrasi/reguler', [PendaftaranController::class, 'indexReguler'])->middleware('auth');
 Route::post('/form-registrasi/reguler-create', [PendaftaranController::class, 'storeReguler'])->middleware('auth');
-Route::get('/form-registrasi-softdelete/{nama_aktivasi}/{id}/{nama_siswa}', [PendaftaranController::class, 'softDeleteStudent'])->middleware('auth');
-Route::get('/form-registrasi-restore/{nama_aktivasi}/{id}/{nama_siswa}', [PendaftaranController::class, 'restoreStudent'])->middleware('auth');
+Route::post('/form-registrasi-softdelete/{nama_aktivasi}/{id}/{nama_siswa}', [PendaftaranController::class, 'softDeleteStudent'])->middleware('auth');
+// Route::get('/form-registrasi-restore/{nama_aktivasi}/{id}/{nama_siswa}', [PendaftaranController::class, 'restoreStudent'])->middleware('auth');
 
 // route pendaftaran aktivasi
 Route::get('/form-registrasi/aktivasi', [PendaftaranController::class, 'indexAktivasi'])->middleware('auth');
@@ -95,7 +95,7 @@ Route::post('/data-siswa/create/student', [StudentController::class, 'store']);
 Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, 'show']);
 Route::get('/data-siswa/update/student/{student:id}', [StudentController::class, 'edit']);
 Route::post('/data-siswa/update/student/{student:id}', [StudentController::class, 'update']);
-Route::get('/data-siswa/delete/student/{student:nama_siswa}', [StudentController::class, 'destroy']);
+Route::post('/data-siswa/delete/student/{student:id}', [StudentController::class, 'destroy']);
 // ajax autocomplete
 Route::get('/autocomplete', [StudentController::class, 'autocomplete'])->name('search');
 Route::get('/autocomplete-ktp', [StudentController::class, 'ktp'])->name('ktp');
@@ -109,7 +109,7 @@ Route::post('/create-aktivasi', [AktivasiController::class, 'store']);
 Route::get('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'edit']);
 Route::post('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'update']);
 Route::get('/show-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'show']);
-Route::get('/delete-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'destroy']);
+Route::post('/delete-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'destroy']);
 
 // routes kurikulum
 Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware('auth');
@@ -119,7 +119,7 @@ Route::post('/store-kurikulum', [KurikulumController::class, 'store']);
 Route::get('/show/{kurikulum:id}', [KurikulumController::class, 'show']);
 Route::get('/update/{kurikulum:id}', [KurikulumController::class, 'edit']);
 Route::post('/update/{kurikulum:id}', [KurikulumController::class, 'update']);
-Route::get('/delete-kurikulum/{kurikulum:id}', [KurikulumController::class, 'destroy']);
+Route::post('/delete-kurikulum/{kurikulum:id}', [KurikulumController::class, 'destroy']);
 
 
 // routes program
@@ -158,7 +158,7 @@ Route::post('/sekolah/store', [SekolahController::class, 'store'])->middleware('
 Route::get('/sekolah-show/{sekolah:id}', [SekolahController::class, 'show'])->middleware('auth');
 Route::get('/sekolah-update/{sekolah:id}', [SekolahController::class, 'edit'])->middleware('auth');
 Route::post('/sekolah-update/{sekolah:id}', [SekolahController::class, 'update'])->middleware('auth');
-Route::get('/sekolah-delete/{sekolah:id}', [SekolahController::class, 'delete'])->middleware('auth');
+Route::post('/sekolah-delete/{sekolah:id}', [SekolahController::class, 'delete'])->middleware('auth');
 
 // route pic
 Route::get('/pic', [PICController::class, 'index'])->middleware('auth');
@@ -167,7 +167,7 @@ Route::post('/pic-store', [PICController::class, 'store'])->middleware('auth');
 Route::get('/pic-show/{pic:id}', [PICController::class, 'show'])->middleware('auth');
 Route::get('/pic-update/{pic:id}', [PICController::class, 'edit'])->middleware('auth');
 Route::post('/pic-update/{pic:id}', [PICController::class, 'update'])->middleware('auth');
-Route::get('/pic-delete/{pic:id}', [PICController::class, 'delete'])->middleware('auth');
+Route::post('/pic-delete/{pic:id}', [PICController::class, 'delete'])->middleware('auth');
 
 
 

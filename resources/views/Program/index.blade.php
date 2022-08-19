@@ -16,9 +16,7 @@
     </div>
     <div class="container-fluid d-flex justify-content-center mb-3">
         <div class="col-11 text-end">
-            
             <a href="/create/{{ $kurikulum->id }}" class="btn btn-primary text-decoration-none text-light"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
-
             <form action="/program/{{ $kurikulum->id }}" method="get" class="d-inline">
                 @csrf
                 <input type="text" id="search" name="search" value="{{ request('search') }}" class="form-control d-inline" style="width: 20%;" placeholder="Search">
@@ -40,6 +38,12 @@
         @if( session('destroy') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
             Informasi program <strong>{{ session('destroy') }}</strong> telah berhasil dihapus.
+            <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if( session('destroyFailed') )
+        <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
+            Informasi program <strong>{{ session('destroyFailed') }}</strong> gagal dihapus, silahkan hapus aktivasi terkait terlebih dahulu.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
@@ -75,7 +79,6 @@
                         <td>
                             <a href="/show-program/{{ $program->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
                             <a href="/update-program/{{ $program->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
-                            <!-- <button class="btn btn-danger text-dark" onclick="confirmation('{{ $program->id }}')"><i class="fas fa-trash"></i></button> -->
                             <button type="button" id="delete" data-url="/delete-program/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $program->id }}', '{{ $program->nama_program }}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>

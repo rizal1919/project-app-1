@@ -29,7 +29,7 @@
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
                         <label for="nama_aktivasi" class="col-form-label">Nama Aktivasi</label>
-                        <input type="text" autocomplete="off" name="nama_aktivasi" id="nama_aktivasi" class="form-control @error('nama_aktivasi') is-invalid @enderror" value="{{ old('nama_aktivasi') }}" required>
+                        <input type="text" name="nama_aktivasi" id="nama_aktivasi" class="form-control @error('nama_aktivasi') is-invalid @enderror" value="{{ old('nama_aktivasi') }}" autofocus required>
                         @error('nama_aktivasi')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -38,7 +38,7 @@
                         <div id="nama"></div>
 
                         <label for="harga" class="col-form-label">Harga</label>
-                        <input type="text" autocomplete="off" name="harga" id="harga" class="form-control @error('harga') is-invalid @enderror" value="{{ old('harga') }}" required>
+                        <input type="text" name="harga" id="harga" class="form-control @error('harga') is-invalid @enderror" value="{{ old('harga') }}" required>
                         @error('harga')
                             <div class="invalid-feedback">
                                 {{ $message }}

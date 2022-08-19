@@ -38,13 +38,13 @@
         @endif
         @if( session('destroy') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-            Data informasi <strong>{{ session('destroy') }}</strong> telah berhasil dihapus.
+            Informasi aktivasi <strong>{{ session('destroy') }}</strong> telah berhasil dihapus.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
         @if( session('destroyFailed') )
         <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
-            <strong>{{ session('destroyFailed') }}</strong> Anda tidak bisa menghapus kurikulum yang masih memiliki siswa.
+            Informasi aktivasi <strong>{{ session('destroyFailed') }}</strong> tidak bisa terhapus, silahkan hapus siswa yang terdaftar terlebih dahulu.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
@@ -86,7 +86,7 @@
                         <td>
                                 <a href="/show-aktivasi-program/{{ $aktif->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
                                 <a href="/update-aktivasi-program/{{ $aktif->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                <button class="btn btn-danger text-dark" style="margin-right: 50px;" onclick="confirmation('{{ $aktif->id }}')"><i class="fas fa-trash"></i></button>
+                                <button type="button" id="delete" data-url="/delete-aktivasi-program/" style="margin-right: 50px;" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $aktif->id }}', '{{ $aktif->nama_aktivasi }}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     @endforeach
@@ -94,51 +94,61 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-body mt-2 mb-5">
-           
+        <div class="card-body mt-2 mb-5"> 
         </div>
     </div>
-    
 </div>
+
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="post" id="forms" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-trash mx-2"></i>Hapus Data
+                </h5>
+                <input type="hidden" id="name" name="id">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @csrf
+                <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- End Delete Modal -->
 
 
 @endsection
 
 
 @push('js')
-<!-- <script>
-    const num = 0;
-function Function() {
-
-    const num = 0;
-    document.getElementById("demo").innerHTML = num;
-
-    num++;
-}
-</script> -->
 <script>
     function changeStyle(){
         var element = document.getElementById("hide");
         element.style.display = "none";
     }
 
-    function confirmation(delName){
-    var del=confirm(`Anda yakin ingin menghapus program dengan id ${delName} ?`);
-    if (del==true){
-        window.location.href=`/delete-aktivasi-program/${delName}`;
-    }
-    return del;
-    }
-    
-</script>
-<script>
-    function myFunction() {
-    var x = document.getElementById("myInput");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
+    function confirmation(delId, namaAktivasi){
+
+        let url = document.getElementById('delete').getAttribute('data-url');
+        let completeUrl = url + delId;
+        // output = delete-materi/1
+
+        $('#name').val(delId);
+        $('#forms').attr('action', completeUrl);
+
+        let comment = document.getElementById('message');
+        comment.innerHTML = '<p> Anda yakin ingin menghapus aktivasi berjudul ' + '<strong>' + namaAktivasi +  '</strong>' + ' ? </p>';
+
+        $('#staticBackdrop').modal('show');
+        // menampilkan modal box
+
     }
 </script>
 <script>

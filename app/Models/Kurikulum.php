@@ -13,11 +13,11 @@ class Kurikulum extends Model
     protected $guarded = ['id'];
     
     public function program(){
-        $this->hasMany(Program::class);
+        return $this->hasMany(Program::class);
     }
 
     public function student(){
-        $this->hasMany(Student::class);
+        return $this->hasMany(Student::class);
     }
 
     public function scopeFilter($query, array $filters){

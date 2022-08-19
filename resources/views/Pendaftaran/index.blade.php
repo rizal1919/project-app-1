@@ -57,7 +57,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Siswa</th>
-                                <th>Kelas | ID</th>
+                                <th>Kelas</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -69,17 +69,13 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $dasis['nama_siswa'] }}</td>
-                                    <td>{{ $dasis['nama_program'] }} | {{ $dasis['id'] }}</td>
+                                    <td>{{ $dasis['nama_program'] }}</td>
                                     <td><p class="badge bg-primary">{{ $dasis['deleted_at'] }}</p></td>
                                     <td>
                                         <?php $nama = $dasis['nama_program']; ?>
                                         <?php $id = $dasis['id']; ?>
                                         <?php $nama_siswa = $dasis['nama_siswa']; ?>
-                                       
-
-                                        
-                                        <button id="reguler" class="btn btn-warning text-dark border-0" onclick="confirmationReguler('{{ $nama }}', '{{ $id }}', '{{ $nama_siswa }}')"><i class="fas fa-trash"></i></button>
-                                        <!-- <button id="reguler" class="btn btn-success border-0 text-light" onclick="confirmationRestore('{{ $nama }}', '{{ $id }}', '{{ $nama_siswa }}')"><i class="fa-solid fa-arrow-rotate-right mx-1"></i>restore</button> -->
+                                        <button type="button" id="delete" data-url="/form-registrasi-softdelete/" class="btn btn-warning text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $nama }}','{{ $id }}', '{{ $nama_siswa }}')"><i class="fas fa-trash"></i></button>
                                           
                                             
                                        
@@ -99,126 +95,54 @@
     </div>
 </div>
 
-<script>
-    function confirmationReguler(delName, id, namaSiswa){
-        var del=confirm(`Anda yakin ingin menonaktifkan siswa dengan program ${delName} ?`);
-        if (del==true){
-            window.location.href=`/form-registrasi-softdelete/${delName}/${id}/${namaSiswa}`;
-        }
-        return del;
-    }
-
-    function confirmationRestore(delName, id, namaSiswa){
-        var del=confirm(`Anda yakin ingin mengaktifkan siswa dengan program ${delName} ?`);
-        if (del==true){
-            window.location.href=`/form-registrasi-restore/${delName}/${id}/${namaSiswa}`;
-        }
-        return del;
-    }
-
-    
-</script>
-
-<script>
-    $(document).ready(function(){
-    
-        
-        $('#nama_siswa').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('search') }}",
-                type:"GET",
-                data:{'nama_siswa':value},
-                success:function(data){
-
-                    
-
-                    $('#nama').html(data);
-                    
-                    
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#n', function(){
-            var value = $(this).text();
-            $("#nama_siswa").val(value);
-            $('#nama').html('');
-        });
-
-        $('#ktp').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('ktp') }}",
-                type:"GET",
-                data:{'ktp':value},
-                success:function(data){
-
-                    
-                    console.log(data);
-                    console.log( data[0]['nama_siswa'] );
-
-                    $('#noktp').html(data);
-                    $('#nama_siswa').val(data[0]['nama_siswa']);
-                    $('#email').val(data[0]['email']);
-                    $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#k', function(){
-            var value = $(this).text();
-            $("#ktp").val(value);
-            $('#noktp').html('');
-        });
-
-        $('#email').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('email') }}",
-                type:"GET",
-                data:{'email':value},
-                success:function(data){
-
-                    $('#alamatemail').html(data);
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#e', function(){
-            var value = $(this).text();
-            $("#email").val(value);
-            $('#alamatemail').html('');
-        });
-
-
-
-    });
-</script>
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="post" id="forms" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-trash mx-2"></i>Hapus Data
+                </h5>
+                <input type="hidden" id="name" name="id">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @csrf
+                <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- End Delete Modal --> 
 @endsection
 
 
 @push('js')
-<!-- <script>
-    const num = 0;
-function Function() {
-
-    const num = 0;
-    document.getElementById("demo").innerHTML = num;
-
-    num++;
-}
-</script> -->
 <script>
     function changeStyle(){
         var element = document.getElementById("hide");
         element.style.display = "none";
+    }
+
+    function confirmation(namaProgram, delId, namaSiswa){
+
+        let url = document.getElementById('delete').getAttribute('data-url');
+        let completeUrl = url + namaProgram + '/' + delId + '/' + namaSiswa;
+        // output = delete-materi/1
+
+        $('#name').val(delId);
+        $('#forms').attr('action', completeUrl);
+
+        let comment = document.getElementById('message');
+        comment.innerHTML = '<p> Anda yakin ingin menghapus data siswa ' + '<strong>' + namaSiswa +  '</strong>' + ' dari program ' + '<strong>' + namaProgram + '</strong>' + ' ? </p>';
+
+        $('#staticBackdrop').modal('show');
+        // menampilkan modal box
+
     }
     
 </script>

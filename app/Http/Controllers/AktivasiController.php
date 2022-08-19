@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktivasi;
+use App\Models\AktivasiStudent;
 use App\Models\Program;
 
 use Illuminate\Http\Request;
@@ -115,7 +116,14 @@ class AktivasiController extends Controller
 
     public function destroy(Aktivasi $aktivasi){
 
-       
+        // dd($aktivasi);
+
+        $siswaTerdaftar = AktivasiStudent::where('aktivasi_id', $aktivasi->id)->get();
+        // dd($siswaTerdaftar);
+
+        if( count($siswaTerdaftar) > 0 ){
+            return redirect('/aktivasi')->with('destroyFailed', $aktivasi->nama_aktivasi);
+        }
 
         Aktivasi::find($aktivasi->id)->delete();
 

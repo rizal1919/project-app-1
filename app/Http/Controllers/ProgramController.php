@@ -128,7 +128,10 @@ class ProgramController extends Controller
     {
         // $program->delete($request);
         // return back()->with('destroy','Deleted Successfully!');
-
+        $aktivasiProgram = $program->aktivasi;
+        if( count($aktivasiProgram) > 0 ){
+            return redirect('/program/' . $program->kurikulum_id)->with('destroyFailed', $program->nama_program);
+        }
         
         Program::find($program->id)->delete();
     

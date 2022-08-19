@@ -62,7 +62,7 @@
                                     <?php $id = $pic->id; ?>
                                     <a href="/pic-show/{{ $pic->id }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
                                     <a href="/pic-update/{{ $pic->id }}" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
-                                    <button class="btn btn-danger text-dark" onclick="confirmation('{{ $namaPIC }}', '{{ $id }}')"><i class="fas fa-trash"></i></button>
+                                    <button type="button" id="delete" data-url="/pic-delete/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $pic->id }}', '{{ $pic->nama_pic }}')"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -74,6 +74,29 @@
             </div>
         </div>
     </div>
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="post" id="forms" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-trash mx-2"></i>Hapus Data
+                </h5>
+                <input type="hidden" id="name" name="id">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @csrf
+                <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- End Delete Modal --> 
 @endsection
 @push('js')
 <script>
@@ -82,12 +105,21 @@
         element.style.display = "none";
     }
 
-    function confirmation(namaSekolah,delId){
-    var del=confirm(`Anda yakin ingin menghapus data pic bernama ${namaSekolah} ?`);
-    if (del==true){
-        window.location.href=`/pic-delete/${delId}`;
-    }
-    return del;
+    function confirmation(delId, namaPIC){
+
+        let url = document.getElementById('delete').getAttribute('data-url');
+        let completeUrl = url + delId;
+        // output = delete-materi/1
+
+        $('#name').val(delId);
+        $('#forms').attr('action', completeUrl);
+
+        let comment = document.getElementById('message');
+        comment.innerHTML = '<p> Anda yakin ingin menghapus PIC bernama ' + '<strong>' + namaPIC +  '</strong>' + ' ? </p>';
+
+        $('#staticBackdrop').modal('show');
+        // menampilkan modal box
+
     }
 </script>
 @endpush

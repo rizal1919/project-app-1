@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Kurikulum;
 use App\Models\Program;
 use App\Models\Student;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -313,9 +314,22 @@ class StudentController extends Controller
 
     public function destroy(Student $student){
 
-        $student->find($student->id)->delete();
+        $dataSiswaReguler = DB::table('kurikulum_students')->where('student_id', $student->id)->get();
+        $dataSiswaAktivasi = DB::table('aktivasi_students')->where('student_id', $student->id)->get();
+        // dd($dataSiswaAktivasi);
 
-        return redirect('/data-siswa')->with('destroy', 'Delete Successfully!');
+        if( count($dataSiswaReguler) > 0 && count($dataSiswaAktivasi) > 0 ){
+            return redirect('/data-siswa')->with('destroyFailed', 'Program Reguler dan Aktivasi');
+        }elseif( count($dataSiswaReguler) > 0 && count($dataSiswaAktivasi) === 0 ){
+            return redirect('/data-siswa')->with('destroyFailed', 'Program Reguler');
+        }elseif( count($dataSiswaReguler) === 0 && count($dataSiswaAktivasi) > 0 ){
+            return redirect('/data-siswa')->with('destroyFailed', 'Program Aktivasi');
+        }
+
+
+        $student->delete();
+
+        return redirect('/data-siswa')->with('destroy', $student->nama_siswa);
 
     }
 }

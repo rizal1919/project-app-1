@@ -11,7 +11,13 @@
             <div class="card-body">
                     @if( session('destroy') )
                     <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        <strong>{{ session('destroy') }}</strong> Data siswa telah berhasil dihapus.
+                        Informasi siswa bernama <strong>{{ session('destroy') }}</strong> telah berhasil dihapus.
+                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+                    @if( session('destroyFailed') )
+                    <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                        Informasi siswa gagal dihapus karena masih tertaut pada <strong>{{ session('destroyFailed') }}</strong>!
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
@@ -68,8 +74,8 @@
                                     <td>
                                         <a href="/data-siswa/show/student/{{ $dasis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
                                         <a href="/data-siswa/update/student/{{ $dasis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                        <!-- <a href="/kelas-admin/delete/student/{{ $dasis->id }}" class="badge badge-danger text-decoration-none text-light"><i class="fas fa-trash"></i></a> -->
-                                        <button class="btn btn-danger text-dark border-0" onclick="confirmation('{{ $dasis->nama_siswa }}')"><i class="fas fa-trash"></i></button>
+                                        <!-- <button class="btn btn-danger text-dark border-0" onclick="confirmation('{{ $dasis->nama_siswa }}')"><i class="fas fa-trash"></i></button> -->
+                                        <button type="button" id="delete" data-url="/data-siswa/delete/student/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $dasis->id }}', '{{ $dasis->nama_siswa }}')"><i class="fas fa-trash"></i></button>
                             
                                     </td>
                                 </tr>
@@ -86,6 +92,30 @@
         </div>
     </div>
 </div>
+
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="post" id="forms" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-trash mx-2"></i>Hapus Data
+                </h5>
+                <input type="hidden" id="name" name="id">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @csrf
+                <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- End Delete Modal --> 
 @endsection
 
 @push('js')
@@ -96,12 +126,21 @@ function changeStyle(){
     }
 </script>
 <script>
-    function confirmation(delId){
-    var del=confirm(`Anda yakin ingin menghapus siswa bernama ${delId} ?`);
-    if (del==true){
-        window.location.href=`/data-siswa/delete/student/${delId}`;
-    }
-    return del;
+    function confirmation(delId, namaSiswa){
+
+        let url = document.getElementById('delete').getAttribute('data-url');
+        let completeUrl = url + delId;
+        // output = delete-materi/1
+
+        $('#name').val(delId);
+        $('#forms').attr('action', completeUrl);
+
+        let comment = document.getElementById('message');
+        comment.innerHTML = '<p> Anda yakin ingin menghapus siswa bernama ' + '<strong>' + namaSiswa +  '</strong>' + ' ? </p>';
+
+        $('#staticBackdrop').modal('show');
+        // menampilkan modal box
+
     }
 </script>
 @endpush
