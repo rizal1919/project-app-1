@@ -28,19 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        // Collection::macro('paginate', function($perPage, $total = null, $page = null, $pageName = 'page') {
-        //     $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
-        //     // return new \Illuminate\Pagination\LengthAwarePaginator(array_values($items->forPage($page, $perPage)->toArray()), $items->count(), $perPage, $page, $options);
-        //     return new LengthAwarePaginator(
-        //         $this->forPage($page, $perPage),
-        //         $total ?: $this->count(),
-        //         $perPage,
-        //         $page,
-        //         [
-        //             'path' => LengthAwarePaginator::resolveCurrentPath(),
-        //             'pageName' => $pageName,
-        //         ]
-        //     );
-        // });
+        
     }
 }

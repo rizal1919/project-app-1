@@ -30,17 +30,17 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::get('/', function () {
-    return view('Home.index', [
-        'title' => 'Home | ',
-        'active' => 'Home'
-   ]);
-})->name('home')->middleware('guest');
+// Route::get('/', function () {
+//     return view('Home.index', [
+//         'title' => 'Home | ',
+//         'active' => 'Home'
+//    ]);
+// })->name('home')->middleware('guest');
 
 
 
 // routes login
-Route::get('/login-admin', [LoginController::class, 'index'])->name('login')->Middleware('guest');
+Route::get('/', [LoginController::class, 'index'])->name('login')->Middleware('guest');
 Route::post('/login-admin', [LoginController::class, 'authenticate']);
 Route::post('/logout-admin', [LoginController::class, 'logout']);
 

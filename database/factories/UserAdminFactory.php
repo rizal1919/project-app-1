@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserAdmin>
@@ -15,11 +16,12 @@ class UserAdminFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition()
-    {
+    {   
+        
         return [
             'name_admin' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => 'admin',
+            'password' => Hash::make('admin'),
             'username_admin' => 'admin'
         ];
     }

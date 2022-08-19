@@ -13,7 +13,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link {{ ($active == 'Kelas') ? 'active' : '' }}" href="/kelas-admin">
-                  <span data-feather="grid" class="align-text-bottom"></span>
+                  <span data-feather="layers" class="align-text-bottom"></span>
                   Kelas
                 </a>
               </li>
@@ -27,6 +27,12 @@
                 <a class="nav-link {{ ($active == 'Data Kurikulum') ? 'active' : '' }}" href="/kurikulum">
                   <span data-feather="server" class="align-text-bottom"></span>
                   Data Kurikulum
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{ ($active == 'Guru') ? 'active' : '' }}" href="#">
+                  <span data-feather="list" class="align-text-bottom"></span>
+                  Guru
                 </a>
               </li>
               <li class="nav-item">
@@ -47,6 +53,18 @@
                   PIC (Person In Charge)
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link {{ ($active == 'Asign Guru') ? 'active' : '' }}" href="#">
+                  <span data-feather="user-check" class="align-text-bottom"></span>
+                  Assign Guru
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{ ($active == 'Ruang Kelas') ? 'active' : '' }}" href="#">
+                  <span data-feather="grid" class="align-text-bottom"></span>
+                  Ruang Kelas
+                </a>
+              </li>
             </ul>
             <h6 class="sidebar-heading d-flex justify-content-between px-3 mt-4 align-items-center text-muted text-uppercase">
               <span>LAYANAN</span>
@@ -59,17 +77,10 @@
                   Pendaftaran
                 </a>
               </li>
-            </ul>
-
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-              <span>PENGATURAN</span>
-              <a class="link-secondary" href="#"></a>
-            </h6>
-            <ul class="nav flex-column">
               <li class="nav-item">
                   <form action="/logout-admin" method="post">
                     @csrf
-                    <button class="nav-link px-3 mt-2 bg-light border-0"><span data-feather="log-out"></span> Logout</button>
+                    <button class="nav-link px-3 bg-light border-0"><span data-feather="log-out"></span> Logout</button>
                   </form>
               </li>
             </ul>

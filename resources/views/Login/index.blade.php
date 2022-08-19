@@ -52,9 +52,6 @@
             <button class="w-100 btn btn-lg btn-primary mt-3 mb-3" type="submit">Masuk</button>
             
         </form>
-        <div class="col-lg-12 text-center">
-            <p class="text-center d-inline mx-1 ">Belum punya akun?</p><a class="text-decoration-none button-registered-or-unregistered " href="/register-admin">Daftar</a>
-        </div>
         </main>
         </div>
     </div>
