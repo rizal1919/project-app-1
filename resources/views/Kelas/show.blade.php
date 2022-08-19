@@ -20,17 +20,13 @@
                         <form action="/kelas-admin/show/{{ $kurikulum->id }}" method="get" class="mx-2" style="width: 90%;" >
                             @csrf
                             <div class="input-group">
-                                <input type="text" name="nama" value="{{ request()->nama }}" class="form-control text-end" placeholder="Nama">
+                                <input type="text" name="nama_siswa" value="{{ request()->nama_siswa }}" class="form-control text-end" placeholder="Nama">
                                 <input type="text" name="ktp" value="{{  request()->ktp }}" class="form-control text-end" placeholder="No KTP">
-                                <input type="text" name="tahun" value="{{ request()->tahun }}" class="form-control text-end" placeholder="Tahun">
+                                <input type="text" name="tahun_daftar" value="{{ request()->tahun_daftar }}" class="form-control text-end" placeholder="Tahun">
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                             </div>
                         </form>
-                        <button class="btn btn-primary" style="width: 10%; height: 100%;">
-                            <a href="/kelas-admin" class="text-decoration-none text-light self-align-center">
-                                Kembali
-                            </a>
-                        </button>
+                        <a href="/kelas-admin" class="text-decoration-none text-light btn btn-primary self-align-center" style="width: 10%; height: 100%;">Kembali</a>
                     </div>
                 </div>
                 
@@ -42,29 +38,21 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Siswa</th>
-                                <th>Email | ID Siswa</th>
+                                <th>Email</th>
                                 <th>KTP</th>
-                                <th class="text-center">Status (optional field)</th>
+                                <th class="text-center">Status</th>
                                 <th class="text-center">Tahun Diterima</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach( $dataSiswa as $dasis )
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $dasis->nama_siswa }}</td>
-                                <td>{{ $dasis->email }} | {{ $dasis->nomor_pendaftaran }}</td>
-                                <td>{{ $dasis->ktp }}</td>
-                                <td class="text-center"><span class="badge text-bg-primary">Diterima</span></td>
-                                <td class="text-center">{{ $dasis->tahun_daftar }}</td>
-                                <td>
-                                    <a href="/kelas-admin/show/student/{{ $dasis->id }}" class="badge bg-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
-                                    <a href="/kelas-admin/update/student/{{ $dasis->id }}" class="badge bg-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                    <!-- <a href="/kelas-admin/delete/student/{{ $dasis->id }}" class="btn btn-danger text-decoration-none text-dark"><i class="fas fa-trash"></i></a> -->
-                                    <button class="badge bg-danger text-dark border-0" onclick="confirmation('{{ $dasis->nama_siswa }}')"><i class="fas fa-trash"></i></button>
-                        
-                                </td>
+                                <td>{{ $dasis['nama_siswa'] }}</td>
+                                <td>{{ $dasis['email'] }}</td>
+                                <td>{{ $dasis['ktp'] }}</td>
+                                <td class="text-center"><span class="badge text-bg-primary">{{ $dasis['status'] }}</span></td>
+                                <td class="text-center">{{ $dasis['tahun_daftar'] }}</td>
                             </tr>
                             @endforeach
                         </tbody>
