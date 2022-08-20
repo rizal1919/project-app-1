@@ -11,6 +11,10 @@ class Teacher extends Model
 
     protected $guarded = ['id'];
 
+    public function assignteacher(){
+        return $this->hasMany(AssignTeacher::class);
+    }
+
     public function scopeFilter($query,  array $filters){
 
         $query->when($filters['teacher_name'] ?? false, function($query, $teacher_name){

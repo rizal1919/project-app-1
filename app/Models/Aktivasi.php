@@ -15,6 +15,10 @@ class Aktivasi extends Model
         return $this->belongsTo(Program::class);
     }
 
+    public function assignteacher(){
+        return $this->hasMany(AssignTeacher::class);
+    }
+
     public function scopeFilter($query, array $filters){
 
         $query->when($filters['search'] ?? false, function( $query, $search ) {

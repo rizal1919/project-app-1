@@ -6,76 +6,122 @@
 </div>
     <div class="container d-flex justify-content-center my-4">
         <div class="card col-12 justify-content-center">
-            @if( session('pendaftaranGagal') )
+            @if( session('teacher') )
             <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
+                Informasi <strong>{{ session('teacher') }}</strong> pilihan harus dipilih.
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            @if( session('pendaftaranBerhasil') )
+            @if( session('aktivasi') )
+            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                Informasi <strong>{{ session('aktivasi') }}</strong> pilihan harus dipilih.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if( session('materi') )
+            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                Informasi <strong>{{ session('materi') }}</strong> pilihan harus dipilih.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if( session('create') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                <strong>{{ session('pendaftaranBerhasil') }}</strong> adalah kode untuk aktivasi program.
+                <strong>{{ session('create') }}</strong> Informasi data telah tersimpan
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
             <div class="card-header">
                 <p class="card-title">
-                    Form Registrasi Short Course
+                    Form Assign Guru
                 </p>
             </div>
-            <form action="/form-registrasi/aktivasi-create" method="post">
+            <form action="/assign-teacher-create" method="post">
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
-                        <label for="ktp" class="col-form-label">KTP</label>
-                        <input type="text" autocomplete="off" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="nomor ktp">
-                        @error('ktp')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        <div id="noktp"></div>
 
-                        <label for="nama_siswa" class="col-form-label">NAMA</label>
-                        <input type="text" autocomplete="off" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}"  placeholder="nama">
-                        @error('nama_siswa')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                        <div id="nama"></div>
-
-                        <label for="email" class="col-form-label">EMAIL</label>
-                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"  placeholder="example@gmail.com">
-                        @error('email')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                        <div id="alamatemail"></div>
-
-                        <label for="tanggal_lahir" class="col-form-label">TANGGAL LAHIR</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}">
-                        @error('tanggal_lahir')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-
-                    </div>
-                    <div class="col-auto">
-                        
-                        <label for="aktivasi_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
+                        <label for="teacher_id" class="col-form-label">GURU</label>
                         <div class="col-auto"> 
-                            <select name="aktivasi_id" id="aktivasi_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                            <select name="teacher_id" id="teacher_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
 
-                                <option value="0">Tidak memilih paket</option>
+                                <option value="0">Tidak memilih guru</option>
+                                @foreach( $teachers as $teacher )
+                                <option value="{{ $teacher['id'] }}">{{ $teacher['teacher_name'] }}</option>
+                                @endforeach
+                            
+                            </select>
+                        </div>
+
+                        <label for="aktivasi_id" class="col-form-label">AKTIVASI</label>
+                        <div class="col-auto"> 
+                            <select name="aktivasi_id" id="aktivasi_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+
+                                <option value="0">Tidak memilih aktivasi</option>
                                 @foreach( $aktivasis as $aktivasi )
                                 <option value="{{ $aktivasi['id'] }}">{{ $aktivasi['nama_aktivasi'] }}</option>
                                 @endforeach
                             
                             </select>
                         </div>
+
+                        <label for="materi_id" class="col-form-label">MATERI</label>
+                        <div class="col-auto"> 
+                            <select name="materi_id" id="materi_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                                
+                                <?php for( $i=0; $i<count($programs); $i++ ): ?>
+
+                                    @if( count($programs[$i]->aktivasi) === 0 )
+                                    <optgroup label="{{ $programs[$i]->nama_program }}">  
+                                        @foreach( $materis as $materi )
+                                            @if( $materi->program_id == $programs[$i]->id )
+                                                <option value="{{ $materi->id }}">{{ $materi->nama_materi }}</option>
+                                            @endif
+                                        @endforeach
+                                    </optgroup>
+                                    @else
+                                    <optgroup label="{{ $programs[$i]->aktivasi[0]->nama_aktivasi }}">  
+                                        @foreach( $materis as $materi )
+                                            @if( $materi->program_id == $programs[$i]->id )
+                                                <option value="{{ $materi->id }}">{{ $materi->nama_materi }}</option>
+                                            @endif
+                                        @endforeach
+                                    </optgroup>
+                                    @endif
+
+                                <?php endfor; ?>
+                           
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-auto">
+
+                        <label for="status" class="col-form-label">STATUS</label>
+                        <div class="col-auto"> 
+                            <select name="status" id="status" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+
+                                <option value="0">Belum Terlaksana</option>
+                                <option value="1">Terlaksana</option>
+                            
+                            </select>
+                        </div>
+                        
+                        <label for="pertemuan" class="col-form-label">PERTEMUAN</label>
+                        <input type="integer" name="pertemuan" id="pertemuan" class="form-control @error('pertemuan') is-invalid @enderror" value="{{ old('pertemuan') }}"  placeholder="example@gmail.com">
+                        @error('pertemuan')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+
+                        <label for="tanggal" class="col-form-label">TANGGAL</label>
+                        <input type="date" name="tanggal" id="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ old('tanggal') }}">
+                        @error('tanggal')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
 
                     </div>
                 </div>
@@ -84,8 +130,8 @@
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
-                        <a href="/form-registrasi" class="btn btn-primary">Kembali</a>
+                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Tambah Data</button>
+                        <a href="/assign-teacher" class="btn btn-primary">Kembali</a>
                     </div>
                     
                 </div>

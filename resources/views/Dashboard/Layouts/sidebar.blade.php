@@ -54,7 +54,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {{ ($active == 'Asign Guru') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ ($active == 'Penugasan Guru') ? 'active' : '' }}" href="/assign-teacher">
                   <span data-feather="user-check" class="align-text-bottom"></span>
                   Assign Guru
                 </a>

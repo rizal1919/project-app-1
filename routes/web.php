@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AktivasiController;
+use App\Http\Controllers\AssignTeacherController;
 use App\Http\Controllers\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MateriController;
@@ -179,6 +180,15 @@ Route::post('/classroom-create', [ClassroomController::class, 'store'])->middlew
 Route::get('/classroom-update/{classroom:id}', [ClassroomController::class, 'edit'])->middleware('auth');
 Route::post('/classroom-update/{classroom:id}', [ClassroomController::class, 'update'])->middleware('auth');
 Route::post('/classroom-delete/{classroom:id}', [ClassroomController::class, 'delete'])->middleware('auth');
+
+// route assign teacher
+Route::get('/assign-teacher', [AssignTeacherController::class, 'index'])->middleware('auth');
+Route::get('/assign-teacher-show/{assignteacher:id}', [AssignTeacherController::class, 'show'])->middleware('auth');
+Route::get('/assign-teacher-create', [AssignTeacherController::class, 'create'])->middleware('auth');
+Route::post('/assign-teacher-create', [AssignTeacherController::class, 'store'])->middleware('auth');
+Route::get('/assign-teacher-update/{assignteacher:id}', [AssignTeacherController::class, 'edit'])->middleware('auth');
+Route::post('/assign-teacher-update/{assignteacher:id}', [AssignTeacherController::class, 'update'])->middleware('auth');
+Route::post('/assign-teacher-delete/{assignteacher:id}', [AssignTeacherController::class, 'delete'])->middleware('auth');
 
 
 

@@ -10,4 +10,16 @@ class AssignTeacher extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function teacher(){
+        return $this->belongsTo(Teacher::class);
+    }
+
+    public function aktivasi(){
+        return $this->belongsTo(Aktivasi::class);
+    }
+
+    public function materi(){
+        return $this->belongsTo(Materi::class);
+    }
 }
