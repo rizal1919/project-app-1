@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -74,6 +75,10 @@ class TeacherController extends Controller
     }
 
     public function delete(Teacher $teacher){
+
+        if( count(DB::table('assign_teachers')->where('teacher_id', $teacher->id)->get()) > 0){
+            return redirect('/teacher')->with('deleteFailed', $teacher->teacher_name);
+        }
 
         $teacher->delete();
 

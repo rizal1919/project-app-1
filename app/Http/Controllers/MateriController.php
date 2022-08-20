@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kurikulum;
 use App\Models\Materi;
 use App\Models\Program;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class MateriController extends Controller
@@ -166,11 +167,16 @@ class MateriController extends Controller
         // $program->delete($request);
         // return back()->with('destroy','Deleted Successfully!');
 
-        
-        
-        
+        // dd($materi->id);
         $namaMateri = $materi->nama_materi;
         $idProgram = $materi->program->id;
+
+        if( count(DB::table('assign_teachers')->where('materi_id', $materi->id)->get()) > 0 ){
+            return redirect('/materi/' . $idProgram)->with('destroyFailed', $namaMateri);
+        }
+        
+        
+       
 
         // dd($idProgram);
         Materi::find($request->id)->delete();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aktivasi;
 use App\Models\AktivasiStudent;
 use App\Models\Program;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -123,6 +124,10 @@ class AktivasiController extends Controller
 
         if( count($siswaTerdaftar) > 0 ){
             return redirect('/aktivasi')->with('destroyFailed', $aktivasi->nama_aktivasi);
+        }
+
+        if( count(DB::table('assign_teachers')->where('aktivasi_id', $aktivasi->id)->get()) > 0 ){
+            return redirect('/aktivasi')->with('destroyFailedAssignment', $aktivasi->nama_aktivasi);
         }
 
         Aktivasi::find($aktivasi->id)->delete();

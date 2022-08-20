@@ -40,6 +40,12 @@
             <button type="button" class="btn-close" id="matikan" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
+        @if( session('destroyFailed') )
+        <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
+            Informasi materi <strong>{{ session('destroyFailed') }}</strong> gagal dihapus karena masih tertaut pada halaman penugasan guru.
+            <button type="button" class="btn-close" id="matikan" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
         @if( session('success') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
             <strong>{{ session('success') }}</strong> Materi telah berhasil ditambahkan.

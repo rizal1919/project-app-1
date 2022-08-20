@@ -37,7 +37,7 @@
             @endif
             @if( session('deleteFailed') )
             <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
-                Silahkan hapus PIC untuk sekolah <strong>{{ session('deleteFailed') }}</strong> terlebih dahulu
+                Informasi guru <strong>{{ session('deleteFailed') }}</strong> gagal dihapus, silahkan hapus pada halaman penugasan terlebih dulu
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
