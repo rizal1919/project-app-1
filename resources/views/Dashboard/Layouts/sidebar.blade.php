@@ -30,7 +30,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {{ ($active == 'Guru') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ ($active == 'Guru') ? 'active' : '' }}" href="/teacher">
                   <span data-feather="list" class="align-text-bottom"></span>
                   Guru
                 </a>
@@ -49,8 +49,8 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link {{ ($active == 'PIC') ? 'active' : '' }}" href="/pic">
-                  <span data-feather="user" class="align-text-bottom"></span>
-                  PIC (Person In Charge)
+                  <span data-feather="flag" class="align-text-bottom"></span>
+                  PIC
                 </a>
               </li>
               <li class="nav-item">
@@ -60,7 +60,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {{ ($active == 'Ruang Kelas') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ ($active == 'Ruang Kelas') ? 'active' : '' }}" href="/classroom">
                   <span data-feather="grid" class="align-text-bottom"></span>
                   Ruang Kelas
                 </a>

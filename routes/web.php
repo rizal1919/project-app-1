@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AktivasiController;
+use App\Http\Controllers\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ProgramController;
@@ -13,6 +14,8 @@ use App\Http\Controllers\KurikulumController;
 use App\Http\Controllers\PICController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SekolahController;
+use App\Http\Controllers\TeacherController;
+use App\Models\Classroom;
 use App\Models\Kurikulum;
 use App\Models\Student;
 use GuzzleHttp\Middleware;
@@ -124,30 +127,20 @@ Route::post('/delete-kurikulum/{kurikulum:id}', [KurikulumController::class, 'de
 
 // routes program
 Route::get('/program/{kurikulum:id}', [ProgramController::class, 'index'])->Middleware('auth');
-
 Route::get('/show-program/{program:id}', [ProgramController::class, 'show']);
-
 Route::get('/create/{kurikulum:id}', [ProgramController::class, 'create'])->Middleware('auth');
 Route::post('/create', [ProgramController::class, 'store']);
-
 Route::get('/update-program/{program:id}', [ProgramController::class, 'edit'])->Middleware('auth');
 Route::post('/update-program/{program:id}', [ProgramController::class, 'update']);
-
 Route::post('/delete-program/{program:id}', [ProgramController::class, 'destroy'])->Middleware('auth');
 
 // routes materi
-// Route::get('/materi', [MateriController::class, 'index']);
-// Route::get('/materi/{materi:program_id}', [MateriController::class, 'indexMateri']);
 Route::get('/materi/{program:id}', [ProgramController::class, 'indexMateri'])->Middleware('auth');
-
 Route::get('/create-materi/{program:id}', [MateriController::class, 'createMateri'])->Middleware('auth');
 Route::post('/create-materi', [MateriController::class, 'storeMateri']);
-
 Route::get('/show-materi/{materi:id}', [MateriController::class, 'showMateri'])->Middleware('auth');
-
 Route::get('/update-materi/{materi:id}', [MateriController::class, 'editMateri'])->Middleware('auth');
 Route::post('/update-materi/{materi:id}', [MateriController::class, 'updateMateri']);
-
 Route::post('/delete-materi/{materi:id}', [MateriController::class, 'destroyMateri'])->Middleware('auth');
 
 
@@ -168,6 +161,24 @@ Route::get('/pic-show/{pic:id}', [PICController::class, 'show'])->middleware('au
 Route::get('/pic-update/{pic:id}', [PICController::class, 'edit'])->middleware('auth');
 Route::post('/pic-update/{pic:id}', [PICController::class, 'update'])->middleware('auth');
 Route::post('/pic-delete/{pic:id}', [PICController::class, 'delete'])->middleware('auth');
+
+// route teacher
+Route::get('/teacher', [TeacherController::class, 'index'])->middleware('auth');
+Route::get('/teacher-show/{teacher:id}', [TeacherController::class, 'show'])->middleware('auth');
+Route::get('/teacher-create', [TeacherController::class, 'create'])->middleware('auth');
+Route::post('/teacher-create', [TeacherController::class, 'store'])->middleware('auth');
+Route::get('/teacher-update/{teacher:id}', [TeacherController::class, 'edit'])->middleware('auth');
+Route::post('/teacher-update/{teacher:id}', [TeacherController::class, 'update'])->middleware('auth');
+Route::post('/teacher-delete/{teacher:id}', [TeacherController::class, 'delete'])->middleware('auth');
+
+// route ruang kelas
+Route::get('/classroom', [ClassroomController::class, 'index'])->middleware('auth');
+Route::get('/classroom-show/{classroom:id}', [ClassroomController::class, 'show'])->middleware('auth');
+Route::get('/classroom-create', [ClassroomController::class, 'create'])->middleware('auth');
+Route::post('/classroom-create', [ClassroomController::class, 'store'])->middleware('auth');
+Route::get('/classroom-update/{classroom:id}', [ClassroomController::class, 'edit'])->middleware('auth');
+Route::post('/classroom-update/{classroom:id}', [ClassroomController::class, 'update'])->middleware('auth');
+Route::post('/classroom-delete/{classroom:id}', [ClassroomController::class, 'delete'])->middleware('auth');
 
 
 
