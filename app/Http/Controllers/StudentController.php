@@ -22,95 +22,93 @@ class StudentController extends Controller
         return $d;
     }
 
-    public function autocomplete(Request $request)
-    {
+    // public function autocomplete(Request $request)
+    // {
 
-        if($request->ajax()){
+    //     if($request->ajax()){
 
             
-            $data =  Student::where('nama_siswa', 'like', '%'. $request->nama_siswa . '%')->get();
-            $output = '';
-            if( $request->nama_siswa == '' ){
+    //         $data =  Student::where('nama_siswa', 'like', '%'. $request->nama_siswa . '%')->get();
+    //         $output = '';
+    //         if( $request->nama_siswa == '' ){
 
-                $output = '';
-            }elseif(count($data) > 0 ){
+    //             $output = '';
+    //         }elseif(count($data) > 0 ){
 
-                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
-                foreach( $data as $row ){
-                    $output .= '<li class="list-group-item" id="n">' . $row->nama_siswa . '</li>';
-                }
+    //             $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+    //             foreach( $data as $row ){
+    //                 $output .= '<li class="list-group-item" id="n">' . $row->nama_siswa . '</li>';
+    //             }
 
-                $output .= '</ul>';
-            }else{
+    //             $output .= '</ul>';
+    //         }else{
 
-                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
-                $output .= '<li class="list-group-item" id="n"> Data Tidak Ditemukan </li>';
-                $output .= '</ul>';
-            }
-            return $output;
+    //             $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+    //             $output .= '<li class="list-group-item" id="n"> Data Tidak Ditemukan </li>';
+    //             $output .= '</ul>';
+    //         }
+    //         return $output;
             
             
-        }
+    //     }
 
-        return view('DataSiswa.ajax');
-    }
+    //     return view('DataSiswa.ajax');
+    // }
     
-    public function ktp(Request $request)
+    public function search(Request $request)
     {
 
-        if($request->ajax()){
+        
+            $data =  Student::where('nama_siswa', '=', $request->name)->get();
 
-            
-            $data =  Student::where('ktp', '=', $request->ktp)->get();
-
-            if( $request->ktp == '' ){
-                $data = [''];
+            // if( $request->name == '' ){
+            //     $data = [''];
                 
-            }
+            // }
 
-            if(count($data) == 0){
-                $data = [''];
-            }
+            // if(count($data) == 0){
+            //     $data = [''];
+            // }
+
             return $data;
             
-            
-        }
+        
 
-        return view('DataSiswa.ajax');
+        
     }
 
-    public function alamatEmail(Request $request)
-    {
+    // public function alamatEmail(Request $request)
+    // {
 
-        if($request->ajax()){
+    //     if($request->ajax()){
 
             
-            $data =  Student::where('email', 'like', '%'. $request->email . '%')->get();
-            $output = '';
-            if( $request->email == '' ){
+    //         $data =  Student::where('email', 'like', '%'. $request->email . '%')->get();
+    //         $output = '';
+    //         if( $request->email == '' ){
 
-                $output = '';
-            }elseif(count($data) > 0 ){
+    //             $output = '';
+    //         }elseif(count($data) > 0 ){
 
-                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
-                foreach( $data as $row ){
-                    $output .= '<li class="list-group-item" id="e">' . $row->email . '</li>';
-                }
+    //             $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+    //             foreach( $data as $row ){
+    //                 $output .= '<li class="list-group-item" id="e">' . $row->email . '</li>';
+    //             }
 
-                $output .= '</ul>';
-            }else{
+    //             $output .= '</ul>';
+    //         }else{
 
-                $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
-                $output .= '<li class="list-group-item" id="e"> Data Tidak Ditemukan </li>';
-                $output .= '</ul>';
-            }
-            return $output;
+    //             $output = '<ul class="list-group" style="display:block; position:relative; z-index:1">';
+    //             $output .= '<li class="list-group-item" id="e"> Data Tidak Ditemukan </li>';
+    //             $output .= '</ul>';
+    //         }
+    //         return $output;
             
             
-        }
+    //     }
 
-        return view('DataSiswa.ajax');
-    }
+    //     return view('DataSiswa.ajax');
+    // }
 
     // public function autocomplete(Request $request)
     // {

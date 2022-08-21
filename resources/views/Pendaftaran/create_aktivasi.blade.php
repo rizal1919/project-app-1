@@ -27,23 +27,23 @@
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
+                        
+                        <label for="nama_siswa" class="col-form-label">NAMA</label>
+                        <select class="form-select" name="nama_siswa" id="single-select-field" style="width: 100%;" data-placeholder="Pilih Siswa">
+                            <option value=""></option>
+                            @foreach( $students as $student )
+                                <option>{{ $student->nama_siswa }}</option>
+                            @endforeach
+                        </select>
+                            
                         <label for="ktp" class="col-form-label">KTP</label>
-                        <input type="text" autocomplete="off" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="nomor ktp">
+                        <input type="text" autocomplete="off" name="ktp" id="ktp"  class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="nomor ktp">
                         @error('ktp')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
                         <div id="noktp"></div>
-
-                        <label for="nama_siswa" class="col-form-label">NAMA</label>
-                        <input type="text" autocomplete="off" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}"  placeholder="nama">
-                        @error('nama_siswa')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                        <div id="nama"></div>
 
                         <label for="email" class="col-form-label">EMAIL</label>
                         <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"  placeholder="example@gmail.com">
@@ -96,76 +96,107 @@
 
 <script>
     $(document).ready(function(){
+
+        $( '#single-select-field' ).select2( {
+            theme: "bootstrap-5",
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-70' ) ? '100%' : 'style',
+            placeholder: $( this ).data( 'placeholder' ),
+        });
+
+        $('#single-select-field').on('select2:select', function (e) {
+            var data = e.params.data;
+            // console.log(data.text);
+            
+            let test = $('#single-select-field').select2('data');
+            console.log(test);
     
-        $('#nama_siswa').on('keyup', function(){
-            var value = $(this).val();
+            
             $.ajax({
                 url:"{{ route('search') }}",
                 type:"GET",
-                data:{'nama_siswa':value},
-                success:function(data){
-
-                    $('#nama').html(data);                    
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#n', function(){
-            var value = $(this).text();
-            $("#nama_siswa").val(value);
-            $('#nama').html('');
-        });
-
-        $('#ktp').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('ktp') }}",
-                type:"GET",
-                data:{'ktp':value},
+                data:{'name':data.text},
                 success:function(data){
 
                     
                     console.log(data);
-                    console.log( data[0]['nama_siswa'] );
-
-                    $('#noktp').html(data);
-                    $('#nama_siswa').val(data[0]['nama_siswa']);
                     $('#email').val(data[0]['email']);
+                    $('#ktp').val(data[0]['ktp']);
                     $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
                     
                 }
             });
+            
         });
+    
+        // $('#nama_siswa').on('keyup', function(){
+        //     var value = $(this).val();
+        //     $.ajax({
+        //         url:"{{ route('search') }}",
+        //         type:"GET",
+        //         data:{'nama_siswa':value},
+        //         success:function(data){
 
-
-        $(document).on('click', '#k', function(){
-            var value = $(this).text();
-            $("#ktp").val(value);
-            $('#noktp').html('');
-        });
-
-        $('#email').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('email') }}",
-                type:"GET",
-                data:{'email':value},
-                success:function(data){
-
-                    $('#alamatemail').html(data);
+        //             $('#nama').html(data);                    
                     
-                }
-            });
-        });
+        //         }
+        //     });
+        // });
 
 
-        $(document).on('click', '#e', function(){
-            var value = $(this).text();
-            $("#email").val(value);
-            $('#alamatemail').html('');
-        });
+        // $(document).on('click', '#n', function(){
+        //     var value = $(this).text();
+        //     $("#nama_siswa").val(value);
+        //     $('#nama').html('');
+        // });
+
+        // $('#ktp').on('keyup', function(){
+        //     var value = $(this).val();
+        //     $.ajax({
+        //         url:"{{ route('ktp') }}",
+        //         type:"GET",
+        //         data:{'ktp':value},
+        //         success:function(data){
+
+                    
+        //             console.log(data);
+        //             console.log( data[0]['nama_siswa'] );
+
+        //             $('#noktp').html(data);
+        //             $('#nama_siswa').val(data[0]['nama_siswa']);
+        //             $('#email').val(data[0]['email']);
+        //             $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                    
+        //         }
+        //     });
+        // });
+
+
+        // $(document).on('click', '#k', function(){
+        //     var value = $(this).text();
+        //     $("#ktp").val(value);
+        //     $('#noktp').html('');
+        // });
+
+        // $('#email').on('keyup', function(){
+        //     var value = $(this).val();
+        //     $.ajax({
+        //         url:"{{ route('email') }}",
+        //         type:"GET",
+        //         data:{'email':value},
+        //         success:function(data){
+
+        //             $('#alamatemail').html(data);
+                    
+        //         }
+        //     });
+        // });
+
+
+        // $(document).on('click', '#e', function(){
+        //     var value = $(this).text();
+        //     $("#email").val(value);
+        //     $('#alamatemail').html('');
+        // });
 
 
 

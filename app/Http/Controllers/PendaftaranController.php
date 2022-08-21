@@ -226,7 +226,8 @@ class PendaftaranController extends Controller
             'active' => 'Pendaftaran',
             'title' => 'Tambah Reguler | ',
             'aktivasis' => Aktivasi::all(),
-            'date' => $date
+            'date' => $date,
+            'students' => Student::all()
         ]);
     }
 
