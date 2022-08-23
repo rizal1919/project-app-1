@@ -15,6 +15,7 @@
                 <div class="card-body">
                     <p class="card-text">ID : {{ $kurikulums->id }}</p>
                     <p class="card-text">Nama Kurikulum : {{ $kurikulums->nama_kurikulum }}</p>
+                    <p class="card-text">Biaya : {{ $kurikulums->biaya }}</p>
                     <p class="card-text">Dibuat : {{ $kurikulums->created_at->diffForHumans() }}</p>
                 </div>
                 

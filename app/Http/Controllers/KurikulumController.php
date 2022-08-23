@@ -39,21 +39,23 @@ class KurikulumController extends Controller
 
     public function store(Request $request){
 
-        // dd($request);
+        // dd($request->collect());
         
         $validatedData = $request->validate([
 
-            'nama_kurikulum' => 'required|max:255'
+            'nama_kurikulum' => 'required|max:255',
+            'biaya' => 'required'
         ],[
             'nama_kurikulum.required' => 'nama kurikulum harus diisi',
-            'nama_kurikulum.max' => 'maksimal karakter adalah 255'
+            'nama_kurikulum.max' => 'maksimal karakter adalah 255',
+            'biaya.required' => 'biaya wajib diisi'
         ]);
 
         // dd($validatedData);
 
         Kurikulum::create($validatedData);
 
-        return redirect('/kurikulum')->with('create', 'Berhasil!');
+        return redirect('/kurikulum')->with('create', $validatedData['nama_kurikulum']);
     }
 
     public function show(Kurikulum $kurikulum){
@@ -74,7 +76,7 @@ class KurikulumController extends Controller
     public function edit(Kurikulum $kurikulum){
 
 
-        $dataKurikulum = Kurikulum::where('id', $kurikulum->id)->first();
+        
 
         // dd($dataKurikulum);
 
@@ -82,7 +84,7 @@ class KurikulumController extends Controller
 
             'title' => 'Kurikulum | ',
             'active' => 'Data Kurikulum',
-            'kurikulums' => $dataKurikulum
+            'kurikulum' => $kurikulum
         ]);
     }
 
@@ -92,15 +94,17 @@ class KurikulumController extends Controller
         $validatedData = $request->validate([
 
             'nama_kurikulum' => 'required|max:255',
+            'biaya' => 'required'
             
         ]);
 
         $kurikulum->update([
             'nama_kurikulum' => $validatedData['nama_kurikulum'],
+            'biaya' => $validatedData['biaya']
             
         ]);
 
-        return redirect('/kurikulum')->with('update', 'Berhasil! ');
+        return redirect('/kurikulum')->with('update', $validatedData['nama_kurikulum']);
     }
 
     public function destroy(Kurikulum $kurikulum){

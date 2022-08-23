@@ -34,7 +34,7 @@
     <div class="col-11">
         @if( session('update') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-            <strong>{{ session('update') }}</strong> Kurikulum telah berhasil diubah.
+            Informasi paket kurikulum <strong>{{ session('update') }}</strong> telah berhasil diubah.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
@@ -52,7 +52,7 @@
         @endif
         @if( session('create') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-            <strong>{{ session('create') }}</strong> Kurikulum telah berhasil ditambahkan.
+            Informasi paket kurikulum <strong>{{ session('create') }}</strong> telah berhasil ditambahkan.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
@@ -67,6 +67,7 @@
                     <tr>
                         <th>No</th>
                         <th colspan="2">Kurikulum</th>
+                        <th>Biaya</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -77,6 +78,7 @@
                         <td>{{ $i }}</td>
                         <td>{{ $kurikulum->nama_kurikulum }}</td>
                         <td></td>
+                        <td>{{ $kurikulum->biaya }}</td>
                         <td>
                                 <a href="/show/{{ $kurikulum->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
                                 <a href="/update/{{ $kurikulum->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>

@@ -102,8 +102,8 @@ Route::post('/data-siswa/update/student/{student:id}', [StudentController::class
 Route::post('/data-siswa/delete/student/{student:id}', [StudentController::class, 'destroy']);
 // ajax autocomplete
 Route::get('/autocomplete', [StudentController::class, 'search'])->name('search');
-// Route::get('/autocomplete-ktp', [StudentController::class, 'ktp'])->name('ktp');
-// Route::get('/autocomplete-email', [StudentController::class, 'alamatEmail'])->name('email');
+Route::get('/autocomplete-ktp', [StudentController::class, 'ktp'])->name('ktp');
+Route::get('/autocomplete-email', [StudentController::class, 'alamatEmail'])->name('email');
 
 
 // route aktivasi
