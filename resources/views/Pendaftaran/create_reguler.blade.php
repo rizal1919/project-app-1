@@ -8,7 +8,7 @@
     <div class="card col-12 justify-content-center">
         @if( session('pendaftaranGagal') )
         <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-            <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
+            Pilihan paket reguler siswa <strong>{{ session('pendaftaranGagal') }}</strong> harus ditentukan.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
@@ -28,27 +28,25 @@
             @csrf
             <div class="row p-4 align-items-start justify-content-center">
                 <div class="col-auto mx-5">
-                    <label for="siswa" class="col-form-label">Siswa</label>
-                    <select class="form-control js-example-basic-single" name="siswa" id="siswa">
+                    
+                    
+
+                    <label for="nama_siswa" class="col-form-label">NAMA</label>
+                    <select class="form-select" name="nama_siswa" id="single-select-field" style="width: 100%;" data-placeholder="Pilih Siswa">
+                        <option value=""></option>
+                        @foreach( $students as $student )
+                            <option>{{ $student->nama_siswa }}</option>
+                        @endforeach
                     </select>
 
                     <label for="ktp" class="col-form-label">KTP</label>
-                    <input type="text" autocomplete="off" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="nomor ktp">
+                    <input type="text" autocomplete="off" name="ktp" id="ktp"  class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="Nomor KTP">
                     @error('ktp')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                     @enderror
                     <div id="noktp"></div>
-
-                    <label for="nama_siswa" class="col-form-label">NAMA</label>
-                    <input type="text" autocomplete="off" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}" placeholder="nama">
-                    @error('nama_siswa')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                    <div id="nama"></div>
 
 
                     <label for="email" class="col-form-label">EMAIL</label>
@@ -73,7 +71,7 @@
 
                     <label for="kurikulum_id" class="col-form-label">PILIHAN PAKET REGULER</label>
                     <div class="col-auto">
-                        <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                        <select name="kurikulum_id" id="kurikulum_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 150%;">
 
                             <option value="0">Tidak memilih paket</option>
                             @foreach( $kurikulums as $kurikulum )
@@ -84,14 +82,14 @@
                     </div>
 
                 </div>
-
+                
             </div>
             <div class="row d-flex justify-content-end mx-3 mt-3">
                 <div class="col-7 p-2 d-flex justify-content-center align-items-end">
-                    <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
+                    <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol mendaftar.</small></em></p>
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
+                    <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Mendaftar</button>
                     <a href="/form-registrasi" class="btn btn-primary">Kembali</a>
                 </div>
 
@@ -102,94 +100,125 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('.js-example-basic-single').select2({
-            ajax: {
-                url: 'http://localhost:8000/autocomplete-data-siswa',
-                dataType: 'json'
-                // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-            }
+    $(document).ready(function(){
+
+        $( '#single-select-field' ).select2( {
+            theme: "bootstrap-5",
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-70' ) ? '100%' : 'style',
+            placeholder: $( this ).data( 'placeholder' ),
         });
 
-        $('#nama_siswa').on('keyup', function() {
-            var value = $(this).val();
+        $('#single-select-field').on('select2:select', function (e) {
+            var data = e.params.data;
+            // console.log(data.text);
+            
+            let test = $('#single-select-field').select2('data');
+            console.log(test);
+    
+            
             $.ajax({
-                url: "{{ route('search') }}",
-                type: "GET",
-                data: {
-                    'nama_siswa': value
-                },
-                success: function(data) {
+                url:"{{ route('search') }}",
+                type:"GET",
+                data:{'name':data.text},
+                success:function(data){
 
+                    let ktpSiswaDicari = '';
+                    console.log(data.length);
+                    if(data.length >= 2){
+                        ktpSiswaDicari = prompt('Ada lebih 1 siswa bernama ' + data[0]['nama_siswa'] + '. Silahkan masukkan KTP untuk menentukan siswa yang ingin dicari!');
+                    }else{
+                        
+                        $('#email').val(data[0]['email']);
+                        $('#ktp').val(data[0]['ktp']);
+                        $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                    }
 
+                    let i = 0;
+                    for( const siswa of data ){
 
-                    $('#nama').html(data);
+                        if( siswa.ktp === ktpSiswaDicari ){
+                            $('#email').val(data[i]['email']);
+                            $('#ktp').val(data[i]['ktp']);
+                            $('#tanggal_lahir').val(data[i]['tanggal_lahir']);
+                        }
+                        i++;
+                    }
 
-
-
+                    
                 }
             });
+            
         });
+    
+        // $('#nama_siswa').on('keyup', function(){
+        //     var value = $(this).val();
+        //     $.ajax({
+        //         url:"{{ route('search') }}",
+        //         type:"GET",
+        //         data:{'nama_siswa':value},
+        //         success:function(data){
+
+        //             $('#nama').html(data);                    
+                    
+        //         }
+        //     });
+        // });
 
 
-        $(document).on('click', '#n', function() {
-            var value = $(this).text();
-            $("#nama_siswa").val(value);
-            $('#nama').html('');
-        });
+        // $(document).on('click', '#n', function(){
+        //     var value = $(this).text();
+        //     $("#nama_siswa").val(value);
+        //     $('#nama').html('');
+        // });
 
-        $('#ktp').on('keyup', function() {
-            var value = $(this).val();
-            $.ajax({
-                url: "{{ route('ktp') }}",
-                type: "GET",
-                data: {
-                    'ktp': value
-                },
-                success: function(data) {
+        // $('#ktp').on('keyup', function(){
+        //     var value = $(this).val();
+        //     $.ajax({
+        //         url:"{{ route('ktp') }}",
+        //         type:"GET",
+        //         data:{'ktp':value},
+        //         success:function(data){
 
+                    
+        //             console.log(data);
+        //             console.log( data[0]['nama_siswa'] );
 
-                    console.log(data);
-                    console.log(data[0]['nama_siswa']);
-
-                    $('#noktp').html(data);
-                    $('#nama_siswa').val(data[0]['nama_siswa']);
-                    $('#email').val(data[0]['email']);
-                    $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
-
-                }
-            });
-        });
+        //             $('#noktp').html(data);
+        //             $('#nama_siswa').val(data[0]['nama_siswa']);
+        //             $('#email').val(data[0]['email']);
+        //             $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                    
+        //         }
+        //     });
+        // });
 
 
-        $(document).on('click', '#k', function() {
-            var value = $(this).text();
-            $("#ktp").val(value);
-            $('#noktp').html('');
-        });
+        // $(document).on('click', '#k', function(){
+        //     var value = $(this).text();
+        //     $("#ktp").val(value);
+        //     $('#noktp').html('');
+        // });
 
-        $('#email').on('keyup', function() {
-            var value = $(this).val();
-            $.ajax({
-                url: "{{ route('email') }}",
-                type: "GET",
-                data: {
-                    'email': value
-                },
-                success: function(data) {
+        // $('#email').on('keyup', function(){
+        //     var value = $(this).val();
+        //     $.ajax({
+        //         url:"{{ route('email') }}",
+        //         type:"GET",
+        //         data:{'email':value},
+        //         success:function(data){
 
-                    $('#alamatemail').html(data);
-
-                }
-            });
-        });
+        //             $('#alamatemail').html(data);
+                    
+        //         }
+        //     });
+        // });
 
 
-        $(document).on('click', '#e', function() {
-            var value = $(this).text();
-            $("#email").val(value);
-            $('#alamatemail').html('');
-        });
+        // $(document).on('click', '#e', function(){
+        //     var value = $(this).text();
+        //     $("#email").val(value);
+        //     $('#alamatemail').html('');
+        // });
 
 
 

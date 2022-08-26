@@ -64,7 +64,6 @@ Route::get('/form-registrasi', [PendaftaranController::class, 'index'])->middlew
 Route::get('/form-registrasi/reguler', [PendaftaranController::class, 'indexReguler'])->middleware('auth');
 Route::post('/form-registrasi/reguler-create', [PendaftaranController::class, 'storeReguler'])->middleware('auth');
 Route::post('/form-registrasi-softdelete/{nama_aktivasi}/{id}/{nama_siswa}', [PendaftaranController::class, 'softDeleteStudent'])->middleware('auth');
-// Route::get('/form-registrasi-restore/{nama_aktivasi}/{id}/{nama_siswa}', [PendaftaranController::class, 'restoreStudent'])->middleware('auth');
 
 // route pendaftaran aktivasi
 Route::get('/form-registrasi/aktivasi', [PendaftaranController::class, 'indexAktivasi'])->middleware('auth');

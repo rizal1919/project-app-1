@@ -79,7 +79,7 @@
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Tambah Siswa</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Siswa</button>
                         <a href="/data-siswa" class="btn btn-primary">Kembali</a>
                     </div>
                 </div>

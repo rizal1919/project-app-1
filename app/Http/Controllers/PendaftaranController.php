@@ -125,6 +125,8 @@ class PendaftaranController extends Controller
             foreach ($dataProgramDiDaftarkan as $ReqStudent) {
 
                 $idKurikulumDidapat = $ReqStudent->kurikulum_id;
+
+                // dd($idKurikulumDidapat);
                 $namaKurikulumDidapat = $dataPilihanProgram->find($idKurikulumDidapat)->nama_kurikulum;
 
                 $idStudentDidapat = $ReqStudent->student_id;
@@ -213,7 +215,8 @@ class PendaftaranController extends Controller
             'active' => 'Pendaftaran',
             'title' => 'Tambah Reguler | ',
             'kurikulums' => Kurikulum::all(),
-            'date' => $date
+            'date' => $date,
+            'students' => Student::all()
         ]);
     }
 
@@ -235,8 +238,12 @@ class PendaftaranController extends Controller
     {
 
         $data = $request->collect();
+       
 
-        // dd($data['ktp']);
+        if( $request->collect("kurikulum_id")[0] === '0' ){
+            return redirect('/form-registrasi/reguler')->with('pendaftaranGagal', $data['nama_siswa']);
+        }
+        
 
         $dataStudent = Student::where('ktp', '=', $data['ktp'])->get();
 
@@ -249,8 +256,9 @@ class PendaftaranController extends Controller
         ];
 
 
-
         KurikulumStudent::create($dataPendaftar);
+        
+
 
         return redirect('/form-registrasi')->with('pendaftaranBerhasil', $data['nama_siswa']);
     }
@@ -260,7 +268,9 @@ class PendaftaranController extends Controller
 
         $data = $request->collect();
 
-        // dd($data['ktp']);
+        if( $request->collect("aktivasi_id")[0] === '0' ){
+            return redirect('/form-registrasi/aktivasi')->with('pendaftaranGagal', $data['nama_siswa']);
+        }
 
         // dd($data);
 

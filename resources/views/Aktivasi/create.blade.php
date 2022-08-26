@@ -37,14 +37,13 @@
                         @enderror
                         <div id="nama"></div>
 
-                        <label for="harga" class="col-form-label">Harga</label>
-                        <input type="text" name="harga" id="harga" class="form-control @error('harga') is-invalid @enderror" value="{{ old('harga') }}" required>
-                        @error('harga')
+                        <label for="biaya" class="col-form-label">Biaya</label>
+                        <input type="number" name="biaya" id="biaya" class="form-control @error('biaya') is-invalid @enderror" value="{{ old('biaya') }}" required>
+                        @error('biaya')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
-                        <div id="noktp"></div>
 
                         <label for="periode" class="col-form-label">Periode</label>
                         <input type="text" name="periode" id="periode" class="form-control @error('periode') is-invalid @enderror" value="{{ old('periode') }}" required>
@@ -80,7 +79,7 @@
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-2"></i>Tambah Paket Aktivasi</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Paket Aktivasi</button>
                         <a href="/aktivasi" class="btn btn-primary">Kembali</a>
                     </div>
                 </div>

@@ -58,7 +58,6 @@
     @endif
     </div>
 </div>
-
 <div class="row justify-content-center mt-1 mb-5">
     <div class="col-lg-11">
         <div class="card p-3">

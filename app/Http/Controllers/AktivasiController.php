@@ -61,7 +61,7 @@ class AktivasiController extends Controller
         $validatedData = $request->validate([
 
             'nama_aktivasi' => 'required',
-            'harga' => 'required',
+            'biaya' => 'required',
             'program_id' => 'required',
             'status' => 'required',
             'periode' => 'required'
@@ -69,7 +69,7 @@ class AktivasiController extends Controller
         
         Aktivasi::create($validatedData);
 
-        return redirect('/create-aktivasi')->with('sukses', $validatedData['nama_aktivasi']);
+        return redirect('/aktivasi')->with('create', $validatedData['nama_aktivasi']);
     }
 
     public function edit(Aktivasi $aktivasi){
@@ -91,7 +91,7 @@ class AktivasiController extends Controller
         $validatedData = $request->validate([
 
             'nama_aktivasi' => 'required',
-            'harga' => 'required',
+            'biaya' => 'required',
             'program_id' => 'required',
             'status' => 'required',
             'periode' => 'required'
@@ -104,7 +104,7 @@ class AktivasiController extends Controller
 
         $aktivasi->update([
             'nama_aktivasi' => $validatedData['nama_aktivasi'],
-            'harga' => $validatedData['harga'],
+            'biaya' => $validatedData['biaya'],
             'program_id' => $validatedData['program_id'],
             'status' => $validatedData['status'],
             'periode' => $validatedData['periode']

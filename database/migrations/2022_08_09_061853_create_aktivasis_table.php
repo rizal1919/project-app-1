@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nama_aktivasi');
             $table->foreignId('program_id')->nullable();
             $table->string('status');
-            $table->string('harga');
+            $table->integer('biaya');
             $table->string('periode');
             $table->timestamps();
         });

@@ -8,7 +8,7 @@
         <div class="card col-12 justify-content-center">
             @if( session('pendaftaranGagal') )
             <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
+                Pilihan aktivasi siswa <strong>{{ session('pendaftaranGagal') }}</strong> harus ditentukan.
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
@@ -81,10 +81,10 @@
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
                     <div class="col-7 p-2 d-flex justify-content-center align-items-end">
-                        <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
+                        <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol mendaftar.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Mendaftar</button>
                         <a href="/form-registrasi" class="btn btn-primary">Kembali</a>
                     </div>
                     
@@ -117,11 +117,28 @@
                 data:{'name':data.text},
                 success:function(data){
 
-                    
-                    console.log(data);
-                    $('#email').val(data[0]['email']);
-                    $('#ktp').val(data[0]['ktp']);
-                    $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                    let ktpSiswaDicari = '';
+                    console.log(data.length);
+                    if(data.length >= 2){
+                        ktpSiswaDicari = prompt('Ada lebih 1 siswa bernama ' + data[0]['nama_siswa'] + '. Silahkan masukkan KTP untuk menentukan siswa yang ingin dicari!');
+                    }else{
+                        
+                        $('#email').val(data[0]['email']);
+                        $('#ktp').val(data[0]['ktp']);
+                        $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                    }
+
+                    let i = 0;
+                    for( const siswa of data ){
+
+                        if( siswa.ktp === ktpSiswaDicari ){
+                            $('#email').val(data[i]['email']);
+                            $('#ktp').val(data[i]['ktp']);
+                            $('#tanggal_lahir').val(data[i]['tanggal_lahir']);
+                        }
+                        i++;
+                    }
+
                     
                 }
             });

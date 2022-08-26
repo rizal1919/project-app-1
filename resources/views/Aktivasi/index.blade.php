@@ -56,7 +56,7 @@
         @endif
         @if( session('create') )
         <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-            <strong>{{ session('create') }}</strong> Kurikulum telah berhasil ditambahkan.
+            Aktivasi program <strong>{{ session('create') }}</strong> telah berhasil ditambahkan.
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif

@@ -38,15 +38,13 @@
                         <div id="nama"></div>
 
                         <label for="biaya" class="col-form-label">Biaya</label>
-                        <input type="text" name="biaya" id="biaya" class="form-control @error('biaya') is-invalid @enderror" value="{{ old('biaya') }}" required>
+                        <input type="number" name="biaya" id="biaya" class="form-control @error('biaya') is-invalid @enderror" value="{{ old('biaya') }}" required>
                         @error('biaya')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
                         <div id="noktp"></div>
-
-                        
                     </div>
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
@@ -54,7 +52,7 @@
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-2"></i>Tambah Paket Kurikulum</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Paket Kurikulum</button>
                         <a href="/kurikulum" class="btn btn-primary">Kembali</a>
                     </div>
                 </div>
