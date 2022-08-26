@@ -72,7 +72,7 @@
                         <th>No</th>
                         <th >Nama Aktivasi</th>
                         <th>Program</th>
-                        <th>Harga</th>
+                        <th>Biaya</th>
                         <th>Periode</th>
                         <th>Status</th>
                         <th>Aksi</th>
@@ -86,7 +86,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $aktif->nama_aktivasi }}</td>
                         <td>{{ $aktif->program->nama_program }}</td>
-                        <td>{{ $aktif->harga }}</td>
+                        <td>{{ $aktif->biaya }}</td>
                         <td>{{ $aktif->periode }}</td>
                         <td><p class="badge bg-primary text-light">{{ $aktif->status }}</p></td>
                         <td>

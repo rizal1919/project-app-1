@@ -193,3 +193,5 @@ Route::post('/assign-teacher-delete/{assignteacher:id}', [AssignTeacherControlle
 
 // route cost
 Route::get('/cost/{id}/{nama_program}', [PendaftaranController::class, 'indexCost'])->middleware('auth');
+Route::get('/cost-payment/{id}/{nama_program}', [PendaftaranController::class, 'createCost'])->middleware('auth');
+Route::get('/cost-payment-store/{id}/{nama_program}', [PendaftaranController::class, 'storeCost'])->middleware('auth');

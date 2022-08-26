@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('cicilan_aktivasi_students', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('aktivasi_student');
             $table->integer('biaya');
+            $table->integer('total_pembayaran')->nullable();
             $table->date('tanggal');
             $table->timestamps();
         });

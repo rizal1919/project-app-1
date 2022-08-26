@@ -19,6 +19,7 @@ class Student extends Model
     public function cicilanAktivasiStudent(){
         return $this->hasMany(CicilanAktivasiStudent::class);
     }
+    
     public function cicilanKurikulumStudent(){
         return $this->hasMany(CicilanKurikulumStudent::class);
     }

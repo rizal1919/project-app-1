@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Aktivasi;
 use App\Models\AktivasiStudent;
+use App\Models\CicilanAktivasiStudent;
+use App\Models\CicilanKurikulumStudent;
 use App\Models\Kurikulum;
 use App\Models\Kurikulum_Student;
 use App\Models\KurikulumStudent;
@@ -15,6 +17,8 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Mockery\Undefined;
+
+use function GuzzleHttp\Promise\all;
 
 class PendaftaranController extends Controller
 {
@@ -327,12 +331,248 @@ class PendaftaranController extends Controller
 
     public function indexCost($id, $namaProgram){
 
-        dd($id);
-        dd($namaProgram);
+        $dataAktivasi = Aktivasi::all();
+        $dataKurikulum = Kurikulum::all();
+        $cicilanAktivasi = DB::table('cicilan_aktivasi_students')->get();
+        $cicilanKurikulum = DB::table('cicilan_kurikulum_students')->get();
+        
+        if (stripos($namaProgram, 'Reguler') === false) {
+
+            $idStudent = AktivasiStudent::find($id)->student_id;
+            $namaStudent = Student::find($idStudent)->nama_siswa;
+
+            function jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara){
+
+                return $array = [
+                    'idCicilan' => $idaktivasi, 
+                    'tanggal' => $tanggal, 
+                    'create' => $create, 
+                    'update' => $update, 
+                    'totalTerbayar' => "Rp" . number_format($totalTerbayar, 2, ",", "."),
+                    'sisaTagihan' => "Rp" . number_format($sisaTagihanPembayaranSementara, 2, ",", "."),
+                    'status' => 'lunas'
+                ];
+            }
+
+            $rakSementara  = [];
+            $totalPembayaran = $dataAktivasi->find($id)->biaya;
+
+            $totalTerbayar = 0;
+            foreach( $cicilanAktivasi as $data ){
+
+                $totalTerbayar = $totalTerbayar + $data->biaya;
+                $sisaTagihanPembayaranSementara = $totalPembayaran-$totalTerbayar;
+                $idaktivasi = $data->id;
+                $tanggal = $data->tanggal;
+                $create = $data->created_at;
+                $update = $data->updated_at;
+
+                $rak = jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara);
+                array_push($rakSementara, $rak);
+
+            }
+
+            $sisaPembayaran = $totalPembayaran-$totalTerbayar;
+            $totalTerbayarDalamRupiah = "Rp" . number_format($totalTerbayar, 2, ",", ".");
+            $sisaBayarDalamRupiah = "Rp" . number_format($sisaPembayaran, 2, ",", ".");
+
+            
+            
+
+
+
+
+
+        } elseif (stripos($namaProgram, 'Reguler') === 0) {
+
+            $idStudent = KurikulumStudent::find($id)->student_id;
+            $namaStudent = Student::find($idStudent)->nama_siswa;
+
+            function jadikanSatuArrayReguler($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara){
+
+                return $array = [
+                    'idCicilan' => $idaktivasi, 
+                    'tanggal' => $tanggal, 
+                    'create' => $create, 
+                    'update' => $update, 
+                    'status' => 'lunas',
+                    'totalTerbayar' => "Rp" . number_format($totalTerbayar, 2, ",", "."),
+                    'sisaTagihan' => "Rp" . number_format($sisaTagihanPembayaranSementara, 2, ",", ".")
+                ];
+            }
+
+            $rakSementara  = [];
+            $totalPembayaran = $dataKurikulum->find($id)->biaya;
+
+            $totalTerbayar = 0;
+            foreach( $cicilanKurikulum as $data ){
+
+                $totalTerbayar = $totalTerbayar + $data->biaya;
+                $sisaTagihanPembayaranSementara = $totalPembayaran-$totalTerbayar;
+                $idaktivasi = $data->id;
+                $tanggal = $data->tanggal;
+                $create = $data->created_at;
+                $update = $data->updated_at;
+
+                $rak = jadikanSatuArrayReguler($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara);
+                array_push($rakSementara, $rak);
+
+            }
+
+            $sisaPembayaran = $totalPembayaran-$totalTerbayar;
+            $totalTerbayarDalamRupiah = "Rp" . number_format($totalTerbayar, 2, ",", ".");
+            $sisaBayarDalamRupiah = "Rp" . number_format($sisaPembayaran, 2, ",", ".");
+
+            
+        }
+
+
+        if( count($rakSementara) === 0 ){
+            
+            $tanggal = 'Unknown';
+        }else{
+
+            $dataTerakhir = count($rakSementara);
+            $tanggal = $rakSementara[$dataTerakhir-1]['tanggal'];
+        }
+
+        // dd($totalTerbayarDalamRupiah);
+        
+        
 
         return view('Pembayaran.index', [
             'title' => 'Cicilan - ',
-            'active' => 'Pendaftaran'
+            'active' => 'Pendaftaran',
+            'nama_siswa' => $namaStudent,
+            'nama_program' => $namaProgram,
+            'id' => $id,
+            'totalTerbayar' => $totalTerbayarDalamRupiah,
+            'sisaPembayaran' => $sisaBayarDalamRupiah,
+            'payments' => $rakSementara,
+            'tanggal' => $tanggal,
+            'count' => count($rakSementara)
         ]);
+    }
+
+    public function createCost($id, $namaProgram){
+
+        // dd($id);
+
+        if (stripos($namaProgram, 'Reguler') === false) {
+
+            $idStudent = AktivasiStudent::find($id)->student_id;
+            $namaStudent = Student::find($idStudent)->nama_siswa;
+
+        } elseif (stripos($namaProgram, 'Reguler') === 0) {
+
+            $idStudent = KurikulumStudent::find($id)->student_id;
+            $namaStudent = Student::find($idStudent)->nama_siswa;
+            
+        }
+
+        
+
+
+
+        return view('Pembayaran.create', [
+            'title' => 'Cicilan - ',
+            'active' => 'Pendaftaran',
+            'nama_siswa' => $namaStudent,
+            'nama_program' => $namaProgram,
+            'id' => $id
+        ]);
+    }
+
+    public function storeCost(Request $request, $id, $namaProgram){
+
+        // dd($request->collect());
+
+
+
+
+        $validatedData = $request->validate([
+            'biaya' => 'required',
+            'tanggal' => 'required',
+        ]);
+
+        
+        // dd($id);
+
+        if (stripos($namaProgram, 'Reguler') === false) {
+
+            
+
+            $aktivasiID = AktivasiStudent::find($id)->aktivasi_id;
+            $cicilan = CicilanAktivasiStudent::where('aktivasi_student', $aktivasiID)->get();
+            // dd($cicilan);
+            $sedangMencicil = count(CicilanAktivasiStudent::where('aktivasi_student', $aktivasiID)->get()) > 0;
+            if( $sedangMencicil){
+
+                $cicil = 0;
+                foreach( $cicilan as $item ){
+
+                    // dd($item);
+                    $cicil = $cicil+$item->total_pembayaran;
+
+                }
+                
+                // dd($cicil);
+
+                if( $validatedData['biaya'] > $cicil ){
+                    return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
+                }
+
+                
+                $validatedData['aktivasi_student'] = $id;
+                $validatedData['total_pembayaran'] = $cicil - $validatedData['biaya'];
+                CicilanAktivasiStudent::create($validatedData);
+                
+                return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
+            }
+
+            $validatedData['aktivasi_student'] = $id;
+            $validatedData['total_pembayaran'] = Aktivasi::find($aktivasiID)->biaya - $validatedData['biaya'];
+            CicilanAktivasiStudent::create($validatedData);
+            
+            return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
+
+        } elseif (stripos($namaProgram, 'Reguler') === 0) {
+
+            $kurikulumID = KurikulumStudent::find($id)->kurikulum_id;
+            $cicilan = CicilanKurikulumStudent::where('kurikulum_student', $kurikulumID)->get();
+            
+            $sedangMencicil = count(CicilanKurikulumStudent::where('kurikulum_student', $kurikulumID)->get()) > 0;
+            if( $sedangMencicil){
+
+                $cicil = 0;
+                foreach( $cicilan as $item ){
+
+                    // dd($item);
+                    $cicil = $cicil+$item->total_pembayaran;
+
+                }
+                
+                // dd($cicil);
+
+                if( $validatedData['biaya'] > $cicil ){
+                    return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
+                }
+
+                
+                $validatedData['kurikulum_student'] = $id;
+                $validatedData['total_pembayaran'] = $cicil - $validatedData['biaya'];
+                CicilanKurikulumStudent::create($validatedData);
+                
+                return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
+            }
+
+            $validatedData['kurikulum_student'] = $id;
+            $validatedData['total_pembayaran'] = Kurikulum::find($kurikulumID)->biaya - $validatedData['biaya'];
+            CicilanKurikulumStudent::create($validatedData);
+            
+            return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
+        }
+
+
     }
 }

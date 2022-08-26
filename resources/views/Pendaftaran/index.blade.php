@@ -76,7 +76,7 @@
                                         <?php $id = $dasis['id']; ?>
                                         <?php $nama_siswa = $dasis['nama_siswa']; ?>
                                         <button type="button" id="delete" data-url="/form-registrasi-softdelete/" class="btn btn-warning text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $nama }}','{{ $id }}', '{{ $nama_siswa }}')"><i class="fas fa-trash"></i></button>
-                                        <a href="/cost/{{ $id }}/{{ $nama }}" style="background-color: greenyellow;" class="text-decoration-none btn border border-0"><i class="fa-solid fa-circle-info mx-1 fw-bold"></i>Detail</a>
+                                        <a href="/cost/{{ $id }}/{{ $nama }}" class="text-decoration-none btn border border-0 btn btn-info"><i class="fa-solid fa-circle-info mx-1 fw-bold"></i>Detail</a>
                                             
                                        
                                     </td>
