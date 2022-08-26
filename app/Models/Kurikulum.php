@@ -19,6 +19,10 @@ class Kurikulum extends Model
     public function student(){
         return $this->hasMany(Student::class);
     }
+    
+    public function cicilanKurikulumStudent(){
+        return $this->hasMany(CicilanKurikulumStudent::class);
+    }
 
     public function scopeFilter($query, array $filters){
 

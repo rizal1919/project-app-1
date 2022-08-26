@@ -1,3 +1,8 @@
+<?php
+
+// header('refresh: 2');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +17,6 @@
     <!-- Or for RTL support -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="{{ asset('fa/css/all.css') }}">
     <link rel="stylesheet" href="{{ asset('bs/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
@@ -24,6 +28,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="{{  asset('css/coba.css')  }}">
 
     <title>{{ $title }} Page</title>
 </head>

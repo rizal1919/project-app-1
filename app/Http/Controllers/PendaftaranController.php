@@ -324,4 +324,15 @@ class PendaftaranController extends Controller
 
         return redirect('/form-registrasi')->with('restore', $namaSiswa);
     }
+
+    public function indexCost($id, $namaProgram){
+
+        dd($id);
+        dd($namaProgram);
+
+        return view('Pembayaran.index', [
+            'title' => 'Cicilan - ',
+            'active' => 'Pendaftaran'
+        ]);
+    }
 }

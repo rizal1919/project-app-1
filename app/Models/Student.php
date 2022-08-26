@@ -16,6 +16,13 @@ class Student extends Model
         return $this->belongsTo(Kurikulum::class);
     }
 
+    public function cicilanAktivasiStudent(){
+        return $this->hasMany(CicilanAktivasiStudent::class);
+    }
+    public function cicilanKurikulumStudent(){
+        return $this->hasMany(CicilanKurikulumStudent::class);
+    }
+
     public function scopeFilter($query, array $filters){
         
         $query->when($filters['nama'] ?? false, function($query, $nama){

@@ -1,0 +1,44 @@
+
+
+.Pembayaran-head-atas{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    /* border: 2px solid royalblue; */
+    /* justify-content: center; */
+}
+
+.box-bagian-atas{
+    width: 50%;
+    /* border: 1px solid red; */
+    /* background-color: gree; */
+}
+
+.box-bagian-bawah{
+    width: 50%;
+    margin-left: 10px;
+    border-left: 1px dashed rgba(0,0,0, 0.3);
+    padding-left: 15px;
+}
+
+
+
+.Pembayaran-bagian-atas{
+   
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: row;
+}
+
+.judul-atas{
+    flex-grow: 1;
+    /* border: 1px solid slateblue; */
+}
+
+.tanggal{
+    flex-grow: 1;
+    /* border: 1px solid slateblue; */
+    text-align: end;
+}

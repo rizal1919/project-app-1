@@ -18,6 +18,7 @@ use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\TeacherController;
 use App\Models\Classroom;
 use App\Models\Kurikulum;
+use App\Models\Pendaftaran;
 use App\Models\Student;
 use GuzzleHttp\Middleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -190,4 +191,5 @@ Route::post('/assign-teacher-update/{assignteacher:id}', [AssignTeacherControlle
 Route::post('/assign-teacher-delete/{assignteacher:id}', [AssignTeacherController::class, 'delete'])->middleware('auth');
 
 
-
+// route cost
+Route::get('/cost/{id}/{nama_program}', [PendaftaranController::class, 'indexCost'])->middleware('auth');
