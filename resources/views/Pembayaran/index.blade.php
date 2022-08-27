@@ -45,7 +45,7 @@
             @endif
             @if( session('gagalCicilan') )
             <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                Cicilan sebesar <strong>{{ session('gagalCicilan') }}</strong> gagal ditambahkan karena jumlah cicilan melebihi total tagihan. Terima Kasih
+                Maaf! Cicilan sebesar <strong>{{ session('gagalCicilan') }}</strong> gagal ditambahkan karena jumlah cicilan melebihi total tagihan. Terima Kasih
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif

@@ -40,7 +40,7 @@
                     </select>
 
                     <label for="ktp" class="col-form-label">KTP</label>
-                    <input type="text" autocomplete="off" name="ktp" id="ktp"  class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="Nomor KTP">
+                    <input type="text" autocomplete="off" name="ktp" id="ktp"  class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="Nomor KTP" readonly>
                     @error('ktp')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -50,7 +50,7 @@
 
 
                     <label for="email" class="col-form-label">EMAIL</label>
-                    <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="example@gmail.com">
+                    <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="example@gmail.com" readonly>
                     @error('email')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -59,7 +59,7 @@
                     <div id="alamatemail"></div>
 
                     <label for="tanggal_lahir" class="col-form-label">TANGGAL LAHIR</label>
-                    <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}">
+                    <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}" readonly>
                     @error('tanggal_lahir')
                     <div class="invalid-feedback">
                         {{ $message }}

@@ -242,6 +242,8 @@ class PendaftaranController extends Controller
     {
 
         $data = $request->collect();
+
+        // dd($data);
        
 
         if( $request->collect("kurikulum_id")[0] === '0' ){
@@ -497,7 +499,11 @@ class PendaftaranController extends Controller
 
     public function storeCost(Request $request, $id, $namaProgram){
 
-        // dd($request->collect());
+        // $id yang diterima adalah id aktivasi_student, atau id kurikulum_student
+        // akan difilter dari sisi namaProgram nya apakah Reguler / Aktivasi, kemudian
+        // ada 2 skenario algoritma
+        // 1. Akan Ditolak jika belum pernah mencicil, namun cicilannya melebihi tagihan atau sudah pernah mencicil namun cicilannya melebihi tagihan
+        // 2. Akan Diterima jika belum pernah mencicil dan cicilannya sesuai tagihan atau sudah pernah mencicil dan cicilannya sesuai sisa tagihan
 
 
 
@@ -507,17 +513,16 @@ class PendaftaranController extends Controller
             'tanggal' => 'required',
         ]);
 
-        
-        // dd($id);
 
+        
         if (stripos($namaProgram, 'Reguler') === false) {
 
             
-
             $aktivasiID = AktivasiStudent::find($id)->aktivasi_id;
-            $cicilan = CicilanAktivasiStudent::where('aktivasi_student', $aktivasiID)->get();
-            // dd($cicilan);
-            $sedangMencicil = count(CicilanAktivasiStudent::where('aktivasi_student', $aktivasiID)->get()) > 0;
+            $biayaAktivasi = Aktivasi::find($aktivasiID)->biaya;
+            $cicilan = CicilanAktivasiStudent::where('aktivasi_student', $id)->get();
+            
+            $sedangMencicil = count(CicilanAktivasiStudent::where('aktivasi_student', $id)->get()) > 0;
             if( $sedangMencicil){
 
                 $cicil = 0;
@@ -528,9 +533,10 @@ class PendaftaranController extends Controller
 
                 }
                 
-                // dd($cicil);
-
+                
                 if( $validatedData['biaya'] > $cicil ){
+
+                    $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
                     return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
                 }
 
@@ -539,21 +545,32 @@ class PendaftaranController extends Controller
                 $validatedData['total_pembayaran'] = $cicil - $validatedData['biaya'];
                 CicilanAktivasiStudent::create($validatedData);
                 
+                $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
                 return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
             }
 
+            
+
+            if( (int)$validatedData['biaya'] > $biayaAktivasi ){
+
+                $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
+                return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
+            }
+
             $validatedData['aktivasi_student'] = $id;
-            $validatedData['total_pembayaran'] = Aktivasi::find($aktivasiID)->biaya - $validatedData['biaya'];
+            $validatedData['total_pembayaran'] = $biayaAktivasi - (int)$validatedData['biaya'];
             CicilanAktivasiStudent::create($validatedData);
             
+            $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
             return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
 
         } elseif (stripos($namaProgram, 'Reguler') === 0) {
 
             $kurikulumID = KurikulumStudent::find($id)->kurikulum_id;
-            $cicilan = CicilanKurikulumStudent::where('kurikulum_student', $kurikulumID)->get();
+            $biayaKurikulum = Kurikulum::find($kurikulumID)->biaya;
+            $cicilan = CicilanKurikulumStudent::where('kurikulum_student', $id)->get();
             
-            $sedangMencicil = count(CicilanKurikulumStudent::where('kurikulum_student', $kurikulumID)->get()) > 0;
+            $sedangMencicil = count(CicilanKurikulumStudent::where('kurikulum_student', $id)->get());
             if( $sedangMencicil){
 
                 $cicil = 0;
@@ -563,24 +580,42 @@ class PendaftaranController extends Controller
                     $cicil = $cicil+$item->total_pembayaran;
 
                 }
-                
-                // dd($cicil);
 
-                if( $validatedData['biaya'] > $cicil ){
+                
+                
+                // dd((int)$validatedData['biaya']>$cicil);
+
+                if( (int)$validatedData['biaya'] > $cicil ){
+
+                    // dd('atas');
+
+                    $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
                     return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
                 }
 
                 
                 $validatedData['kurikulum_student'] = $id;
-                $validatedData['total_pembayaran'] = $cicil - $validatedData['biaya'];
+                $validatedData['total_pembayaran'] = $cicil - (int)$validatedData['biaya'];
                 CicilanKurikulumStudent::create($validatedData);
                 
+                $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
                 return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
             }
 
+            // dd("luar");
+            
+            if( (int)$validatedData['biaya'] > $biayaKurikulum ){
+                
+                $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
+                return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
+            }
+
             $validatedData['kurikulum_student'] = $id;
-            $validatedData['total_pembayaran'] = Kurikulum::find($kurikulumID)->biaya - $validatedData['biaya'];
+            $validatedData['total_pembayaran'] = $biayaKurikulum - (int)$validatedData['biaya'];
             CicilanKurikulumStudent::create($validatedData);
+            
+            $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
+
             
             return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
         }
