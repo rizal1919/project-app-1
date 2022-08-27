@@ -33,26 +33,26 @@
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
                         <label for="ktp" class="col-form-label">KTP</label>
-                        <input type="text" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}">
+                        <input type="text" maxlength="16" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" autofocus required>
                         @error('ktp')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
-                        <div id="noktp"></div>
+                        <p id="karakter" style="margin-top: 2px;" hidden></p>
 
                         <label for="nama_siswa" class="col-form-label">NAMA</label>
-                        <input type="text" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}">
+                        <input type="text" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}" required>
                         @error('nama_siswa')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
                         @enderror
-                        <div id="nama"></div>
+                        <div id="nama" hidden></div>
 
 
                         <label for="email" class="col-form-label">EMAIL</label>
-                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
+                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
                         @error('email')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -61,7 +61,7 @@
                         <div id="alamatemail"></div>
 
                         <label for="tanggal_lahir" class="col-form-label">TANGGAL LAHIR</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}">
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}" required>
                         @error('tanggal_lahir')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -107,6 +107,37 @@ function Function() {
         var element = document.getElementById("hide");
         element.style.display = "none";
     }
+
+    let ktp = document.getElementById('ktp');
+    let ktpubah = document.getElementById('karakter');
+    function sisaKarakter(){
+        let valueInput = ktp.value;
+        let regex = /[^a-zA-Z]/g;
+        let match = valueInput.match(regex);
+        let hasilJoin = match.join('');
+        
+
+        let panjangInputan = hasilJoin.length;
+        let valueMax = ktp.getAttribute('maxlength');
+
+        let sisa = valueMax-panjangInputan;
+        let kalimatSisa = 'sisa karakter : ' + sisa;
+        ktpubah.removeAttribute('hidden');
+    
+        ktpubah.innerText = kalimatSisa;
+        ktpubah.style.marginTop = '5px';
+
+        ktp.value = hasilJoin;
+        console.log(kalimatSisa);
+        
+    }
+
+    ktp.addEventListener('keyup', sisaKarakter);
+    ktp.addEventListener('blur', function(){
+        ktpubah.setAttribute('hidden', '');
+    });
+
+
     
 </script>
 <script>

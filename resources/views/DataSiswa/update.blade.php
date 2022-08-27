@@ -32,15 +32,17 @@
                                 {{ $message }}
                             </div>
                         @enderror
+                        
                     </div>
                     <div class="form-floating">
-                        <input type="text" name="ktp" class="@error('ktp') is-invalid @enderror form-control" id="ktp" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ old('ktp', $student->ktp) }}" placeholder="No KTP" required>
+                        <input type="text" maxlength="16" name="ktp" id="ktp" class="@error('ktp') is-invalid @enderror form-control" id="ktp" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ old('ktp', $student->ktp) }}" placeholder="No KTP" required>
                         <label for="ktp">No KTP</label>
                         @error('ktp')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
+                        <p id="karakter" style="margin-top: 2px;" hidden></p>
                     </div>
                     <div class="form-floating">
                         <input type="email" name="email" class="@error('email') is-invalid @enderror form-control" id="email" placeholder="email@example.com" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ old('email', $student->email) }}"  required>
@@ -90,6 +92,35 @@
         var element = document.getElementById("hide");
         element.style.display = "none";
     }
+
+    let ktp = document.getElementById('ktp');
+    let ktpubah = document.getElementById('karakter');
+    function sisaKarakter(){
+        let valueInput = ktp.value;
+        let regex = /[^a-zA-Z]/g;
+        let match = valueInput.match(regex);
+        let hasilJoin = match.join('');
+        
+
+        let panjangInputan = hasilJoin.length;
+        let valueMax = ktp.getAttribute('maxlength');
+
+        let sisa = valueMax-panjangInputan;
+        let kalimatSisa = 'sisa karakter : ' + sisa;
+        ktpubah.removeAttribute('hidden');
+    
+        ktpubah.innerText = kalimatSisa;
+        ktpubah.style.marginTop = '5px';
+
+        ktp.value = hasilJoin;
+        console.log(kalimatSisa);
+        
+    }
+
+    ktp.addEventListener('keyup', sisaKarakter);
+    ktp.addEventListener('blur', function(){
+        ktpubah.setAttribute('hidden', '');
+    });
     
 </script>
 @endpush
