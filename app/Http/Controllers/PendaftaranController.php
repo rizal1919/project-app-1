@@ -341,7 +341,7 @@ class PendaftaranController extends Controller
             $idStudent = AktivasiStudent::find($id)->student_id;
             $namaStudent = Student::find($idStudent)->nama_siswa;
 
-            function jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara){
+            function jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan){
 
                 return $array = [
                     'idCicilan' => $idaktivasi, 
@@ -350,7 +350,8 @@ class PendaftaranController extends Controller
                     'update' => $update, 
                     'totalTerbayar' => "Rp" . number_format($totalTerbayar, 2, ",", "."),
                     'sisaTagihan' => "Rp" . number_format($sisaTagihanPembayaranSementara, 2, ",", "."),
-                    'status' => 'lunas'
+                    'status' => 'lunas',
+                    'uangDibayarkan' => $uangDibayarkan
                 ];
             }
 
@@ -361,13 +362,14 @@ class PendaftaranController extends Controller
             foreach( $cicilanAktivasi as $data ){
 
                 $totalTerbayar = $totalTerbayar + $data->biaya;
+                $uangDibayarkan = "Rp" . number_format($data->biaya, 2, ",", ".");
                 $sisaTagihanPembayaranSementara = $totalPembayaran-$totalTerbayar;
                 $idaktivasi = $data->id;
-                $tanggal = $data->tanggal;
+                $tanggal = date("d M Y", strtotime($data->tanggal));
                 $create = $data->created_at;
                 $update = $data->updated_at;
 
-                $rak = jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara);
+                $rak = jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan);
                 array_push($rakSementara, $rak);
 
             }
@@ -388,7 +390,7 @@ class PendaftaranController extends Controller
             $idStudent = KurikulumStudent::find($id)->student_id;
             $namaStudent = Student::find($idStudent)->nama_siswa;
 
-            function jadikanSatuArrayReguler($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara){
+            function jadikanSatuArrayReguler($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan){
 
                 return $array = [
                     'idCicilan' => $idaktivasi, 
@@ -397,7 +399,8 @@ class PendaftaranController extends Controller
                     'update' => $update, 
                     'status' => 'lunas',
                     'totalTerbayar' => "Rp" . number_format($totalTerbayar, 2, ",", "."),
-                    'sisaTagihan' => "Rp" . number_format($sisaTagihanPembayaranSementara, 2, ",", ".")
+                    'sisaTagihan' => "Rp" . number_format($sisaTagihanPembayaranSementara, 2, ",", "."),
+                    'uangDibayarkan' => $uangDibayarkan
                 ];
             }
 
@@ -408,13 +411,14 @@ class PendaftaranController extends Controller
             foreach( $cicilanKurikulum as $data ){
 
                 $totalTerbayar = $totalTerbayar + $data->biaya;
+                $uangDibayarkan = "Rp" . number_format($data->biaya, 2, ",", ".");
                 $sisaTagihanPembayaranSementara = $totalPembayaran-$totalTerbayar;
                 $idaktivasi = $data->id;
-                $tanggal = $data->tanggal;
+                $tanggal = date("d M Y", strtotime($data->tanggal));
                 $create = $data->created_at;
                 $update = $data->updated_at;
 
-                $rak = jadikanSatuArrayReguler($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara);
+                $rak = jadikanSatuArrayReguler($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan);
                 array_push($rakSementara, $rak);
 
             }

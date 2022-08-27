@@ -81,7 +81,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $pay['tanggal'] }}</td>
-                                <td>{{ $pay['totalTerbayar'] }}</td>
+                                <td>{{ $pay['uangDibayarkan'] }}</td>
                                 <td>{{ $pay['sisaTagihan'] }}</td>
                                 <td><p class="badge text-bg-info">{{ $pay['status'] }}</p></td>  
                             </tr>
