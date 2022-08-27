@@ -21,6 +21,11 @@ class KurikulumController extends Controller
 
         $kurikulums = Kurikulum::Filter(Request(['search']))->paginate(5)->withQueryString();
 
+        foreach( $kurikulums as $item ){
+
+            $item['biaya'] = "Rp" . number_format($item['biaya'], 2, ",", ".");
+        }
+
         return view('Kurikulum.index', [
             'title' => 'Kurikulum | ',
             'active' => 'Data Kurikulum',
@@ -63,8 +68,10 @@ class KurikulumController extends Controller
 
         $dataKurikulum = Kurikulum::where('id', $kurikulum->id)->first();
 
-        // dd($dataKurikulum);
+        
 
+        $dataKurikulum['biaya'] = "Rp" . number_format($dataKurikulum['biaya'], 2, ",", ".");
+        
         return view('Kurikulum.show',[
 
             'title' => 'Kurikulum | ',

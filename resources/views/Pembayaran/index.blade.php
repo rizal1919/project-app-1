@@ -8,7 +8,7 @@
                 <div class="card-title ">
                     <h3>Pembayaran</h3>
                 </div>
-                <div class="btn-group btn-group-sm mt-1">
+                <div class="btn-group btn-group-sm mt-3">
                     <button class="pembayaran btn btn-outline-primary fw-bold">{{ $nama_siswa }}</button>
                     <button class="btn btn-outline-primary fw-bold">{{ $nama_program }}</button>
                 </div>

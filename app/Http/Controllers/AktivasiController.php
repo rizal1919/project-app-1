@@ -15,8 +15,11 @@ class AktivasiController extends Controller
 
         $data = Aktivasi::Filter(Request(['search']))->orderByDesc('id')->paginate(5)->withQueryString();
        
-        // dd($data->find(6)->program->nama_program);
-        
+        // $data['biaya'] = "Rp" . number_format($data['biaya'], 2, ",", ".");
+        foreach( $data as $item ){
+
+            $item['biaya'] = "Rp" . number_format($item['biaya'], 2, ",", ".");
+        }
 
         return view('Aktivasi.index', [
             'active' => 'Aktivasi',
@@ -28,6 +31,10 @@ class AktivasiController extends Controller
 
     public function show(Aktivasi $aktivasi){
 
+        
+
+            $aktivasi['biaya'] = "Rp" . number_format($aktivasi['biaya'], 2, ",", ".");
+        
 
 
         return view('Aktivasi.show', [

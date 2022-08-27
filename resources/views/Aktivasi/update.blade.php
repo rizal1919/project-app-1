@@ -38,8 +38,8 @@
                         @enderror
                         <div id="nama"></div>
 
-                        <label for="harga" class="col-form-label">Harga</label>
-                        <input type="text" autocomplete="off" name="harga" id="harga" class="form-control @error('harga') is-invalid @enderror" value="{{ old('harga', $aktivasi->harga) }}">
+                        <label for="biaya" class="col-form-label">Biaya</label>
+                        <input type="number" autocomplete="off" name="biaya" id="biaya" class="form-control @error('biaya') is-invalid @enderror" value="{{ old('biaya', $aktivasi->biaya) }}">
                         @error('harga')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -72,9 +72,15 @@
 
                         <label for="status" class="col-form-label">Status</label>
                         <select class="form-select bg-primary text-light " name="status" id="status">
-                            <option value="0">Pilih status aktivasi</option>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Tidak Aktif">Tidak Aktif</option>
+                            @if( $aktivasi->status === 'Aktif' )
+                                <option value="0">Pilih status aktivasi</option>
+                                <option value="Aktif" selected>Aktif</option>
+                                <option value="Tidak Aktif">Tidak Aktif</option>
+                            @else
+                                <option value="0">Pilih status aktivasi</option>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Tidak Aktif" selected>Tidak Aktif</option>
+                            @endif
                         </select>
 
                     </div>
@@ -85,7 +91,7 @@
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Submit Data</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-2"></i>Ubah Data Aktivasi</button>
                         <a href="/aktivasi" class="btn btn-primary"><span data-feather="arrow-left"></span> Kembali</a>
                     </div>
                 </div>
@@ -99,14 +105,37 @@
 
 @push('js')
 <!-- <script>
-    const num = 0;
-function Function() {
-
-    const num = 0;
-    document.getElementById("demo").innerHTML = num;
-
-    num++;
-}
+    /* Tanpa Rupiah */
+    var tanpa_rupiah = document.getElementById('tanpa-rupiah');
+    tanpa_rupiah.addEventListener('keyup', function(e)
+    {
+        tanpa_rupiah.value = formatRupiah(this.value);
+    });
+    
+    /* Dengan Rupiah */
+    var dengan_rupiah = document.getElementById('dengan-rupiah');
+    dengan_rupiah.addEventListener('keyup', function(e)
+    {
+        dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
+    });
+    
+    /* Fungsi */
+    function formatRupiah(angka, prefix)
+    {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split    = number_string.split(','),
+            sisa     = split[0].length % 3,
+            rupiah     = split[0].substr(0, sisa),
+            ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+            
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
 </script> -->
 <script>
     function changeStyle(){

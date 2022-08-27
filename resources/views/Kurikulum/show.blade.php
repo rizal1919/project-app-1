@@ -13,10 +13,10 @@
                     <h5 class="card-title">ACADEMY - KURIKULUM</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">ID : {{ $kurikulums->id }}</p>
-                    <p class="card-text">Nama Kurikulum : {{ $kurikulums->nama_kurikulum }}</p>
-                    <p class="card-text">Biaya : {{ $kurikulums->biaya }}</p>
-                    <p class="card-text">Dibuat : {{ $kurikulums->created_at->diffForHumans() }}</p>
+                    <p class="card-text"><strong>ID :</strong> {{ $kurikulums->id }}</p>
+                    <p class="card-text"><strong>Nama Kurikulum :</strong> {{ $kurikulums->nama_kurikulum }}</p>
+                    <p class="card-text"><strong>Biaya :</strong> {{ $kurikulums->biaya }}</p>
+                    <p class="card-text"><strong>Dibuat :</strong> {{ $kurikulums->created_at->diffForHumans() }}</p>
                 </div>
                 
                 <a href="/kurikulum" class="text-decoration-none btn btn-primary mt-3 rounded-bottom" style="color: white; border-radius: 0px;">Kembali</a>
