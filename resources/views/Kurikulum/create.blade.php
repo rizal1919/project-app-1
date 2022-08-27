@@ -6,12 +6,6 @@
 </div>
     <div class="container d-flex justify-content-center my-4">
         <div class="card col-12 justify-content-center">
-            <!-- @if( session('pendaftaranGagal') )
-            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                Informasi data <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif -->
             @if( session('sukses') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
                 Informasi paket kurikulum <strong>{{ session('sukses') }}</strong> telah berhasil dibuat.
@@ -38,7 +32,7 @@
                         <div id="nama"></div>
 
                         <label for="biaya" class="col-form-label">Biaya</label>
-                        <input type="number" name="biaya" id="biaya" class="form-control @error('biaya') is-invalid @enderror" value="{{ old('biaya') }}" required>
+                        <input type="text" name="biaya" id="biaya" class="form-control @error('biaya') is-invalid @enderror" value="{{ old('biaya') }}" required>
                         @error('biaya')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -80,6 +74,83 @@ function Function() {
         var element = document.getElementById("hide");
         element.style.display = "none";
     }
+
+    // let nominal = document.getElementById('biaya');
+    // nominal.addEventListener('keyup', function(event){
+    //     let split = nominal.value.split('');
+    //     let panjangAngka = nominal.value.length;
+    //     let formatUang = '';
+    //     let index =0;
+    //     if( panjangAngka >= 0 && panjangAngka <= 3 ){
+    //         formatUang = 'Rp' + nominal.value;
+    //     }else if( panjangAngka > 3 && panjangAngka <=6 ){
+    //         index = panjangAngka-3;
+    //         formatUang = 'Rp';
+    //         for( let i=0; i<panjangAngka; i++ ){
+
+    //             if( i===index ){
+    //                 formatUang = formatUang + '.' + split[i];
+    //                 console.log('Yap disini');
+    //             }else{
+    //                 formatUang = formatUang + split[i];
+    //                 console.log('Bawah disini');
+    //             }
+    //         }
+    //     }else if( panjangAngka > 6 && panjangAngka <=9 ){
+    //         index1 = panjangAngka-6;
+    //         index2 = index1+3;
+
+    //         formatUang = 'Rp';
+    //         for( let i=0; i<panjangAngka; i++ ){
+
+    //             if( i===index1 || i===index2 ){
+    //                 formatUang = formatUang + '.' + split[i];
+    //                 console.log('Yap disini');
+                    
+    //             }else{
+
+    //                 formatUang = formatUang + split[i];
+    //                 console.log('Bawah disini');
+    //             }
+    //             // console.log("Isi ke  " + i  + " = "  + split[i]);
+
+    //         }
+
+            
+    //     }else if( panjangAngka > 9 && panjangAngka <=12 ){
+    //         index1 = panjangAngka-9;
+    //         index2 = index1+3;
+    //         index3 = index2+3;
+
+    //         formatUang = 'Rp';
+    //         for( let i=0; i<panjangAngka; i++ ){
+
+    //             if( i===index1 || i===index2 || i===index3){
+    //                 formatUang = formatUang + '.' + split[i];
+    //                 console.log('Yap disini');
+                    
+    //             }else{
+
+    //                 formatUang = formatUang + split[i];
+    //                 console.log('Bawah disini');
+
+    //             }
+    //             // console.log("Isi ke  " + i  + " = "  + split[i]);
+
+    //         }
+
+            
+    //     }
+
+    //     nominal.value = formatUang;
+
+    //     // console.log(formatUang);
+    //     // console.log(split);
+    //     // console.log(typeof split);
+    //     // console.log(panjangAngka);
+    //     // console.log(typeof panjangAngka);
+        
+    // });
     
 </script>
 <script>

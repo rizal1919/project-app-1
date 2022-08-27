@@ -50,19 +50,19 @@
             </div>
             @endif
                 <div class="row d-flex justify-content-end">
-                    <div class="col-md-12 d-flex mt-4 justify-content-start">
+                    <div class="col-md-12 d-flex mt-4 justify-content-end">
                         @if( $sisaPembayaran == "Rp0,00" )
                             <a href="/cost-payment/{{ $id }}/{{ $nama_program }}" class="btn btn-secondary disabled mx-1" style="width: 20%; height: 100%;" >Telah Dilunasi</a>
                         @else
                             <a href="/cost-payment/{{ $id }}/{{ $nama_program }}" class="btn btn-primary mx-1" style="width: 20%; height: 100%;" >Bayar Cicilan</a>
                         @endif
-                        <form action="/form-registrasi" method="get" class="mx-2" style="width: 70%;" >
+                        <!-- <form action="/form-registrasi" method="get" class="mx-2" style="width: 70%;" >
                             @csrf
                             <div class="input-group">
                                 <input type="text" name="nama_siswa" value="" class="form-control text-end" placeholder="Nama">
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                             </div>
-                        </form>
+                        </form> -->
                         <a href="/form-registrasi" class="btn btn-primary mx-1" style="width: 10%; height: 100%;">Kembali</a>
                     </div>
                 </div>

@@ -38,8 +38,8 @@
                         <form action="/form-registrasi" method="get" class="mx-2" style="width: 60%;" >
                             @csrf
                             <div class="input-group">
-                                <input type="text" name="nama_siswa" value="" class="form-control text-end" placeholder="Nama">
-                                <input type="text" name="nama_program" value="" class="form-control text-end" placeholder="Kelas">
+                                <input type="text" name="nama_siswa" value="{{ request('nama_siswa') }}" class="form-control text-end" placeholder="Nama">
+                                <input type="text" name="nama_program" value="{{ request('nama_program') }}" class="form-control text-end" placeholder="Kelas">
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                             </div>
                         </form>
@@ -77,8 +77,6 @@
                                         <?php $nama_siswa = $dasis['nama_siswa']; ?>
                                         <button type="button" id="delete" data-url="/form-registrasi-softdelete/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $nama }}','{{ $id }}', '{{ $nama_siswa }}')"><i class="fas fa-trash"></i></button>
                                         <a href="/cost/{{ $id }}/{{ $nama }}" class="text-decoration-none btn border border-0 btn btn-warning fw-bold"><i class="fa-solid fa-circle-info mx-1"></i>Detail</a>
-                                            
-                                       
                                     </td>
                                 </tr>
                                   

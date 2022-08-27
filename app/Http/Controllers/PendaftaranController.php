@@ -333,13 +333,15 @@ class PendaftaranController extends Controller
 
         $dataAktivasi = Aktivasi::all();
         $dataKurikulum = Kurikulum::all();
-        $cicilanAktivasi = DB::table('cicilan_aktivasi_students')->get();
-        $cicilanKurikulum = DB::table('cicilan_kurikulum_students')->get();
+        $cicilanAktivasi = DB::table('cicilan_aktivasi_students')->where('aktivasi_student', $id)->get();
+        $cicilanKurikulum = DB::table('cicilan_kurikulum_students')->where('kurikulum_student', $id)->get();
         
         if (stripos($namaProgram, 'Reguler') === false) {
 
             $idStudent = AktivasiStudent::find($id)->student_id;
             $namaStudent = Student::find($idStudent)->nama_siswa;
+
+            // dd($id);
 
             function jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan){
 
@@ -356,7 +358,11 @@ class PendaftaranController extends Controller
             }
 
             $rakSementara  = [];
-            $totalPembayaran = $dataAktivasi->find($id)->biaya;
+
+            // id yang dibawah ini adalah id dari aktivasi_student
+            $idAktivasi = AktivasiStudent::find($id)->aktivasi_id;
+            $totalPembayaran = Aktivasi::find($idAktivasi)->biaya;
+            
 
             $totalTerbayar = 0;
             foreach( $cicilanAktivasi as $data ){
@@ -405,7 +411,9 @@ class PendaftaranController extends Controller
             }
 
             $rakSementara  = [];
-            $totalPembayaran = $dataKurikulum->find($id)->biaya;
+
+            $idKurikulum = KurikulumStudent::find($id)->kurikulum_id;
+            $totalPembayaran = Kurikulum::find($idKurikulum)->biaya;
 
             $totalTerbayar = 0;
             foreach( $cicilanKurikulum as $data ){
