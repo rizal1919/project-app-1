@@ -17,7 +17,8 @@ class SekolahFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nama_sekolah' => fake()->company(),
+            'alamat' => fake()->address()
         ];
     }
 }

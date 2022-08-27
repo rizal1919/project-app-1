@@ -17,7 +17,7 @@ class TeacherFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'teacher_name' => fake()->name(),
         ];
     }
 }

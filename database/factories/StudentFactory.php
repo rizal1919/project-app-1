@@ -19,8 +19,8 @@ class StudentFactory extends Factory
         return [
 
             'nama_siswa' => fake()->name(),
-            'paket_pilihan' => mt_rand(1,2),
-            'ktp' => fake()->randomNumber(5, true),
+            'status'=> 'diterima',
+            'ktp' => fake()->randomNumber(9, true),
             'email' => fake()->freeEmail(),
             'tanggal_lahir' => fake()->date(),
             'password'=> fake()->randomNumber(7, true),

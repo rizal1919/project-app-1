@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Program>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Kurikulum>
  */
-class ProgramFactory extends Factory
+class KurikulumFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,8 @@ class ProgramFactory extends Factory
     public function definition()
     {
         return [
-            "nama_program" => fake()->company(mt_rand(1,4)),
-            'kurikulum_id' => fake()->numberBetween(1,2)
+            'nama_kurikulum' => fake()->catchPhrase(),
+            'biaya' => fake()->randomNumber(7)
         ];
     }
 }

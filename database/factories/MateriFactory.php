@@ -18,8 +18,8 @@ class MateriFactory extends Factory
     {
         return [
             'nama_materi' => fake()->bs(),
-            'program_id' => rand(1,10),
-            'jumlah_pertemuan' => rand(1,3),
+            'program_id' => fake()->numberBetween(1,5),
+            'jumlah_pertemuan' => fake()->numberBetween(1,3),
             'menit' => rand(30,60)
         ];
     }
