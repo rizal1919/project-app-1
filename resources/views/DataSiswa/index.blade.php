@@ -29,7 +29,7 @@
                     @endif
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-12 d-flex mt-4 justify-content-end">
-                        <form action="/data-siswa" method="get" class="mx-2" style="width: 70%;" >
+                        <form action="/data-siswa" method="get" class="mx-2" style="width: 80%;" >
                             @csrf
                             <div class="input-group">
                                 <input type="text" name="nama" value="{{ request()->nama }}" class="form-control text-end" placeholder="Nama">
@@ -39,11 +39,7 @@
                             </div>
                         </form>
                         <a href="/data-siswa/create/student" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Tambah Siswa</a>
-                        <button class="btn btn-primary" style="width: 10%; height: 100%;">
-                            <a href="/dashboard" class="text-decoration-none text-light self-align-center">
-                                Kembali
-                            </a>
-                        </button>
+                        
                     </div>
                 </div>
                 

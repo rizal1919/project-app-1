@@ -6,7 +6,7 @@
         <div class="card p-4">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4>Program Kurikulum {{ $kurikulum->nama_kurikulum }}</h4>
+                    <h4>Program - Kurikulum {{ $kurikulum->nama_kurikulum }}</h4>
                 </div>
             </div>
             <div class="row d-flex justify-content-end mb-3">

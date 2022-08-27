@@ -18,10 +18,10 @@
                     @foreach( $dataMateri->materi as $t )
                         @if( $t['id'] === $id )
                         
-                        <p class="card-text">ID : {{ $t->id }}</p>
-                        <p class="card-text">Program : {{ $dataMateri->nama_program }}</p>
-                        <p class="card-text">Nama Materi : {{ $t->nama_materi }}</p>
-                        <p class="card-text">Dibuat : {{ $t->created_at->diffForHumans() }}</p>
+                        <p class="card-text"><strong>ID :</strong> {{ $t->id }}</p>
+                        <p class="card-text"><strong>Program :</strong> {{ $dataMateri->nama_program }}</p>
+                        <p class="card-text"><strong>Nama Materi :</strong> {{ $t->nama_materi }}</p>
+                        <p class="card-text"><strong>Dibuat :</strong> {{ $t->created_at->diffForHumans() }}</p>
                         @endif
                         <?php $i++; ?>
                     @endforeach

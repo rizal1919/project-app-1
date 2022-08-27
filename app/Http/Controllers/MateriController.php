@@ -95,7 +95,7 @@ class MateriController extends Controller
 
         $id = $validatedData['program_id'];
 
-        return redirect('/materi/' . $id)->with('success','Create Successfully!');
+        return redirect('/materi/' . $id)->with('success',$validatedData['nama_materi']);
 
 
         
@@ -158,7 +158,7 @@ class MateriController extends Controller
             'menit' => $validatedData['menit']
         ]);
 
-        return redirect('/materi/'. $id)->with('update','Update Successfully!');
+        return redirect('/materi/'. $id)->with('update',$validatedData['nama_materi']);
         // ada . $id itu untuk mengembalikan ke halaman materi yang id nya sama dengan program sebelumnya diakses
     }
 
