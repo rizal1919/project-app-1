@@ -11,25 +11,8 @@ class ProgramController extends Controller
 {
     public function index(Request $request, Kurikulum $kurikulum){
 
-        // $programs = Program::all();
-        // $search = $request->search;
-        // $programs = Program::when($search, function($query, $search){
-        //     return $query->where('nama_program','like',"%$search%");
-        // })->paginate(5);
         $data = Program::where('kurikulum_id', '=', $kurikulum->id)->Filter(request(['search']))->paginate(5)->withQueryString();
-        // dd($data);
-
-
-        // if( request('search') ){
-        //     $programs = Program::when($search, function($query, $search){
-        //         return $query->where('nama_program','like',"%$search%");
-        //     })->paginate(5);
-        // }
-
-        // if( request('search') ){
-        //     $programs = Program::where('nama_program', 'like', "%$search%")->get();
-        // }
-
+       
         return view('Program.index', [
             'title' => 'Programs',
             'active' => 'Data Kurikulum',
@@ -81,7 +64,7 @@ class ProgramController extends Controller
 
         Program::create($validatedData);
 
-        return redirect('/program/' . $validatedData['kurikulum_id'])->with('create','Create Successfully!');
+        return redirect('/program/' . $validatedData['kurikulum_id'])->with('create',$validatedData['nama_program']);
     }
 
     public function show(Program $program){
@@ -121,7 +104,7 @@ class ProgramController extends Controller
             'kurikulum_id' => $validatedData['kurikulum_id'],
         ]);
 
-        return redirect('/program/' . $validatedData['kurikulum_id'])->with('update','Update Successfully!');
+        return redirect('/program/' . $validatedData['kurikulum_id'])->with('update',$validatedData['nama_program']);
     }
 
     public function destroy(Request $request, Program $program)

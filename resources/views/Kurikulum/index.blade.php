@@ -55,10 +55,9 @@
                         <th>Aksi</th>
                     </thead>
                     <tbody>
-                        <?php $i=1; ?>
                         @foreach( $kurikulums as $kurikulum)
                             <tr>
-                                <td>{{ $i }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $kurikulum->nama_kurikulum }}</td>
                                 <td></td>
                                 <td>{{ $kurikulum->biaya }}</td>
@@ -69,7 +68,6 @@
                                         <a href="/program/{{ $kurikulum->id }}" class="text-decoration-none btn btn-primary" style="color: white;"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
                                 </td>
                             </tr>
-                            <?php $i++; ?>
                         @endforeach
                     </tbody>
                 </table>
