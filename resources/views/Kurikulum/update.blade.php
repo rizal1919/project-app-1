@@ -27,7 +27,7 @@
             <form action="/update/{{ $kurikulum->id }}" method="post">
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
-                    <div class="col-auto mx-5">
+                    <div class="col-lg-6 mx-5">
                         <label for="nama_kurikulum" class="col-form-label">Nama Kurikulum</label>
                         <input type="text" name="nama_kurikulum" id="nama_kurikulum" class="form-control @error('nama_kurikulum') is-invalid @enderror" value="{{ old('nama_kurikulum', $kurikulum->nama_kurikulum) }}" autofocus required>
                         @error('nama_kurikulum')
