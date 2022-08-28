@@ -25,26 +25,26 @@
             @if( session('create') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
                 Informasi data <strong>{{ session('create') }}</strong> telah berhasil ditambahkan.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="changeStyle()"></button>
             </div>
             @endif
             
             @if( session('update') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
                 Informasi data <strong>{{ session('update') }}</strong> telah berhasil diubah.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="changeStyle()"></button>
             </div>
             @endif
             @if( session('deleteFailed') )
             <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
                 Silahkan hapus PIC untuk sekolah <strong>{{ session('deleteFailed') }}</strong> terlebih dahulu.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="changeStyle()"></button>
             </div>
             @endif
             @if( session('delete') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
                 Informasi data <strong>{{ session('delete') }}</strong> telah berhasil dihapus.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="changeStyle()"></button>
             </div>
             @endif
             <div class="card p-3 mt-2">

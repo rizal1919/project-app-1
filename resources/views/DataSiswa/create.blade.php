@@ -33,13 +33,13 @@
                 <div class="row p-4 align-items-start justify-content-center">
                     <div class="col-auto mx-5">
                         <label for="ktp" class="col-form-label">KTP</label>
-                        <input type="text" maxlength="16" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" autofocus required>
+                        <input type="number" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" autocomplete="off" autofocus required>
                         @error('ktp')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
-                        <p id="karakter" style="margin-top: 2px;" hidden></p>
+                        <p id="karakter" class="form-text" style="margin-top: 2px;" hidden><span data-feather="alert-circle" class="align-text-bottom"></span></p>
 
                         <label for="nama_siswa" class="col-form-label">NAMA</label>
                         <input type="text" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}" required>
@@ -52,7 +52,7 @@
 
 
                         <label for="email" class="col-form-label">EMAIL</label>
-                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
+                        <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
                         @error('email')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -112,26 +112,27 @@ function Function() {
     let ktpubah = document.getElementById('karakter');
     function sisaKarakter(){
         let valueInput = ktp.value;
-        let regex = /[^a-zA-Z]/g;
-        let match = valueInput.match(regex);
-        let hasilJoin = match.join('');
-        
+        let panjangInputan = valueInput.length;
+        if( panjangInputan <= 16 ){
 
-        let panjangInputan = hasilJoin.length;
-        let valueMax = ktp.getAttribute('maxlength');
+            let valueMax = '16';
+            let sisa = valueMax-panjangInputan;
+            let kalimatSisa = 'Sisa karakter : ' + sisa;
+            ktpubah.removeAttribute('hidden');
+            ktpubah.innerText = kalimatSisa;
+            ktpubah.style.marginTop = '5px';
+            ktp.value = valueInput;
+        }else{
 
-        let sisa = valueMax-panjangInputan;
-        let kalimatSisa = 'sisa karakter : ' + sisa;
-        ktpubah.removeAttribute('hidden');
-    
-        ktpubah.innerText = kalimatSisa;
-        ktpubah.style.marginTop = '5px';
-
-        ktp.value = hasilJoin;
-        console.log(kalimatSisa);
+            let split = valueInput.split('');
+            split = split.splice(0,16);
+            split = split.join("");
+            console.log(split);
+            ktp.value = split;
+        }
         
     }
-
+    
     ktp.addEventListener('keyup', sisaKarakter);
     ktp.addEventListener('blur', function(){
         ktpubah.setAttribute('hidden', '');

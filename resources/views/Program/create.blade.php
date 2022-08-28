@@ -16,7 +16,7 @@
                     @csrf
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control @error('nama_program') is-invalid @enderror" id="nama_program" name="nama_program" value="{{ old('nama_program') }}" placeholder="Nama Program" autofocus required>
-                        <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         @error('nama_program')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

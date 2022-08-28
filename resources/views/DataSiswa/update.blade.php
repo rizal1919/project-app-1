@@ -63,8 +63,8 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                        <input type="hidden" name="nomor_pendaftaran" class="@error('nomor_pendaftaran') is-invalid @enderror form-control" id="nomor_pendaftaran" placeholder="nomor_pendaftaran" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $student->nomor_pendaftaran }}"  required>
-                        <input type="hidden" name="tahun_daftar" class="@error('tahun_daftar') is-invalid @enderror form-control" id="tahun_daftar" placeholder="tahun_daftar" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $year }}"  required>
+                        <input type="hidden" name="nomor_pendaftaran" class="@error('nomor_pendaftaran') is-invalid @enderror form-control" id="nomor_pendaftaran" placeholder="nomor_pendaftaran" value="{{ $student->nomor_pendaftaran }}"  required>
+                        <input type="hidden" name="tahun_daftar" class="@error('tahun_daftar') is-invalid @enderror form-control" id="tahun_daftar" placeholder="tahun_daftar" value="{{ $year }}"  required>
                     </div>
                     <div class="form-floating text-center mb-4">
                         
@@ -97,26 +97,27 @@
     let ktpubah = document.getElementById('karakter');
     function sisaKarakter(){
         let valueInput = ktp.value;
-        let regex = /[^a-zA-Z]/g;
-        let match = valueInput.match(regex);
-        let hasilJoin = match.join('');
-        
+        let panjangInputan = valueInput.length;
+        if( panjangInputan <= 16 ){
 
-        let panjangInputan = hasilJoin.length;
-        let valueMax = ktp.getAttribute('maxlength');
+            let valueMax = '16';
+            let sisa = valueMax-panjangInputan;
+            let kalimatSisa = 'Sisa karakter : ' + sisa;
+            ktpubah.removeAttribute('hidden');
+            ktpubah.innerText = kalimatSisa;
+            ktpubah.style.marginTop = '5px';
+            ktp.value = valueInput;
+        }else{
 
-        let sisa = valueMax-panjangInputan;
-        let kalimatSisa = 'sisa karakter : ' + sisa;
-        ktpubah.removeAttribute('hidden');
-    
-        ktpubah.innerText = kalimatSisa;
-        ktpubah.style.marginTop = '5px';
-
-        ktp.value = hasilJoin;
-        console.log(kalimatSisa);
+            let split = valueInput.split('');
+            split = split.splice(0,16);
+            split = split.join("");
+            console.log(split);
+            ktp.value = split;
+        }
         
     }
-
+    
     ktp.addEventListener('keyup', sisaKarakter);
     ktp.addEventListener('blur', function(){
         ktpubah.setAttribute('hidden', '');
