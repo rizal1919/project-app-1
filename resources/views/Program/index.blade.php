@@ -18,7 +18,7 @@
                             <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                         </div>
                     </form>
-                    <a href="/create/{{ $kurikulum->id }}" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Kurikulum</a>
+                    <a href="/create/{{ $kurikulum->id }}" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
                     <a href="/kurikulum" class="btn btn-success text-decoration-none text-light mx-1">Kembali</a>
                 </div>
             </div>

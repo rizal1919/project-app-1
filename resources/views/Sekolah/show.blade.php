@@ -11,8 +11,8 @@
                 <h4>{{ $dataSekolah->nama_sekolah }}</h4>
             </div>
             <div class="card-body">
-                <p class="card-text">ID : {{ $dataSekolah->id }}</p>
-                <p class="card-text">Alamat : {{ $dataSekolah->alamat }}</p>
+                <p class="card-text"><strong>ID :</strong> {{ $dataSekolah->id }}</p>
+                <p class="card-text"><strong>Alamat :</strong> {{ $dataSekolah->alamat }}</p>
             </div>
             <div class="card-footer text-end">
                 <a href="/sekolah" class="btn btn-primary">Kembali</a>

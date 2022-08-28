@@ -11,9 +11,9 @@
                 <h4>ACADEMY - TEACHER PROFILE</h4>
             </div>
             <div class="card-body">
-                <p class="card-text">ID : {{ $teacher->id }}</p>
-                <p class="card-text">Nama Guru : {{ $teacher->teacher_name }}</p>
-                <p class="card-text">Dibuat : {{ $teacher->created_at->diffForHumans() }}</p>
+                <p class="card-text"><strong>ID :</strong> {{ $teacher->id }}</p>
+                <p class="card-text"><strong>Nama Guru :</strong> {{ $teacher->teacher_name }}</p>
+                <p class="card-text"><strong>Dibuat :</strong> {{ $teacher->created_at->diffForHumans() }}</p>
             </div>
             <div class="card-footer text-end">
                 <a href="/teacher" class="btn btn-primary">Kembali</a>

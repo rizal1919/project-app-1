@@ -11,9 +11,9 @@
                 <h4>ACADEMY - CLASSROOM</h4>
             </div>
             <div class="card-body">
-                <p class="card-text">ID : {{ $classroom->id }}</p>
-                <p class="card-text">Nama Kelas : {{ $classroom->classroom_name }}</p>
-                <p class="card-text">Dibuat : {{ $classroom->created_at->diffForHumans() }}</p>
+                <p class="card-text"><strong>ID :</strong> {{ $classroom->id }}</p>
+                <p class="card-text"><strong>Nama Kelas :</strong> {{ $classroom->classroom_name }}</p>
+                <p class="card-text"><strong>Dibuat :</strong> {{ $classroom->created_at->diffForHumans() }}</p>
             </div>
             <div class="card-footer text-end">
                 <a href="/classroom" class="btn btn-primary">Kembali</a>

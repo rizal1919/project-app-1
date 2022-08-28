@@ -11,10 +11,10 @@
                 <h4>{{ $dataPIC->nama_pic }}</h4>
             </div>
             <div class="card-body">
-                <p class="card-text">ID : {{ $dataPIC->id }}</p>
-                <p class="card-text">Kode_referral : {{ $dataPIC->kode_referral }}</p>
-                <p class="card-text">Nomor Telfon : {{ $dataPIC->nomor_telepon }}</p>
-                <p class="card-text">Sekolah Tujuan : {{ $dataPIC->sekolah->nama_sekolah }}</p>
+                <p class="card-text"><strong>ID :</strong> {{ $dataPIC->id }}</p>
+                <p class="card-text"><strong>Kode_referral :</strong> {{ $dataPIC->kode_referral }}</p>
+                <p class="card-text"><strong>Nomor Telfon :</strong> {{ $dataPIC->nomor_telepon }}</p>
+                <p class="card-text"><strong>Sekolah Tujuan :</strong> {{ $dataPIC->sekolah->nama_sekolah }}</p>
             </div>
             <div class="card-footer text-end">
                 <a href="/pic" class="btn btn-primary">Kembali</a>
