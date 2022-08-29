@@ -125,16 +125,12 @@ class StudentController extends Controller
 
 
         $dataSiswa = Student::filter(request(['nama','ktp','nama_kurikulum','tahun']))->orderBy('id', 'desc')->paginate(5)->withQueryString();
-        $students = Student::all();
-        // dd($tes->kurikulum->nama_kurikulum);
-           
-        
+       
         return view('DataSiswa.index',[
 
             'title' => 'Data Siswa | ',
             'active' => 'Data Siswa',
-            'dataSiswa' => $dataSiswa,
-            'students' => $students
+            'dataSiswa' => $dataSiswa
         ]);
     }
 
