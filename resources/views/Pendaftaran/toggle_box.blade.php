@@ -1,9 +1,8 @@
-@extends('Layouts.main')
+@extends('Dashboard.Layouts.main')
 
 
 
-@include('Layouts/Navbar/navbar')
-@section('content')
+@section('container')
 <!-- <div class="row justify-content-center mt-5" style='height: 500px; margin-left: 50px; margin-bottom: 100px;'>
     <div class="col-lg-10">
         @if( session('pendaftaranGagal') )
