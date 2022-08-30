@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Kurikulum;
 use App\Models\Program;
+use App\Models\PIC;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -187,6 +188,13 @@ class StudentController extends Controller
         
         }
 
+        // $data = PIC::all();
+        // // dd(is_null($data->find(2)));
+        // foreach( $data as $d ){
+
+        //     dd(is_null($d->sekolah));
+        // }
+
         return view('DataSiswa.create', [
 
             'title' => 'Daftar Siswa',
@@ -194,6 +202,7 @@ class StudentController extends Controller
             'nomor' => $hasilAkhirNoUrut,
             'year' => $normalYear,
             'date' => $date,
+            'pic' => PIC::all()
         ]);
     }
 
@@ -210,7 +219,7 @@ class StudentController extends Controller
             'nomor_pendaftaran' => 'required',
             'tahun_daftar' => 'required',
             'password' => 'required',
-            'status' => 'required'
+            'status' => 'required',
             
             
         ],[
@@ -224,14 +233,15 @@ class StudentController extends Controller
             'tanggal_lahir.required' => 'Tanggal lahir tidak boleh kosong',
         ]);
         
-        $validatedData = $request->collect();
-        $validatedData = current( (Array) $validatedData );
+        // $validatedData = $request->collect();
+        // dd($validatedData);
+        // $validatedData = current( (Array) $validatedData );
         // kenapa dipanggil dengan collection? karna data yang tidak diinputkan user itu selalu gagal divalidasi.
         // disini makanya diinputkan collection, kemudian dari obj dijadikan array. kemudian di create
         
-        // if($validatedData['kurikulum_id'] == 0){
+        // if($validatedData['pic_id'] == 0){
             
-        //     return redirect('/form-registrasi-1')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
+        //     return redirect('/data-siswa/create/student')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
         // }
         
         // dd($validatedData);

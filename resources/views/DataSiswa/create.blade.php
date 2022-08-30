@@ -31,7 +31,7 @@
             <form action="/data-siswa/create/student" method="post">
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
-                    <div class="col-auto mx-5">
+                    <div class="col-lg-3 mx-4">
                         <label for="ktp" class="col-form-label">KTP</label>
                         <input type="number" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" autocomplete="off" autofocus required>
                         @error('ktp')
@@ -72,6 +72,15 @@
                         <input type="hidden" name="tahun_daftar" class="@error('tahun_daftar') is-invalid @enderror form-control" id="tahun_daftar" placeholder="tahun_daftar" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $year }}"  required>
                         <input type="hidden" name="password" class="@error('password') is-invalid @enderror form-control" id="password" placeholder="password" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $nomor }}"  required>
                         <input type="hidden" name="status" class="@error('status') is-invalid @enderror form-control" id="status" placeholder="status" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="diterima"  required>
+                    </div>
+                    <div class="col-lg-3 mt-2">
+                        <label for="pic_id">PIC</label>
+                        <select name="pic_id" class="form-select mt-1 text-bg-primary" id="pic_id">
+                            <option value="">Pilih PIC</option>
+                            @foreach( $pic as $leader )
+                                <option value="{{ $leader->id }}">{{ $leader->nama_pic }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">

@@ -15,6 +15,10 @@ class PIC extends Model
         return $this->belongsTo(Sekolah::class);
     }
 
+    public function student(){
+        return $this->hasMany(Student::class);
+    }
+
     public function scopeFilter($query, array $filters){
         
         $query->when($filters['nama_pic'] ?? false, function($query, $search){

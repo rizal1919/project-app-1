@@ -24,6 +24,10 @@ class Student extends Model
         return $this->hasMany(CicilanKurikulumStudent::class);
     }
 
+    public function pic(){
+        return $this->belongsTo(PIC::class);
+    }
+
     public function scopeFilter($query, array $filters){
         
         $query->when($filters['nama'] ?? false, function($query, $nama){

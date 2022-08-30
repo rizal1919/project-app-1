@@ -38,11 +38,11 @@
             <form action="/assign-teacher-create" method="post">
                 @csrf
                 <div class="row p-4 align-items-start justify-content-center">
-                    <div class="col-auto mx-5">
+                    <div class="col-lg-3 mx-5">
 
                         <label for="teacher_id" class="col-form-label">GURU</label>
                         <div class="col-auto"> 
-                            <select name="teacher_id" id="teacher_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                            <select name="teacher_id" id="teacher_id" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
 
                                 <option value="0">Tidak memilih guru</option>
                                 @foreach( $teachers as $teacher )
@@ -54,7 +54,7 @@
 
                         <label for="aktivasi_id" class="col-form-label">AKTIVASI</label>
                         <div class="col-auto"> 
-                            <select name="aktivasi_id" id="aktivasi_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                            <select name="aktivasi_id" id="aktivasi_id" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
 
                                 <option value="0">Tidak memilih aktivasi</option>
                                 @foreach( $aktivasis as $aktivasi )
@@ -66,8 +66,10 @@
 
                         <label for="materi_id" class="col-form-label">MATERI</label>
                         <div class="col-auto"> 
-                            <select name="materi_id" id="materi_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-                                
+                            <select name="materi_id" id="materi_id" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                                <optgroup label="Tidak Ada Materi">
+                                    <option value="0">Pilih Materi</option>
+                                </optgroup>
                                 <?php for( $i=0; $i<count($programs); $i++ ): ?>
 
                                     @if( count($programs[$i]->aktivasi) === 0 )
@@ -95,11 +97,11 @@
 
 
                     </div>
-                    <div class="col-auto">
+                    <div class="col-lg-3">
 
                         <label for="status" class="col-form-label">STATUS</label>
                         <div class="col-auto"> 
-                            <select name="status" id="status" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                            <select name="status" id="status" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
 
                                 <option value="0">Belum Terlaksana</option>
                                 <option value="1">Terlaksana</option>
@@ -108,7 +110,7 @@
                         </div>
                         
                         <label for="pertemuan" class="col-form-label">PERTEMUAN</label>
-                        <input type="integer" name="pertemuan" id="pertemuan" class="form-control @error('pertemuan') is-invalid @enderror" value="{{ old('pertemuan') }}"  placeholder="example@gmail.com">
+                        <input type="number" name="pertemuan" id="pertemuan" class="form-control @error('pertemuan') is-invalid @enderror" value="{{ old('pertemuan') }}"  placeholder="Pertemuan">
                         @error('pertemuan')
                         <div class="invalid-feedback">
                             {{ $message }}
