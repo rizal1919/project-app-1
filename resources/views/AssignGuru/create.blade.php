@@ -42,23 +42,45 @@
 
                         <label for="teacher_id" class="col-form-label">GURU</label>
                         <div class="col-auto"> 
-                            <select name="teacher_id" id="teacher_id" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                            <select name="teacher_id" id="teacher_id" class="form-select">
 
-                                <option value="0">Tidak memilih guru</option>
+                                <option>Pilih Guru ...</option>
                                 @foreach( $teachers as $teacher )
-                                <option value="{{ $teacher['id'] }}">{{ $teacher['teacher_name'] }}</option>
+                                    <option value="{{ $teacher['id'] }}">{{ $teacher['teacher_name'] }}</option>
                                 @endforeach
                             
                             </select>
                         </div>
 
-                        <label for="aktivasi_id" class="col-form-label">AKTIVASI</label>
+                        <label for="paket" class="col-form-label">PAKET</label>
                         <div class="col-auto"> 
-                            <select name="aktivasi_id" id="aktivasi_id" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                            <select name="paket" id="paket" class="form-select">
 
-                                <option value="0">Tidak memilih aktivasi</option>
-                                @foreach( $aktivasis as $aktivasi )
-                                <option value="{{ $aktivasi['id'] }}">{{ $aktivasi['nama_aktivasi'] }}</option>
+                                <option>Pilih Paket ...</option>
+                                <?php $i = 0; ?>
+                                <?php $j = 0; ?>
+                                @foreach( $pakets as $paket )
+                                    @if( $paket['tipePaket'] == "Aktivasi" )
+
+                                        <?php if( $i === 0 ): ?>
+                                            <optgroup label="{{ $paket['tipePaket'] }}">
+                                            <option value="{{ $paket['namaProgram'] }}">{{ $paket['namaProgram'] }}</option>
+                                            <?php $i = 1; ?>
+                                        <?php else: ?>
+                                            <option value="{{ $paket['namaProgram'] }}">{{ $paket['namaProgram'] }}</option>
+                                        <?php endif; ?>
+                                    @else
+                                        <?php if( $j === 0 ): ?>
+                                            <optgroup label="{{ $paket['tipePaket'] }}">
+                                            <option value="{{ $paket['namaProgram'] }}">{{ $paket['namaProgram'] }}</option>
+                                            
+                                            <?php $j = 1; ?>
+                                        <?php else: ?>
+                                            <option value="{{ $paket['namaProgram'] }}">{{ $paket['namaProgram'] }}</option>
+                                        <?php endif; ?>
+                                        
+                                    @endif
+                                    
                                 @endforeach
                             
                             </select>
@@ -66,43 +88,17 @@
 
                         <label for="materi_id" class="col-form-label">MATERI</label>
                         <div class="col-auto"> 
-                            <select name="materi_id" id="materi_id" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-                                <optgroup label="Tidak Ada Materi">
-                                    <option value="0">Pilih Materi</option>
-                                </optgroup>
-                                <?php for( $i=0; $i<count($programs); $i++ ): ?>
-
-                                    @if( count($programs[$i]->aktivasi) === 0 )
-                                    <optgroup label="{{ $programs[$i]->nama_program }}">  
-                                        @foreach( $materis as $materi )
-                                            @if( $materi->program_id == $programs[$i]->id )
-                                                <option value="{{ $materi->id }}">{{ $materi->nama_materi }}</option>
-                                            @endif
-                                        @endforeach
-                                    </optgroup>
-                                    @else
-                                    <optgroup label="{{ $programs[$i]->aktivasi[0]->nama_aktivasi }}">  
-                                        @foreach( $materis as $materi )
-                                            @if( $materi->program_id == $programs[$i]->id )
-                                                <option value="{{ $materi->id }}">{{ $materi->nama_materi }}</option>
-                                            @endif
-                                        @endforeach
-                                    </optgroup>
-                                    @endif
-
-                                <?php endfor; ?>
-                           
+                            <select name="materi_id" id="materi_id" class="form-select">
+                                <option disabled>Pilih Materi ...</option>
                             </select>
                         </div>
 
 
                     </div>
                     <div class="col-lg-3">
-
                         <label for="status" class="col-form-label">STATUS</label>
                         <div class="col-auto"> 
                             <select name="status" id="status" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-
                                 <option value="0">Belum Terlaksana</option>
                                 <option value="1">Terlaksana</option>
                             
@@ -144,77 +140,26 @@
 
 <script>
     $(document).ready(function(){
-    
-        $('#nama_siswa').on('keyup', function(){
-            var value = $(this).val();
+
+        
+
+        $('#paket').on('change', function(){
+            var value = $('#paket').val();
             $.ajax({
-                url:"{{ route('search') }}",
+                url:"{{ route('getmateri') }}",
                 type:"GET",
-                data:{'nama_siswa':value},
-                success:function(data){
-
-                    $('#nama').html(data);                    
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#n', function(){
-            var value = $(this).text();
-            $("#nama_siswa").val(value);
-            $('#nama').html('');
-        });
-
-        $('#ktp').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('ktp') }}",
-                type:"GET",
-                data:{'ktp':value},
-                success:function(data){
-
-                    
+                data:{'nama_paket':value},
+                success: function(data){
                     console.log(data);
-                    console.log( data[0]['nama_siswa'] );
-
-                    $('#noktp').html(data);
-                    $('#nama_siswa').val(data[0]['nama_siswa']);
-                    $('#email').val(data[0]['email']);
-                    $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                    $('#materi_id').html(data);           
                     
                 }
             });
         });
+          
+    
 
-
-        $(document).on('click', '#k', function(){
-            var value = $(this).text();
-            $("#ktp").val(value);
-            $('#noktp').html('');
-        });
-
-        $('#email').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('email') }}",
-                type:"GET",
-                data:{'email':value},
-                success:function(data){
-
-                    $('#alamatemail').html(data);
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#e', function(){
-            var value = $(this).text();
-            $("#email").val(value);
-            $('#alamatemail').html('');
-        });
-
+       
 
 
     });

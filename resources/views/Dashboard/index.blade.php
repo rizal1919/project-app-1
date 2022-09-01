@@ -19,6 +19,7 @@
           <th>{{ $admin->name_admin }}</th>
           <th>{{ $admin->email }}</th>
           <th><p class="badge text-bg-primary" style="letter-spacing: 1px;">active</p></th>
+          <th><a href="/export-pdf" class="btn btn-primary">Export PDF</a></th>
         </tr>
       @endforeach
     </tbody>

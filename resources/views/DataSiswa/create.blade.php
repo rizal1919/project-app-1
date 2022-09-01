@@ -1,10 +1,8 @@
 @extends('Dashboard.Layouts.main')
 
 @section('container')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Halaman Daftar Siswa</h1>
-</div>
-    <div class="container d-flex justify-content-center my-4">
+
+    <div class="container d-flex justify-content-center mt-4 mb-2">
         <div class="card col-12 justify-content-center">
             @if( session('pendaftaranGagal') )
             <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
@@ -20,7 +18,7 @@
             @endif
             <div class="card-header">
                 <p class="card-title">
-                    Form Tambah Siswa Baru
+                    <strong>Form A</strong> - Keterangan Calon Peserta Didik
                 </p>
             </div>
             <!-- <div class="card-body">
@@ -30,68 +28,360 @@
             </div> -->
             <form action="/data-siswa/create/student" method="post">
                 @csrf
-                <div class="row p-4 align-items-start justify-content-center">
-                    <div class="col-lg-3 mx-4">
-                        <label for="ktp" class="col-form-label">KTP</label>
-                        <input type="number" name="ktp" id="ktp" class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" autocomplete="off" autofocus required>
-                        @error('ktp')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                <div class="d-flex justify-content-center p-4">
+                    <div class="col-lg-10 mx-4 text-start">
+                        <div class="row mb-3">
+                            <label for="nama_siswa" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Nama Lengkap</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="nama_siswa" id="nama_siswa" class="form-control form-control-sm @error('nama_siswa') is-invalid @enderror submit" placeholder="Reiza Nurrafi" value="{{ old('nama_siswa') }}" required autofocus>
+                                @error('nama_siswa')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
-                        @enderror
-                        <p id="karakter" class="form-text" style="margin-top: 2px;" hidden><span data-feather="alert-circle" class="align-text-bottom"></span></p>
-
-                        <label for="nama_siswa" class="col-form-label">NAMA</label>
-                        <input type="text" name="nama_siswa" id="nama_siswa" class="form-control @error('nama_siswa') is-invalid @enderror" value="{{ old('nama_siswa') }}" required>
-                        @error('nama_siswa')
-                        <div class="invalid-feedback">
-                            {{ $message }}
                         </div>
-                        @enderror
-                        <div id="nama" hidden></div>
 
-
-                        <label for="email" class="col-form-label">EMAIL</label>
-                        <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
-                        @error('email')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                        <div class="row mb-3">
+                            <label for="nama_panggilan_siswa" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Nama Panggilan</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="nama_panggilan_siswa" value="{{ old('nama_panggilan_siswa') }}" class="form-control form-control-sm @error('nama_panggilan_siswa') is-invalid @enderror submit" placeholder="Reiza" required>
+                                @error("nama_panggilan_siswa")
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
                         </div>
-                        @enderror
-                        <div id="alamatemail"></div>
 
-                        <label for="tanggal_lahir" class="col-form-label">TANGGAL LAHIR</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}" required>
-                        @error('tanggal_lahir')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                        <div class="row mb-3">
+                            <label for="jenis_kelamin" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Jenis Kelamin</label>
+                            <div class="col-sm-7">
+                                <select name="jenis_kelamin" class="form-select form-select-sm submit" id="jenis_kelamin">
+                                    <option>Pilih Jenis Kelamin</option>
+                                    <option value="pria">Laki-Laki</option>
+                                    <option value="wanita">Perempuan</option>
+                                </select>
+                            </div>
                         </div>
-                        @enderror
+
+                        <div class="row mb-3">
+                            <label for="ktp" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Kartu Tanda Penduduk (KTP)</label>
+                            <div class="col-sm-7">
+                                <input type="number" name="ktp" id="ktp" class="form-control form-control-sm @error('ktp') is-invalid @enderror submit" value="{{ old('ktp') }}" autocomplete="off" placeholder="3521515890880004" required>
+                                @error('ktp')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <p id="karakter" class="form-text" style="margin-top: 2px; margin-left: 220px;" hidden></p>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="email" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Email</label>
+                            <div class="col-sm-7">
+                                <input type="email" name="email" id="email" class="form-control form-control-sm @error('email') is-invalid @enderror submit" value="{{ old('email') }}" placeholder="example@gmail.com" required>
+                                @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="tempat_lahir" class="col-form-label col-form-label-sm fw-bold">Tempat / Tanggal Lahir</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="tempat_lahir" class="form-control form-control-sm col-sm-4 @error('tempat_lahir') is-invalid @enderror submit" placeholder="Surabaya" required>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" name="tanggal_lahir" class="form-control form-control-sm col-sm-4 submit" value="{{ old('tanggal_lahir') }}" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="nama_jalan_ktp" class="col-form-label col-form-label-sm fw-bold">Alamat Tinggal (Sesuai KTP)</label>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control form-control-sm submit" id="nama_jalan_ktp" name="nama_jalan_ktp" required placeholder="Jalan Raya Kencana 1 Blok AB" required>
+                            </div>
+                            <div class="col-md-1">
+                                <input type="number" name="rt_ktp" class="form-control form-control-sm submit" id="rt_ktp" placeholder="RT" required>
+                            </div>
+                            <div class="col-md-1">
+                                <input type="number" name="rw_ktp" class="form-control form-control-sm submit" id="rw_ktp" placeholder="RW" required>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control form-control-sm submit" id="nama_desa_ktp" name="nama_desa_ktp" required placeholder="Gayungan">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="nama_kecamatan_ktp" class="form-control form-control-sm submit" id="nama_kecamatan_ktp" placeholder="Ketintang" required>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="nama_jalan_domisili" class="col-form-label col-form-label-sm fw-bold">Alamat Tinggal (Domisili)</label>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" id="nama_jalan_domisili" class="form-control form-control-sm submit" name="nama_jalan_domisili" required placeholder="Jalan Raya Kencana 1 Blok AB">
+                            </div>
+                            <div class="col-md-1">
+                                <input type="number" id="rt_domisili" name="rt_domisili" class="form-control form-control-sm submit" id="rt_domisili" placeholder="RT" required>
+                            </div>
+                            <div class="col-md-1">
+                                <input type="number" id="rw_domisili" name="rw_domisili" class="form-control form-control-sm submit" id="rw_domisili" placeholder="RW" required>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <input type="text" id="nama_desa_domisili" class="form-control form-control-sm submit" name="nama_desa_domisili" required placeholder="Gayungan">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" id="nama_kecamatan_domisili" name="nama_kecamatan_domisili" class="form-control form-control-sm submit" id="nama_kecamatan_domisili" placeholder="Ketintang" required>
+                            </div>
+                        </div>
+
+                        <!-- form cek alamat sama dengan ktp -->
+                        <div class="form-check col-lg-4" style="margin-left: 185px;">
+                            <input type="checkbox" id="alamat-sama" value="0" class="form-check-input mx-2" style="margin-right: 5px;" name="alamat_sama" id="alamat_sama">
+                            <label for="alamat_sama" class="form-check-label text-secondary">Alamat sama dengan di ktp</label>
+                        </div>
+
+                        <div class="row my-3">
+                            <label for="tempat_tinggal" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Tempat Tinggal</label>
+                            <div class="col-sm-7">
+                                <select name="tempat_tinggal" id="tempat_tinggal" class="form-select form-select-sm submit" required>
+                                    <option>Pilih salah satu</option>
+                                    <option value="Bersama Orang Tua">Bersama Orang Tua</option>
+                                    <option value="Kost">Kost</option>
+                                    <option value="Rumah Pribadi">Rumah Pribadi</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <label for="transportasi" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Transportasi</label>
+                            <div class="col-sm-7">
+                                <select name="transportasi" id="transportasi" class="form-select form-select-sm submit" required>
+                                    <option value="">Pilih salah satu</option>
+                                    <option value="Sepeda Motor">Sepeda Motor</option>
+                                    <option value="Angkutan Umum">Angkutan Umum</option>
+                                    <option value="Jalan Kaki">Jalan Kaki</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <label for="no_hp" class="col-sm-3 col-form-label col-form-label-sm fw-bold">No Telfon</label>
+                            <div class="col-sm-7">
+                                <input type="number" name="no_hp" id="no_hp" class="form-control form-control-sm submit" placeholder="085xxxxxxxxx" required>
+                            </div>
+                            <p class="form-text" style="margin-left: 220px;">Harap untuk menginputkan nomor yang masih bisa dihubungi</p>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="asal_sekolah" class="col-form-label col-form-label-sm fw-bold">Asal Sekolah (SMA/SMK/MTS)</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control form-control-sm submit" placeholder="SMAN 1 HARAPAN BARU" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="kota_asal_sekolah" class="form-control form-control-sm submit" id="kota_asal_sekolah" placeholder="Surabaya" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="pic_id" class="col-md-3 col-form-label col-form-label-sm fw-bold">PIC</label>
+                            <div class="col-md-7">
+                                <select name="pic_id" class="form-select form-select-sm submit" id="pic_id">
+                                    <option value="">Pilih PIC</option>
+                                </select>
+                            </div>
+                        </div>
+
+
 
                         <input type="hidden" name="nomor_pendaftaran" class="@error('nomor_pendaftaran') is-invalid @enderror form-control" id="nomor_pendaftaran" placeholder="nomor_pendaftaran" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $nomor }}"  required>
                         <input type="hidden" name="tahun_daftar" class="@error('tahun_daftar') is-invalid @enderror form-control" id="tahun_daftar" placeholder="tahun_daftar" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $year }}"  required>
                         <input type="hidden" name="password" class="@error('password') is-invalid @enderror form-control" id="password" placeholder="password" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="{{ $nomor }}"  required>
-                        <input type="hidden" name="status" class="@error('status') is-invalid @enderror form-control" id="status" placeholder="status" style="border-radius: 0px 0px 0px 0px; margin-bottom: -1px;" value="diterima"  required>
                     </div>
-                    <div class="col-lg-3 mt-2">
-                        <label for="pic_id">PIC</label>
-                        <select name="pic_id" class="form-select mt-1 text-bg-primary" id="pic_id">
-                            <option value="">Pilih PIC</option>
-                            @foreach( $pic as $leader )
-                                <option value="{{ $leader->id }}">{{ $leader->nama_pic }}</option>
-                            @endforeach
+
+                </div>
+                
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center">
+        <div class="card col-lg-12">
+            <div class="card-header">
+                <p class="card-title"><strong>Form B</strong> - Keterangan Orang Tua Kandung Peserta Didik</p>
+            </div>
+            <div class="card-body text-start p-4" style="margin-left: 50px;">
+                <div class="row g-3 mt-3 mb-3">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm fw-bold">Nama Ayah / Nama Ibu</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="nama_ayah" id="nama_ayah" class="form-control form-control-sm submit" placeholder="Nama Ayah" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="nama_ibu" id="nama_ibu" class="form-control form-control-sm submit" placeholder="Nama Ibu" required>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm fw-bold">Tanggal Lahir / Pendidikan Terakhir Ayah</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="date" name="tanggal_lahir_ayah" id="tanggal_lahir_ayah" class="form-control form-control-sm submit" >
+                    </div>
+                    <div class="col-md-3">
+                        <select name="pendidikan_ayah" id="pendidikan_ayah" class="form-select form-select-sm submit" required>
+                            <option value="">Pilih salah satu</option>
+                            <option value="SD">SD</option>
+                            <option value="SMP">SMP</option>
+                            <option value="SLTA/SEDERAJAT">SLTA/SEDERAJAT</option>
+                            <option value="S1">SARJANA S1</option>
+                            <option value="S2">SARJANA S2</option>
+                            <option value="S3">SARJANA S3</option>
                         </select>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-end mx-3 mt-3">
-                    <div class="col-6 p-2 d-flex justify-content-center align-items-end">
-                        <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm fw-bold">Tanggal Lahir / Pendidikan Terakhir Ibu</label>
                     </div>
-                    <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Siswa</button>
-                        <a href="/data-siswa" class="btn btn-primary">Kembali</a>
+                    <div class="col-md-4">
+                        <input type="date" name="tanggal_lahir_ibu" id="tanggal_lahir_ibu" class="form-control form-control-sm submit" required>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="pendidikan_ibu" id="pendidikan_ibu" class="form-select form-select-sm submit" required>
+                            <option value="">Pilih salah satu</option>
+                            <option value="SD">SD</option>
+                            <option value="SMP">SMP</option>
+                            <option value="SLTA/SEDERAJAT">SLTA/SEDERAJAT</option>
+                            <option value="S1">SARJANA S1</option>
+                            <option value="S2">SARJANA S2</option>
+                            <option value="S3">SARJANA S3</option>
+                        </select>
                     </div>
                 </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm fw-bold">Pekerjaan Ayah / Ibu</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="pekerjaan_ayah" placeholder="Swasta" id="pekerjaan_ayah" class="form-control form-control-sm submit" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="pekerjaan_ibu" placeholder="Swasta" id="pekerjaan_ibu" class="form-control form-control-sm submit" required>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm fw-bold">Penghasilan Ayah / Ibu</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" name="penghasilan_ayah" placeholder="Penghasilan perbulan" id="penghasilan_ayah" class="form-control form-control-sm submit" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" name="penghasilan_ibu" placeholder="Penghasilan perbulan" id="penghasilan_ibu" class="form-control form-control-sm submit" required>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm fw-bold">Keterangan Ayah / Ibu</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="keterangan_ayah" placeholder="Masih Hidup / Meninggal" id="keterangan_ayah" class="form-control form-control-sm submit" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="keterangan_ibu" placeholder="Masih Hidup / Meninggal" id="keterangan_ibu" class="form-control form-control-sm submit" required>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label for="nama_jalan_ortu" class="col-form-label col-form-label-sm fw-bold">Alamat Tinggal (Orang Tua)</label>
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" id="nama_jalan_ortu" class="form-control form-control-sm submit" name="nama_jalan_ortu" required placeholder="Jalan Raya Kencana 1 Blok AB">
+                    </div>
+                    <div class="col-md-1">
+                        <input type="number" id="rt_ortu" name="rt_ortu" class="form-control form-control-sm submit" id="rt_ortu" placeholder="RT" required>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="number" id="rw_ortu" name="rw_ortu" class="form-control form-control-sm submit" id="rw_ortu" placeholder="RW" required>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <input type="text" id="nama_desa_ortu" class="form-control form-control-sm submit" name="nama_desa_ortu" required placeholder="Gayungan" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="nama_kecamatan_ortu" name="nama_kecamatan_ortu" class="form-control form-control-sm submit" id="nama_kecamatan_ortu" placeholder="Ketintang" required>
+                    </div>
+                </div>
+
+                <!-- form cek alamat sama dengan domisili siswa -->
+                <div class="form-check col-lg-4" style="margin-left: 220px;">
+                    <input type="checkbox" id="alamat-ortu-sama" value="0" class="form-check-input mx-2" style="margin-right: 5px;" name="alamat_ortu_sama">
+                    <label for="alamat_ortu_sama" class="form-check-label text-secondary">Alamat sama dengan siswa</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center mt-2 mb-5">
+        <div class="card col-lg-12">
+            <div class="card-header">
+                <p class="card-title"><strong>Form C</strong> - Data Periodik Calon Peserta Didik</p>
+            </div>
+            <div class="card-body p-4 text-start" style="margin-left: 50px;">
+                <div class="row mb-3 mt-3">
+                    <label class="col-sm-3 col-form-label col-form-label-sm fw-bold">Tinggi Badan</label>
+                    <div class="col-sm-6">
+                        <input type="number" name="tinggi_badan" id="tinggi_badan" placeholder="Tinggi Badan" class="form-control form-control-sm submit" required>
+                    </div>
+                    <input type="text" class="col-sm-1 text-center" placeholder="CM" disabled>
+                </div>
+                <div class="row mb-3 mt-3">
+                    <label class="col-sm-3 col-form-label col-form-label-sm fw-bold">Jarak Rumah ke Sekolah</label>
+                    <div class="col-sm-6">
+                        <input type="number" name="jarak_tempuh_sekolah" id="jarak_tempuh_sekolah" placeholder="Jarak Tempuh" class="form-control form-control-sm submit" autofocus required>
+                    </div>
+                    <input type="text" class="col-sm-1 text-center" placeholder="KM" disabled>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label for="urutan_anak" class="col-form-label col-form-label-sm fw-bold">Anak Ke</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" name="urutan_anak" id="urutan_anak" class="form-control form-control-sm submit" placeholder="1" required>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="jumlah_saudara" class="text-center col-form-label col-form-label-sm fw-bold">Dari</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" name="jumlah_saudara" id="jumlah_saudara" class="form-control form-control-sm submit" placeholder="1" required>
+                    </div>
+                    <label for="jumlah_saudara" class="col-md-2 col-form-label col-form-label-sm fw-bold">Saudara</label>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-end mx-3 mt-3">
+                <div class="col-6 p-2 d-flex justify-content-center align-items-end">
+                    <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Siswa</button>
+                    <a href="/data-siswa" class="btn btn-primary">Kembali</a>
+                </div>
+            </div>
             </form>
         </div>
     </div>
@@ -112,16 +402,24 @@ function Function() {
 }
 </script> -->
 <script>
+
+    let cariValue = document.querySelectorAll('.submit');
+    console.log(cariValue[0]);
+    console.log(cariValue[0].value === "");
+
     function changeStyle(){
         var element = document.getElementById("hide");
         element.style.display = "none";
     }
+
+
 
     let ktp = document.getElementById('ktp');
     let ktpubah = document.getElementById('karakter');
     function sisaKarakter(){
         let valueInput = ktp.value;
         let panjangInputan = valueInput.length;
+        // alert(panjangInputan);
         if( panjangInputan <= 16 ){
 
             let valueMax = '16';
@@ -129,6 +427,7 @@ function Function() {
             let kalimatSisa = 'Sisa karakter : ' + sisa;
             ktpubah.removeAttribute('hidden');
             ktpubah.innerText = kalimatSisa;
+            console.log(kalimatSisa);
             ktpubah.style.marginTop = '5px';
             ktp.value = valueInput;
         }else{
@@ -145,6 +444,100 @@ function Function() {
     ktp.addEventListener('keyup', sisaKarakter);
     ktp.addEventListener('blur', function(){
         ktpubah.setAttribute('hidden', '');
+    });
+
+
+    let cekbox = document.getElementById('alamat-sama');
+    let namaJalanKTP = document.getElementById('nama_jalan_ktp');
+    let rtKTP = document.getElementById('rt_ktp');
+    let rwKTP = document.getElementById('rw_ktp');
+    let namaDesaKTP = document.getElementById('nama_desa_ktp');
+    let namaKecamatanKTP = document.getElementById('nama_kecamatan_ktp');
+
+    let namaJalanDomisili = document.getElementById('nama_jalan_domisili');
+    let rtDomisili = document.getElementById('rt_domisili');
+    let rwDomisili = document.getElementById('rw_domisili');
+    let namaDesaDomisili = document.getElementById('nama_desa_domisili');
+    let namaKecamatanDomisili = document.getElementById('nama_kecamatan_domisili');
+
+    cekbox.addEventListener('change', function(){
+        let dome = cekbox.getAttribute('value');
+        
+
+
+        if( dome == 0 ){
+            cekbox.setAttribute('value', 1);
+
+            namaJalanDomisili.value = namaJalanKTP.value;
+            namaJalanDomisili.setAttribute('readonly', '');
+            rtDomisili.value = rtKTP.value;
+            rtDomisili.setAttribute('readonly', '');
+            rwDomisili.value = rwKTP.value;
+            rwDomisili.setAttribute('readonly', '');
+            namaDesaDomisili.value = namaDesaKTP.value;
+            namaDesaDomisili.setAttribute('readonly', '');
+            namaKecamatanDomisili.value = namaKecamatanKTP.value;
+            namaKecamatanDomisili.setAttribute('readonly', '');
+
+        }else if( dome == 1){
+            cekbox.setAttribute('value', 0);
+
+            namaJalanDomisili.value = "";
+            rtDomisili.value = "";
+            rwDomisili.value = "";
+            namaDesaDomisili.value = "";
+            namaKecamatanDomisili.value = "";
+
+            namaJalanDomisili.removeAttribute('readonly');
+            rtDomisili.removeAttribute('readonly');
+            rwDomisili.removeAttribute('readonly');
+            namaDesaDomisili.removeAttribute('readonly');
+            namaKecamatanDomisili.removeAttribute('readonly');
+        }
+    });
+
+
+    let cekalamat = document.getElementById('alamat-ortu-sama');
+    let namaJalanDomisiliOrtu = document.getElementById('nama_jalan_ortu');
+    let rtDomisiliOrtu = document.getElementById('rt_ortu');
+    let rwDomisiliOrtu = document.getElementById('rw_ortu');
+    let namaDesaDomisiliOrtu = document.getElementById('nama_desa_ortu');
+    let namaKecamatanDomisiliOrtu = document.getElementById('nama_kecamatan_ortu');
+
+    cekalamat.addEventListener('change', function(){
+
+        let ditekan = cekalamat.getAttribute('value');
+        if( ditekan == 0 ){
+
+            cekalamat.setAttribute('value', 1);
+            namaJalanDomisiliOrtu.value = namaJalanDomisili.value;
+            rtDomisiliOrtu.value = rtDomisili.value;
+            rwDomisiliOrtu.value = rwDomisili.value;
+            namaDesaDomisiliOrtu.value = namaDesaDomisili.value;
+            namaKecamatanDomisiliOrtu.value = namaKecamatanDomisili.value;
+
+            namaJalanDomisiliOrtu.setAttribute('readonly', '');
+            rtDomisiliOrtu.setAttribute('readonly', '');
+            rwDomisiliOrtu.setAttribute('readonly', '');
+            namaDesaDomisiliOrtu.setAttribute('readonly', '');
+            namaKecamatanDomisiliOrtu.setAttribute('readonly', '');
+        }else if( ditekan == 1 ){
+
+            cekalamat.setAttribute('value', 0);
+
+            namaJalanDomisiliOrtu.value = "";
+            rtDomisiliOrtu.value = "";
+            rwDomisiliOrtu.value = "";
+            namaDesaDomisiliOrtu.value = "";
+            namaKecamatanDomisiliOrtu.value = "";
+
+            namaJalanDomisiliOrtu.removeAttribute('readonly');
+            rtDomisiliOrtu.removeAttribute('readonly');
+            rwDomisiliOrtu.removeAttribute('readonly');
+            namaDesaDomisiliOrtu.removeAttribute('readonly');
+            namaKecamatanDomisiliOrtu.removeAttribute('readonly');
+
+        }
     });
 
 

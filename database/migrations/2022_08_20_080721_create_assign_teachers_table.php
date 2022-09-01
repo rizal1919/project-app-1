@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('assign_teachers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('teacher_id');
-            $table->foreignId('aktivasi_id');
+            $table->foreignId('aktivasi_id')->nullable();
             $table->foreignId('materi_id');
             $table->integer('status');
             $table->integer('pertemuan');

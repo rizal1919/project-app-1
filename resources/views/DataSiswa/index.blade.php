@@ -58,31 +58,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach( $dataSiswa as $dasis )
+                           
                                 
                                 
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $dasis->nama_siswa }}</td>
-                                    <td>{{ $dasis->nomor_pendaftaran }}</td>
-                                    <td>{{ $dasis->ktp }}</td>
-                                    <td class="text-center">{{ $dasis->tahun_daftar }}</td>
+                                    <td>1</td>
+                                    <td>Rizal F</td>
+                                    <td>12133</td>
+                                    <td>4242342342323</td>
+                                    <td class="text-center">2022</td>
                                     <td>
-                                        <a href="/data-siswa/show/student/{{ $dasis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
-                                        <a href="/data-siswa/update/student/{{ $dasis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
+                                        <a href="/data-siswa/show/student/" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
+                                        <a href="/data-siswa/update/student/" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
                                         <!-- <button class="btn btn-danger text-dark border-0" onclick="confirmation('{{ $dasis->nama_siswa }}')"><i class="fas fa-trash"></i></button> -->
-                                        <button type="button" id="delete" data-url="/data-siswa/delete/student/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $dasis->id }}', '{{ $dasis->nama_siswa }}')"><i class="fas fa-trash"></i></button>
+                                        <!-- <button type="button" id="delete" data-url="/data-siswa/delete/student/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $dasis->id }}', '{{ $dasis->nama_siswa }}')"><i class="fas fa-trash"></i></button> -->
                             
                                     </td>
                                 </tr>
                                   
-                            @endforeach
+                           
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-2">
-                    {{ $dataSiswa->links('vendor.pagination.bootstrap-5') }}
-                </div>
+                
             </div>
         </div>
         </div>

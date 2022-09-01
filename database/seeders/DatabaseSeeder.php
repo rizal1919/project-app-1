@@ -25,15 +25,16 @@ class DatabaseSeeder extends Seeder
         // Program::factory(5)->create();
         // Materi::factory(15)->create();
         UserAdmin::factory(1)->create();
-        // Kurikulum::factory(2)->create();
         // Teacher::factory(10)->create();
 
         // Sekolah::factory(5)->create();
 
+       
+
         // Student::create([
         //     'nama_siswa' => fake()->name(),
         //     'status'=> 'diterima',
-        //     'ktp' => '3525151906990001',
+        //     'ktp' => '3525151906990004',
         //     'email' => fake()->freeEmail(),
         //     'tanggal_lahir' => fake()->date(),
         //     'password'=> fake()->randomNumber(7, true),
@@ -44,7 +45,7 @@ class DatabaseSeeder extends Seeder
         // Student::create([
         //     'nama_siswa' => fake()->name(),
         //     'status'=> 'diterima',
-        //     'ktp' => '3525151906990002',
+        //     'ktp' => '3525151906990005',
         //     'email' => fake()->freeEmail(),
         //     'tanggal_lahir' => fake()->date(),
         //     'password'=> fake()->randomNumber(7, true),
@@ -55,7 +56,7 @@ class DatabaseSeeder extends Seeder
         // Student::create([
         //     'nama_siswa' => fake()->name(),
         //     'status'=> 'diterima',
-        //     'ktp' => '3525151906990003',
+        //     'ktp' => '3525151906990006',
         //     'email' => fake()->freeEmail(),
         //     'tanggal_lahir' => fake()->date(),
         //     'password'=> fake()->randomNumber(7, true),

@@ -29,8 +29,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <link type="text/css" rel="stylesheet" href="{{  asset('css/coba.css')  }}">
+    <meta name="csrf_token" content="{{ csrf_token() }}">
 
-    <title>{{ $title }} Page</title>
+    <title>Page</title>
 </head>
 <body>
     

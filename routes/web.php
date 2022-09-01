@@ -16,6 +16,7 @@ use App\Http\Controllers\PICController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\TeacherController;
+use App\Models\AssignTeacher;
 use App\Models\Classroom;
 use App\Models\Kurikulum;
 use App\Models\Pendaftaran;
@@ -56,6 +57,7 @@ Route::post('/register-admin', [RegisterController::class, 'store']);
 
 // routes dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('auth');
+Route::get('/export-pdf', [DashboardController::class, 'exportPDF'])->Middleware('auth');
 
 
 
@@ -189,6 +191,9 @@ Route::post('/assign-teacher-create', [AssignTeacherController::class, 'store'])
 Route::get('/assign-teacher-update/{assignteacher:id}', [AssignTeacherController::class, 'edit'])->middleware('auth');
 Route::post('/assign-teacher-update/{assignteacher:id}', [AssignTeacherController::class, 'update'])->middleware('auth');
 Route::post('/assign-teacher-delete/{assignteacher:id}', [AssignTeacherController::class, 'delete'])->middleware('auth');
+
+// jquery
+Route::get('/assign-teacher-create-new', [AssignTeacherController::class, 'materi'])->name('getmateri');
 
 
 // route cost
