@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
 
             // formA
+            $table->string('picture')->nullable();
             $table->string('nama_siswa');
             $table->string('nama_panggilan_siswa');
             $table->string('jenis_kelamin');

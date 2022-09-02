@@ -212,39 +212,65 @@ class StudentController extends Controller
         
         $validatedData = $request->validate([
             
+            'picture' => 'image|file|max:1024',
             'nama_siswa' => 'required',
+            'nama_panggilan_siswa' => 'required',
+            'jenis_kelamin' => 'required',
             'ktp' => 'required|min:16|max:16|unique:students',
-            'email' => 'required|email:dns|unique:students',
+            'email' => 'required|email|unique:students',
+            'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
+            'agama' => 'required',
+            'nama_jalan_ktp' => 'required',
+            'rt_ktp' => 'required',
+            'rw_ktp' => 'required',
+            'nama_desa_ktp' => 'required',
+            'nama_kecamatan_ktp' => 'required',
+            'nama_jalan_domisili' => 'required',
+            'rt_domisili' => 'required',
+            'rw_domisili' => 'required',
+            'nama_desa_domisili' => 'required',
+            'nama_kecamatan_domisili' => 'required',
+            'tempat_tinggal' => 'required',
+            'transportasi' => 'required',
+            'no_hp' => 'required|unique:students',
+            'asal_sekolah' => 'required',
+            'kota_asal_sekolah' => 'required',
+            'pic_id' => 'nullable',
             'nomor_pendaftaran' => 'required',
             'tahun_daftar' => 'required',
             'password' => 'required',
-            'status' => 'required',
-            
+            'nama_ayah' => 'required',
+            'nama_ibu' => 'required',
+            'tanggal_lahir_ayah' => 'required',
+            'tanggal_lahir_ibu' => 'required',
+            'pendidikan_ayah' => 'required',
+            'pendidikan_ibu' => 'required',
+            'pekerjaan_ayah' => 'required',
+            'pekerjaan_ibu' => 'required',
+            'penghasilan_ayah' => 'required',
+            'penghasilan_ibu' => 'required',
+            'keterangan_ayah' => 'required',
+            'keterangan_ibu' => 'required',
+            'nama_jalan_ortu' => 'required',
+            'rt_ortu' => 'required',
+            'rw_ortu' => 'required',
+            'nama_desa_ortu' => 'required',
+            'nama_kecamatan_ortu' => 'required',
+            'tinggi_badan' => 'required',
+            'jarak_tempuh_sekolah' => 'required',
+            'urutan_anak' => 'required',
+            'jumlah_saudara' => 'required'
             
         ],[
-            'nama_siswa.required' => 'Nama harus diisi',
-            'ktp.required' => 'KTP tidak boleh kosong',
-            'ktp.unique' => 'KTP telah digunakan',
-            'ktp.min' => 'KTP terdiri dari minimal 16 angka',
-            'ktp.max' => 'KTP terdiri dari maksimal 16 angka',
-            'email.required' => 'Email tidak boleh kosong',
-            'email.unique' => 'Email telah terdaftar',
-            'tanggal_lahir.required' => 'Tanggal lahir tidak boleh kosong',
+            'picture.max' => 'Ukuran file terlalu besar'
         ]);
         
-        // $validatedData = $request->collect();
-        // dd($validatedData);
-        // $validatedData = current( (Array) $validatedData );
-        // kenapa dipanggil dengan collection? karna data yang tidak diinputkan user itu selalu gagal divalidasi.
-        // disini makanya diinputkan collection, kemudian dari obj dijadikan array. kemudian di create
+
+        if($request->file('picture')){
+            $validatedData['picture'] = $request->file('picture')->store('img-siswa');
+        }
         
-        // if($validatedData['pic_id'] == 0){
-            
-        //     return redirect('/data-siswa/create/student')->with('pendaftaranGagal', 'Pendaftaran Gagal!!');
-        // }
-        
-        // dd($validatedData);
         Student::create($validatedData);
 
         return redirect('/data-siswa')->with('pendaftaranBerhasil', 'Registrasi Berhasil - ' . $validatedData['nomor_pendaftaran'] . ' ');
