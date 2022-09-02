@@ -27,6 +27,12 @@
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
+                    @if( session('updateBerhasil') )
+                    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                        Informasi siswa bernama <strong>{{ session('updateBerhasil') }}</strong> berhasil diubah.
+                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-12 d-flex mt-4 justify-content-end">
                         <form action="/data-siswa" method="get" class="mx-2" style="width: 80%;" >
@@ -58,9 +64,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                           
                             @foreach( $dataSiswa as $siswa)
-                                
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $siswa->nama_siswa }}</td>
@@ -68,12 +72,11 @@
                                     <td>{{ $siswa->ktp }}</td>
                                     <td class="text-center">2022</td>
                                     <td>
-                                        <a href="/data-siswa/show/student/" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
-                                        <a href="/data-siswa/update/student/" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                        
+                                        <a href="/data-siswa/show/student/{{ $siswa->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
+                                        <a href="/data-siswa/update/student/{{ $siswa->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
+                                        <button class="btn btn-danger text-dark" id="delete" data-url="/data-siswa/delete/student/" onclick="confirmation('{{ $siswa->id }}', '{{ $siswa->nama_siswa }}')"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
-                                  
                             @endforeach
                         </tbody>
                     </table>

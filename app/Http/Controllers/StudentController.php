@@ -7,6 +7,8 @@ use App\Models\PIC;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -202,7 +204,7 @@ class StudentController extends Controller
             'nomor' => $hasilAkhirNoUrut,
             'year' => $normalYear,
             'date' => $date,
-            'pic' => PIC::all()
+            'pics' => PIC::all()
         ]);
     }
 
@@ -305,7 +307,7 @@ class StudentController extends Controller
             'student' => $student,
             'year' => date('Y'),
             'date' => date("Y-m-d"),
-            'kurikulums' => Kurikulum::all()
+            'pics' => PIC::all()
         ]);
     }
 
@@ -313,47 +315,91 @@ class StudentController extends Controller
 
         // dd($request->collect());
 
-        $validatedData = $request->validate([
-
+        $rules = [
             'nama_siswa' => 'required',
-            'ktp' => 'required|min:16|max:16|unique:students,ktp,'.$student->id,
+            'nama_panggilan_siswa' => 'required',
+            'jenis_kelamin' => 'required',
+            'ktp' => ['required','min:16','max:16',Rule::unique('students')->ignore($student->id)],
+            'email' => ['required','email',Rule::unique('students')->ignore($student->id)],
+            'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
-            'email' => 'required|email:dns|unique:students,email,'.$student->id,
-            'password' => 'required',
+            'agama' => 'required',
+            'nama_jalan_ktp' => 'required',
+            'rt_ktp' => 'required',
+            'rw_ktp' => 'required',
+            'nama_desa_ktp' => 'required',
+            'nama_kecamatan_ktp' => 'required',
+            'nama_jalan_domisili' => 'required',
+            'rt_domisili' => 'required',
+            'rw_domisili' => 'required',
+            'nama_desa_domisili' => 'required',
+            'nama_kecamatan_domisili' => 'required',
+            'tempat_tinggal' => 'required',
+            'transportasi' => 'required',
+            'no_hp' => ['required',Rule::unique('students')->ignore($student->id)],
+            'asal_sekolah' => 'required',
+            'kota_asal_sekolah' => 'required',
+            'pic_id' => 'required',
             'nomor_pendaftaran' => 'required',
-            'tahun_daftar' => 'required'
+            'tahun_daftar' => 'required',
+            'password' => 'required',
+            'nama_ayah' => 'required',
+            'nama_ibu' => 'required',
+            'tanggal_lahir_ayah' => 'required',
+            'tanggal_lahir_ibu' => 'required',
+            'pendidikan_ayah' => 'required',
+            'pendidikan_ibu' => 'required',
+            'pekerjaan_ayah' => 'required',
+            'pekerjaan_ibu' => 'required',
+            'penghasilan_ayah' => 'required',
+            'penghasilan_ibu' => 'required',
+            'keterangan_ayah' => 'required',
+            'keterangan_ibu' => 'required',
+            'nama_jalan_ortu' => 'required',
+            'rt_ortu' => 'required',
+            'rw_ortu' => 'required',
+            'nama_desa_ortu' => 'required',
+            'nama_kecamatan_ortu' => 'required',
+            'tinggi_badan' => 'required',
+            'jarak_tempuh_sekolah' => 'required',
+            'urutan_anak' => 'required',
+            'jumlah_saudara' => 'required',
+            
+        ];
 
-        ]);
-
-        $id = $student->id;
-
-        $student->update([
-            'nama_siswa' => $validatedData['nama_siswa'],
-            'ktp' => $validatedData['ktp'],
-            'email' => $validatedData['email'],
-            'tanggal_lahir' => $validatedData['tanggal_lahir'],
-            'password' => $validatedData['password'],
-            'nomor_pendaftaran' => $validatedData['nomor_pendaftaran'],
-            'tahun_daftar' => $validatedData['tahun_daftar'],
-        ]);
+        $validatedData = $request->validate($rules);
 
 
+        if($request->file('picture')){
 
-        return redirect('/data-siswa/update/student/' . $id)->with('updateBerhasil', 'Berhasil Ubah Data!! ');
+            if($request->oldPicture){
+                Storage::delete($student->picture);
+            }
+            $validatedData['picture'] = $request->file('picture')->store('img-siswa');
+        }
+
+        // dd($validatedData);
+        
+        Student::where('id', $student->id)->update($validatedData);
+
+        return redirect('/data-siswa')->with('updateBerhasil', $validatedData['nama_siswa']);
     }
 
     public function destroy(Student $student){
 
-        $dataSiswaReguler = DB::table('kurikulum_students')->where('student_id', $student->id)->get();
-        $dataSiswaAktivasi = DB::table('aktivasi_students')->where('student_id', $student->id)->get();
+        // $dataSiswaAktivasi = DB::table('aktivasi_students')->where('student_id', $student->id)->get();
         // dd($dataSiswaAktivasi);
 
-        if( count($dataSiswaReguler) > 0 && count($dataSiswaAktivasi) > 0 ){
-            return redirect('/data-siswa')->with('destroyFailed', 'Program Reguler dan Aktivasi');
-        }elseif( count($dataSiswaReguler) > 0 && count($dataSiswaAktivasi) === 0 ){
-            return redirect('/data-siswa')->with('destroyFailed', 'Program Reguler');
-        }elseif( count($dataSiswaReguler) === 0 && count($dataSiswaAktivasi) > 0 ){
-            return redirect('/data-siswa')->with('destroyFailed', 'Program Aktivasi');
+        // if( count($dataSiswaAktivasi) > 0 ){
+        //     return redirect('/data-siswa')->with('destroyFailed', 'Program Reguler dan Aktivasi');
+        // }elseif( count($dataSiswaAktivasi) === 0 ){
+        //     return redirect('/data-siswa')->with('destroyFailed', 'Program Reguler');
+        // }elseif( count($dataSiswaAktivasi) > 0 ){
+        //     return redirect('/data-siswa')->with('destroyFailed', 'Program Aktivasi');
+        // }
+
+        if( $student->picture ){
+            Storage::delete($student->picture);
         }
 
 

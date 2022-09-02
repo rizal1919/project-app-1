@@ -75,8 +75,8 @@
                             <div class="col-sm-7">
                                 <select name="jenis_kelamin" class="form-select form-select-sm submit" id="jenis_kelamin">
                                     <option>Pilih Jenis Kelamin</option>
-                                    <option value="pria">Laki-Laki</option>
-                                    <option value="wanita">Perempuan</option>
+                                    <option value="Pria">Laki-Laki</option>
+                                    <option value="Wanita">Perempuan</option>
                                 </select>
                             </div>
                         </div>
@@ -231,8 +231,10 @@
                             <label for="pic_id" class="col-md-3 col-form-label col-form-label-sm fw-bold">PIC</label>
                             <div class="col-md-7">
                                 <select name="pic_id" class="form-select form-select-sm submit" id="pic_id">
-                                    <option">Pilih PIC</option>
-                                    <option value="1">Mike</option>
+                                    <option value="0">Pilih PIC</option>
+                                    @foreach( $pics as $pic )
+                                        <option value="{{ $pic->id }}">{{ $pic->nama_pic }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

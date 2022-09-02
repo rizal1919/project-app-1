@@ -100,7 +100,7 @@ Route::get('/data-siswa/create/student', [StudentController::class, 'create']);
 Route::post('/data-siswa/create/student', [StudentController::class, 'store']);
 Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, 'show']);
 Route::get('/data-siswa/update/student/{student:id}', [StudentController::class, 'edit']);
-Route::post('/data-siswa/update/student/{student:id}', [StudentController::class, 'update']);
+Route::post('/data-siswa/update-new/student/{student:id}', [StudentController::class, 'update']);
 Route::post('/data-siswa/delete/student/{student:id}', [StudentController::class, 'destroy']);
 // ajax autocomplete
 Route::get('/autocomplete', [StudentController::class, 'search'])->name('search');

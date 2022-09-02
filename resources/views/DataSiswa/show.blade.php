@@ -9,7 +9,11 @@
         <div class="col-lg-12 d-flex flex-row justify-content-center ">
             <div class="card mx-1" style="width: 30%; margin-right: 50px;">
                 <div class="card-body">
-                       <img src="https://source.unsplash.com/300x300?man" class="card-img-top" alt="man">
+                    @if( $student->picture )
+                        <img src="{{ asset('Storage/' . $student->picture) }}" class="card-img-top" alt="man">
+                    @else
+                        <img src="https://source.unsplash.com/300x300?man" class="card-img-top" alt="man">
+                    @endif
                 </div>
             </div>
             <div class="card mx-1" style="width: 25%;">
@@ -45,12 +49,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-8 text-center d-flex justify-content-end mt-5">
-            <button class="btn btn-primary d-flex justify-content-center">
+        <div class="col-10 d-flex justify-content-end mt-5">
                 <a href="/data-siswa" class="btn btn-primary text-decoration-none text-light">
                     Kembali
                 </a>
-            </button>
         </div>
     </div>
 </div>
