@@ -22,14 +22,11 @@
                         @enderror
                         <label for="nama_program">Nama Program</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="hidden" class="form-control" id="kurikulum_id" name="kurikulum_id" value="{{ $kurikulum->id }}">
-                    </div>
                     <button type="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Program Baru</button>
                 </form>
                 </div>
                 
-                <a href="/program/{{ $kurikulum->id }}" style="border-radius: 0px;" class="text-decoration-none btn btn-primary mt-3 rounded-bottom" style="color: white;">Kembali</a>
+                <a href="/program" style="border-radius: 0px;" class="text-decoration-none btn btn-primary mt-3 rounded-bottom" style="color: white;">Kembali</a>
                 
             </div>
         </div>

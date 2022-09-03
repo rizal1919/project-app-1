@@ -20,9 +20,6 @@
                 <a href="/program/{{ $programs->kurikulum_id }}" class="text-decoration-none btn btn-primary mt-3 rounded-bottom" style="color: white; border-radius: 0px;">Kembali</a>
                 
             </div>
-            <!-- <div class="container-fluid d-flex justify-content-center">
-                <a href="/program/{{ $programs->kurikulum_id }}" class="col-lg-12 mt-1 btn btn-primary text-decoration-none" style="color: white;">Kembali</a>
-            </div> -->
         </div>
     </div>
 </div>

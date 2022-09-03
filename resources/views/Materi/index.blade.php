@@ -19,7 +19,6 @@
                         </div>
                     </form>
                     <a href="/create-materi/{{ $dataProgram->id }}" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Materi</a>
-                    <a href="/program/{{ $dataProgram->kurikulum_id }}" class="btn btn-success text-decoration-none text-light mx-1">Kembali</a>
                 </div>
             </div>
             

@@ -15,21 +15,17 @@
                 <form action="/update-program/{{ $programs->id }}" method="post">
                     @csrf
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control @error('nama_program') is-invalid @enderror" id="nama_program" name="nama_program" aria-describedby="emailHelp" value="{{ $programs->nama_program }}" placeholder="Nama Program" autofocus required>
-                        <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                        <input type="text" class="form-control @error('nama_program') is-invalid @enderror" id="nama_program" name="nama_program" aria-describedby="emailHelp" value="{{ old('nama_program', $programs->nama_program) }}" placeholder="Nama Program" autofocus required>
                         @error('nama_program')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <label for="nama_program" class="form-label">Nama Program</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="hidden" class="form-control @error('kurikulum_id') is-invalid @enderror" id="kurikulum_id" name="kurikulum_id" aria-describedby="emailHelp" value="{{ $kurikulum->id }}">
-                    </div>
                     <button type="submit" class="btn btn-primary"><i class="fas fa-pen-to-square mx-1"></i>Ubah Data</button>
                 </form>
                 </div>
                 
-                <a href="/program/{{ $programs->kurikulum_id }}" style="border-radius: 0px;" class="btn btn-primary mt-3 rounded-bottom text-decoration-none" style="color: white;">Kembali</a>
+                <a href="/program" style="border-radius: 0px;" class="btn btn-primary mt-3 rounded-bottom text-decoration-none" style="color: white;">Kembali</a>
                 
             </div>
         </div>

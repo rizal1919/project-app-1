@@ -9,15 +9,14 @@ use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
-    public function index(Request $request, Kurikulum $kurikulum){
+    public function index(Request $request){
 
-        $data = Program::where('kurikulum_id', '=', $kurikulum->id)->Filter(request(['search']))->paginate(5)->withQueryString();
+        $data = Program::Filter(request(['search']))->paginate(5)->withQueryString();
        
         return view('Program.index', [
-            'title' => 'Programs',
-            'active' => 'Data Kurikulum',
-            'programs' => $data,
-            'kurikulum' => $kurikulum
+            'title' => 'Program',
+            'active' => 'Program',
+            'programs' => $data
         ]);
     }
 
@@ -25,19 +24,15 @@ class ProgramController extends Controller
 
         // dd($program->materi());
 
-        // $id = $program->materi;
         $id = $program->id;
-        // dd($id);
-
-
-        // $data = Materi::Active($id)->paginate(5)->withQueryString();
+       
         $data = Materi::filter(request(['search']))->Active($id)->paginate(5)->withQueryString();
 
 
         // dd($data);
         return view('Materi.index', [
             'title' => 'Materi',
-            'active' => 'Data Kurikulum',
+            'active' => 'Program',
             'dataProgram' => $program,
             'dataMateri' => $data
         ]);
@@ -45,12 +40,11 @@ class ProgramController extends Controller
     }
 
 
-    public function create(Kurikulum $kurikulum){
+    public function create(){
 
         return view('Program.create', [
-            'title' => 'Create',
-            'active' => 'Data Kurikulum',
-            'kurikulum' => $kurikulum
+            'title' => 'Program',
+            'active' => 'Program'
         ]);
     }
 
@@ -58,67 +52,58 @@ class ProgramController extends Controller
 
 
         $validatedData = $request->validate([
-            'nama_program' => 'required',
-            'kurikulum_id' => 'required'
+            'nama_program' => 'required'
         ]);
 
         Program::create($validatedData);
 
-        return redirect('/program/' . $validatedData['kurikulum_id'])->with('create',$validatedData['nama_program']);
+        return redirect('/program')->with('create',$validatedData['nama_program']);
     }
 
     public function show(Program $program){
        
         return view('Program.show', [
-            'title' => $program->nama_program,
-            'active' => 'Data Kurikulum',
+            'title' => 'Program',
+            'active' => 'Program',
             'programs' => $program
         ]);
     }
 
     public function edit(Program $program){
 
-        $dataKurikulum = Kurikulum::where('id', '=', $program->kurikulum_id)->first();
-        // dd($dataKurikulum);
-
-
-
         return view('Program.update', [
-            'title'=> 'Update',
-            'active' => 'Data Kurikulum',
-            'programs' => $program,
-            'kurikulum' => $dataKurikulum
+            'title'=> 'Program',
+            'active' => 'Program',
+            'programs' => $program
         ]);
     }
 
     public function update(Request $request, Program $program)
     {
         $validatedData = $request->validate([
-            'nama_program'=>'required',
-            'kurikulum_id' => 'required'
+            'nama_program'=>'required'
         ]);
 
         // dd($validatedData);
         $program->update([
-            'nama_program' => $validatedData['nama_program'],
-            'kurikulum_id' => $validatedData['kurikulum_id'],
+            'nama_program' => $validatedData['nama_program']
         ]);
 
-        return redirect('/program/' . $validatedData['kurikulum_id'])->with('update',$validatedData['nama_program']);
+        return redirect('/program')->with('update',$validatedData['nama_program']);
     }
 
     public function destroy(Request $request, Program $program)
     {
         // $program->delete($request);
         // return back()->with('destroy','Deleted Successfully!');
-        $aktivasiProgram = $program->aktivasi;
-        if( count($aktivasiProgram) > 0 ){
-            return redirect('/program/' . $program->kurikulum_id)->with('destroyFailed', $program->nama_program);
-        }
+        // $aktivasiProgram = $program->aktivasi;
+        // if( count($aktivasiProgram) > 0 ){
+        //     return redirect('/program')->with('destroyFailed', $program->nama_program);
+        // }
         
         Program::find($program->id)->delete();
     
-        return redirect('/program/' . $program->kurikulum_id)->with('destroy', $program->nama_program);
+        return redirect('/program')->with('destroy', $program->nama_program);
         
         
     }

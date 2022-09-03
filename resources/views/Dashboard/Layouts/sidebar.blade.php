@@ -24,9 +24,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {{ ($active == 'Data Kurikulum') ? 'active' : '' }}" href="/kurikulum">
+                <a class="nav-link {{ ($active == 'Program') ? 'active' : '' }}" href="/program">
                   <span data-feather="server" class="align-text-bottom"></span>
-                  Data Kurikulum
+                  Program
                 </a>
               </li>
               <li class="nav-item">

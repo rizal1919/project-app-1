@@ -9,7 +9,7 @@
         <div class="col-lg-7" style="height: 30%;">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">ACADEMY - Kurikulum {{ $kurikulum->nama_kurikulum }}</h5>
+                    <h5 class="card-title">ACADEMY - Program {{ $dataMateri->program->nama_program }}</h5>
                 </div>
                 <div class="card-body">
                     
@@ -24,14 +24,7 @@
                         <label for="nama_materi">Nama Materi</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="number" class="form-control @error('jumlah_pertemuan') is-invalid @enderror" id="jumlah_pertemuan" name="jumlah_pertemuan" value="{{ old('jumlah_pertemuan', $dataMateri->jumlah_pertemuan) }}" placeholder="Jadwal Pertemuan" required>
-                        @error('jumlah_pertemuan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                        <label for="jumlah_pertemuan">Jumlah Pertemuan</label>
-                    </div>
-                    <div class="form-floating mb-2">
-                        <input type="number" class="form-control @error('menit') is-invalid @enderror" id="menit" name="menit" value="{{ old('menit', $dataMateri->menit) }}" placeholder="Menit" required>
+                        <input type="number" max="240" class="form-control @error('menit') is-invalid @enderror" id="menit" name="menit" value="{{ old('menit', $dataMateri->menit) }}" placeholder="Menit" required>
                         @error('menit')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

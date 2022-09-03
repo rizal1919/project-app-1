@@ -6,20 +6,19 @@
         <div class="card p-4">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4>Program - Kurikulum {{ $kurikulum->nama_kurikulum }}</h4>
+                    <h4>Daftar Program</h4>
                 </div>
             </div>
             <div class="row d-flex justify-content-end mb-3">
                 <div class="col-md-12 d-flex mt-4 justify-content-end">
-                    <form action="/program/{{ $kurikulum->id }}" method="get" class="mx-2" style="width: 30%;" >
+                    <form action="/program" method="get" class="mx-2" style="width: 30%;" >
                         @csrf
                         <div class="input-group">
                             <input type="text" name="search" value="{{ request('search') }}" class="form-control text-start" placeholder="Nama Kurikulum">
                             <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                         </div>
                     </form>
-                    <a href="/create/{{ $kurikulum->id }}" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
-                    <a href="/kurikulum" class="btn btn-success text-decoration-none text-light mx-1">Kembali</a>
+                    <a href="/create" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
                 </div>
             </div>
             

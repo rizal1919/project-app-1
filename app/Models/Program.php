@@ -11,10 +11,6 @@ class Program extends Model
 
     protected $guarded = ['id'];
 
-    public function kurikulum(){
-        return $this->belongsTo(Kurikulum::class);
-    }
-
     public function materi(){
         return $this->hasMany(Materi::class);
     }

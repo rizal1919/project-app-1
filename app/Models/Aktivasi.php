@@ -12,7 +12,7 @@ class Aktivasi extends Model
     protected $guarded = ['id'];
 
     public function program(){
-        return $this->belongsTo(Program::class);
+        return $this->hasMany(Program::class);
     }
 
     public function assignteacher(){

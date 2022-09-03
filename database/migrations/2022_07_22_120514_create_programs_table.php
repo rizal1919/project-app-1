@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
             $table->string('nama_program')->unique();
-            $table->foreignId('kurikulum_id');
             $table->timestamps();
         });
     }

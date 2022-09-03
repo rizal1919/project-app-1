@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('aktivasis', function (Blueprint $table) {
             $table->id();
             $table->string('nama_aktivasi');
-            $table->foreignId('program_id')->nullable();
             $table->string('status');
             $table->integer('biaya');
             $table->string('periode');

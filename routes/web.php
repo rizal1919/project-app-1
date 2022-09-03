@@ -117,21 +117,10 @@ Route::post('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class
 Route::get('/show-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'show']);
 Route::post('/delete-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'destroy']);
 
-// routes kurikulum
-Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware('auth');
-Route::post('/kurikulum', [KurikulumController::class, 'index'])->middleware('auth');
-Route::get('/create-kurikulum', [KurikulumController::class, 'create'])->middleware('auth');
-Route::post('/store-kurikulum', [KurikulumController::class, 'store']);
-Route::get('/show/{kurikulum:id}', [KurikulumController::class, 'show']);
-Route::get('/update/{kurikulum:id}', [KurikulumController::class, 'edit']);
-Route::post('/update/{kurikulum:id}', [KurikulumController::class, 'update']);
-Route::post('/delete-kurikulum/{kurikulum:id}', [KurikulumController::class, 'destroy']);
-
-
 // routes program
-Route::get('/program/{kurikulum:id}', [ProgramController::class, 'index'])->Middleware('auth');
+Route::get('/program', [ProgramController::class, 'index'])->Middleware('auth');
 Route::get('/show-program/{program:id}', [ProgramController::class, 'show']);
-Route::get('/create/{kurikulum:id}', [ProgramController::class, 'create'])->Middleware('auth');
+Route::get('/create', [ProgramController::class, 'create'])->Middleware('auth');
 Route::post('/create', [ProgramController::class, 'store']);
 Route::get('/update-program/{program:id}', [ProgramController::class, 'edit'])->Middleware('auth');
 Route::post('/update-program/{program:id}', [ProgramController::class, 'update']);

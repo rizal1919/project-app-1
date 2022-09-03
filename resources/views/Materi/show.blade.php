@@ -10,20 +10,15 @@
         <div class="col-lg-6" style="height: 30%;">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">ACADEMY - Kurikulum {{ $kurikulum->nama_kurikulum }}</h5>
+                    <h5 class="card-title">ACADEMY</h5>
                 </div>
                 <div class="card-body">
-                    <?php $i=0; ?>
-                    @foreach( $dataMateri->materi as $t )
-                        @if( $t['id'] === $id )
-                        
-                        <p class="card-text"><strong>ID :</strong> {{ $t->id }}</p>
-                        <p class="card-text"><strong>Program :</strong> {{ $dataMateri->nama_program }}</p>
-                        <p class="card-text"><strong>Nama Materi :</strong> {{ $t->nama_materi }}</p>
-                        <p class="card-text"><strong>Dibuat :</strong> {{ $t->created_at->diffForHumans() }}</p>
-                        @endif
-                        <?php $i++; ?>
-                    @endforeach
+                   
+                        <p class="card-text"><strong>ID :</strong> {{ $dataMateri->id }}</p>
+                        <p class="card-text"><strong>Program :</strong> {{ $program->nama_program }}</p>
+                        <p class="card-text"><strong>Nama Materi :</strong> {{ $dataMateri->nama_materi }}</p>
+                        <p class="card-text"><strong>Dibuat :</strong> {{ $dataMateri->created_at->diffForHumans() }}</p>
+                    
                 </div>
                 <a href="/materi/{{ $dataMateri->id }}" style="border-radius: 0px;" class="btn btn-primary mt-3 rounded-bottom text-decoration-none" style="color: white;">Kembali</a>
             </div>

@@ -15,10 +15,6 @@ class Materi extends Model
         return $this->belongsTo(Program::class);
     }
 
-    public function kurikulum(){
-        return $this->belongsTo(Kurikulum::class);
-    }
-
     public function assignteacher(){
         return $this->hasMany(AssignTeacher::class);
     }

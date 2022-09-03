@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kurikulum_students', function (Blueprint $table) {
+        Schema::create('aktivasi_program', function (Blueprint $table) {
             $table->id();
-            $table->integer('kurikulum_id')->nullable();
-            $table->integer('student_id')->nullable();
-            $table->softDeletes();
+            $table->bigInteger('aktivasi_id');
+            $table->bigInteger('program_id');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kurikulum_students');
+        Schema::dropIfExists('aktivasi_program');
     }
 };
