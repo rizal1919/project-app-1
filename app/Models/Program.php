@@ -15,8 +15,12 @@ class Program extends Model
         return $this->hasMany(Materi::class);
     }
 
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
     public function aktivasi(){
-        return $this->hasMany(Aktivasi::class);
+        return $this->belongsToMany(Aktivasi::class);
     }
     
     public function scopeFilter($query, array $filters){

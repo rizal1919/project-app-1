@@ -9,16 +9,21 @@
                     <h4>Materi - Program {{ $dataProgram->nama_program }}</h4>
                 </div>
             </div>
-            <div class="row d-flex justify-content-end mb-3">
-                <div class="col-md-12 d-flex mt-4 justify-content-end">
-                    <form action="/materi/{{ $dataProgram->id }}" method="get" class="mx-2" style="width: 30%;" >
+            <div class="row g-1 my-3 d-flex justify-content-end">
+                <div class="col-md-3">
+                    <form action="/materi/{{ $dataProgram->id }}" method="get">
                         @csrf
                         <div class="input-group">
                             <input type="text" name="search" value="{{ request('search') }}" class="form-control text-start" placeholder="Nama Materi">
                             <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                         </div>
                     </form>
-                    <a href="/create-materi/{{ $dataProgram->id }}" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Materi</a>
+                </div>
+                <div class="col-md-2 text-center">
+                    <a href="/create-materi/{{ $dataProgram->id }}" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus"></i>Tambah Materi</a>
+                </div>
+                <div class="col-md-1 text-center">
+                    <a href="/program" class="text-decoration-none text-light btn btn-primary">Kembali</a>
                 </div>
             </div>
             

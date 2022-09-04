@@ -24,7 +24,7 @@
                         <label for="nama_materi">Nama Materi</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="number" max="240" class="form-control @error('menit') is-invalid @enderror" id="menit" name="menit" value="{{ old('menit', $dataMateri->menit) }}" placeholder="Menit" required>
+                        <input type="number" min="60" max="240" class="form-control @error('menit') is-invalid @enderror" id="menit" name="menit" value="{{ old('menit', $dataMateri->menit) }}" placeholder="Menit" required>
                         @error('menit')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

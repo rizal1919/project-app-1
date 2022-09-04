@@ -5,7 +5,7 @@
     <h1 class="h2">Halaman {{ $active }}</h1>
 </div>
     <div class="container d-flex justify-content-center my-4">
-        <div class="card col-12 justify-content-center">
+        <div class="card col-lg-12 d-flex justify-content-center">
             @if( session('pendaftaranGagal') )
             <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
                 Informasi data <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
@@ -26,63 +26,86 @@
             
             <form action="/create-aktivasi" method="post">
                 @csrf
-                <div class="row p-4 align-items-start justify-content-center">
-                    <div class="col-auto mx-5">
-                        <label for="nama_aktivasi" class="col-form-label">Nama Aktivasi</label>
-                        <input type="text" name="nama_aktivasi" id="nama_aktivasi" class="form-control @error('nama_aktivasi') is-invalid @enderror" value="{{ old('nama_aktivasi') }}" autofocus required>
-                        @error('nama_aktivasi')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                
+                    <div class="row mb-3 mt-5 text-start d-flex justify-content-center">
+                        <div class="col-sm-3">
+                            <label for="nama_aktivasi" class="col-form-label col-form-label-sm fw-bold">Nama Aktivasi</label>
                         </div>
-                        @enderror
-                        <div id="nama"></div>
-
-                        <label for="biaya" class="col-form-label">Biaya</label>
-                        <input type="number" name="biaya" id="biaya" class="form-control @error('biaya') is-invalid @enderror" value="{{ old('biaya') }}" required>
-                        @error('biaya')
+                        <div class="col-sm-7">
+                            <input type="text" name="nama_aktivasi" id="nama_aktivasi" class="form-control form-control-sm @error('nama_aktivasi') is-invalid @enderror" value="{{ old('nama_aktivasi') }}" placeholder="Sukses Akuntansi" autofocus required>
+                            @error('nama_aktivasi')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
-                        @enderror
-
-                        <label for="periode" class="col-form-label">Periode</label>
-                        <input type="text" name="periode" id="periode" class="form-control @error('periode') is-invalid @enderror" value="{{ old('periode') }}" required>
-                        @error('periode')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                            @enderror
                         </div>
-                        @enderror
-                        
                     </div>
-                    <div class="col-auto">
-                        
-                        <label for="program_id" class="col-form-label">Nama Program</label>
-                        <select class="form-select bg-primary text-light " name="program_id" id="program_id">
-                            <option value="0">Pilih Program</option>
-                            @foreach( $programs as $program )
-                                <option value="{{ $program->id }}">{{ $program->nama_program }}</option>
-                            @endforeach
-                        </select>
-
-                        <label for="status" class="col-form-label">Status</label>
-                        <select class="form-select bg-primary text-light " name="status" id="status">
-                            <option value="0">Pilih status aktivasi</option>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Tidak Aktif">Tidak Aktif</option>
-                        </select>
-
+                    <div class="row mb-3 text-start d-flex justify-content-center">
+                        <div class="col-sm-3">
+                            <label for="biaya" class="col-form-label col-form-label-sm fw-bold">Biaya</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="number" name="biaya" id="biaya" class="form-control form-control-sm @error('biaya') is-invalid @enderror" value="{{ old('biaya') }}" placeholder="4500000" required>
+                            @error('biaya')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3 text-start d-flex justify-content-center">
+                        <div class="col-sm-3">
+                            <label for="Periode_Pendafataran" class="col-form-label col-form-label-sm fw-bold">Periode Pendaftaran</label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="Periode_Pendafataran" class="col-form-label col-form-label-sm fw-bold">Pembukaan</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="date" name="pembukaan" value="{{ old('pembukaan') }}" id="Periode_Pendaftaran" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <label for="Periode_Pendafataran" class="col-form-label col-form-label-sm fw-bold">-</label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="Periode_Pendafataran" class="col-form-label col-form-label-sm fw-bold">Penutupan</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="date" name="penutupan" id="Periode_Pendaftaran" value="{{ old('penutupan') }}" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="row mb-3 text-start d-flex justify-content-center">
+                        <label for="category" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Kategori</label>
+                        <div class="col-sm-7">
+                            <select name="category_id" id="category_id" class="form-select form-select-sm">
+                                <option value="0">Pilih Kategori</option>
+                                @foreach( $categories as $category )
+                                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-3 text-start mb-5 d-flex justify-content-center">
+                        <div class="col-sm-3">
+                            <label for="program_id" class="col-form-label col-form-label-sm fw-bold">Program Pilihan</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <p class="fw-bold">Daftar Program Tersedia</p>
+                            <div class="form-check" id="checkbox">
+                            </div>
+                        </div>
+                       
                     </div>
                     
-                </div>
-                <div class="row d-flex justify-content-end mx-3 mt-3">
-                    <div class="col-6 p-2 d-flex justify-content-center align-items-end">
-                        <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
+                
+                    <div class="row d-flex justify-content-end mx-3 mt-3">
+                        <div class="col-6 p-2 d-flex justify-content-center align-items-end">
+                            <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Paket Aktivasi</button>
+                            <a href="/aktivasi" class="btn btn-primary">Kembali</a>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Paket Aktivasi</button>
-                        <a href="/aktivasi" class="btn btn-primary">Kembali</a>
-                    </div>
-                </div>
             </form>
         </div>
     </div>
@@ -92,110 +115,30 @@
 
 
 @push('js')
-<!-- <script>
-    const num = 0;
-function Function() {
 
-    const num = 0;
-    document.getElementById("demo").innerHTML = num;
-
-    num++;
-}
-</script> -->
 <script>
+    $(document).ready(function(){
+        $('#category_id').on('change', function(){
+
+            var value = $('#category_id').val();
+            $.ajax({
+                url:"{{ route('cariProgram') }}",
+                type:"GET",
+                data:{'id':value},
+                success: function(data){
+                    console.log(data);
+                    $('#checkbox').html(data);   
+
+                    
+                }
+            });
+        });
+    });
+
     function changeStyle(){
         var element = document.getElementById("hide");
         element.style.display = "none";
     }
     
-</script>
-<script>
-    function myFunction() {
-    var x = document.getElementById("myInput");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
-    }
-</script>
-<script>
-
-    function left(id){
-
-        let element = document.getElementById('tombol');
-        var x = element.getAttribute('href');
-        // alert(x);
-        
-        // let kal = document.getElementById('kalimat');
-        // var y = kal.getAttribute('value');
-        // alert(y);
-
-        var tes = x.split("");
-        let length = tes.length;
-        let citrus = tes.slice(1, length);
-        let coba = citrus.join("");
-        let angka = parseInt(coba);
-
-        // const name = "hello, world!";
-        // document.querySelector(`[data-name=${CSS.escape(name)}]`);
-        // document.querySelector(`[data-id-type=${CSS.escape(angka)}]`);
-
-        if( angka >= 0 && angka < id ){
-            angka++;
-            document.getElementById("tombol").href = "#" + angka;
-
-            document.querySelector(`[data-id-type=${CSS.escape(angka)}]`).style.display = "inline";
-            
-                // document.getElementById("kalimat").style.display = "inline"; 
-            
-            
-        }
-
-
-    }
-
-    function right(id){
-
-    let element = document.getElementById('tombols');
-    var x = element.getAttribute('href');
-    
-
-    var tes = x.split("");
-    let length = tes.length;
-    let citrus = tes.slice(1, length);
-    let coba = citrus.join("");
-    let angka = parseInt(coba);
-    // let hasil = Number(angka)-1;
-    
-    document.getElementById("tombol").href = "#" + angka;
-    
-
-    }
-
-
-    function details(id){
-
-        
-        let element = document.getElementById('pencet');
-        var x = element.getAttribute('value');
-        // alert(x);        
-
-        
-        
-        if( x == 1 ){
-            x=0;
-            document.querySelector(`[data-icon-type=${CSS.escape(id)}]`).setAttribute('class', 'fa-solid fa-arrow-down mx-3');
-            document.querySelector(`[data-id-type=${CSS.escape(id)}]`).style.display = "inline";
-            document.getElementById('pencet').value=x;
-        }else{
-            x=1;
-            document.querySelector(`[data-icon-type=${CSS.escape(id)}]`).setAttribute('class', 'fa-solid fa-arrow-right mx-3');
-            document.querySelector(`[data-id-type=${CSS.escape(id)}]`).style.display = "none";
-            document.getElementById('pencet').value=x;
-            // alert(x);
-        }
-
-    }
 </script>
 @endpush

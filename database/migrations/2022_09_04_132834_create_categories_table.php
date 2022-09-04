@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('aktivasis', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_aktivasi');
-            $table->string('status');
-            $table->integer('biaya');
-            $table->date('pembukaan');
-            $table->date('penutupan');
+            $table->string('category_name');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aktivasis');
+        Schema::dropIfExists('categories');
     }
 };

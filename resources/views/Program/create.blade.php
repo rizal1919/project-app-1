@@ -14,15 +14,29 @@
                 <div class="card-body">
                 <form action="/create" method="post">
                     @csrf
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control @error('nama_program') is-invalid @enderror" id="nama_program" name="nama_program" value="{{ old('nama_program') }}" placeholder="Nama Program" autofocus required>
-                        <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                        @error('nama_program')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                        <label for="nama_program">Nama Program</label>
+                    
+                    <label for="nama_program" class="form-label">Nama Program</label>
+                    <input type="text" class="form-control @error('nama_program') is-invalid @enderror" id="nama_program" name="nama_program" value="{{ old('nama_program') }}" placeholder="Nama Program" autofocus required>
+                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                    @error('nama_program')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                   
+                    <label for="category" class="form-label mt-3">Kategori</label>
+                    <div class="row g-1">
+                        <div class="col-lg-10">
+                            <select name="category_id" id="category" style="width: 100%;">
+                                @foreach( $categories as $category )
+                                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn btn-primary" id="clear" style="width: 100%;">Clear</button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Program Baru</button>
+
+                    <button type="submit" class="btn btn-primary mt-3"><i class="fa-solid fa-database mx-2"></i>Tambah Program Baru</button>
                 </form>
                 </div>
                 
@@ -33,3 +47,19 @@
     </div>
 </div>
 @endsection
+@push('js')
+<script>
+    $(document).ready(function(e){
+        $( '#category' ).select2( {
+            theme: "bootstrap-5",
+            placeholder: "Pilih Kategori",
+            tags: true
+        });
+
+        $("#clear").on("click", function(){
+            $('#category').val(null).trigger('change');
+        });
+
+    }); 
+</script>
+@endpush

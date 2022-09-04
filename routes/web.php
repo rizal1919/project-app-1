@@ -116,6 +116,9 @@ Route::get('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class,
 Route::post('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'update']);
 Route::get('/show-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'show']);
 Route::post('/delete-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'destroy']);
+// ajax
+Route::get('/program-cek', [AktivasiController::class, 'program'])->name('cariProgram');
+
 
 // routes program
 Route::get('/program', [ProgramController::class, 'index'])->Middleware('auth');

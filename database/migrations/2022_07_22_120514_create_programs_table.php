@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
             $table->string('nama_program')->unique();
+            $table->foreignId('category_id');
             $table->timestamps();
         });
     }

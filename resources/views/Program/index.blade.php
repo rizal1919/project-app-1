@@ -40,6 +40,12 @@
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
+            @if( session('createFailed') )
+            <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('createFailed') }}</strong> nama program sudah digunakan.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             @if( session('create') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
                 Informasi Program <strong>{{ session('create') }}</strong> berhasil ditambahkan.
