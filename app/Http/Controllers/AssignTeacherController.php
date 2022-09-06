@@ -15,69 +15,99 @@ class AssignTeacherController extends Controller
 {
     public function index(Request $request){
 
-        $daftarGuruDitugaskan = DB::table('assign_teachers')->get();
         $daftarGuru = Teacher::all();
+        $daftarPenugasan = DB::table('assign_teachers')->get();
         $daftarAktivasi = Aktivasi::all();
-        $daftarProgram = Program::all();
+        $daftarMateri = Materi::all();
+
+        // idAktivasi
+        // namaMateri
+        // namaAktivasi
+        // statusPelaksanaan
+        // statusPenugasan
 
         $rakSementara = [];
+        foreach( $daftarPenugasan as $penugasan ){
 
-        function jadikanSatuArray($id, $namaGuru, $namaAktivasi, $namaMateri, $status, $pertemuan, $tanggal, $updatedAt){
+            foreach( $daftarAktivasi as $aktivasi ){
 
-            if( $status === 0 ){
-                $status = 'Belum Terlaksana';
+
+                foreach( $aktivasi->program as $program ){
+
+                    
+                    foreach( $program->materi as $materi ){
+
+                        
+                        if( $materi->teacher->count() > 0 ){
+
+                            
+                            $kotakMateri = [
+
+                                'idPenugasan' => $penugasan->id,
+                                'namaMateri' => $materi->nama_materi,
+                                'namaAktivasi' => $aktivasi->nama_aktivasi,
+                                'statusPelaksanaan' => $penugasan->status,
+                                'statusPenugasan' => $materi->teacher->first()->teacher_name,
+                                'created_at' => $penugasan->created_at,
+                                'updated_at' => $penugasan->updated_at
+                            ];
+
+                        }else{
+                            
+                            $kotakMateri = [
+
+                                'idPenugasan' => $penugasan->id,
+                                'namaMateri' => $materi->nama_materi,
+                                'namaAktivasi' => $aktivasi->nama_aktivasi,
+                                'statusPelaksanaan' => $penugasan->status,
+                                'statusPenugasan' => 'empty',
+                                'created_at' => $penugasan->created_at,
+                                'updated_at' => $penugasan->updated_at
+                            ];
+                        }
+
+                        
+                    }
+                }
+                
+                array_push($rakSementara, $kotakMateri);
+            }
+            
+        }
+
+        $rakKedua = [];
+        foreach( $rakSementara as $terjemahkanStatus ){
+
+            if( $terjemahkanStatus['statusPelaksanaan'] === 0  ){
+
+                $terjemahkanStatus['statusPelaksanaan'] = 'Belum Terlaksana';
             }else{
-                $status = 'Terlaksana';
+
+                $terjemahkanStatus['statusPelaksanaan'] = 'Terlaksana';
             }
 
-            $array = [
-                'idPenugasan' =>$id,
-                'teacher_name' => $namaGuru,
-                'nama_aktivasi' => $namaAktivasi,
-                'nama_materi' => $namaMateri,
-                'status' => $status,
-                'pertemuan' => $pertemuan,
-                'tanggal' => $tanggal,
-                'updated_at' => $updatedAt
-
-            ];
-
-            return $array;
+            array_push($rakKedua, $terjemahkanStatus);
         }
 
-        foreach( $daftarGuruDitugaskan as $guru ){
-
-            $idTugas = $guru->id;
-
-            $idGuru = $guru->teacher_id;
-            $namaGuru = $daftarGuru->find($idGuru)->teacher_name;
-
-            $idAktivasi = $guru->aktivasi_id;
-            $namaAktivasi = $daftarAktivasi->find($idAktivasi)->nama_aktivasi;
-
-            $idProgram = $daftarAktivasi->find($idAktivasi)->program_id;
-            $namaMateri = $daftarProgram->find($idProgram)->materi->find($guru->materi_id)->nama_materi;
-
-            $status = $guru->status;
-            $tanggal = $guru->tanggal;
-            $pertemuan = $guru->pertemuan;
-            $updatedAt = $guru->updated_at;
+        // dd($rakKedua);
 
 
-            array_push($rakSementara, jadikanSatuArray($idTugas, $namaGuru, $namaAktivasi, $namaMateri, $status, $pertemuan, $tanggal, $updatedAt));
+        
 
-        }
+        
+        
+        // $teacher_name = $request->teacher_name;
+        // $rakSementara = collect($rakSementara)->filter(function ($item) use ($teacher_name) {
+        //     // replace stristr with your choice of matching function
+        //     return false !== stristr($item['teacher_name'], $teacher_name);
+        // });
 
-        $teacher_name = $request->teacher_name;
-        $rakSementara = collect($rakSementara)->filter(function ($item) use ($teacher_name) {
-            // replace stristr with your choice of matching function
-            return false !== stristr($item['teacher_name'], $teacher_name);
-        });
-
-        $rakSementara = collect($rakSementara)->sortByDesc('updated_at');
-        $rakSemuaHasilData = (new Collection($rakSementara))->paginate(5);
+        $rakSementara = collect($rakKedua)->sortByDesc('updated_at');
+        $rakSemuaHasilData = (new Collection($rakSementara))->paginate(20);
 
         // dd($rakSemuaHasilData);
+
+
 
         return view('AssignGuru.index', [
 
@@ -145,70 +175,10 @@ class AssignTeacherController extends Controller
 
     }
 
-    public function create(){
+    public function create(Request $request){
 
-       
-        // dd($hasilMerge);
-        // $text = $hasilMerge[3]['namaProgram'];
-        // dd($text);
-        // dd(strpos($text, 'Aktivasi'));
-        // kalau false berarti kurikulum
-        // kalau 0 berarti aktivasi
+    
         
-        
-
-        // if( strpos($text, 'Aktivasi') === 0 ){
-
-        //     $text = explode(' ', $text);
-        //     $idPaket = (int)end($text);
-        //     $idProgramDiDalamPaket = Aktivasi::find($idPaket)->program->id;
-        //     $materiDiDalamProgram = Program::find($idProgramDiDalamPaket)->materi;
-        //     // dd($materiDiDalamProgram);
-
-        //     $option = "<option>Pilih Materi Aktivasi...</option>";
-        //     foreach( $materiDiDalamProgram as $materi ){
-        //         $option .= "<option value='$materi->id'>$materi->nama_materi</option>";
-        //     }
-
-        //     echo $option;
-
-        // }else if( strpos($text, 'Aktivasi') === false ){
-        //     $text = explode(' ', $text);
-        //     $idPaket = (int)end($text);
-        //     $programs = Kurikulum::find($idPaket)->program;
-        //     // dd($programs);
-            
-        //     $array = [];
-        //     foreach( $programs as $program ){
-
-        //         $materiDiDalamProgram = Program::find($program->id)->materi;
-        //         foreach( $materiDiDalamProgram as $materi ){
-
-        //             $rak = [
-        //                 'id' => $materi->id,
-        //                 'nama_materi' => $materi->nama_materi
-        //             ];
-
-        //             array_push($array, $rak);
-        //         }
-
-        //     }
-        //     // dd($array);
-
-        //     $option = "<option>Pilih Materi Kurikulum...</option>";
-        //     foreach( $array as $materi ){
-
-        //         $id = $materi['id'];
-        //         $nama_materi = $materi['nama_materi'];
-
-        //         $option .= "<option value=" . $id . ">" . $nama_materi . "</option>";
-        //     }
-
-            
-
-        //     echo $option;
-        // }
-
 
         return view('AssignGuru.create', [
 
@@ -222,40 +192,147 @@ class AssignTeacherController extends Controller
         ]);
     }
 
+    public function materi(Request $request){
+
+        if($request->id_paket){
+
+            $data = Aktivasi::find($request->id_paket);
+    
+            
+            // idmateri
+            // namamateri
+            
+            $array = [];
+            foreach( $data->program as $program ){
+    
+                
+                if(count($program->materi) === 0){
+                    continue;
+                }else{
+    
+                    foreach( $program->materi as $materi ){
+        
+                        $kotakMateri = [
+        
+                            'idMateri' => $materi->id,
+                            'namaMateri' => $materi->nama_materi
+                        ];
+    
+                        array_push($array, $kotakMateri);
+                    }
+                };
+    
+            }
+    
+            $option = "<option value='0' selected disabled>Pilihan Materi - Aktivasi $data->nama_aktivasi</option>";
+            foreach( $array as $item){
+
+                $id = $item['idMateri'];
+                $nama_materi = $item['namaMateri'];
+
+                $option .= "<option value='$id'>$nama_materi</option>";
+            }
+
+            echo $option;
+           
+        }
+    }
+
+    public function getTeacher(Request $request){
+
+        if($request->aktivasi_id){
+
+            $data = Aktivasi::find($request->aktivasi_id);
+    
+            
+            // idmateri
+            // namamateri
+            
+            $array = [];
+            foreach( $data->program as $program ){
+    
+                
+                if(count($program->materi) === 0){
+                    continue;
+                }else{
+    
+                    foreach( $program->materi as $materi ){
+                        
+                        if( $materi->teacher->count() === 0 ){
+
+                            $kotakMateri = [
+            
+                                'idMateri' => $materi->id,
+                                'namaMateri' => $materi->nama_materi,
+                                'namaGuru' => "-"
+                            ];
+                        }else{
+                            $kotakMateri = [
+            
+                                'idMateri' => $materi->id,
+                                'namaMateri' => $materi->nama_materi,
+                                'namaGuru' => $materi->teacher->first()->teacher_name
+                            ];
+
+                        }
+    
+                        array_push($array, $kotakMateri);
+                    }
+                };
+    
+            }
+            
+            $option = "";
+            $i=1;
+            foreach( $array as $item){
+                $option .= "<tr>";
+
+                $id = $item['idMateri'];
+                $nama_materi = $item['namaMateri'];
+                $nama_guru = $item['namaGuru'];
+
+                $option .= "<td>$i</td>";
+                $option .= "<td>$nama_materi</td>";
+                $option .= "<td>$nama_guru</td>";
+                $option .= "<td><p class='badge text-bg-primary'>Sukses</p></td>";
+                $option .= "<td>12 June 1999</td>";
+
+                $option .= "</tr>";
+                $i++;
+            }
+
+            echo $option;
+           
+        }
+
+    }
+
        
 
 
     public function store(Request $request){
 
-
-        if( $request->teacher_id == 0 ){
-
-            return redirect('/assign-teacher-create')->with('teacher', 'Nama Guru');
-        }
-
-        if( $request->aktivasi_id == 0 ){
-
-            return redirect('/assign-teacher-create')->with('aktivasi', 'Nama Aktivasi');
-        }
-
-        if( $request->materi_id == 0 ){
-
-            return redirect('/assign-teacher-create')->with('materi', 'Nama Materi');
-        }
-
+        
+        
         $validatedData = $request->validate([
-
+            
             'teacher_id' => 'required',
             'aktivasi_id' => 'required',
             'materi_id' => 'required',
             'status' => 'required|between:0,1',
-            'pertemuan' => 'required|min:1',
             'tanggal' => 'required'
         ]);
+            
+        DB::table('materi_teacher')->insert([
+            'materi_id' => $validatedData['materi_id'],
+            'teacher_id' => $validatedData['teacher_id']
+        ]);
+
 
         AssignTeacher::create($validatedData);
+        $teacher = Teacher::find($validatedData['teacher_id']);
 
-        return redirect('/assign-teacher-create')->with('create', 'Berhasil');
+        return redirect('/assign-teacher')->with('create', $teacher);
 
 
     }

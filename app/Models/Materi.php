@@ -15,8 +15,9 @@ class Materi extends Model
         return $this->belongsTo(Program::class);
     }
 
-    public function assignteacher(){
-        return $this->hasMany(AssignTeacher::class);
+
+    public function teacher(){
+        return $this->belongsToMany(Teacher::class);
     }
 
     public function scopeFilter($query, array $filters){

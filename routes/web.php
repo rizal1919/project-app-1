@@ -186,6 +186,7 @@ Route::post('/assign-teacher-delete/{assignteacher:id}', [AssignTeacherControlle
 
 // jquery
 Route::get('/assign-teacher-create-new', [AssignTeacherController::class, 'materi'])->name('getmateri');
+Route::get('/get-teacher', [AssignTeacherController::class, 'getTeacher'])->name('getteacher');
 
 
 // route cost

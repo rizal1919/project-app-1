@@ -38,14 +38,12 @@
             <form action="/assign-teacher-create" method="post">
                 @csrf
                 <div class="row p-4">
-                   
-
                     <div class="row my-3 text-end d-flex justify-content-center">
                         <label for="teacher_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold text-end">Guru</label>
                         <div class="col-sm-7 text-end">
                             <select name="teacher_id" id="teacher_id" class="form-select form-select-sm">
 
-                                <option>Pilih Guru ...</option>
+                                <option selected disabled>Pilih Guru ...</option>
                                 @foreach( $teachers as $teacher )
                                     <option value="{{ $teacher['id'] }}">{{ $teacher['teacher_name'] }}</option>
                                 @endforeach
@@ -56,8 +54,8 @@
                     <div class="row mb-3 text-end d-flex justify-content-center">
                         <label for="" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Pilihan Paket</label>
                         <div class="col-sm-7">
-                            <select name="paket" id="paket" class="form-select form-select-sm">
-                                <option value="id">Pilih Paket ...</option>
+                            <select name="aktivasi_id" id="paket" class="form-select form-select-sm">
+                                <option selected disabled>Pilih Paket ...</option>
                                 @foreach( $aktivasis as $aktivasi )
                                     <option value="{{ $aktivasi->id }}">{{ $aktivasi->nama_aktivasi }}</option>
                                 @endforeach
@@ -68,14 +66,26 @@
                         <label for="materi_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Materi Tersedia</label>
                         <div class="col-sm-7">
                             <select name="materi_id" id="materi_id" class="form-select form-select-sm">
-                                <option>Pilih Materi ...</option>
+                                <option>Pilih Paket Dulu ...</option>
                             </select>
                         </div>
                     </div>
-                    
-                        
-
-                    
+                    <div class="row mb-3 text-end d-flex justify-content-center">
+                        <label for="status" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Status</label>
+                        <div class="col-sm-7">
+                            <select name="status" id="status" class="form-select form-select-sm">
+                                <option selected disabled>Pilih Status ...</option>
+                                <option value="1">Terlaksana</option>
+                                <option value="0">Belum Terlaksana</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3 text-end d-flex justify-content-center">
+                        <label for="date" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Tanggal Pertemuan</label>
+                        <div class="col-sm-7">
+                            <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm" value="{{ old('tanggal') }}">
+                        </div>
+                    </div>  
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
                     <div class="col-7 p-2 d-flex justify-content-center align-items-end">
@@ -88,24 +98,58 @@
                     
                 </div>
             </form>
-
         </div>
     </div>
+    <div class="container d-flex justify-content-center">
+        <div class="card col-lg-12">
+            <div class="card-header">
+                <p class="card-title">Daftar Penugasan</p>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-striped table-light" id="table">
+                    <thead>
+                        <tr>
+                            <td>No</td>
+                            <td>Nama Materi</td>
+                            <td>Guru Ditugaskan</td>
+                            <td>Status</td>
+                            <td>Tanggal</td>
+                        </tr>
+                    </thead>
+                    <tbody id="data_teacher">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
 
 <script>
     $(document).ready(function(){
-
-        
 
         $('#paket').on('change', function(){
             var value = $('#paket').val();
             $.ajax({
                 url:"{{ route('getmateri') }}",
                 type:"GET",
-                data:{'nama_paket':value},
+                data:{'id_paket':value},
                 success: function(data){
                     console.log(data);
                     $('#materi_id').html(data);           
+                    
+                }
+            });
+        });
+
+        $('#paket').on('change', function(){
+            var value = $('#paket').val();
+            $.ajax({
+                url:"{{ route('getteacher') }}",
+                type:"GET",
+                data:{'aktivasi_id':value},
+                success: function(data){
+                    console.log(data);
+                    $('#data_teacher').html(data);           
                     
                 }
             });

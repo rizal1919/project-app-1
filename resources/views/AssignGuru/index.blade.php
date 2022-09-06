@@ -23,7 +23,7 @@
             
             @if( session('create') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                Informasi kelas <strong>{{ session('create') }}</strong> telah berhasil ditambahkan
+                <strong>{{ session('create') }}</strong> telah berhasil ditugaskan.
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
@@ -50,30 +50,41 @@
                 <table class="table table-hover table-light table-stripes">
                     <thead>
                         <th>No</th>
-                        <th>Nama Guru</th>
-                        <th>Aktivasi</th>
                         <th>Materi</th>
+                        <th>Aktivasi</th>
                         <th>Status</th>
-                        <th>Pertemuan</th>
+                        <th>Ditugaskan</th>
                         <th>Aksi</th>
                     </thead>
                     <tbody>
-                        @foreach( $dataGuru as $penugasan )
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $penugasan['teacher_name'] }}</td>
-                                <td>{{ $penugasan['nama_aktivasi'] }}</td>
-                                <td>{{ $penugasan['nama_materi'] }}</td>
-                                <td><p class="badge bg-primary">{{ $penugasan['status'] }}</p></td>
-                                <td>{{ $penugasan['pertemuan'] }}</td>
-                                <td>
-                                    <?php $id=$penugasan['idPenugasan']; ?>
-                                    <?php $namaGuru=$penugasan['teacher_name']; ?>
-                                    <a href="/assign-teacher-show/{{ $penugasan['idPenugasan'] }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
-                                    <a href="/assign-teacher-edit/{{ $penugasan['idPenugasan'] }}" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
-                                    <button type="button" id="delete" data-url="/assign-teacher-delete/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $id }}', '{{ $namaGuru }}')"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
+                        @foreach( $dataGuru as $data )
+                            @if( $data['statusPenugasan'] === 'empty' )
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $data['namaMateri'] }}</td>
+                                    <td>{{ $data['namaAktivasi'] }}</td>
+                                    <td>{{ $data['statusPelaksanaan'] }}</td>
+                                    <td><p class="badge rounded-pill text-bg-danger">{{ $data['statusPenugasan'] }}</p></td>
+                                    <td>
+                                        <a href="#" class="text-decoration-none btn btn-info">Read</a>
+                                        <a href="#" class="text-decoration-none btn btn-warning">Edit</a>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $data['namaMateri'] }}</td>
+                                    <td>{{ $data['namaAktivasi'] }}</td>
+                                    <td>{{ $data['statusPelaksanaan'] }}</td>
+                                    <td>{{ $data['statusPenugasan'] }}</td>
+                                    <td>
+                                        <a href="#" class="text-decoration-none btn btn-info">Read</a>
+                                        <a href="#" class="text-decoration-none btn btn-warning">Edit</a>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>

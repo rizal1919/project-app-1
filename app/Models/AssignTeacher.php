@@ -19,7 +19,4 @@ class AssignTeacher extends Model
         return $this->belongsTo(Aktivasi::class);
     }
 
-    public function materi(){
-        return $this->belongsTo(Materi::class);
-    }
 }
