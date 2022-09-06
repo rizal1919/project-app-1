@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('aktivasi_id')->nullable();
             $table->foreignId('materi_id');
             $table->integer('status');
-            $table->integer('pertemuan');
             $table->date('tanggal');
             $table->timestamps();
         });

@@ -37,12 +37,13 @@
             </div>
             <form action="/assign-teacher-create" method="post">
                 @csrf
-                <div class="row p-4 align-items-start justify-content-center">
-                    <div class="col-lg-3 mx-5">
+                <div class="row p-4">
+                   
 
-                        <label for="teacher_id" class="col-form-label">GURU</label>
-                        <div class="col-auto"> 
-                            <select name="teacher_id" id="teacher_id" class="form-select">
+                    <div class="row my-3 text-end d-flex justify-content-center">
+                        <label for="teacher_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold text-end">Guru</label>
+                        <div class="col-sm-7 text-end">
+                            <select name="teacher_id" id="teacher_id" class="form-select form-select-sm">
 
                                 <option>Pilih Guru ...</option>
                                 @foreach( $teachers as $teacher )
@@ -51,77 +52,30 @@
                             
                             </select>
                         </div>
-
-                        <label for="paket" class="col-form-label">PAKET</label>
-                        <div class="col-auto"> 
-                            <select name="paket" id="paket" class="form-select">
-
-                                <option>Pilih Paket ...</option>
-                                <?php $i = 0; ?>
-                                <?php $j = 0; ?>
-                                @foreach( $pakets as $paket )
-                                    @if( $paket['tipePaket'] == "Aktivasi" )
-
-                                        <?php if( $i === 0 ): ?>
-                                            <optgroup label="{{ $paket['tipePaket'] }}">
-                                            <option value="{{ $paket['namaProgram'] }}">{{ $paket['namaProgram'] }}</option>
-                                            <?php $i = 1; ?>
-                                        <?php else: ?>
-                                            <option value="{{ $paket['namaProgram'] }}">{{ $paket['namaProgram'] }}</option>
-                                        <?php endif; ?>
-                                    @else
-                                        <?php if( $j === 0 ): ?>
-                                            <optgroup label="{{ $paket['tipePaket'] }}">
-                                            <option value="{{ $paket['namaProgram'] }}">{{ $paket['namaProgram'] }}</option>
-                                            
-                                            <?php $j = 1; ?>
-                                        <?php else: ?>
-                                            <option value="{{ $paket['namaProgram'] }}">{{ $paket['namaProgram'] }}</option>
-                                        <?php endif; ?>
-                                        
-                                    @endif
-                                    
+                    </div>
+                    <div class="row mb-3 text-end d-flex justify-content-center">
+                        <label for="" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Pilihan Paket</label>
+                        <div class="col-sm-7">
+                            <select name="paket" id="paket" class="form-select form-select-sm">
+                                <option value="id">Pilih Paket ...</option>
+                                @foreach( $aktivasis as $aktivasi )
+                                    <option value="{{ $aktivasi->id }}">{{ $aktivasi->nama_aktivasi }}</option>
                                 @endforeach
-                            
                             </select>
                         </div>
-
-                        <label for="materi_id" class="col-form-label">MATERI</label>
-                        <div class="col-auto"> 
-                            <select name="materi_id" id="materi_id" class="form-select">
-                                <option disabled>Pilih Materi ...</option>
-                            </select>
-                        </div>
-
-
                     </div>
-                    <div class="col-lg-3">
-                        <label for="status" class="col-form-label">STATUS</label>
-                        <div class="col-auto"> 
-                            <select name="status" id="status" class="form-select bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-                                <option value="0">Belum Terlaksana</option>
-                                <option value="1">Terlaksana</option>
-                            
+                    <div class="row mb-3 text-end d-flex justify-content-center">
+                        <label for="materi_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Materi Tersedia</label>
+                        <div class="col-sm-7">
+                            <select name="materi_id" id="materi_id" class="form-select form-select-sm">
+                                <option>Pilih Materi ...</option>
                             </select>
                         </div>
+                    </div>
+                    
                         
-                        <label for="pertemuan" class="col-form-label">PERTEMUAN</label>
-                        <input type="number" name="pertemuan" id="pertemuan" class="form-control @error('pertemuan') is-invalid @enderror" value="{{ old('pertemuan') }}"  placeholder="Pertemuan">
-                        @error('pertemuan')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
 
-                        <label for="tanggal" class="col-form-label">TANGGAL</label>
-                        <input type="date" name="tanggal" id="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ old('tanggal') }}">
-                        @error('tanggal')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-
-                    </div>
+                    
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
                     <div class="col-7 p-2 d-flex justify-content-center align-items-end">

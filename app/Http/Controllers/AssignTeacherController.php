@@ -7,7 +7,6 @@ use App\Models\AssignTeacher;
 use App\Models\Materi;
 use App\Models\Program;
 use App\Models\Collection;
-use App\Models\Kurikulum;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -148,79 +147,7 @@ class AssignTeacherController extends Controller
 
     public function create(){
 
-        $dataAktivasi = Aktivasi::all();
-        $dataKurikulum = Kurikulum::all();
-
-
-        function rakAktivasi($paket){
-
-            $array = [];
-
-            function arr($program, $paket, $id){
-
-                return [
-                    'tipePaket' => 'Aktivasi',
-                    'namaPaket' => $paket,
-                    'namaProgram' => 'Aktivasi ' . $program . ' ' . $id
-                ];
-
-                
-            }
-
-            foreach( $paket as $cari ){
-                $program = $cari->program->nama_program;
-                $idAktivasi = $cari->id;
-                $paket = $cari->nama_aktivasi;
-                // dd($paket);
-                array_push($array, arr($program, $paket, $idAktivasi));
-
-            }
-
-            return $array;
-        }
-
-        function rakKurikulum($paket){
-
-            $array = [];
-
-            function kotak($program, $paket, $id){
-
-                return [
-                    'tipePaket' => 'Kurikulum',
-                    'namaPaket' => $paket,
-                    'namaProgram' => 'Kurikulum ' . $program . ' ' . $id
-                ];
-
-                
-            }
-
-            $i = 0;
-            foreach( $paket as $cari ){
-                $program = $cari->program;
-                if(count($program) > 1){
-                    foreach( $program as $find ){
-                        $nama_program = $find->nama_program;
-                        $id_paket = $cari->id;
-                        $paket = $cari->nama_kurikulum;
-                        array_push($array, kotak($nama_program, $paket, $id_paket));
-                    }
-
-                    continue;
-                }
-
-                $program = $program[$i]->nama_program;
-                $id_paket = $cari->id;
-                $paket = $cari->nama_kurikulum;
-                array_push($array, kotak($program, $paket, $id_paket));
-                $i++;
-            }
-
-            return $array;
-        }
-        
-        $rakAktivasi = rakAktivasi($dataAktivasi);
-        $rakKurikulum = rakKurikulum($dataKurikulum);
-        $hasilMerge = array_merge($rakAktivasi, $rakKurikulum);
+       
         // dd($hasilMerge);
         // $text = $hasilMerge[3]['namaProgram'];
         // dd($text);
@@ -291,65 +218,11 @@ class AssignTeacherController extends Controller
             'aktivasis' => Aktivasi::all(),
             'materis' => Materi::all(),
             'programs' => Program::all(),
-            'pakets' => $hasilMerge
+            
         ]);
     }
 
-    public function materi(Request $request){
-
-        $text = $request->nama_paket;
-        
-
-        if( strpos($text, 'Aktivasi') === 0 ){
-
-            $text = explode(' ', $text);
-            $idPaket = (int)end($text);
-            $idProgramDiDalamPaket = Aktivasi::find($idPaket)->program->id;
-            $materiDiDalamProgram = Program::find($idProgramDiDalamPaket)->materi;
-            // dd($materiDiDalamProgram);
-
-            $option = "<option>Pilih Materi ...</option>";
-            foreach( $materiDiDalamProgram as $materi ){
-                $option .= "<option value='$materi->id'>$materi->nama_materi</option>";
-            }
-
-            echo $option;
-
-        }else if( strpos($text, 'Aktivasi') === false ){
-            $text = explode(' ', $text);
-            $idPaket = (int)end($text);
-            $programs = Kurikulum::find($idPaket)->program;
-            
-            $array = [];
-            foreach( $programs as $program ){
-
-                $materiDiDalamProgram = Program::find($program->id)->materi;
-                foreach( $materiDiDalamProgram as $materi ){
-
-                    $rak = [
-                        'id' => $materi->id,
-                        'nama_materi' => $materi->nama_materi
-                    ];
-
-                    array_push($array, $rak);
-                }
-
-            }
-            
-
-            $option = "<option>Pilih Materi ...</option>";
-            foreach( $array as $materi ){
-
-                $id = $materi['id'];
-                $nama_materi = $materi['nama_materi'];
-
-                $option .= "<option value=" . $id . ">" . $nama_materi . "</option>";
-            }
-
-            echo $option;
-        }
-    }
-
+       
 
 
     public function store(Request $request){
