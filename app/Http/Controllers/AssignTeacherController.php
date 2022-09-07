@@ -366,7 +366,14 @@ class AssignTeacherController extends Controller
 
     public function store(Request $request){
 
+        // dd($request->collect());
+
+        $adaGurunya = Materi::find($request->materi_id)->teacher->count() > 0;
         
+        if($adaGurunya){
+
+            return redirect('/assign-teacher-create')->with('createFailed', 'Gagal');
+        }
         
         $validatedData = $request->validate([
             
@@ -391,9 +398,26 @@ class AssignTeacherController extends Controller
 
     }
 
-    public function edit(AssignTeacher $assignteacher){
+    public function edit(Materi $materi){
 
-        // dd($assignteacher);
+        $data = AssignTeacher::where('materi_id', $materi->id)->get();
+
+        $dataGuru = Teacher::find($data[0]->teacher_id);
+        $dataAktivasi = Aktivasi::find($data[0]->aktivasi_id);
+        $dataMateri = Materi::find($data[0]->materi_id);
+
+        $penugasan = [
+            'idGuru' => $dataGuru->id,
+            'namaGuru' => $dataGuru->teacher_name,
+            'idAktivasi' => $dataAktivasi->id,
+            'namaAktivasi' => $dataAktivasi->nama_aktivasi,
+            'idMateri' => $dataMateri->id,
+            'namaMateri' => $dataMateri->nama_materi,
+            'status' => $data[0]->status,
+            'tanggal' => $data[0]->tanggal
+        ];
+
+        // dd($penugasan);
 
         return view('AssignGuru.update', [
 
@@ -403,49 +427,67 @@ class AssignTeacherController extends Controller
             'aktivasis' => Aktivasi::all(),
             'materis' => Materi::all(),
             'programs' => Program::all(),
-            'dataguru' => $assignteacher
+            'penugasan' => $penugasan
         ]);
     }
 
-    public function update(Request $request, AssignTeacher $assignteacher){
+    public function update(Request $request, Materi $materi){
 
-        // dd($request->collect());
+        
+        $adaGurunya = Materi::find($request->materi_id)->teacher;
+        $requestGuru = Teacher::find($request->teacher_id);
+        
+        // dd($adaGurunya->first()->teacher_name);
+        
+        if( $adaGurunya->count() > 0 ){
+        // cek dulu ada nggak gurunya
 
-        if( $request->teacher_id == 0 ){
+            if( $adaGurunya->first()->teacher_name != $requestGuru->teacher_name ){
+            // kalau ada dan nama gurunya berbeda, kembalikan karna materi sudah ada guru lainnya
 
-            return redirect('/assign-teacher-update/' . $assignteacher->id)->with('teacher', 'Nama Guru');
+                return redirect('/assign-teacher')->with('updateFailed', 'Gagal');
+            }
+            
         }
-
-        if( $request->aktivasi_id == 0 ){
-
-            return redirect('/assign-teacher-update/' . $assignteacher->id)->with('aktivasi', 'Nama Aktivasi');
-        }
-
-        if( $request->materi_id == 0 ){
-
-            return redirect('/assign-teacher-update/' . $assignteacher->id)->with('materi', 'Nama Materi');
-        }
-
+        
+        
         $validatedData = $request->validate([
-
+            
             'teacher_id' => 'required',
             'aktivasi_id' => 'required',
             'materi_id' => 'required',
             'status' => 'required|between:0,1',
-            'pertemuan' => 'required|min:1',
             'tanggal' => 'required'
         ]);
+        
+        // dd($materi->teacher[0]->id);
+        // dd($validatedData);
 
-        $assignteacher->update([
-            'teacher_id' => $validatedData['teacher_id'],
-            'aktivasi_id' =>  $validatedData['aktivasi_id'],
-            'materi_id' =>  $validatedData['materi_id'],
-            'status' =>  $validatedData['status'],
-            'pertemuan' =>  $validatedData['pertemuan'],
-            'tanggal' =>  $validatedData['tanggal']
-        ]);
 
-        return redirect('/assign-teacher-update/' . $assignteacher->id)->with('update', 'Berhasil');
+
+        if((int)$validatedData['teacher_id'] !== $materi->teacher->first()->id){
+
+
+            DB::table('materi_teacher')->where('teacher_id', $materi->teacher[0]->id)->update(['teacher_id' => $validatedData['teacher_id']]);
+            
+        }
+
+        if($validatedData['materi_id'] !== $materi->id){
+            
+            DB::table('materi_teacher')->where('materi_id', $materi->id)->update(['materi_id' => $validatedData['materi_id']]);
+            
+        }
+
+        // dd($materi);
+        
+        // dd($request->collect());
+        
+        // dd($request->collect());
+
+
+        AssignTeacher::where('materi_id', $materi->id)->update($validatedData);
+
+        return redirect('/assign-teacher')->with('update', 'Berhasil');
 
 
     }

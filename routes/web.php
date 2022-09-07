@@ -180,8 +180,8 @@ Route::get('/assign-teacher', [AssignTeacherController::class, 'index'])->middle
 Route::get('/assign-teacher-show/{materi:id}', [AssignTeacherController::class, 'show'])->middleware('auth');
 Route::get('/assign-teacher-create', [AssignTeacherController::class, 'create'])->middleware('auth');
 Route::post('/assign-teacher-create', [AssignTeacherController::class, 'store'])->middleware('auth');
-Route::get('/assign-teacher-update/{assignteacher:id}', [AssignTeacherController::class, 'edit'])->middleware('auth');
-Route::post('/assign-teacher-update/{assignteacher:id}', [AssignTeacherController::class, 'update'])->middleware('auth');
+Route::get('/assign-teacher-update/{materi:id}', [AssignTeacherController::class, 'edit'])->middleware('auth');
+Route::post('/assign-teacher-update/{materi:id}', [AssignTeacherController::class, 'update'])->middleware('auth');
 Route::post('/assign-teacher-delete/{assignteacher:id}', [AssignTeacherController::class, 'delete'])->middleware('auth');
 
 // jquery

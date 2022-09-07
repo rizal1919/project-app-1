@@ -44,7 +44,13 @@
             
             @if( session('update') )
             <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                Informasi kelas <strong>{{ session('update') }}</strong> telah berhasil diubah
+                <strong>{{ session('update') }}</strong> data penugasan berhasil diubah
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if( session('updateFailed') )
+            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('updateFailed') }}</strong> materi sudah ada guru
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
@@ -83,8 +89,8 @@
                                     <td><p class="badge rounded-pill text-bg-danger">{{ $data['statusPenugasan'] }}</p></td>
                                     <td>
                                         <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
-                                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-warning" data-toggle="tooltip" title="Materi belum memiliki guru" onclick="alert('Tugaskan guru terlebih dulu')"><i class="fas fa-pen-to-square"></i></button>
+                                        <button class="btn btn-danger text-dark" onclick="alert('Tugaskan guru terlebih dulu')" data-toggle="tooltip" title="Materi belum memiliki guru"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @else
@@ -96,8 +102,8 @@
                                     <td>{{ $data['statusPenugasan'] }}</td>
                                     <td>
                                         <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
-                                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <a href="/assign-teacher-update/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
+                                        <button class="btn btn-danger text-dark"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @endif

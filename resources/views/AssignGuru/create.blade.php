@@ -30,6 +30,12 @@
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
+            @if( session('createFailed') )
+            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('createFailed') }}</strong> materi telah memiliki guru.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <div class="card-header">
                 <p class="card-title">
                     Form Assign Guru

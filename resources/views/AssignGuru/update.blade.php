@@ -24,28 +24,28 @@
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            @if( session('update') )
-            <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                Informasi penugasan guru <strong>{{ session('update') }}</strong> diubah
+            @if( session('updateFailed') )
+            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('updateFailed') }}</strong> materi sudah ada guru
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
             <div class="card-header">
                 <p class="card-title">
-                    Form Assign Guruku
+                    Form Assign Guru
                 </p>
             </div>
-            <form action="/assign-teacher-update/3" method="post">
+            <form action="/assign-teacher-update/{{ $penugasan['idMateri'] }}" method="post">
                 @csrf
-                <div class="row p-4 align-items-start justify-content-center">
-                    <div class="col-auto mx-5">
-                        <label for="teacher_id" class="col-form-label">GURU</label>
-                        <div class="col-auto"> 
-                            <select name="teacher_id" id="teacher_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
+                <div class="row p-4">
+                    <div class="row my-3 text-end d-flex justify-content-center">
+                        <label for="teacher_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold text-end">Guru</label>
+                        <div class="col-sm-7 text-end">
+                            <select name="teacher_id" id="teacher_id" class="form-select form-select-sm">
 
-                                <option value="0">Tidak memilih guru</option>
+                                <option selected disabled>Pilih Guru ...</option>
                                 @foreach( $teachers as $teacher )
-                                    @if( $dataguru->teacher_id == $teacher['id'] )
+                                    @if( $teacher['id'] === $penugasan['idGuru'] )
                                         <option value="{{ $teacher['id'] }}" selected>{{ $teacher['teacher_name'] }}</option>
                                     @else
                                         <option value="{{ $teacher['id'] }}">{{ $teacher['teacher_name'] }}</option>
@@ -54,95 +54,51 @@
                             
                             </select>
                         </div>
-
-                        <label for="aktivasi_id" class="col-form-label">AKTIVASI</label>
-                        <div class="col-auto"> 
-                            <select name="aktivasi_id" id="aktivasi_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-
-                                <option value="0">Tidak memilih aktivasi</option>
+                    </div>
+                    <div class="row mb-3 text-end d-flex justify-content-center">
+                        <label for="" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Pilihan Paket</label>
+                        <div class="col-sm-7">
+                            <select name="aktivasi_id" id="paket" class="form-select form-select-sm">
+                                <option selected disabled>Pilih Paket ...</option>
                                 @foreach( $aktivasis as $aktivasi )
-                                    @if( $dataguru->aktivasi_id == $aktivasi['id'] )
-                                        <option value="{{ $aktivasi['id'] }}" selected>{{ $aktivasi['nama_aktivasi'] }}</option>
+                                    @if( $aktivasi->id === $penugasan['idAktivasi'] )
+                                        <option value="{{ $aktivasi->id }}" selected>{{ $aktivasi->nama_aktivasi }}</option>
                                     @else
-                                        <option value="{{ $aktivasi['id'] }}">{{ $aktivasi['nama_aktivasi'] }}</option>
+                                        <option value="{{ $aktivasi->id }}">{{ $aktivasi->nama_aktivasi }}</option>
                                     @endif
                                 @endforeach
-                            
-                            </select>
-                        </div>
-
-                        <label for="materi_id" class="col-form-label">MATERI</label>
-                        <div class="col-auto"> 
-                            <select name="materi_id" id="materi_id" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-                                
-                                <?php for( $i=0; $i<count($programs); $i++ ): ?>
-                                    
-                                    <!-- ngecek apakah program diikutkan dalam aktivasi -->
-                                    @if( count($programs[$i]->aktivasi) === 0 )
-                                        <optgroup label="{{ $programs[$i]->nama_program }}">  
-                                            @foreach( $materis as $materi )
-                                                @if( $materi->program_id == $programs[$i]->id )
-                                                    @if( $dataguru['materi_id'] == $materi->id )
-                                                        <option value="{{ $materi->id }}" selected>{{ $materi->nama_materi }}</option>
-                                                    @else
-                                                        <option value="{{ $materi->id }}">{{ $materi->nama_materi }}</option>
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        </optgroup>
-                                    @else
-                                        <optgroup label="{{ $programs[$i]->aktivasi[0]->nama_aktivasi }}">  
-                                            @foreach( $materis as $materi )
-                                                @if( $materi->program_id == $programs[$i]->id )
-                                                    @if( $dataguru['materi_id'] == $materi->id )
-                                                        <option value="{{ $materi->id }}" selected>{{ $materi->nama_materi }}</option>
-                                                    @else
-                                                        <option value="{{ $materi->id }}">{{ $materi->nama_materi }}</option>
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        </optgroup>
-                                    @endif
-
-                                <?php endfor; ?>
-                           
                             </select>
                         </div>
                     </div>
-                    <div class="col-auto">
-
-                        <label for="status" class="col-form-label">STATUS</label>
-                        <div class="col-auto"> 
-                            <select name="status" id="status" class="p-1 bg-primary text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;"> 
-
-                                @if( $dataguru['status'] == 0 )
+                    <div class="row mb-3 text-end d-flex justify-content-center">
+                        <label for="materi_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Materi Tersedia</label>
+                        <div class="col-sm-7">
+                            <select name="materi_id" id="materi_id" class="form-select form-select-sm">
+                                <option value="{{ $penugasan['idMateri'] }}">{{ $penugasan['namaMateri'] }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3 text-end d-flex justify-content-center">
+                        <label for="status" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Status</label>
+                        <div class="col-sm-7">
+                            <select name="status" id="status" class="form-select form-select-sm">
+                                <option selected disabled>Pilih Status ...</option>
+                                @if( $penugasan['status'] === 0 )
                                     <option value="0" selected>Belum Terlaksana</option>
                                     <option value="1">Terlaksana</option>
                                 @else
                                     <option value="0">Belum Terlaksana</option>
                                     <option value="1" selected>Terlaksana</option>
                                 @endif
-                            
                             </select>
                         </div>
-                        
-                        <label for="pertemuan" class="col-form-label">PERTEMUAN</label>
-                        <input type="integer" name="pertemuan" id="pertemuan" class="form-control @error('pertemuan') is-invalid @enderror" value="{{ old('pertemuan', $dataguru['pertemuan']) }}"  placeholder="example@gmail.com">
-                        @error('pertemuan')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-
-                        <label for="tanggal" class="col-form-label">TANGGAL</label>
-                        <input type="date" name="tanggal" id="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ old('tanggal', $dataguru['tanggal']) }}">
-                        @error('tanggal')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-
                     </div>
+                    <div class="row mb-3 text-end d-flex justify-content-center">
+                        <label for="date" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Tanggal Pertemuan</label>
+                        <div class="col-sm-7">
+                            <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm" value="{{ old('tanggal', $penugasan['tanggal']) }}">
+                        </div>
+                    </div>  
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
                     <div class="col-7 p-2 d-flex justify-content-center align-items-end">
@@ -155,83 +111,66 @@
                     
                 </div>
             </form>
-
         </div>
     </div>
+    <div class="container d-flex justify-content-center">
+        <div class="card col-lg-12">
+            <div class="card-header">
+                <p class="card-title">Daftar Penugasan</p>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-striped table-light" id="table">
+                    <thead>
+                        <tr>
+                            <td>No</td>
+                            <td>Nama Materi</td>
+                            <td>Guru Ditugaskan</td>
+                            <td>Status</td>
+                            <td>Tanggal</td>
+                        </tr>
+                    </thead>
+                    <tbody id="data_teacher">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
 
 <script>
     $(document).ready(function(){
-    
-        $('#nama_siswa').on('keyup', function(){
-            var value = $(this).val();
+
+        $('#paket').on('change', function(){
+            var value = $('#paket').val();
             $.ajax({
-                url:"{{ route('search') }}",
+                url:"{{ route('getmateri') }}",
                 type:"GET",
-                data:{'nama_siswa':value},
-                success:function(data){
-
-                    $('#nama').html(data);                    
-                    
-                }
-            });
-        });
-
-
-        $(document).on('click', '#n', function(){
-            var value = $(this).text();
-            $("#nama_siswa").val(value);
-            $('#nama').html('');
-        });
-
-        $('#ktp').on('keyup', function(){
-            var value = $(this).val();
-            $.ajax({
-                url:"{{ route('ktp') }}",
-                type:"GET",
-                data:{'ktp':value},
-                success:function(data){
-
-                    
+                data:{'id_paket':value},
+                success: function(data){
                     console.log(data);
-                    console.log( data[0]['nama_siswa'] );
-
-                    $('#noktp').html(data);
-                    $('#nama_siswa').val(data[0]['nama_siswa']);
-                    $('#email').val(data[0]['email']);
-                    $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                    $('#materi_id').html(data);           
                     
                 }
             });
         });
 
-
-        $(document).on('click', '#k', function(){
-            var value = $(this).text();
-            $("#ktp").val(value);
-            $('#noktp').html('');
-        });
-
-        $('#email').on('keyup', function(){
-            var value = $(this).val();
+        $('#paket').on('change', function(){
+            var value = $('#paket').val();
             $.ajax({
-                url:"{{ route('email') }}",
+                url:"{{ route('getteacher') }}",
                 type:"GET",
-                data:{'email':value},
-                success:function(data){
-
-                    $('#alamatemail').html(data);
+                data:{'aktivasi_id':value},
+                success: function(data){
+                    console.log(data);
+                    $('#data_teacher').html(data);           
                     
                 }
             });
         });
+          
+    
 
-
-        $(document).on('click', '#e', function(){
-            var value = $(this).text();
-            $("#email").val(value);
-            $('#alamatemail').html('');
-        });
-
+       
 
 
     });
