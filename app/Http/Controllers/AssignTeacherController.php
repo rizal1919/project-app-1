@@ -231,7 +231,8 @@ class AssignTeacherController extends Controller
 
     public function create(Request $request){
 
-    
+        
+        
         
 
         return view('AssignGuru.create', [
@@ -311,21 +312,32 @@ class AssignTeacherController extends Controller
                 }else{
     
                     foreach( $program->materi as $materi ){
+
+                      
                         
                         if( $materi->teacher->count() === 0 ){
+                            
+                            $kotakMateri = [
+                                
+                                'idMateri' => $materi->id,
+                                'namaMateri' => $materi->nama_materi,
+                                'namaGuru' => "-",
+                                'status' => '-',
+                                'tanggal' => '-'
+                            ];
+                        }else{
+                            $data = DB::table('assign_teachers')->where('materi_id', $materi->id)->get();
+
+                            $data[0]->status == 1 ? $data[0]->status = 'Selesai' : $data[0]->status = 'Belum Terlaksana';
+                            // dd($data);
 
                             $kotakMateri = [
             
                                 'idMateri' => $materi->id,
                                 'namaMateri' => $materi->nama_materi,
-                                'namaGuru' => "-"
-                            ];
-                        }else{
-                            $kotakMateri = [
-            
-                                'idMateri' => $materi->id,
-                                'namaMateri' => $materi->nama_materi,
-                                'namaGuru' => $materi->teacher->first()->teacher_name
+                                'namaGuru' => $materi->teacher->first()->teacher_name,
+                                'status' => $data[0]->status,
+                                'tanggal' => $data[0]->tanggal
                             ];
 
                         }
@@ -335,7 +347,8 @@ class AssignTeacherController extends Controller
                 };
     
             }
-            
+
+           
             $option = "";
             $i=1;
             foreach( $array as $item){
@@ -344,12 +357,14 @@ class AssignTeacherController extends Controller
                 $id = $item['idMateri'];
                 $nama_materi = $item['namaMateri'];
                 $nama_guru = $item['namaGuru'];
+                $status = $item['status'];
+                $tanggal = $item['tanggal'];
 
                 $option .= "<td>$i</td>";
                 $option .= "<td>$nama_materi</td>";
                 $option .= "<td>$nama_guru</td>";
-                $option .= "<td><p class='badge text-bg-primary'>Sukses</p></td>";
-                $option .= "<td>12 June 1999</td>";
+                $option .= "<td><p class='badge text-bg-primary'>$status</p></td>";
+                $option .= "<td>$tanggal</td>";
 
                 $option .= "</tr>";
                 $i++;
