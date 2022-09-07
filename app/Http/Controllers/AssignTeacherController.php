@@ -492,9 +492,15 @@ class AssignTeacherController extends Controller
 
     }
 
-    public function delete(AssignTeacher $assignteacher){
+    public function delete(Materi $materi){
 
-        $assignteacher->delete();
+
+        // dd($materi);
+
+        DB::table('materi_teacher')->where('materi_id', $materi->id)->delete();
+
+        AssignTeacher::where('materi_id', $materi->id)->delete();
+        // $assignteacher->delete();
 
         return redirect('/assign-teacher')->with('delete', 'Delete Successfully!');
     }

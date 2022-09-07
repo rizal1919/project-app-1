@@ -101,9 +101,11 @@
                                     <td>{{ $data['statusPelaksanaan'] }}</td>
                                     <td>{{ $data['statusPenugasan'] }}</td>
                                     <td>
+                                        <?php $idmateri = $data['idMateri']; ?>
+                                        <?php $namaMateri = $data['namaMateri']; ?>
                                         <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
                                         <a href="/assign-teacher-update/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
-                                        <button class="btn btn-danger text-dark"><i class="fas fa-trash"></i></button>
+                                        <button type="button" id="delete" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @endif
@@ -155,7 +157,7 @@
         element.style.display = "none";
     }
 
-    function confirmation(delId, namaGuru){
+    function confirmation(delId, namaMateri){
 
         let url = document.getElementById('delete').getAttribute('data-url');
         let completeUrl = url + delId;
@@ -165,7 +167,7 @@
         $('#forms').attr('action', completeUrl);
 
         let comment = document.getElementById('message');
-        comment.innerHTML = '<p> Anda yakin ingin menghapus guru bernama ' + '<strong>' + namaGuru +  '</strong>' + ' ? </p>';
+        comment.innerHTML = '<p> Anda yakin ingin menghapus penugasan materi ' + '<strong>' + namaMateri +  '</strong>' + ' ? </p>';
 
         $('#staticBackdrop').modal('show');
         // menampilkan modal box
