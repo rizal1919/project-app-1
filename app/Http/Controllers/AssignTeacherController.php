@@ -20,61 +20,59 @@ class AssignTeacherController extends Controller
         $daftarAktivasi = Aktivasi::all();
         $daftarMateri = Materi::all();
 
-        // idAktivasi
-        // namaMateri
-        // namaAktivasi
-        // statusPelaksanaan
-        // statusPenugasan
-
         $rakSementara = [];
-        foreach( $daftarPenugasan as $penugasan ){
+        foreach( $daftarAktivasi as $aktivasi ){
 
-            foreach( $daftarAktivasi as $aktivasi ){
+    
 
+            foreach( $aktivasi->program as $program ){
 
-                foreach( $aktivasi->program as $program ){
+                // dd($program);
+
+                foreach ( $program->materi as $materi ){
+
+                    $adaPenugasan = DB::table('assign_teachers')->where('materi_id', $materi->id)->get();
 
                     
-                    foreach( $program->materi as $materi ){
+                    if($adaPenugasan->count() > 0){
 
-                        
-                        if( $materi->teacher->count() > 0 ){
-
+                        $kotakMateri = [
+    
+                            'idPenugasan' => $adaPenugasan[0]->id,
+                            'namaMateri' => $materi->nama_materi,
+                            'namaAktivasi' => $aktivasi->nama_aktivasi,
+                            'statusPelaksanaan' => $adaPenugasan[0]->status,
+                            'statusPenugasan' => $materi->teacher->first()->teacher_name,
+                            'created_at' => $adaPenugasan[0]->created_at,
+                            'updated_at' => $adaPenugasan[0]->updated_at
+                        ];
+    
+                        array_push($rakSementara, $kotakMateri);
+    
                             
-                            $kotakMateri = [
-
-                                'idPenugasan' => $penugasan->id,
-                                'namaMateri' => $materi->nama_materi,
-                                'namaAktivasi' => $aktivasi->nama_aktivasi,
-                                'statusPelaksanaan' => $penugasan->status,
-                                'statusPenugasan' => $materi->teacher->first()->teacher_name,
-                                'created_at' => $penugasan->created_at,
-                                'updated_at' => $penugasan->updated_at
-                            ];
-
-                        }else{
-                            
-                            $kotakMateri = [
-
-                                'idPenugasan' => $penugasan->id,
-                                'namaMateri' => $materi->nama_materi,
-                                'namaAktivasi' => $aktivasi->nama_aktivasi,
-                                'statusPelaksanaan' => $penugasan->status,
-                                'statusPenugasan' => 'empty',
-                                'created_at' => $penugasan->created_at,
-                                'updated_at' => $penugasan->updated_at
-                            ];
-                        }
-
                         
+                    }else{
+                        
+                        $kotakMateri = [
+    
+                            'idPenugasan' => '',
+                            'namaMateri' => $materi->nama_materi,
+                            'namaAktivasi' => $aktivasi->nama_aktivasi,
+                            'statusPelaksanaan' => 0,
+                            'statusPenugasan' => 0,
+                            'created_at' => '',
+                            'updated_at' => ''
+                        ];
+    
+                        array_push($rakSementara, $kotakMateri);
                     }
-                }
-                
-                array_push($rakSementara, $kotakMateri);
-            }
-            
-        }
 
+                }
+
+            }
+        }
+             
+        
         $rakKedua = [];
         foreach( $rakSementara as $terjemahkanStatus ){
 
@@ -83,7 +81,7 @@ class AssignTeacherController extends Controller
                 $terjemahkanStatus['statusPelaksanaan'] = 'Belum Terlaksana';
             }else{
 
-                $terjemahkanStatus['statusPelaksanaan'] = 'Terlaksana';
+                $terjemahkanStatus['statusPelaksanaan'] = 'Selesai';
             }
 
             array_push($rakKedua, $terjemahkanStatus);
@@ -91,19 +89,69 @@ class AssignTeacherController extends Controller
 
         // dd($rakKedua);
 
-
-        
-
         
         
-        // $teacher_name = $request->teacher_name;
-        // $rakSementara = collect($rakSementara)->filter(function ($item) use ($teacher_name) {
-        //     // replace stristr with your choice of matching function
-        //     return false !== stristr($item['teacher_name'], $teacher_name);
-        // });
+        $teacher_name = $request->teacher_name;
+        $rakKedua = collect($rakKedua)->filter(function ($item) use ($teacher_name) {
+            // replace stristr with your choice of matching function
+            return false !== stristr($item['statusPenugasan'], $teacher_name);
+        });
 
-        $rakSementara = collect($rakKedua)->sortByDesc('updated_at');
-        $rakSemuaHasilData = (new Collection($rakSementara))->paginate(20);
+        $nama_aktivasi = $request->nama_aktivasi;
+        $rakKedua = collect($rakKedua)->filter(function ($item) use ($nama_aktivasi) {
+            // replace stristr with your choice of matching function
+            return false !== stristr($item['namaAktivasi'], $nama_aktivasi);
+        });
+        
+        $nama_materi = $request->nama_materi;
+        $rakKedua = collect($rakKedua)->filter(function ($item) use ($nama_materi) {
+            // replace stristr with your choice of matching function
+            return false !== stristr($item['namaMateri'], $nama_materi);
+        });
+
+        if( $request->search == 'Belum Terlaksana' ){
+            $search = $request->search;
+            $rakKedua = collect($rakKedua)->filter(function ($item) use ($search) {
+                // replace stristr with your choice of matching function
+                return false !== stristr($item['statusPelaksanaan'], $search);
+            });
+        }
+        if( $request->search == 'Selesai' ){
+            $terlaksana = $request->search;
+
+            // dd($terlaksana);
+            $rakKedua = collect($rakKedua)->filter(function ($item) use ($terlaksana) {
+                // replace stristr with your choice of matching function
+                return false !== stristr($item['statusPelaksanaan'], $terlaksana);
+            });
+        }
+        if( $request->search == 0 ){
+            $penugasan = $request->search;
+
+            // dd($penugasan);
+            $rakKedua = collect($rakKedua)->filter(function ($item) use ($penugasan) {
+                // replace stristr with your choice of matching function
+                return false !== stristr($item['statusPelaksanaan'], $penugasan);
+            });
+        }
+        if( $request->search == 1 ){
+            $penugasan = $request->search;
+
+            // dd($penugasan);
+            $rakKedua = collect($rakKedua)->filter(function ($item) use ($penugasan) {
+                // replace stristr with your choice of matching function
+                return true !== stristr($item['statusPelaksanaan'], 0);
+            });
+        }
+
+        if( $request->search == 'all' ){
+            $teacher_name = $request->teacher_name;
+
+        }
+        // dd($rakKedua);
+
+        $rakSementara = collect($rakKedua)->sortBy('statusPenugasan', 0);
+        $rakSemuaHasilData = (new Collection($rakSementara))->paginate(5);
 
         // dd($rakSemuaHasilData);
 
@@ -332,7 +380,7 @@ class AssignTeacherController extends Controller
         AssignTeacher::create($validatedData);
         $teacher = Teacher::find($validatedData['teacher_id']);
 
-        return redirect('/assign-teacher')->with('create', $teacher);
+        return redirect('/assign-teacher')->with('create', $teacher->teacher_name);
 
 
     }

@@ -8,16 +8,30 @@
                     <h4>PENUGASAN GURU</h4>
                 </div>
             </div>
-            <div class="row d-flex justify-content-end mb-3">
-                <div class="col-md-12 d-flex mt-4 justify-content-end">
-                    <form action="/assign-teacher" method="get" class="mx-2" style="width: 30%;" >
+            <div class="row g-1 d-flex justify-content-end my-3">
+                <div class="col-sm-9">
+                    <form action="/assign-teacher" method="get">
                         @csrf
                         <div class="input-group">
-                            <input type="text" name="teacher_name" value="{{ request()->teacher_name }}" class="form-control text-start" placeholder="Nama Guru">
+                            <input type="text" name="teacher_name" value="{{ request()->teacher_name }}" class="form-control form-control-sm text-start" placeholder="Nama Guru">
+                            <input type="text" name="nama_aktivasi" value="{{ request()->nama_aktivasi }}" class="form-control form-control-sm text-start" placeholder="Nama Aktivasi">
+                            <input type="text" name="nama_materi" value="{{ request()->nama_materi }}" class="form-control form-control-sm text-start" placeholder="Nama Materi">
+                            <select name="search" id="search" class="form-select form-select-sm">
+                                <option selected disabled>Filter By</option>
+                                <option value="Belum Terlaksana">Pertemuan - Belum Terlaksana</option>
+                                <option value="Selesai">Pertemuan - Selesai Dilaksanakan</option>
+                                <option value="0">Penugasan - Belum Ditugaskan</option>
+                                <option value="1">Penugasan - Ditugaskan</option>
+                            </select>
                             <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                         </div>
                     </form>
-                    <a href="/assign-teacher-create" class="btn btn-primary" style="width: 20%;"><i class="fas fa-plus mx-2"></i>Tugaskan Guru</a>
+                </div>
+                <div class="col-sm-1">
+                    <button id="yes-here" class="btn btn-warning" data-toggle="tooltip" title="Click to Clear Filters"><i class="fa-solid fa-square-minus"></i></button>
+                </div>
+                <div class="col-sm-2">
+                    <a href="/assign-teacher-create" class="text-decoration-none btn btn-primary"><i class="fas fa-plus mx-2"></i>Tugaskan Guru</a>
                 </div>
             </div>
             
@@ -52,13 +66,15 @@
                         <th>No</th>
                         <th>Materi</th>
                         <th>Aktivasi</th>
-                        <th>Status</th>
+                        <th>Status Pertemuan</th>
                         <th>Ditugaskan</th>
                         <th>Aksi</th>
                     </thead>
                     <tbody>
                         @foreach( $dataGuru as $data )
-                            @if( $data['statusPenugasan'] === 'empty' )
+                            @if( $data['statusPenugasan'] === 0 )
+
+                                <?php $data['statusPenugasan'] = 'empty'; ?>
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $data['namaMateri'] }}</td>
@@ -66,9 +82,9 @@
                                     <td>{{ $data['statusPelaksanaan'] }}</td>
                                     <td><p class="badge rounded-pill text-bg-danger">{{ $data['statusPenugasan'] }}</p></td>
                                     <td>
-                                        <a href="#" class="text-decoration-none btn btn-info">Read</a>
-                                        <a href="#" class="text-decoration-none btn btn-warning">Edit</a>
-                                        <button class="btn btn-danger">Delete</button>
+                                        <a href="#" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
+                                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @else
@@ -79,9 +95,9 @@
                                     <td>{{ $data['statusPelaksanaan'] }}</td>
                                     <td>{{ $data['statusPenugasan'] }}</td>
                                     <td>
-                                        <a href="#" class="text-decoration-none btn btn-info">Read</a>
-                                        <a href="#" class="text-decoration-none btn btn-warning">Edit</a>
-                                        <button class="btn btn-danger">Delete</button>
+                                        <a href="#" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
+                                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @endif
@@ -121,6 +137,13 @@
 @endsection
 @push('js')
 <script>
+
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    // const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    // const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
     function changeStyle(){
         var element = document.getElementById("hide");
         element.style.display = "none";
@@ -142,5 +165,16 @@
         // menampilkan modal box
 
     }
+
+    let clear = document.getElementById('yes-here');
+    
+    clear.addEventListener("click", function(){
+        
+        console.log(window.location.href);
+        window.history.pushState("", "", '/assign-teacher');
+        
+        
+        
+    });
 </script>
 @endpush
