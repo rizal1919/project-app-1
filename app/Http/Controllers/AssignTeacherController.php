@@ -151,7 +151,7 @@ class AssignTeacherController extends Controller
         // dd($rakKedua);
 
         $rakSementara = collect($rakKedua)->sortBy('statusPenugasan', 0);
-        $rakSemuaHasilData = (new Collection($rakSementara))->paginate(5);
+        $rakSemuaHasilData = (new Collection($rakSementara))->paginate(5)->withQueryString();
 
         // dd($rakSemuaHasilData);
 

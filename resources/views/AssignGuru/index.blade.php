@@ -13,9 +13,9 @@
                     <form action="/assign-teacher" method="get">
                         @csrf
                         <div class="input-group">
-                            <input type="text" name="teacher_name" value="{{ request()->teacher_name }}" class="form-control form-control-sm text-start" placeholder="Nama Guru">
-                            <input type="text" name="nama_aktivasi" value="{{ request()->nama_aktivasi }}" class="form-control form-control-sm text-start" placeholder="Nama Aktivasi">
-                            <input type="text" name="nama_materi" value="{{ request()->nama_materi }}" class="form-control form-control-sm text-start" placeholder="Nama Materi">
+                            <input type="text" id="teacher_name" name="teacher_name" value="{{ request()->teacher_name }}" class="form-control form-control-sm text-start" placeholder="Nama Guru">
+                            <input type="text" id="nama_aktivasi" name="nama_aktivasi" value="{{ request()->nama_aktivasi }}" class="form-control form-control-sm text-start" placeholder="Nama Aktivasi">
+                            <input type="text" id="nama_materi" name="nama_materi" value="{{ request()->nama_materi }}" class="form-control form-control-sm text-start" placeholder="Nama Materi">
                             <select name="search" id="search" value="{{ request()->search }}" class="form-select form-select-sm">
                                 <option selected disabled>Filter By</option>
                                 <option value="Belum Terlaksana">Pertemuan - Belum Terlaksana</option>
@@ -180,6 +180,13 @@
         
         console.log(window.location.href);
         window.history.pushState("", "", '/assign-teacher');
+        let aktivasi = document.getElementById('nama_aktivasi');
+        let guru = document.getElementById('teacher_name');
+        let materi = document.getElementById('nama_materi');
+
+        aktivasi.value = '';
+        guru.value = '';
+        materi.value = '';
         
         
         

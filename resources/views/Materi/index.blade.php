@@ -56,7 +56,6 @@
                     <thead>
                         <th>No</th>
                         <th>Materi</th>
-                        <th>Jumlah Pertemuan</th>
                         <th>Menit</th>
                         <th>Aksi</th>
                     </thead>
@@ -65,7 +64,6 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $materis->nama_materi }}</td>
-                                <td>{{ $materis->jumlah_pertemuan }}</td>
                                 <td>{{ $materis->menit }}</td>
                                 <td>
                                     <?php $id = $materis->id; ?>
