@@ -39,6 +39,7 @@ class AssignTeacherController extends Controller
                         $kotakMateri = [
     
                             'idPenugasan' => $adaPenugasan[0]->id,
+                            'idMateri' => $materi->id,
                             'namaMateri' => $materi->nama_materi,
                             'namaAktivasi' => $aktivasi->nama_aktivasi,
                             'statusPelaksanaan' => $adaPenugasan[0]->status,
@@ -56,6 +57,7 @@ class AssignTeacherController extends Controller
                         $kotakMateri = [
     
                             'idPenugasan' => '',
+                            'idMateri' => $materi->id,
                             'namaMateri' => $materi->nama_materi,
                             'namaAktivasi' => $aktivasi->nama_aktivasi,
                             'statusPelaksanaan' => 0,
@@ -131,22 +133,20 @@ class AssignTeacherController extends Controller
             // dd($penugasan);
             $rakKedua = collect($rakKedua)->filter(function ($item) use ($penugasan) {
                 // replace stristr with your choice of matching function
-                return false !== stristr($item['statusPelaksanaan'], $penugasan);
+                return false !== stristr($item['statusPenugasan'], $penugasan);
             });
         }
+
+        // dd($rakKedua);
+
         if( $request->search == 1 ){
             $penugasan = $request->search;
 
             // dd($penugasan);
             $rakKedua = collect($rakKedua)->filter(function ($item) use ($penugasan) {
                 // replace stristr with your choice of matching function
-                return true !== stristr($item['statusPelaksanaan'], 0);
+                return false === stristr($item['statusPenugasan'], 0);
             });
-        }
-
-        if( $request->search == 'all' ){
-            $teacher_name = $request->teacher_name;
-
         }
         // dd($rakKedua);
 
@@ -165,58 +165,64 @@ class AssignTeacherController extends Controller
         ]);
     }
 
-    public function show(AssignTeacher $assignteacher){
+    public function show(Materi $materi){
 
-        // dd($assignteacher);
+        // dd($materi);
 
-        function detailPenugasan($data){
+        $data = DB::table('assign_teachers')->where('materi_id', $materi->id)->get();
+        
+        
+        if(count($data) > 0){
+            
+            $dataGuru = Teacher::find($data[0]->teacher_id);
+            $dataAktivasi = Aktivasi::find($data[0]->aktivasi_id);
+            $dataMateri = Materi::find($data[0]->materi_id);
 
-            $daftarGuruDitugaskan = DB::table('assign_teachers')->where('id', $data->id)->get();
-            $daftarGuru = Teacher::all();
-            $daftarAktivasi = Aktivasi::all();
-            $daftarProgram = Program::all();
+            $rakData = [
 
-            $idTugas = $data->id;
-
-            $idGuru = $data->teacher_id;
-            $namaGuru = $daftarGuru->find($idGuru)->teacher_name;
-
-            $idAktivasi = $data->aktivasi_id;
-            $namaAktivasi = $daftarAktivasi->find($idAktivasi)->nama_aktivasi;
-
-            $idProgram = $daftarAktivasi->find($idAktivasi)->program_id;
-            $namaMateri = $daftarProgram->find($idProgram)->materi->find($data->materi_id)->nama_materi;
-
-            $status = $data->status;
-            $tanggal = $data->tanggal;
-            $pertemuan = $data->pertemuan;
-            $updatedAt = $daftarGuruDitugaskan[0]->updated_at;
-
-            if( $status === 0 ){
-                $status = 'Belum Terlaksana';
-            }else{
-                $status = 'Terlaksana';
-            }
-
-            return $array = [
-                'idPenugasan' =>$idTugas,
-                'teacher_name' => $namaGuru,
-                'nama_aktivasi' => $namaAktivasi,
-                'nama_materi' => $namaMateri,
-                'status' => $status,
-                'pertemuan' => $pertemuan,
-                'tanggal' => $tanggal,
-                'updated_at' => $updatedAt
+                'idPenugasan' => $data[0]->id,
+                'namaMateri' => $dataMateri->nama_materi,
+                'namaAktivasi' => $dataAktivasi->nama_aktivasi,
+                'namaGuru' => $dataGuru->teacher_name,
+                'tanggal' => $data[0]->tanggal,
+                'status' => $data[0]->status,
+                'durasiPertemuan' => $dataMateri->menit,
+                'namaProgram' => $dataMateri->program->nama_program
             ];
+            
+        }else{
 
+            $dataAktivasi = $materi->program->aktivasi;
+        
+            $rakData = [
+
+                'idPenugasan' => '',
+                'namaMateri' => $materi->nama_materi,
+                'namaAktivasi' => $dataAktivasi[0]->nama_aktivasi,
+                'namaGuru' => 'empty',
+                'tanggal' => '',
+                'status' => '',
+                'durasiPertemuan' => $materi->menit,
+                'namaProgram' => $materi->program->nama_program
+            ];
         }
+
+        if( $rakData['status'] === 0 ){
+            $rakData['status'] = 'Belum Terlaksana';
+        }elseif( $rakData['status'] === 1 ){
+            $rakData['status'] = 'Selesai';
+        }
+
+
+
+        // dd($rakData);
 
        
 
         return view('AssignGuru.show', [
             'title'  => 'Penugasan Guru | ',
             'active' => 'Penugasan Guru',
-            'penugasan' => detailPenugasan($assignteacher)
+            'penugasan' => $rakData
         ]);
 
 

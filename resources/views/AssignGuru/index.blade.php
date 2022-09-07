@@ -16,7 +16,7 @@
                             <input type="text" name="teacher_name" value="{{ request()->teacher_name }}" class="form-control form-control-sm text-start" placeholder="Nama Guru">
                             <input type="text" name="nama_aktivasi" value="{{ request()->nama_aktivasi }}" class="form-control form-control-sm text-start" placeholder="Nama Aktivasi">
                             <input type="text" name="nama_materi" value="{{ request()->nama_materi }}" class="form-control form-control-sm text-start" placeholder="Nama Materi">
-                            <select name="search" id="search" class="form-select form-select-sm">
+                            <select name="search" id="search" value="{{ request()->search }}" class="form-select form-select-sm">
                                 <option selected disabled>Filter By</option>
                                 <option value="Belum Terlaksana">Pertemuan - Belum Terlaksana</option>
                                 <option value="Selesai">Pertemuan - Selesai Dilaksanakan</option>
@@ -82,7 +82,7 @@
                                     <td>{{ $data['statusPelaksanaan'] }}</td>
                                     <td><p class="badge rounded-pill text-bg-danger">{{ $data['statusPenugasan'] }}</p></td>
                                     <td>
-                                        <a href="#" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
+                                        <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
                                         <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </td>
@@ -95,7 +95,7 @@
                                     <td>{{ $data['statusPelaksanaan'] }}</td>
                                     <td>{{ $data['statusPenugasan'] }}</td>
                                     <td>
-                                        <a href="#" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
+                                        <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
                                         <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </td>

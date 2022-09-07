@@ -177,7 +177,7 @@ Route::post('/classroom-delete/{classroom:id}', [ClassroomController::class, 'de
 
 // route assign teacher
 Route::get('/assign-teacher', [AssignTeacherController::class, 'index'])->middleware('auth');
-Route::get('/assign-teacher-show/{assignteacher:id}', [AssignTeacherController::class, 'show'])->middleware('auth');
+Route::get('/assign-teacher-show/{materi:id}', [AssignTeacherController::class, 'show'])->middleware('auth');
 Route::get('/assign-teacher-create', [AssignTeacherController::class, 'create'])->middleware('auth');
 Route::post('/assign-teacher-create', [AssignTeacherController::class, 'store'])->middleware('auth');
 Route::get('/assign-teacher-update/{assignteacher:id}', [AssignTeacherController::class, 'edit'])->middleware('auth');
