@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Halaman {{ $active }}</h1>
 </div>
-    <div class="container d-flex justify-content-center my-4">
+    <div class="container d-flex justify-content-center my-3">
         <div class="card col-12 justify-content-center">
             @if( session('pendaftaranGagal') )
             <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
@@ -23,118 +23,184 @@
                     Form Registrasi Short Course
                 </p>
             </div>
-            <form action="/form-registrasi/aktivasi-create" method="post">
+            <form action="/form-registrasi/create" method="post">
                 @csrf
-                <div class="row p-4 align-items-start justify-content-center">
-                    <div class="col-auto mx-5">
-                        
-                        <label for="nama_siswa" class="col-form-label">NAMA</label>
-                        <select class="form-select" name="nama_siswa" id="single-select-field" style="width: 100%;" data-placeholder="Pilih Siswa">
-                            <option value=""></option>
-                            @foreach( $students as $student )
-                                <option>{{ $student->nama_siswa }}</option>
-                            @endforeach
-                        </select>
-                            
-                        <label for="ktp" class="col-form-label">KTP</label>
-                        <input type="text" autocomplete="off" name="ktp" id="ktp"  class="form-control @error('ktp') is-invalid @enderror" value="{{ old('ktp') }}" placeholder="nomor ktp" readonly>
-                        @error('ktp')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+
+                <div class="row g-4 my-3 d-flex justify-content-center">
+                    <div class="col-sm-7">
+                        <div class="row my-3 d-flex justify-content-center text-end">
+                            <label for="nama_siswa" class="col-sm-5 col-form-label col-form-label-sm fw-bold">Nama Siswa</label>
+                            <div class="col-sm-7 text-start">
+                                <select name="nama_siswa" id="nama_siswa" class="form-select form-select-sm">
+                                    <option selected disabled>Pilih Siswa ...</option>
+                                    @foreach( $students as $student )
+                                        <option value="{{ $student->id }}">{{ $student->nama_siswa }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        @enderror
-                        <div id="noktp"></div>
-
-                        <label for="email" class="col-form-label">EMAIL</label>
-                        <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"  placeholder="example@gmail.com" readonly>
-                        @error('email')
-                        <div class="invalid-feedback">
-                            {{ $message }}
                         </div>
-                        @enderror
-                        <div id="alamatemail"></div>
-
-                        <label for="tanggal_lahir" class="col-form-label">TANGGAL LAHIR</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" max="{{ $date }}" value="{{ old('tanggal_lahir') }}" readonly>
-                        @error('tanggal_lahir')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                        <div class="row my-3 d-flex justify-content-center text-end">
+                            <label for="ktp" class="col-sm-5 col-form-label col-form-label-sm fw-bold">KTP (Kartu Tanda Penduduk)</label>
+                            <div class="col-sm-7">
+                                <input type="number" name="ktp" readonly placeholder="KTP" class="form-control form-control-sm" id="ktp" value="{{ old('ktp') }}">
+                            </div>
                         </div>
-                        @enderror
+                        <div class="row my-3 d-flex justify-content-center text-end">
+                            <label for="email" class="col-sm-5 col-form-label col-form-label-sm fw-bold">Email</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="email" readonly placeholder="example@gmail.com" class="form-control form-control-sm" id="email" value="{{ old('email') }}">
+                            </div>
+                        </div>
+                        <div class="row my-3 d-flex justify-content-center text-end">
+                            <label for="tanggal_lahir" class="col-sm-5 col-form-label col-form-label-sm fw-bold">Tanggal Lahir</label>
+                            <div class="col-sm-7">
+                                <input type="date" name="tanggal_lahir" readonly class="form-control form-control-sm" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
+                            </div>
+                        </div>
 
+                        <!-- hati2 disini ada id hidden yang juga diambil -->
+                        <input type="number" name="id" id="id" hidden>
+                        <!-- --------------------------------------- -->
+
+                        <div class="row my-3 d-flex justify-content-center text-end">
+                            <label for="aktivasi_id" class="col-sm-5 col-form-label col-form-label-sm fw-bold">Paket Aktivasi</label>
+                            <div class="col-sm-7">
+                                <select name="aktivasi_id" id="aktivasi_id" class="form-select form-select-sm">
+                                    <option selected disabled>Pilih Aktivasi ...</option>
+                                    @foreach( $aktivasis as $aktivasi )
+                                    <option value="{{ $aktivasi->id }}">{{ $aktivasi->nama_aktivasi }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-4 d-flex justify-content-center text-end">
+                            <label for="metode_pembayaran" class="col-sm-5 col-form-label col-form-label-sm fw-bold">Metode Pembayaran</label>
+                            <div class="col-sm-7">
+                                <select name="metode_pembayaran" id="metode_pembayaran" class="form-select form-select-sm">
+                                    <option selected disabled>Pilih Metode Pembayaran ...</option>
+                                    <option value="1">Tunai</option>
+                                    <option value="2">Cicilan 2x</option>
+                                    <option value="3">Cicilan 3x</option>
+                                    <option value="5">Cicilan 5x</option>
+                                    <option value="6">Cicilan 6x</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        
-                        <label for="aktivasi_id" class="col-form-label">PILIHAN PAKET AKTIVASI</label>
-                        <div class="col-auto"> 
-                            <select name="aktivasi_id" id="aktivasi_id" class="p-1 bg-primary text-center text-light" style="border-radius: 5px; border: 0px solid white; width: 100%;">
-
-                                <option value="0">Tidak memilih paket</option>
-                                @foreach( $aktivasis as $aktivasi )
-                                <option value="{{ $aktivasi['id'] }}">{{ $aktivasi['nama_aktivasi'] }}</option>
-                                @endforeach
-                            
-                            </select>
+                    <div class="col-sm-4 p-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="card-title">Total Pembayaran</p>
+                            </div>
+                            <div class="card-body" id="total_pembayaran">
+                                
+                            </div>
                         </div>
-
                     </div>
                 </div>
-                <div class="row d-flex justify-content-end mx-3 mt-3">
-                    <div class="col-7 p-2 d-flex justify-content-center align-items-end">
-                        <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol mendaftar.</small></em></p>
+                
+            
+                    <div class="row d-flex justify-content-end mx-3 mt-3">
+                        <div class="col-7 p-2 d-flex justify-content-center align-items-end">
+                            <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol mendaftar.</small></em></p>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Mendaftar</button>
+                            <a href="/form-registrasi" class="btn btn-primary">Kembali</a>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Mendaftar</button>
-                        <a href="/form-registrasi" class="btn btn-primary">Kembali</a>
-                    </div>
-                    
-                </div>
             </form>
-
+        </div>
+    </div>
+    <div class="container">
+        <div class="card col-lg-12 d-flex justify-content-center">
+            <div class="card-header">
+                <p class="card-title">Rincian Tagihan</p>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Nama Tagihan</th>
+                            <th>Total Tagihan</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-detail">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
 <script>
     $(document).ready(function(){
 
-        $( '#single-select-field' ).select2( {
+        $( '#nama_siswa' ).select2( {
             theme: "bootstrap-5",
-            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-70' ) ? '100%' : 'style',
-            placeholder: $( this ).data( 'placeholder' ),
+            placeholder: 'Pilih Siswa',
         });
-
-        $('#single-select-field').on('select2:select', function (e) {
-            var data = e.params.data;
-            // console.log(data.text);
-            
-            let test = $('#single-select-field').select2('data');
-            console.log(test);
-    
+        
+        $('#metode_pembayaran').on('change', function(){
+            let metode = $(this).val();
+            let aktivasi_id = $('#aktivasi_id').val();
             
             $.ajax({
-                url:"{{ route('search') }}",
+                url:"{{ route('getPayment') }}",
                 type:"GET",
-                data:{'name':data.text},
+                data:{
+                    'metode':metode,
+                    'aktivasi_id':aktivasi_id
+                },
                 success:function(data){
+                    
+                    console.log(data.table);
+                    console.log(data.boxDetail);
+
+                    $('#total_pembayaran').html(data.boxDetail);
+                    $('#data-detail').html(data.table);
+                }
+            });
+        });
+        
+
+        $('#nama_siswa').on('select2:select', function (e) {
+            var data = e.params.data;
+            let test = $('#nama_siswa').select2('data');
+          
+            $.ajax({
+                url:"{{ route('getStudent') }}",
+                type:"GET",
+                data:{'nama_siswa':data.text},
+                success:function(data){
+
+                    console.log(data);
 
                     let ktpSiswaDicari = '';
                     console.log(data.length);
                     if(data.length >= 2){
+                        console.log(data);
                         ktpSiswaDicari = prompt('Ada lebih 1 siswa bernama ' + data[0]['nama_siswa'] + '. Silahkan masukkan KTP untuk menentukan siswa yang ingin dicari!');
                     }else{
+
+                        console.log(data);
                         
                         $('#email').val(data[0]['email']);
                         $('#ktp').val(data[0]['ktp']);
                         $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
+                        $('#id').val(data[0]['id']);
                     }
 
                     let i = 0;
                     for( const siswa of data ){
 
                         if( siswa.ktp === ktpSiswaDicari ){
-                            $('#email').val(data[i]['email']);
                             $('#ktp').val(data[i]['ktp']);
+                            $('#email').val(data[i]['email']);
                             $('#tanggal_lahir').val(data[i]['tanggal_lahir']);
+                            $('#id').val(data[i]['id']);
                         }
                         i++;
                     }

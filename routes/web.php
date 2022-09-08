@@ -64,13 +64,11 @@ Route::get('/export-pdf', [DashboardController::class, 'exportPDF'])->Middleware
 
 // route pendaftaran reguler
 Route::get('/form-registrasi', [PendaftaranController::class, 'index'])->middleware('auth');
-Route::get('/form-registrasi/reguler', [PendaftaranController::class, 'indexReguler'])->middleware('auth');
-Route::post('/form-registrasi/reguler-create', [PendaftaranController::class, 'storeReguler'])->middleware('auth');
+Route::get('/form-registrasi/create', [PendaftaranController::class, 'create'])->middleware('auth');
+Route::post('/form-registrasi/create', [PendaftaranController::class, 'store'])->middleware('auth');
 Route::post('/form-registrasi-softdelete/{nama_aktivasi}/{id}/{nama_siswa}', [PendaftaranController::class, 'softDeleteStudent'])->middleware('auth');
-
-// route pendaftaran aktivasi
-Route::get('/form-registrasi/aktivasi', [PendaftaranController::class, 'indexAktivasi'])->middleware('auth');
-Route::post('/form-registrasi/aktivasi-create', [PendaftaranController::class, 'storeAktivasi'])->middleware('auth');
+Route::get('/form-registrasi/getStudent', [PendaftaranController::class, 'getStudent'])->name('getStudent')->middleware('auth');
+Route::get('/form-registrasi/getPayment', [PendaftaranController::class, 'getPayment'])->name('getPayment')->middleware('auth');
 
 
 // route kelas

@@ -1,10 +1,7 @@
 @extends('Dashboard.Layouts.main')
 
 @section('container')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Halaman {{ $active }}</h1>
-</div>
-<div class="container-lg mt-5">
+<div class="container-lg mt-3">
     <div class="row d-flex justify-content-center">
         <div class="col-lg-12">
         <div class="card p-3">
@@ -30,24 +27,21 @@
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
-                <div class="row d-flex justify-content-end">
-                    <div class="col-md-12 d-flex mt-4 justify-content-start">
-                        <a href="/form-registrasi/reguler" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Daftar Reguler</a>
-                        <a href="/form-registrasi/aktivasi" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Daftar Short Course</a>
-                        
-                        <form action="/form-registrasi" method="get" class="mx-2" style="width: 60%;" >
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" name="nama_siswa" value="{{ request('nama_siswa') }}" class="form-control text-end" placeholder="Nama">
-                                <input type="text" name="nama_program" value="{{ request('nama_program') }}" class="form-control text-end" placeholder="Kelas">
-                                <button class="btn btn-primary" id="basic-addon2">Cari!</button>
-                            </div>
-                        </form>
-                        
-                        <!-- <a href="/dashboard" style="width: 10%; height: 100%;" class="btn btn-primary text-decoration-none text-light self-align-center">Kembali </a> -->
-                        
+                    <div class="row g-1 d-flex justify-content-end my-3">
+                        <div class="col-sm-2 text-end">
+                            <a href="/form-registrasi/create" class="btn btn-primary mx-1" style="width: 90%;">Pendaftaran</a>
+                        </div>
+                        <div class="col-sm-10">
+                            <form action="/form-registrasi" method="get">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" name="nama_siswa" value="{{ request('nama_siswa') }}" class="form-control text-end" placeholder="Nama">
+                                    <input type="text" name="nama_program" value="{{ request('nama_program') }}" class="form-control text-end" placeholder="Kelas">
+                                    <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 
             </div>
             <div class="card-body">
@@ -65,27 +59,24 @@
                         <tbody>
                             
                         
-                        @foreach( $dataSiswaReguler as $dasis )
+                        
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $dasis['nama_siswa'] }}</td>
-                                    <td>{{ $dasis['nama_program'] }}</td>
-                                    <td><p class="badge bg-primary">{{ $dasis['deleted_at'] }}</p></td>
+                                    <td>1</td>
+                                    <td>Rizal </td>
+                                    <td>program 1</td>
+                                    <td><p class="badge bg-primary">gatau</p></td>
                                     <td>
-                                        <?php $nama = $dasis['nama_program']; ?>
-                                        <?php $id = $dasis['id']; ?>
-                                        <?php $nama_siswa = $dasis['nama_siswa']; ?>
-                                        <button type="button" id="delete" data-url="/form-registrasi-softdelete/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $nama }}','{{ $id }}', '{{ $nama_siswa }}')"><i class="fas fa-trash"></i></button>
-                                        <a href="/cost/{{ $id }}/{{ $nama }}" class="text-decoration-none btn border border-0 btn btn-warning fw-bold"><i class="fa-solid fa-circle-info mx-1"></i>Detail</a>
+                                        
+                                        
                                     </td>
                                 </tr>
                                   
-                        @endforeach
+                        
                         </tbody>
                     </table>
                 </div>
                 <div class="mt-2 d-flex justify-content-center">
-                    {{ $dataSiswaReguler->links() }}
+                    
                 </div>
             </div>
         </div>
