@@ -64,7 +64,19 @@ class PendaftaranController extends Controller
 
             
         }
-    
+        
+        $studentName = $request->studentName;
+        $rakSementara = collect($rakSementara)->filter(function ($item) use ($studentName) {
+            // replace stristr with your choice of matching function
+            return false !== stristr($item['studentName'], $studentName);
+        });
+
+        $activationName = $request->activationName;
+        $rakSementara = collect($rakSementara)->filter(function ($item) use ($activationName) {
+            // replace stristr with your choice of matching function
+            return false !== stristr($item['activationName'], $activationName);
+        });
+        
 
 
 

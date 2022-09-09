@@ -17,8 +17,8 @@
                         <form action="/form-registrasi" method="get">
                             @csrf
                             <div class="input-group">
-                                <input type="text" name="nama_siswa" value="{{ request('nama_siswa') }}" class="form-control text-end" placeholder="Nama">
-                                <input type="text" name="nama_program" value="{{ request('nama_program') }}" class="form-control text-end" placeholder="Kelas">
+                                <input type="text" name="studentName" value="{{ request('studentName') }}" class="form-control text-end" placeholder="Nama">
+                                <input type="text" name="activationName" value="{{ request('activationName') }}" class="form-control text-end" placeholder="Kelas">
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                             </div>
                         </form>
@@ -62,8 +62,13 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $siswa['studentName'] }}</td>
                                     <td>{{ $siswa['activationName'] }}</td>
+                                    @if( $siswa['studentStatus'] == 'Graduate' || $siswa['payment'] == 'Lunas' )
+                                    <td><p class="badge text-bg-primary">{{ $siswa['studentStatus'] }}</p></td>
+                                    <td><p class="badge text-bg-primary">{{ $siswa['payment'] }}</p></td>
+                                    @else
                                     <td><p class="badge text-bg-success">{{ $siswa['studentStatus'] }}</p></td>
                                     <td><p class="badge text-bg-warning">{{ $siswa['payment'] }}</p></td>
+                                    @endif
                                     <td>
                                         <button class="btn btn-dark btn-sm"><i class="fas fa-trash"></i></button>
                                         <a href="#" class="text-decoration-none btn btn-dark btn-sm">Details</a>
