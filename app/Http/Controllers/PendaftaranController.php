@@ -13,6 +13,7 @@ use App\Models\Program;
 use App\Models\Student;
 use App\Models\UserAdmin;
 use App\Models\Collection;
+use App\Models\Installment;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -25,12 +26,49 @@ class PendaftaranController extends Controller
     public function index(Request $request)
     {
 
+        $dataAktivasi = Aktivasi::all();
+        if($dataAktivasi->count() > 0){
 
+            $rakSementara = [];
+            foreach( $dataAktivasi as $aktivasi ){
+
+                if( $aktivasi->student->count() > 0 ){
+
+                    foreach( $aktivasi->student as $student ){
+
+                        $status = '';
+                        foreach( $student->installment as $installment ){
+
+                            if( $installment->status == 'Belum Lunas' ){
+
+                                $status = 'Belum Lunas';
+                                break;
+                            }else{
+                                $status = 'Lunas';
+                            }
+                        }
+
+                        $rak = [
+                            'idStudent' => $student->id,
+                            'studentName' => $student->nama_siswa,
+                            'activationName' => $aktivasi->nama_aktivasi,
+                            'studentStatus' => 'On Going',
+                            'payment' => $status
+                        ];
+
+                        array_push($rakSementara, $rak);
+                    }
+                }
+
+            }
+
+            
+        }
     
 
 
 
-        // $rakSemuaHasilData = (new Collection($rakSemuaHasilData))->paginate(5);
+        $rakSemuaHasilData = (new Collection($rakSementara))->paginate(5)->withQueryString();
         // dapet code di atas dari sini -> https://gist.github.com/simonhamp/549e8821946e2c40a617c85d2cf5af5e
         // kemudian bikin file Collection.php di models
         // ganti namespace nya jadi App\Models, kemudian panggil library nya use App\Models\Collection;
@@ -43,7 +81,7 @@ class PendaftaranController extends Controller
 
             'title' => 'Pendaftaran',
             'active' => 'Pendaftaran',
-            // 'dataSiswaReguler' => $rakSemuaHasilData
+            'dataSiswa' => $rakSemuaHasilData
 
         ]);
     }
@@ -53,12 +91,6 @@ class PendaftaranController extends Controller
     {
         $date = date("Y-m-d");
 
-        // dd('in progress');
-
-        
-
-
-        
 
         return view('Pendaftaran.create', [
 
@@ -129,13 +161,14 @@ class PendaftaranController extends Controller
                 array_push($rincianBiaya, $array);
             }elseif( $request->metode == 2 ){
 
-                $biaya = "Rp" . number_format($hasilBiaya, 2, ",", ".");
+                $biayaCicilan = "Rp" . number_format($hasilBiaya, 2, ",", ".");
                 $metode = $request->metode;
+                $biayaTotal = "Rp" . number_format($data->biaya, 2, ",", ".");
                 $jadwal = date('d', mktime($hour, $minutes, $seconds, $month+1, $day, $year));
                
                 $box = "<ul>";
-                $box .= "<li>$biaya</li>";
-                $box .= "<li>Pembayaran selama " . "$metode" . "x harus dibayarkan setiap tanggal $jadwal</li>";
+                $box .= "<li>$biayaTotal</li>";
+                $box .= "<li>Pembayaran sejumlah $biayaCicilan selama " . "$metode" . "x harus dibayarkan paling lambat tanggal $jadwal</li>";
                 $box .= "<li>Perubahan tanggal pembayaran harus melalui persetujuan supervisor</li>";
                 $box .= "</ul>";
                 
@@ -156,13 +189,14 @@ class PendaftaranController extends Controller
             }elseif( $request->metode == 3 ){
 
                 
-                $biaya = "Rp" . number_format($hasilBiaya, 2, ",", ".");
+                $biayaCicilan = "Rp" . number_format($hasilBiaya, 2, ",", ".");
                 $metode = $request->metode;
+                $biayaTotal = "Rp" . number_format($data->biaya, 2, ",", ".");
                 $jadwal = date('d', mktime($hour, $minutes, $seconds, $month+1, $day, $year));
                
                 $box = "<ul>";
-                $box .= "<li>$biaya</li>";
-                $box .= "<li>Pembayaran selama " . "$metode" . "x harus dibayarkan setiap tanggal $jadwal</li>";
+                $box .= "<li>$biayaTotal</li>";
+                $box .= "<li>Pembayaran sejumlah $biayaCicilan selama " . "$metode" . "x harus dibayarkan paling lambat tanggal $jadwal</li>";
                 $box .= "<li>Perubahan tanggal pembayaran harus melalui persetujuan supervisor</li>";
                 $box .= "</ul>";
                 
@@ -183,13 +217,14 @@ class PendaftaranController extends Controller
             }elseif( $request->metode == 5 ){
 
                 
-                $biaya = "Rp" . number_format($hasilBiaya, 2, ",", ".");
+                $biayaCicilan = "Rp" . number_format($hasilBiaya, 2, ",", ".");
                 $metode = $request->metode;
+                $biayaTotal = "Rp" . number_format($data->biaya, 2, ",", ".");
                 $jadwal = date('d', mktime($hour, $minutes, $seconds, $month+1, $day, $year));
                
                 $box = "<ul>";
-                $box .= "<li>$biaya</li>";
-                $box .= "<li>Pembayaran selama " . "$metode" . "x harus dibayarkan setiap tanggal $jadwal</li>";
+                $box .= "<li>$biayaTotal</li>";
+                $box .= "<li>Pembayaran sejumlah $biayaCicilan selama " . "$metode" . "x harus dibayarkan paling lambat tanggal $jadwal</li>";
                 $box .= "<li>Perubahan tanggal pembayaran harus melalui persetujuan supervisor</li>";
                 $box .= "</ul>";
 
@@ -210,14 +245,14 @@ class PendaftaranController extends Controller
             }elseif( $request->metode == 6 ){
 
                 
-                
-                $biaya = "Rp" . number_format($hasilBiaya, 2, ",", ".");
+                $biayaCicilan = "Rp" . number_format($hasilBiaya, 2, ",", ".");
                 $metode = $request->metode;
+                $biayaTotal = "Rp" . number_format($data->biaya, 2, ",", ".");
                 $jadwal = date('d', mktime($hour, $minutes, $seconds, $month+1, $day, $year));
                
                 $box = "<ul>";
-                $box .= "<li>$biaya</li>";
-                $box .= "<li>Pembayaran selama " . "$metode" . "x harus dibayarkan setiap tanggal $jadwal</li>";
+                $box .= "<li>$biayaTotal</li>";
+                $box .= "<li>Pembayaran sejumlah $biayaCicilan selama " . "$metode" . "x harus dibayarkan paling lambat tanggal $jadwal</li>";
                 $box .= "<li>Perubahan tanggal pembayaran harus melalui persetujuan supervisor</li>";
                 $box .= "</ul>";
 
@@ -277,27 +312,71 @@ class PendaftaranController extends Controller
 
         $data = $request->collect();
 
-        if( $request->collect("aktivasi_id")[0] === '0' ){
-            return redirect('/form-registrasi/aktivasi')->with('pendaftaranGagal', $data['nama_siswa']);
-        }
-
         // dd($data);
 
-        $dataStudent = Student::where('ktp', '=', $data['ktp'])->get();
+        
+        $validatedData = $request->validate([
+            'student_id' => 'required',
+            'aktivasi_id' => 'required',
+            'email' => 'required',
+            'tanggal_lahir' => 'required',
+            'ktp' => 'required',
+            'metode_pembayaran' => 'required'
+        ]);
 
-        // dd($dataStudent[0]->id);
+        // dd($validatedData);
+        
+        $day = date('d');
 
-        $dataPendaftar = [
+        // buat kondisi agar selalu jatuh pada tanggal 10 secara default
+        if( $day < 10 ){
+            $selisihHari = 10-$day;
+            $day= $day + $selisihHari;
+        }elseif( $day > 10 ){
+            $selisihHari = $day-10;
+            $day= $day - $selisihHari;
+        }
 
-            'student_id' => $dataStudent[0]->id,
-            'aktivasi_id' => $data['aktivasi_id'],
-        ];
+        // mencari waktu hari ini
+        $month = date('m');
+        $year = date('Y');
+        $hour = date('H');
+        $minutes = date('i');
+        $seconds = date('s');
 
+        
+        $totalBiaya = Aktivasi::find($validatedData['aktivasi_id'])->biaya;
+        $biayaPembulatan = strval(round($totalBiaya/(int)$validatedData['metode_pembayaran']));
+        $biayaAkhir = explode(',',$biayaPembulatan)[0];
 
+        
+        
 
-        // AktivasiStudent::create($dataPendaftar);
+        for( $i=1; $i<=$validatedData['metode_pembayaran']; $i++ ){
 
-        return redirect('/form-registrasi')->with('pendaftaranBerhasil', $data['nama_siswa']);
+            $schedule = date('Y-m-d', mktime($hour, $minutes, $seconds, $month+$i, $day, $year));
+
+            Installment::create([
+                'aktivasi_id' => $validatedData['aktivasi_id'],
+                'student_id' => $validatedData['student_id'],
+                'installment' => $biayaAkhir,
+                'paid' => 0,
+                'status' => 'Belum Lunas',
+                'date_payment' => $schedule,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+
+        DB::table('aktivasi_student')->insert([
+            'aktivasi_id' => $validatedData['aktivasi_id'],
+            'student_id' => $validatedData['student_id']
+        ]);
+
+        $nama_siswa = Student::find($validatedData['student_id'])->nama_siswa;
+        
+
+        return redirect('/form-registrasi')->with('pendaftaranBerhasil', $nama_siswa);
     }
 
 

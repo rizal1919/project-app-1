@@ -29,9 +29,9 @@
                 <div class="row g-4 my-3 d-flex justify-content-center">
                     <div class="col-sm-7">
                         <div class="row my-3 d-flex justify-content-center text-end">
-                            <label for="nama_siswa" class="col-sm-5 col-form-label col-form-label-sm fw-bold">Nama Siswa</label>
+                            <label for="student_id" class="col-sm-5 col-form-label col-form-label-sm fw-bold">Nama Siswa</label>
                             <div class="col-sm-7 text-start">
-                                <select name="nama_siswa" id="nama_siswa" class="form-select form-select-sm">
+                                <select name="student_id" id="nama_siswa" class="form-select form-select-sm">
                                     <option selected disabled>Pilih Siswa ...</option>
                                     @foreach( $students as $student )
                                         <option value="{{ $student->id }}">{{ $student->nama_siswa }}</option>
@@ -57,11 +57,6 @@
                                 <input type="date" name="tanggal_lahir" readonly class="form-control form-control-sm" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
                             </div>
                         </div>
-
-                        <!-- hati2 disini ada id hidden yang juga diambil -->
-                        <input type="number" name="id" id="id" hidden>
-                        <!-- --------------------------------------- -->
-
                         <div class="row my-3 d-flex justify-content-center text-end">
                             <label for="aktivasi_id" class="col-sm-5 col-form-label col-form-label-sm fw-bold">Paket Aktivasi</label>
                             <div class="col-sm-7">
@@ -190,7 +185,6 @@
                         $('#email').val(data[0]['email']);
                         $('#ktp').val(data[0]['ktp']);
                         $('#tanggal_lahir').val(data[0]['tanggal_lahir']);
-                        $('#id').val(data[0]['id']);
                     }
 
                     let i = 0;
@@ -200,7 +194,6 @@
                             $('#ktp').val(data[i]['ktp']);
                             $('#email').val(data[i]['email']);
                             $('#tanggal_lahir').val(data[i]['tanggal_lahir']);
-                            $('#id').val(data[i]['id']);
                         }
                         i++;
                     }

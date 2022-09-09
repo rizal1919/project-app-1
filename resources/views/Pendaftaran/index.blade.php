@@ -9,40 +9,39 @@
                 <h4 class="card-title">DATA PENDAFTAR SC ACADEMY</h4>
             </div>
             <div class="card-body">
-                    @if( session('destroy') )
-                    <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
-                        Informasi siswa atas nama <strong>{{ session('destroy') }}</strong> telah dinonaktifkan.
-                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="row g-1 d-flex justify-content-end my-3">
+                    <div class="col-sm-2 text-end">
+                        <a href="/form-registrasi/create" class="btn btn-primary mx-1" style="width: 90%;">Pendaftaran</a>
                     </div>
-                    @endif
-                    @if( session('restore') )
-                    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        Informasi siswa atas nama <strong>{{ session('restore') }}</strong> berhasil diaktifkan.
-                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="col-sm-10">
+                        <form action="/form-registrasi" method="get">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" name="nama_siswa" value="{{ request('nama_siswa') }}" class="form-control text-end" placeholder="Nama">
+                                <input type="text" name="nama_program" value="{{ request('nama_program') }}" class="form-control text-end" placeholder="Kelas">
+                                <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                            </div>
+                        </form>
                     </div>
-                    @endif
-                    @if( session('pendaftaranBerhasil') )
-                    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        Siswa atas nama <strong>{{ session('pendaftaranBerhasil') }}</strong> berhasil terdaftar dalam program.
-                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
-                    <div class="row g-1 d-flex justify-content-end my-3">
-                        <div class="col-sm-2 text-end">
-                            <a href="/form-registrasi/create" class="btn btn-primary mx-1" style="width: 90%;">Pendaftaran</a>
-                        </div>
-                        <div class="col-sm-10">
-                            <form action="/form-registrasi" method="get">
-                                @csrf
-                                <div class="input-group">
-                                    <input type="text" name="nama_siswa" value="{{ request('nama_siswa') }}" class="form-control text-end" placeholder="Nama">
-                                    <input type="text" name="nama_program" value="{{ request('nama_program') }}" class="form-control text-end" placeholder="Kelas">
-                                    <button class="btn btn-primary" id="basic-addon2">Cari!</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                
+                </div>
+                @if( session('destroy') )
+                <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
+                    Informasi siswa atas nama <strong>{{ session('destroy') }}</strong> telah dinonaktifkan.
+                    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+                @if( session('restore') )
+                <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                    Informasi siswa atas nama <strong>{{ session('restore') }}</strong> berhasil diaktifkan.
+                    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+                @if( session('pendaftaranBerhasil') )
+                <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                    Siswa atas nama <strong>{{ session('pendaftaranBerhasil') }}</strong> berhasil terdaftar dalam program.
+                    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
             </div>
             <div class="card-body">
                 <div class="card p-3">
@@ -52,26 +51,25 @@
                                 <th>No</th>
                                 <th>Nama Siswa</th>
                                 <th>Kelas</th>
-                                <th>Status</th>
+                                <th>Status Siswa</th>
+                                <th>Pembayaran</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            
-                        
-                        
+                            @foreach( $dataSiswa as $siswa )
                                 <tr>
-                                    <td>1</td>
-                                    <td>Rizal </td>
-                                    <td>program 1</td>
-                                    <td><p class="badge bg-primary">gatau</p></td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $siswa['studentName'] }}</td>
+                                    <td>{{ $siswa['activationName'] }}</td>
+                                    <td><p class="badge text-bg-success">{{ $siswa['studentStatus'] }}</p></td>
+                                    <td><p class="badge text-bg-warning">{{ $siswa['payment'] }}</p></td>
                                     <td>
-                                        
-                                        
+                                        <button class="btn btn-dark btn-sm"><i class="fas fa-trash"></i></button>
+                                        <a href="#" class="text-decoration-none btn btn-dark btn-sm">Details</a>
                                     </td>
                                 </tr>
-                                  
-                        
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

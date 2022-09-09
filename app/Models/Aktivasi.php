@@ -19,8 +19,8 @@ class Aktivasi extends Model
         return $this->hasMany(AssignTeacher::class);
     }
 
-    public function cicilanAktivasiStudent(){
-        return $this->hasMany(CicilanAktivasiStudent::class);
+    public function student(){
+        return $this->belongsToMany(Student::class);
     }
 
     public function scopeFilter($query, array $filters){

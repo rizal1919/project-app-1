@@ -62,7 +62,7 @@ Route::get('/export-pdf', [DashboardController::class, 'exportPDF'])->Middleware
 
 
 
-// route pendaftaran reguler
+// route pendaftaran 
 Route::get('/form-registrasi', [PendaftaranController::class, 'index'])->middleware('auth');
 Route::get('/form-registrasi/create', [PendaftaranController::class, 'create'])->middleware('auth');
 Route::post('/form-registrasi/create', [PendaftaranController::class, 'store'])->middleware('auth');
