@@ -69,6 +69,10 @@ Route::post('/form-registrasi/create', [PendaftaranController::class, 'store'])-
 Route::post('/form-registrasi-softdelete/{nama_aktivasi}/{id}/{nama_siswa}', [PendaftaranController::class, 'softDeleteStudent'])->middleware('auth');
 Route::get('/form-registrasi/getStudent', [PendaftaranController::class, 'getStudent'])->name('getStudent')->middleware('auth');
 Route::get('/form-registrasi/getPayment', [PendaftaranController::class, 'getPayment'])->name('getPayment')->middleware('auth');
+// route cost
+Route::get('/cost/{student:id}', [PendaftaranController::class, 'indexCost'])->middleware('auth');
+Route::get('/cost-payment/{id}', [PendaftaranController::class, 'createCost'])->middleware('auth');
+Route::post('/cost-payment-store/{id}', [PendaftaranController::class, 'storeCost'])->middleware('auth');
 
 
 // route kelas
@@ -187,7 +191,3 @@ Route::get('/assign-teacher-create-new', [AssignTeacherController::class, 'mater
 Route::get('/get-teacher', [AssignTeacherController::class, 'getTeacher'])->name('getteacher');
 
 
-// route cost
-Route::get('/cost/{id}/{nama_program}', [PendaftaranController::class, 'indexCost'])->middleware('auth');
-Route::get('/cost-payment/{id}/{nama_program}', [PendaftaranController::class, 'createCost'])->middleware('auth');
-Route::get('/cost-payment-store/{id}/{nama_program}', [PendaftaranController::class, 'storeCost'])->middleware('auth');

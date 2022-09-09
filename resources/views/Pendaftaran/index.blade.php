@@ -62,16 +62,20 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $siswa['studentName'] }}</td>
                                     <td>{{ $siswa['activationName'] }}</td>
-                                    @if( $siswa['studentStatus'] == 'Graduate' || $siswa['payment'] == 'Lunas' )
-                                    <td><p class="badge text-bg-primary">{{ $siswa['studentStatus'] }}</p></td>
-                                    <td><p class="badge text-bg-primary">{{ $siswa['payment'] }}</p></td>
+                                    @if( $siswa['studentStatus'] == 'Graduate')
+                                        <td><p class="badge text-bg-primary">{{ $siswa['studentStatus'] }}</p></td>
                                     @else
-                                    <td><p class="badge text-bg-success">{{ $siswa['studentStatus'] }}</p></td>
-                                    <td><p class="badge text-bg-warning">{{ $siswa['payment'] }}</p></td>
+                                        <td><p class="badge text-bg-success">{{ $siswa['studentStatus'] }}</p></td>
+                                    @endif
+                                    @if( $siswa['payment'] == 'Lunas')
+                                        <td><p class="badge text-bg-primary">{{ $siswa['payment'] }}</p></td>
+                                    @else
+                                        <td><p class="badge text-bg-warning">{{ $siswa['payment'] }}</p></td>
                                     @endif
                                     <td>
+                                        <?php $studentId = $siswa['idStudent']; ?>
                                         <button class="btn btn-dark btn-sm"><i class="fas fa-trash"></i></button>
-                                        <a href="#" class="text-decoration-none btn btn-dark btn-sm">Details</a>
+                                        <a href="/cost/{{ $studentId }}" class="text-decoration-none btn btn-dark btn-sm">Details</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('aktivasi_id');
             $table->foreignId('student_id');
-            $table->softDeletes('deleted_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

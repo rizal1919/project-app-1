@@ -1,12 +1,12 @@
 
 
 .Pembayaran-head-atas{
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     background-color: whitesmoke;
     border-radius: 5px;
-    /* border: 2px solid royalblue; */
+    border: 2px solid royalblue;
     /* justify-content: center; */
 }
 

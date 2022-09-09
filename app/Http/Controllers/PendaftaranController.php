@@ -425,294 +425,82 @@ class PendaftaranController extends Controller
     //     return redirect('/form-registrasi')->with('restore', $namaSiswa);
     // }
 
-    public function indexCost($id, $namaProgram){
+    public function indexCost(Student $student){
 
-        // $dataAktivasi = Aktivasi::all();
-        // $dataKurikulum = Kurikulum::all();
-        // $cicilanAktivasi = DB::table('cicilan_aktivasi_students')->where('aktivasi_student', $id)->get();
-        // $cicilanKurikulum = DB::table('cicilan_kurikulum_students')->where('kurikulum_student', $id)->get();
-        
-        // if (stripos($namaProgram, 'Reguler') === false) {
+       
+        $dataCicilan = $student->installment;
 
-        //     // $idStudent = AktivasiStudent::find($id)->student_id;
-        //     $namaStudent = Student::find($idStudent)->nama_siswa;
+        // biaya-biaya
+        $dataAktivasi = Aktivasi::find($dataCicilan[0]->aktivasi_id);
+        $biayaTerbayar = $dataCicilan->sum('paid');
+        $biayaSisaTagihan = $dataAktivasi->biaya - $biayaTerbayar;
 
-        //     // dd($id);
+        // query data cicilan
+        $rakCicilan = [];
+        $count = 1;
+        foreach( $dataCicilan as $cicilan ){
 
-        //     function jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan){
+            $rak = [
+                'idCicilan' => $cicilan->id,
+                'Nama Cicilan' => 'Cicilan ' . $count,
+                'Tanggal' => $cicilan->date_payment,
+                'Tagihan' => "Rp" . number_format($cicilan->installment, 2, ",", "."),
+                'Terbayar' => "Rp" . number_format($cicilan->paid, 2, ",", "."),
+                'Status' => $cicilan->status
+            ];
 
-        //         return $array = [
-        //             'idCicilan' => $idaktivasi, 
-        //             'tanggal' => $tanggal, 
-        //             'create' => $create, 
-        //             'update' => $update, 
-        //             'totalTerbayar' => "Rp" . number_format($totalTerbayar, 2, ",", "."),
-        //             'sisaTagihan' => "Rp" . number_format($sisaTagihanPembayaranSementara, 2, ",", "."),
-        //             'status' => 'lunas',
-        //             'uangDibayarkan' => $uangDibayarkan
-        //         ];
-        //     }
+            array_push($rakCicilan, $rak);
 
-        //     $rakSementara  = [];
+            $count++;
+        }
 
-        //     // id yang dibawah ini adalah id dari aktivasi_student
-        //     // $idAktivasi = AktivasiStudent::find($id)->aktivasi_id;
-        //     $totalPembayaran = Aktivasi::find($idAktivasi)->biaya;
-            
-
-        //     $totalTerbayar = 0;
-        //     foreach( $cicilanAktivasi as $data ){
-
-        //         $totalTerbayar = $totalTerbayar + $data->biaya;
-        //         $uangDibayarkan = "Rp" . number_format($data->biaya, 2, ",", ".");
-        //         $sisaTagihanPembayaranSementara = $totalPembayaran-$totalTerbayar;
-        //         $idaktivasi = $data->id;
-        //         $tanggal = date("d M Y", strtotime($data->tanggal));
-        //         $create = $data->created_at;
-        //         $update = $data->updated_at;
-
-        //         $rak = jadikanSatuArrayAktivasi($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan);
-        //         array_push($rakSementara, $rak);
-
-        //     }
-
-        //     $sisaPembayaran = $totalPembayaran-$totalTerbayar;
-        //     $totalTerbayarDalamRupiah = "Rp" . number_format($totalTerbayar, 2, ",", ".");
-        //     $sisaBayarDalamRupiah = "Rp" . number_format($sisaPembayaran, 2, ",", ".");
-
-            
-            
-
-
-
-
-
-        // } elseif (stripos($namaProgram, 'Reguler') === 0) {
-
-        //     $idStudent = KurikulumStudent::find($id)->student_id;
-        //     $namaStudent = Student::find($idStudent)->nama_siswa;
-
-        //     function jadikanSatuArrayReguler($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan){
-
-        //         return $array = [
-        //             'idCicilan' => $idaktivasi, 
-        //             'tanggal' => $tanggal, 
-        //             'create' => $create, 
-        //             'update' => $update, 
-        //             'status' => 'lunas',
-        //             'totalTerbayar' => "Rp" . number_format($totalTerbayar, 2, ",", "."),
-        //             'sisaTagihan' => "Rp" . number_format($sisaTagihanPembayaranSementara, 2, ",", "."),
-        //             'uangDibayarkan' => $uangDibayarkan
-        //         ];
-        //     }
-
-        //     $rakSementara  = [];
-
-        //     $idKurikulum = KurikulumStudent::find($id)->kurikulum_id;
-        //     $totalPembayaran = Kurikulum::find($idKurikulum)->biaya;
-
-        //     $totalTerbayar = 0;
-        //     foreach( $cicilanKurikulum as $data ){
-
-        //         $totalTerbayar = $totalTerbayar + $data->biaya;
-        //         $uangDibayarkan = "Rp" . number_format($data->biaya, 2, ",", ".");
-        //         $sisaTagihanPembayaranSementara = $totalPembayaran-$totalTerbayar;
-        //         $idaktivasi = $data->id;
-        //         $tanggal = date("d M Y", strtotime($data->tanggal));
-        //         $create = $data->created_at;
-        //         $update = $data->updated_at;
-
-        //         $rak = jadikanSatuArrayReguler($idaktivasi, $tanggal, $create, $update, $totalTerbayar, $sisaTagihanPembayaranSementara, $uangDibayarkan);
-        //         array_push($rakSementara, $rak);
-
-        //     }
-
-        //     $sisaPembayaran = $totalPembayaran-$totalTerbayar;
-        //     $totalTerbayarDalamRupiah = "Rp" . number_format($totalTerbayar, 2, ",", ".");
-        //     $sisaBayarDalamRupiah = "Rp" . number_format($sisaPembayaran, 2, ",", ".");
-
-            
-        // }
-
-
-        // if( count($rakSementara) === 0 ){
-            
-        //     $tanggal = 'Unknown';
-        // }else{
-
-        //     $dataTerakhir = count($rakSementara);
-        //     $tanggal = $rakSementara[$dataTerakhir-1]['tanggal'];
-        // }
-
-        // // dd($totalTerbayarDalamRupiah);
         
         
 
-        // return view('Pembayaran.index', [
-        //     'title' => 'Cicilan - ',
-        //     'active' => 'Pendaftaran',
-        //     'nama_siswa' => $namaStudent,
-        //     'nama_program' => $namaProgram,
-        //     'id' => $id,
-        //     'totalTerbayar' => $totalTerbayarDalamRupiah,
-        //     'sisaPembayaran' => $sisaBayarDalamRupiah,
-        //     'payments' => $rakSementara,
-        //     'tanggal' => $tanggal,
-        //     'count' => count($rakSementara)
-        // ]);
+        return view('Pembayaran.index', [
+            'title' => 'Cicilan - ',
+            'active' => 'Pendaftaran',
+            'dataCicilan' => $rakCicilan,
+            'biayaAktivasi' => "Rp" . number_format($dataAktivasi->biaya, 2, ",", "."),
+            'namaAktivasi' => $dataAktivasi->nama_aktivasi,
+            'biayaTerbayar' =>  "Rp" . number_format($biayaTerbayar, 2, ",", "."),
+            'biayaSisaTagihan' =>  "Rp" . number_format($biayaSisaTagihan, 2, ",", ".")
+            
+        ]);
     }
 
-    public function createCost($id, $namaProgram){
+    public function createCost($id){
 
-        // dd($id);
-
-        // if (stripos($namaProgram, 'Reguler') === false) {
-
-        //     $idStudent = AktivasiStudent::find($id)->student_id;
-        //     $namaStudent = Student::find($idStudent)->nama_siswa;
-
-        // } elseif (stripos($namaProgram, 'Reguler') === 0) {
-
-        //     $idStudent = KurikulumStudent::find($id)->student_id;
-        //     $namaStudent = Student::find($idStudent)->nama_siswa;
-            
-        // }
-
+       
+        $data = DB::table('installments')->where('id', $id)->get();
         
-
-
-
-        // return view('Pembayaran.create', [
-        //     'title' => 'Cicilan - ',
-        //     'active' => 'Pendaftaran',
-        //     'nama_siswa' => $namaStudent,
-        //     'nama_program' => $namaProgram,
-        //     'id' => $id
-        // ]);
+        return view('Pembayaran.create', [
+            'title' => 'Cicilan - ',
+            'active' => 'Pendaftaran',
+            'data' => $data[0]
+        ]);
     }
 
-    public function storeCost(Request $request, $id, $namaProgram){
+    public function storeCost(Request $request){
 
-        // $id yang diterima adalah id aktivasi_student, atau id kurikulum_student
-        // akan difilter dari sisi namaProgram nya apakah Reguler / Aktivasi, kemudian
-        // ada 2 skenario algoritma
-        // 1. Akan Ditolak jika belum pernah mencicil, namun cicilannya melebihi tagihan atau sudah pernah mencicil namun cicilannya melebihi tagihan
-        // 2. Akan Diterima jika belum pernah mencicil dan cicilannya sesuai tagihan atau sudah pernah mencicil dan cicilannya sesuai sisa tagihan
+       $data = $request->collect();
+       $cicilan = Installment::find($data['idCicilan']);
+    //    dd($cicilan);
 
+       if( $data['biaya'] < $cicilan->installment){
+            $status = 'Belum Lunas';
+       }elseif( $data['biaya'] == $cicilan->installment ){
+            $status = 'Lunas';
+       }elseif( $data['biaya'] > $cicilan->installment ){
+            return redirect('/cost/' . $cicilan->student_id)->with('PaymentFailed', 'Gagal!');
+       }
 
+       Installment::where('id', $data['idCicilan'])->update([
+            'paid' => $cicilan->paid + (int)$data['biaya'],
+            'status' => $status
+       ]);
 
-
-        // $validatedData = $request->validate([
-        //     'biaya' => 'required',
-        //     'tanggal' => 'required',
-        // ]);
-
-
-        
-        // if (stripos($namaProgram, 'Reguler') === false) {
-
-            
-        //     $aktivasiID = AktivasiStudent::find($id)->aktivasi_id;
-        //     $biayaAktivasi = Aktivasi::find($aktivasiID)->biaya;
-        //     $cicilan = CicilanAktivasiStudent::where('aktivasi_student', $id)->get();
-            
-        //     $sedangMencicil = count(CicilanAktivasiStudent::where('aktivasi_student', $id)->get()) > 0;
-        //     if( $sedangMencicil){
-
-        //         $cicil = 0;
-        //         foreach( $cicilan as $item ){
-
-        //             // dd($item);
-        //             $cicil = $cicil+$item->total_pembayaran;
-
-        //         }
-                
-                
-        //         if( $validatedData['biaya'] > $cicil ){
-
-        //             $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
-        //             return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
-        //         }
-
-                
-        //         $validatedData['aktivasi_student'] = $id;
-        //         $validatedData['total_pembayaran'] = $cicil - $validatedData['biaya'];
-        //         CicilanAktivasiStudent::create($validatedData);
-                
-        //         $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
-        //         return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
-        //     }
-
-            
-
-        //     if( (int)$validatedData['biaya'] > $biayaAktivasi ){
-
-        //         $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
-        //         return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
-        //     }
-
-        //     $validatedData['aktivasi_student'] = $id;
-        //     $validatedData['total_pembayaran'] = $biayaAktivasi - (int)$validatedData['biaya'];
-        //     CicilanAktivasiStudent::create($validatedData);
-            
-        //     $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
-        //     return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
-
-        // } elseif (stripos($namaProgram, 'Reguler') === 0) {
-
-        //     $kurikulumID = KurikulumStudent::find($id)->kurikulum_id;
-        //     $biayaKurikulum = Kurikulum::find($kurikulumID)->biaya;
-        //     $cicilan = CicilanKurikulumStudent::where('kurikulum_student', $id)->get();
-            
-        //     $sedangMencicil = count(CicilanKurikulumStudent::where('kurikulum_student', $id)->get());
-        //     if( $sedangMencicil){
-
-        //         $cicil = 0;
-        //         foreach( $cicilan as $item ){
-
-        //             // dd($item);
-        //             $cicil = $cicil+$item->total_pembayaran;
-
-        //         }
-
-                
-                
-        //         // dd((int)$validatedData['biaya']>$cicil);
-
-        //         if( (int)$validatedData['biaya'] > $cicil ){
-
-        //             // dd('atas');
-
-        //             $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
-        //             return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
-        //         }
-
-                
-        //         $validatedData['kurikulum_student'] = $id;
-        //         $validatedData['total_pembayaran'] = $cicil - (int)$validatedData['biaya'];
-        //         CicilanKurikulumStudent::create($validatedData);
-                
-        //         $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
-        //         return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
-        //     }
-
-        //     // dd("luar");
-            
-        //     if( (int)$validatedData['biaya'] > $biayaKurikulum ){
-                
-        //         $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
-        //         return redirect('/cost/' . $id . '/' . $namaProgram)->with('gagalCicilan', $validatedData['biaya']);
-        //     }
-
-        //     $validatedData['kurikulum_student'] = $id;
-        //     $validatedData['total_pembayaran'] = $biayaKurikulum - (int)$validatedData['biaya'];
-        //     CicilanKurikulumStudent::create($validatedData);
-            
-        //     $validatedData['biaya'] = "Rp" . number_format($validatedData['biaya'], 2, ",", ".");
-
-            
-        //     return redirect('/cost/' . $id . '/' . $namaProgram)->with('tambahCicilan', $validatedData['biaya']);
-        // }
+       return redirect('/cost/' . $cicilan->student_id)->with('PaymentSuccess', 'Berhasil');
 
 
     }
