@@ -26,7 +26,7 @@
                 </div>
                 @if( session('destroy') )
                 <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
-                    Informasi siswa atas nama <strong>{{ session('destroy') }}</strong> telah dinonaktifkan.
+                    Informasi siswa <strong>{{ session('destroy') }}</strong> telah dinonaktifkan.
                     <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
@@ -73,8 +73,12 @@
                                         <td><p class="badge text-bg-warning">{{ $siswa['payment'] }}</p></td>
                                     @endif
                                     <td>
+                                        <?php $namaSiswa = $siswa['studentName']; ?>
                                         <?php $studentId = $siswa['idStudent']; ?>
-                                        <button class="btn btn-dark btn-sm"><i class="fas fa-trash"></i></button>
+                                        <?php $activationId = $siswa['idActivation']; ?>
+                                        <?php $activationName = $siswa['activationName']; ?>
+                                        <button type="button" class="btn btn-dark btn-sm" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/form-registrasi-softdelete/" onclick="confirmation('{{ $namaSiswa }}', '{{ $studentId }}', '{{ $activationId }}', '{{ $activationName }}')"><i class="fas fa-trash"></i></button>
+                                        
                                         <a href="/cost/{{ $studentId }}" class="text-decoration-none btn btn-dark btn-sm">Details</a>
                                     </td>
                                 </tr>
@@ -124,17 +128,19 @@
         element.style.display = "none";
     }
 
-    function confirmation(namaProgram, delId, namaSiswa){
+    function confirmation(namaSiswa, idSiswa, idAktivasi, namaAktivasi){
 
+       
         let url = document.getElementById('delete').getAttribute('data-url');
-        let completeUrl = url + namaProgram + '/' + delId + '/' + namaSiswa;
+        let completeUrl = url + idSiswa + '/' + idAktivasi;
         // output = delete-materi/1
 
-        $('#name').val(delId);
+        // $('#name').val(delId);
         $('#forms').attr('action', completeUrl);
 
         let comment = document.getElementById('message');
-        comment.innerHTML = '<p> Anda yakin ingin menghapus data siswa ' + '<strong>' + namaSiswa +  '</strong>' + ' dari program ' + '<strong>' + namaProgram + '</strong>' + ' ? </p>';
+        comment.innerHTML = '<p> Anda yakin ingin menghapus data siswa <strong>' + namaSiswa + '</strong> dari kelas Aktivasi <strong>' + namaAktivasi + ' ?</strong> </p>';
+        
 
         $('#staticBackdrop').modal('show');
         // menampilkan modal box

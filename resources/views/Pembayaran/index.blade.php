@@ -21,12 +21,12 @@
                         </div>
                     </div>
                 </div>
-                <div id="whiteboard">
-                    <!-- <div class="Pembayaran-head-atas card-body border border-1 mt-2 bg-white d-flex justify-content-end">
+                <div id="whiteboard" style="margin-left: 10px;">
+                    <div id="top" class="Pembayaran-head-atas card-body border border-1 mt-2 bg-white">
                         <div class="box-bagian-atas">
                             <div class="Pembayaran-bagian-atas">
                                 <p class="fw-bold judul-atas">Total Terbayar</p>
-                                <p class="tanggal text-secondary ">12 Juni</p>
+                                <p class="tanggal text-secondary ">{{ $terakhirPembayaran }}</p>
                             </div>
                             <div class="Pembayaran-bagian-tengah">
                                 <h2 class="d-inline">{{ $biayaTerbayar }} </h2><p class="badge text-bg-info">Paid</p>
@@ -36,14 +36,26 @@
                         <div class="box-bagian-bawah">
                             <div class="Pembayaran-bagian-atas">
                                 <p class="fw-bold judul-atas">Sisa Pembayaran</p>
-                                <p class="tanggal text-secondary ">12 Juni</p>
+                                <p class="tanggal text-secondary ">{{ $terakhirPembayaran }}</p>
                             </div>
                             <div class="Pembayaran-bagian-tengah">
                                 <h2 class="d-inline">{{ $biayaSisaTagihan }} </h2><p class="badge text-bg-warning">Pending</p>
                             </div>
                             <a href="#" class="text-decoration-none fw-bold ">Lihat riwayat transaksi</a>
                         </div>
-                    </div> -->
+                    </div>
+                    <div id="bottom">
+                        <h5>Biodata Siswa</h5>
+                        <ul>
+                            <li>Nama Lengkap : {{ $siswa->nama_siswa }}</li>
+                            <li>Alamat : {{ $siswa->nama_jalan_domisili }}, RT {{ $siswa->rt_domisili }}/RW {{ $siswa->rw_domisili }}, Desa {{ $siswa->nama_desa_domisili }}, Kecamatan {{ $siswa->nama_kecamatan_domisili }}</li>
+                            <li>Tanggal Lahir : {{ $siswa->tanggal_lahir }}</li>
+                            <li>Jenis Kelamin : {{ $siswa->jenis_kelamin }}</li>
+                            <li>No KTP : {{ $siswa->ktp }}</li>
+                            <li>No HP / Telepon : {{ $siswa->no_hp }}</li>
+                            <li>Kelas Aktivasi : {{ $dataAktivasi->nama_aktivasi }}</li>
+                        </ul>
+                    </div>
                     
                 </div>
             </div>
@@ -84,12 +96,12 @@
                                 @if( $cicilan['Status'] === 'Lunas' )
                                     <td>
                                         <?php $idPembayaran = $cicilan['idCicilan']; ?>
-                                        <a href="/cost-payment/{{ $idPembayaran }}" class="btn btn-primary btn-sm" hidden>Bayar</a>
+                                        <a href="/cost-payment-store/{{ $idPembayaran }}" class="btn btn-primary btn-sm" hidden>Bayar</a>
                                     </td>
                                 @else
                                     <td>
                                         <?php $idPembayaran = $cicilan['idCicilan']; ?>
-                                        <a href="/cost-payment/{{ $idPembayaran }}" class="btn btn-primary btn-sm">Bayar</a>
+                                        <a href="/cost-payment-store/{{ $idPembayaran }}" class="btn btn-primary btn-sm">Bayar</a>
                                     </td>
                                 @endif
                             </tr>   
@@ -105,13 +117,27 @@
 @push('js')
 <script>
 
-    document.getElementById('pembayaran').addEventListener('click', function(){
-        alert('Halo pembayaran');
-    });
-    document.getElementById('biodata').addEventListener('click', function(){
+    
+
+
+    let pembayaran = document.getElementById('pembayaran');
+    let biodata = document.getElementById('biodata');
+
+    document.getElementById('bottom').style.display = 'none';
+    document.getElementById('top').style.display = '';
+
+    pembayaran.addEventListener('click', function(){
         
-        let cek = document.getElementById('whiteboard');
-        cek.innerHTML = "";
+        document.getElementById('top').style.display = '';
+        document.getElementById('bottom').style.display = 'none';
+        console.log('pembayaran clicked');
     });
+
+    biodata.addEventListener('click', function(){
+        document.getElementById('top').style.display = 'none';
+        document.getElementById('bottom').style.display = '';
+        console.log('biodata clicked');
+    });
+   
 </script>
 @endpush

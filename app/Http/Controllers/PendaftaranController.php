@@ -48,11 +48,23 @@ class PendaftaranController extends Controller
                             }
                         }
 
+                        $deletedAt = DB::table('aktivasi_student')->select('deleted_at')->where([
+                            'aktivasi_id' => $aktivasi->id,
+                            'student_id' => $student->id
+                        ])->get();
+
+                        if( $deletedAt[0]->deleted_at === null ){
+                            $studentStatus = 'On Going';
+                        }else{
+                            $studentStatus = 'Graduate';
+                        }
+
                         $rak = [
                             'idStudent' => $student->id,
+                            'idActivation' => $aktivasi->id,
                             'studentName' => $student->nama_siswa,
                             'activationName' => $aktivasi->nama_aktivasi,
-                            'studentStatus' => 'On Going',
+                            'studentStatus' => $studentStatus,
                             'payment' => $status
                         ];
 
@@ -374,15 +386,15 @@ class PendaftaranController extends Controller
                 'installment' => $biayaAkhir,
                 'paid' => 0,
                 'status' => 'Belum Lunas',
-                'date_payment' => $schedule,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
+                'date_payment' => $schedule
             ]);
         }
 
         DB::table('aktivasi_student')->insert([
             'aktivasi_id' => $validatedData['aktivasi_id'],
-            'student_id' => $validatedData['student_id']
+            'student_id' => $validatedData['student_id'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
         ]);
 
         $nama_siswa = Student::find($validatedData['student_id'])->nama_siswa;
@@ -393,19 +405,18 @@ class PendaftaranController extends Controller
 
 
 
-    public function softDeleteStudent($nama, $id, $namaSiswa)
+    public function softDeleteStudent($student_id, $activation_id)
     {
 
-        // dd($namaSiswa);
-        if (stripos($nama, 'Reguler') === false) {
-
-
-            // AktivasiStudent::find($id)->delete();
-        } elseif (stripos($nama, 'Reguler') === 0) {
-
-
-            // KurikulumStudent::find($id)->delete();
-        }
+        $namaSiswa = Student::find($student_id)->nama_siswa;
+    
+        DB::table('aktivasi_student')->where([
+                'aktivasi_id' => $activation_id,
+                'student_id' => $student_id        
+        ])->update([
+            'deleted_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
 
 
         return redirect('/form-registrasi')->with('destroy', $namaSiswa);
@@ -433,6 +444,7 @@ class PendaftaranController extends Controller
         // biaya-biaya
         $dataAktivasi = Aktivasi::find($dataCicilan[0]->aktivasi_id);
         $biayaTerbayar = $dataCicilan->sum('paid');
+        $terakhirPembayaran = $dataCicilan->max('updated_at')->format('d M Y');
         $biayaSisaTagihan = $dataAktivasi->biaya - $biayaTerbayar;
 
         // query data cicilan
@@ -454,6 +466,7 @@ class PendaftaranController extends Controller
             $count++;
         }
 
+        // dd($rakCicilan[0]['Tanggal']);
         
         
 
@@ -464,40 +477,26 @@ class PendaftaranController extends Controller
             'biayaAktivasi' => "Rp" . number_format($dataAktivasi->biaya, 2, ",", "."),
             'namaAktivasi' => $dataAktivasi->nama_aktivasi,
             'biayaTerbayar' =>  "Rp" . number_format($biayaTerbayar, 2, ",", "."),
-            'biayaSisaTagihan' =>  "Rp" . number_format($biayaSisaTagihan, 2, ",", ".")
+            'biayaSisaTagihan' =>  "Rp" . number_format($biayaSisaTagihan, 2, ",", "."),
+            'siswa' => $student,
+            'dataAktivasi' => $dataAktivasi,
+            'terakhirPembayaran' => $terakhirPembayaran
             
         ]);
     }
 
-    public function createCost($id){
+    
+
+    public function storeCost($id){
 
        
-        $data = DB::table('installments')->where('id', $id)->get();
-        
-        return view('Pembayaran.create', [
-            'title' => 'Cicilan - ',
-            'active' => 'Pendaftaran',
-            'data' => $data[0]
-        ]);
-    }
+       $cicilan = Installment::find($id);
+        //dd($cicilan);
+        // dd($cicilan->installment);
 
-    public function storeCost(Request $request){
-
-       $data = $request->collect();
-       $cicilan = Installment::find($data['idCicilan']);
-    //    dd($cicilan);
-
-       if( $data['biaya'] < $cicilan->installment){
-            $status = 'Belum Lunas';
-       }elseif( $data['biaya'] == $cicilan->installment ){
-            $status = 'Lunas';
-       }elseif( $data['biaya'] > $cicilan->installment ){
-            return redirect('/cost/' . $cicilan->student_id)->with('PaymentFailed', 'Gagal!');
-       }
-
-       Installment::where('id', $data['idCicilan'])->update([
-            'paid' => $cicilan->paid + (int)$data['biaya'],
-            'status' => $status
+       Installment::where('id', $id)->update([
+            'paid' => $cicilan->paid + (int)$cicilan->installment,
+            'status' => 'Lunas'
        ]);
 
        return redirect('/cost/' . $cicilan->student_id)->with('PaymentSuccess', 'Berhasil');
