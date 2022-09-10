@@ -19,6 +19,13 @@
                             <div class="input-group">
                                 <input type="text" name="studentName" value="{{ request('studentName') }}" class="form-control text-end" placeholder="Nama">
                                 <input type="text" name="activationName" value="{{ request('activationName') }}" class="form-control text-end" placeholder="Kelas">
+                                <select name="search" id="search" class="form-select form-select-sm text-end">
+                                    <option selected disabled>Filter By</option>
+                                    <option value="On Going">Siswa Aktif (On Going)</option>
+                                    <option value="Graduated">Siswa Lulus (Graduated)</option>
+                                    <option value="Pending">Pembayaran Belum Lunas</option>
+                                    <option value="Paid">Pembayaran Lunas</option>
+                                </select>
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
                             </div>
                         </form>
@@ -62,12 +69,12 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $siswa['studentName'] }}</td>
                                     <td>{{ $siswa['activationName'] }}</td>
-                                    @if( $siswa['studentStatus'] == 'Graduate')
+                                    @if( $siswa['studentStatus'] == 'Graduated')
                                         <td><p class="badge text-bg-primary">{{ $siswa['studentStatus'] }}</p></td>
                                     @else
                                         <td><p class="badge text-bg-success">{{ $siswa['studentStatus'] }}</p></td>
                                     @endif
-                                    @if( $siswa['payment'] == 'Lunas')
+                                    @if( $siswa['payment'] == 'Paid')
                                         <td><p class="badge text-bg-primary">{{ $siswa['payment'] }}</p></td>
                                     @else
                                         <td><p class="badge text-bg-warning">{{ $siswa['payment'] }}</p></td>
@@ -79,7 +86,7 @@
                                         <?php $activationName = $siswa['activationName']; ?>
                                         <button type="button" class="btn btn-dark btn-sm" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/form-registrasi-softdelete/" onclick="confirmation('{{ $namaSiswa }}', '{{ $studentId }}', '{{ $activationId }}', '{{ $activationName }}')"><i class="fas fa-trash"></i></button>
                                         
-                                        <a href="/cost/{{ $studentId }}" class="text-decoration-none btn btn-dark btn-sm">Details</a>
+                                        <a href="/cost/{{ $studentId }}/{{ $activationId }}" class="text-decoration-none btn btn-dark btn-sm">Details</a>
                                     </td>
                                 </tr>
                             @endforeach

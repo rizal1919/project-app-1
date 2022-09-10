@@ -93,7 +93,7 @@
                                 <td>{{ $cicilan['Tagihan'] }}</td>
                                 <td>{{ $cicilan['Terbayar'] }}</td>
                                 <td>{{ $cicilan['Status'] }}</td>
-                                @if( $cicilan['Status'] === 'Lunas' )
+                                @if( $cicilan['Status'] === 'Paid' )
                                     <td>
                                         <?php $idPembayaran = $cicilan['idCicilan']; ?>
                                         <a href="/cost-payment-store/{{ $idPembayaran }}" class="btn btn-primary btn-sm" hidden>Bayar</a>

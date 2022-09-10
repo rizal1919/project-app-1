@@ -39,12 +39,12 @@ class PendaftaranController extends Controller
                         $status = '';
                         foreach( $student->installment as $installment ){
 
-                            if( $installment->status == 'Belum Lunas' ){
+                            if( $installment->status == 'Pending' ){
 
-                                $status = 'Belum Lunas';
+                                $status = 'Pending';
                                 break;
                             }else{
-                                $status = 'Lunas';
+                                $status = 'Paid';
                             }
                         }
 
@@ -56,7 +56,7 @@ class PendaftaranController extends Controller
                         if( $deletedAt[0]->deleted_at === null ){
                             $studentStatus = 'On Going';
                         }else{
-                            $studentStatus = 'Graduate';
+                            $studentStatus = 'Graduated';
                         }
 
                         $rak = [
@@ -65,7 +65,8 @@ class PendaftaranController extends Controller
                             'studentName' => $student->nama_siswa,
                             'activationName' => $aktivasi->nama_aktivasi,
                             'studentStatus' => $studentStatus,
-                            'payment' => $status
+                            'payment' => $status,
+                            'updated_at' => $aktivasi->updated_at
                         ];
 
                         array_push($rakSementara, $rak);
@@ -88,6 +89,37 @@ class PendaftaranController extends Controller
             // replace stristr with your choice of matching function
             return false !== stristr($item['activationName'], $activationName);
         });
+
+        if( $request->search == 'On Going' ){
+            $search = $request->search;
+            $rakSementara = collect($rakSementara)->filter(function ($item) use ($search) {
+                // replace stristr with your choice of matching function
+                return false !== stristr($item['studentStatus'], $search);
+            });
+        }
+        if( $request->search == 'Graduated' ){
+            $search = $request->search;
+            $rakSementara = collect($rakSementara)->filter(function ($item) use ($search) {
+                // replace stristr with your choice of matching function
+                return false !== stristr($item['studentStatus'], $search);
+            });
+        }
+        if( $request->search == 'Pending' ){
+            $search = $request->search;
+            $rakSementara = collect($rakSementara)->filter(function ($item) use ($search) {
+                // replace stristr with your choice of matching function
+                return false !== stristr($item['payment'], $search);
+            });
+        }
+        if( $request->search == 'Paid' ){
+            $search = $request->search;
+            $rakSementara = collect($rakSementara)->filter(function ($item) use ($search) {
+                // replace stristr with your choice of matching function
+                return false !== stristr($item['payment'], $search);
+            });
+        }
+
+        $rakSementara = collect($rakSementara)->sortByDesc('studentStatus');
         
 
 
@@ -179,7 +211,7 @@ class PendaftaranController extends Controller
                     'tanggal' => $jadwal,
                     'nama_cicilan' => 'Tunai',
                     'biaya' => "Rp" . number_format($data->biaya, 2, ",", "."),
-                    'status' => 'Belum lunas'
+                    'status' => 'Pending'
                 ];
 
                 array_push($rincianBiaya, $array);
@@ -203,7 +235,7 @@ class PendaftaranController extends Controller
                         'tanggal' => $schedule,
                         'nama_cicilan' => 'Cicilan ' . $i,
                         'biaya' => "Rp" . number_format($hasilBiaya, 2, ",", "."),
-                        'status' => 'Belum lunas'
+                        'status' => 'Pending'
                     ];
 
                     array_push($rincianBiaya, $array);
@@ -231,7 +263,7 @@ class PendaftaranController extends Controller
                         'tanggal' => $schedule,
                         'nama_cicilan' => 'Cicilan ' . $i,
                         'biaya' => "Rp" . number_format($hasilBiaya, 2, ",", "."),
-                        'status' => 'Belum lunas'
+                        'status' => 'Pending'
                     ];
 
                     array_push($rincianBiaya, $array);
@@ -259,7 +291,7 @@ class PendaftaranController extends Controller
                         'tanggal' => $schedule,
                         'nama_cicilan' => 'Cicilan ' . $i,
                         'biaya' => "Rp" . number_format($hasilBiaya, 2, ",", "."),
-                        'status' => 'Belum lunas'
+                        'status' => 'Pending'
                     ];
 
                     array_push($rincianBiaya, $array);
@@ -288,7 +320,7 @@ class PendaftaranController extends Controller
                         'tanggal' => $schedule,
                         'nama_cicilan' => 'Cicilan ' . $i,
                         'biaya' => "Rp" . number_format($hasilBiaya, 2, ",", "."),
-                        'status' => 'Belum lunas'
+                        'status' => 'Pending'
                     ];
 
                     array_push($rincianBiaya, $array);
@@ -385,7 +417,7 @@ class PendaftaranController extends Controller
                 'student_id' => $validatedData['student_id'],
                 'installment' => $biayaAkhir,
                 'paid' => 0,
-                'status' => 'Belum Lunas',
+                'status' => 'Pending',
                 'date_payment' => $schedule
             ]);
         }
@@ -436,10 +468,11 @@ class PendaftaranController extends Controller
     //     return redirect('/form-registrasi')->with('restore', $namaSiswa);
     // }
 
-    public function indexCost(Student $student){
+    public function indexCost(Student $student, $id){
 
        
-        $dataCicilan = $student->installment;
+        $dataCicilan = Installment::where(['aktivasi_id' => $id], ['student_id' => $student->id])->get();
+        
 
         // biaya-biaya
         $dataAktivasi = Aktivasi::find($dataCicilan[0]->aktivasi_id);
@@ -452,10 +485,14 @@ class PendaftaranController extends Controller
         $count = 1;
         foreach( $dataCicilan as $cicilan ){
 
+            $hasilExplode = explode('-', $cicilan->date_payment);
+            $hasilExplode = $hasilExplode[2] . '-' . $hasilExplode[1] . '-' . $hasilExplode[0];
+            
+
             $rak = [
                 'idCicilan' => $cicilan->id,
                 'Nama Cicilan' => 'Cicilan ' . $count,
-                'Tanggal' => $cicilan->date_payment,
+                'Tanggal' => $hasilExplode,
                 'Tagihan' => "Rp" . number_format($cicilan->installment, 2, ",", "."),
                 'Terbayar' => "Rp" . number_format($cicilan->paid, 2, ",", "."),
                 'Status' => $cicilan->status
@@ -466,7 +503,10 @@ class PendaftaranController extends Controller
             $count++;
         }
 
-        // dd($rakCicilan[0]['Tanggal']);
+
+
+        
+        // dd($rakCicilan);
         
         
 
@@ -496,7 +536,7 @@ class PendaftaranController extends Controller
 
        Installment::where('id', $id)->update([
             'paid' => $cicilan->paid + (int)$cicilan->installment,
-            'status' => 'Lunas'
+            'status' => 'Paid'
        ]);
 
        return redirect('/cost/' . $cicilan->student_id)->with('PaymentSuccess', 'Berhasil');
