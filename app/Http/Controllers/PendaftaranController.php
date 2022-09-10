@@ -29,6 +29,8 @@ class PendaftaranController extends Controller
         $dataAktivasi = Aktivasi::all();
         if($dataAktivasi->count() > 0){
 
+            
+
             $rakSementara = [];
             foreach( $dataAktivasi as $aktivasi ){
 
@@ -36,8 +38,12 @@ class PendaftaranController extends Controller
 
                     foreach( $aktivasi->student as $student ){
 
+                        $installments = Installment::where(['aktivasi_id' => $aktivasi->id], ['student_id' => $student->id])->get();
+
                         $status = '';
-                        foreach( $student->installment as $installment ){
+                        foreach( $installments as $installment ){
+
+                            // dd($installment);
 
                             if( $installment->status == 'Pending' ){
 
@@ -77,6 +83,8 @@ class PendaftaranController extends Controller
 
             
         }
+
+        // dd($rakSementara);
         
         $studentName = $request->studentName;
         $rakSementara = collect($rakSementara)->filter(function ($item) use ($studentName) {
@@ -121,7 +129,7 @@ class PendaftaranController extends Controller
 
         $rakSementara = collect($rakSementara)->sortByDesc('studentStatus');
         
-
+        // dd($rakSementara);
 
 
         $rakSemuaHasilData = (new Collection($rakSementara))->paginate(5)->withQueryString();
@@ -531,7 +539,7 @@ class PendaftaranController extends Controller
 
        
        $cicilan = Installment::find($id);
-        //dd($cicilan);
+        // dd($cicilan);
         // dd($cicilan->installment);
 
        Installment::where('id', $id)->update([
@@ -539,7 +547,7 @@ class PendaftaranController extends Controller
             'status' => 'Paid'
        ]);
 
-       return redirect('/cost/' . $cicilan->student_id)->with('PaymentSuccess', 'Berhasil');
+       return redirect('/cost/' . $cicilan->student_id . '/' . $cicilan->aktivasi_id)->with('PaymentSuccess', 'Berhasil');
 
 
     }

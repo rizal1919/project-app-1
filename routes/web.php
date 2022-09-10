@@ -71,7 +71,7 @@ Route::get('/form-registrasi/getStudent', [PendaftaranController::class, 'getStu
 Route::get('/form-registrasi/getPayment', [PendaftaranController::class, 'getPayment'])->name('getPayment')->middleware('auth');
 // route cost
 Route::get('/cost/{student:id}/{id}', [PendaftaranController::class, 'indexCost'])->middleware('auth');
-Route::get('/cost-payment-store/{id}', [PendaftaranController::class, 'storeCost'])->middleware('auth');
+Route::post('/cost-payment-store/{id}', [PendaftaranController::class, 'storeCost'])->middleware('auth');
 
 
 // route kelas

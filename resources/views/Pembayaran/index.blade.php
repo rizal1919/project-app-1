@@ -95,13 +95,15 @@
                                 <td>{{ $cicilan['Status'] }}</td>
                                 @if( $cicilan['Status'] === 'Paid' )
                                     <td>
+                                        <?php $tagihan = $cicilan['Tagihan']; ?>
                                         <?php $idPembayaran = $cicilan['idCicilan']; ?>
                                         <a href="/cost-payment-store/{{ $idPembayaran }}" class="btn btn-primary btn-sm" hidden>Bayar</a>
                                     </td>
                                 @else
                                     <td>
+                                        <?php $tagihan = $cicilan['Tagihan']; ?>
                                         <?php $idPembayaran = $cicilan['idCicilan']; ?>
-                                        <a href="/cost-payment-store/{{ $idPembayaran }}" class="btn btn-primary btn-sm">Bayar</a>
+                                        <button id="delete" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-bs-target="#staticBackdrop" data-url="/cost-payment-store/" onclick="confirmation('{{ $idPembayaran }}', '{{ $tagihan }}')">Bayar</button>
                                     </td>
                                 @endif
                             </tr>   
@@ -112,10 +114,52 @@
         </div>
     </div>
 </div>
+<!-- Delete Warning Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="post" id="forms" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa-solid fa-money-bill-1 mx-2"></i>Tagihan Pembayaran
+                </h5>
+                <input type="hidden" id="name" name="id">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @csrf
+                <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
+                <button type="submit" class="btn btn-primary">Bayar!</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- End Delete Modal --> 
 
 @endsection
 @push('js')
 <script>
+
+    function confirmation(idPembayaran, tagihan){
+
+        
+        let url = document.getElementById('delete').getAttribute('data-url');
+        let completeUrl = url + idPembayaran;
+        // output = delete-materi/1
+
+        // $('#name').val(delId);
+        $('#forms').attr('action', completeUrl);
+
+        let comment = document.getElementById('message');
+        comment.innerHTML = '<p> Anda yakin ingin membayar tagihan sebesar <strong>' + tagihan + '</strong> </p>';
+
+
+        $('#staticBackdrop').modal('show');
+        // menampilkan modal box
+
+    }
 
     
 
