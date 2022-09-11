@@ -70,8 +70,9 @@ Route::post('/form-registrasi-softdelete/{student_id}/{activation_id}', [Pendaft
 Route::get('/form-registrasi/getStudent', [PendaftaranController::class, 'getStudent'])->name('getStudent')->middleware('auth');
 Route::get('/form-registrasi/getPayment', [PendaftaranController::class, 'getPayment'])->name('getPayment')->middleware('auth');
 // route cost
-Route::get('/cost/{student:id}/{id}', [PendaftaranController::class, 'indexCost'])->middleware('auth');
+Route::get('/cost/{student:id}/{id}', [PendaftaranController::class, 'indexCost'])->middleware('auth'); //{id} ini adalah aktivasi_id
 Route::post('/cost-payment-store/{id}', [PendaftaranController::class, 'storeCost'])->middleware('auth');
+Route::post('/cost-payment-edit/{id}', [PendaftaranController::class, 'updateDate'])->middleware('auth');
 
 
 // route kelas

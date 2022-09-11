@@ -482,7 +482,7 @@ class PendaftaranController extends Controller
         $dataCicilan = Installment::where(['aktivasi_id' => $id], ['student_id' => $student->id])->get();
         
 
-        // biaya-biaya
+        // dd($dataCicilan);
         $dataAktivasi = Aktivasi::find($dataCicilan[0]->aktivasi_id);
         $biayaTerbayar = $dataCicilan->sum('paid');
         $terakhirPembayaran = $dataCicilan->max('updated_at')->format('d M Y');
@@ -550,5 +550,16 @@ class PendaftaranController extends Controller
        return redirect('/cost/' . $cicilan->student_id . '/' . $cicilan->aktivasi_id)->with('PaymentSuccess', 'Berhasil');
 
 
+    }
+
+    public function updateDate(Request $request, $id){
+
+        // dd($request->date);
+
+        $dataCicilan = Installment::where('id', $id)->first();
+        // dd($dataCicilan->student_id);
+        $dataCicilan->update(['date_payment' => $request->date]);
+
+        return redirect('/cost/' . $dataCicilan->student_id . '/' . $dataCicilan->aktivasi_id)->with('UpdateSuccess', 'Berhasil!');
     }
 }
