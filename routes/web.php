@@ -51,10 +51,6 @@ Route::post('/login-admin', [LoginController::class, 'authenticate']);
 Route::post('/logout-admin', [LoginController::class, 'logout']);
 
 
-Route::get('/register-admin', [RegisterController::class, 'index'])->Middleware('guest');
-Route::post('/register-admin', [RegisterController::class, 'store']);
-
-
 // routes dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('auth');
 Route::get('/export-pdf', [DashboardController::class, 'exportPDF'])->Middleware('auth');
@@ -104,6 +100,8 @@ Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, '
 Route::get('/data-siswa/update/student/{student:id}', [StudentController::class, 'edit']);
 Route::post('/data-siswa/update-new/student/{student:id}', [StudentController::class, 'update']);
 Route::post('/data-siswa/delete/student/{student:id}', [StudentController::class, 'destroy']);
+// export pdf
+Route::get('/export-pdf/{student:id}', [StudentController::class, 'export'])->middleware('auth');
 // ajax autocomplete
 Route::get('/autocomplete', [StudentController::class, 'search'])->name('search');
 Route::get('/autocomplete-ktp', [StudentController::class, 'ktp'])->name('ktp');

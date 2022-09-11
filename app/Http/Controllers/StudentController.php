@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Aktivasi;
 use App\Models\Kurikulum;
 use App\Models\Program;
 use App\Models\PIC;
@@ -134,6 +136,26 @@ class StudentController extends Controller
             'title' => 'Data Siswa | ',
             'active' => 'Data Siswa',
             'dataSiswa' => $dataSiswa
+        ]);
+    }
+
+    public function export(Student $student){
+
+        $ayah = $student->tanggal_lahir_ayah;
+        $ayah = explode('-', $ayah)[0];
+        $ibu = $student->tanggal_lahir_ibu;
+        $ibu = explode('-', $ibu)[0];
+
+
+        return view('DataSiswa.pdf', [
+            'title' => 'Export',
+            'active' => 'Data Siswa',
+            'student' => $student,
+            'tahun_lahir_ayah' => $ayah,
+            'tahun_lahir_ibu' => $ibu,
+            'penghasilan_ayah' => "Rp" . number_format($student->penghasilan_ayah, 2, ",", "."),
+            'penghasilan_ibu' => "Rp" . number_format($student->penghasilan_ibu, 2, ",", "."),
+            'aktivasis' => Aktivasi::all()
         ]);
     }
 

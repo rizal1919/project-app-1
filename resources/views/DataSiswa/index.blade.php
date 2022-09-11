@@ -72,9 +72,13 @@
                                     <td>{{ $siswa->ktp }}</td>
                                     <td class="text-center">2022</td>
                                     <td>
-                                        <a href="/data-siswa/show/student/{{ $siswa->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
-                                        <a href="/data-siswa/update/student/{{ $siswa->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                        <button class="btn btn-danger text-dark" id="delete" data-url="/data-siswa/delete/student/" onclick="confirmation('{{ $siswa->id }}', '{{ $siswa->nama_siswa }}')"><i class="fas fa-trash"></i></button>
+                                        <div class="btn btn-group-sm border border-0">
+                                            <a href="/data-siswa/show/student/{{ $siswa->id }}" class="btn btn-info btn-sm text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
+                                            <a href="/export-pdf/{{ $siswa->id }}" class="btn btn-info btn-sm text-decoration-none text-dark">Export</a>
+                                        </div>
+                                        <a href="/data-siswa/update/student/{{ $siswa->id }}" class="btn btn-warning btn-sm text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
+                                        <button class="btn btn-danger btn-sm text-dark" id="delete" data-url="/data-siswa/delete/student/" onclick="confirmation('{{ $siswa->id }}', '{{ $siswa->nama_siswa }}')"><i class="fas fa-trash"></i></button>
+
                                     </td>
                                 </tr>
                             @endforeach
