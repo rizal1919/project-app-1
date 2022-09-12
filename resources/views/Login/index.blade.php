@@ -29,9 +29,10 @@
     <div class="row justify-content-center align-items-center" style='height: 500px; margin-bottom: -1px;'>
         <div class="col-lg-3">
         <main class="form-signin w-100 m-auto">
+        <img src="/img/master-icon.jpg" alt="MasterIcon" class="img-fluid" >
         <form action="/login-admin" method="post">
             @csrf
-            <h1 class="h3 mb-4 fw-normal text-center"></i>Silahkan login</h1>
+            <!-- <h1 class="h3 mb-4 fw-normal text-center"></i>Silahkan login</h1> -->
             <div class="form-floating">
                 <input type="text" name="username_admin" value="{{ old('username_admin') }}"  class="form-control @error('username_admin') is-invalid @enderror" id="username_admin" placeholder="username_admin" style="border-radius: 5px 5px 0px 0px; margin-bottom: -1px;" required autofocus>
                 <label for="username_admin">Username</label>
