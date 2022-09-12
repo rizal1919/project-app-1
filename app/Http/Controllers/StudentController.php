@@ -144,7 +144,7 @@ class StudentController extends Controller
 
         // dd($student->aktivasi);
 
-        $pictures = ['black-white', 'building', 'doors', 'food', 'table', 'tower', 'water-box'];
+        $pictures = ['black-white', 'building', 'doors', 'table', 'tower', 'water-box'];
        
         $rakStudent = [];
         $rakCicilan = [];
@@ -154,7 +154,8 @@ class StudentController extends Controller
             foreach( $student->aktivasi as $aktivasi ){
 
                 $cekStatusKelulusan = DB::table('aktivasi_student')->where(['aktivasi_id' => $aktivasi->id], ['student_id' => $student->id ])->get();
-                $cekStatusKelulusan != null ? $status = 'Sedang Berjalan' : $status = 'Lulus';
+
+                $cekStatusKelulusan[0]->deleted_at != null ? $status = 'Lulus' : $status = 'Sedang Berjalan';
 
                 $totalMateri = 0;
                 foreach( $aktivasi->program as $program ){
