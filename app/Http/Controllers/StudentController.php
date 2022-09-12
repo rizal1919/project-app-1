@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktivasi;
+use App\Models\Installment;
 use App\Models\Kurikulum;
 use App\Models\Program;
 use App\Models\PIC;
@@ -139,10 +140,50 @@ class StudentController extends Controller
         ]);
     }
 
-    public function try(){
+    public function studentDashboard(Student $student){
 
+        // dd($student->aktivasi);
+
+        $pictures = ['black-white', 'building', 'doors', 'food', 'table', 'tower', 'water-box'];
+       
+        $rakStudent = [];
+        $rakCicilan = [];
+        $status = '';
+        if( $student->aktivasi->count() > 0 ){
+            
+            foreach( $student->aktivasi as $aktivasi ){
+
+                $cekStatusKelulusan = DB::table('aktivasi_student')->where(['aktivasi_id' => $aktivasi->id], ['student_id' => $student->id ])->get();
+                $cekStatusKelulusan != null ? $status = 'Sedang Berjalan' : $status = 'Lulus';
+
+                $totalMateri = 0;
+                foreach( $aktivasi->program as $program ){
+
+                    $totalMateri = $totalMateri + $program->materi->count();
+                }
+
+                
+               
+                $rak = [
+                    'namaAktivasi' => $aktivasi->nama_aktivasi,
+                    'status' => $status,
+                    'picture' => $pictures[rand(0,6)],
+                    'programs' => $aktivasi->program->count(),
+                    'materis' => $totalMateri
+                ];
+
+                array_push($rakStudent, $rak);
+
+               
+ 
+            }
+        }
+
+       
         return view('DataSiswa.studentDashboard', [
-            'active' => 'Data Siswa'
+            'active' => 'Data Siswa',
+            'student' => $student,
+            'aktivasis' => $rakStudent
         ]);
     }
 

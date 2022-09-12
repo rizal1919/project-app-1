@@ -96,7 +96,7 @@ Route::get('/autocomplete-data-siswa', [StudentController::class, 'getSiswa']);
 Route::post('/data-siswa', [StudentController::class, 'index']);
 Route::get('/data-siswa/create/student', [StudentController::class, 'create']);
 Route::post('/data-siswa/create/student', [StudentController::class, 'store']);
-Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, 'show']);
+Route::get('/data-siswa/show/student/{student:id}', [StudentController::class, 'studentDashboard']);
 Route::get('/data-siswa/update/student/{student:id}', [StudentController::class, 'edit']);
 Route::post('/data-siswa/update-new/student/{student:id}', [StudentController::class, 'update']);
 Route::post('/data-siswa/delete/student/{student:id}', [StudentController::class, 'destroy']);
@@ -106,7 +106,6 @@ Route::get('/export-pdf/{student:id}', [StudentController::class, 'export'])->mi
 Route::get('/autocomplete', [StudentController::class, 'search'])->name('search');
 Route::get('/autocomplete-ktp', [StudentController::class, 'ktp'])->name('ktp');
 Route::get('/autocomplete-email', [StudentController::class, 'alamatEmail'])->name('email');
-Route::get('/studentDashboard', [StudentController::class, 'try']);
 
 
 // route aktivasi
