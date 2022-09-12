@@ -68,7 +68,7 @@
                 <li class="">Alamat Lengkap (Domisili)<p class="d-inline" style="margin-left: 26px;">: Jl </p>{{ $student->nama_jalan_domisili }}<p class="d-inline" style="margin-left: 14px;">RT/RW : </p>{{ $student->rt_domisili }}/{{ $student->rw_domisili }}</li>
                 <li class="" style="list-style-type: none;"><p class="d-inline" style="margin-left: 142px; ">: Desa/Kel </p>{{ $student->nama_desa_domisili }}<p class="d-inline" style="margin-left: 14px;">Kec : </p>{{ $student->nama_kecamatan_domisili }}</li>
                 <li class="">Tempat Tinggal<p class="d-inline" style="margin-left: 74px;">: </p>{{ $student->tempat_tinggal }}</li>
-                <li class="">Mode Transportasi Ke sekolah<p class="d-inline" style="margin-left: 10px;">: </p>{{ $student->transportasi }}</li>
+                <li class="">Mode Transportasi Ke Sekolah<p class="d-inline" style="margin-left: 10px;">: </p>{{ $student->transportasi }}</li>
                 <li class="">No Telp / Hp (masih aktif)<p class="d-inline" style="margin-left: 29px;">: </p>{{ $student->no_hp }}</li>
                 <li class="">Asal Sekolah<p class="d-inline" style="margin-left: 87px;">: </p>{{ $student->asal_sekolah }} <p class="d-inline" style="margin-left: 10px;">Kota</p> {{ $student->kota_asal_sekolah }}</li>
             </ol>

@@ -23,8 +23,6 @@
     padding-left: 15px;
 }
 
-
-
 .Pembayaran-bagian-atas{
    
     /* border: 1px solid black; */
@@ -42,3 +40,15 @@
     /* border: 1px solid slateblue; */
     text-align: end;
 }
+
+
+/* studentDashboard */
+
+
+#modal-text{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-image: linear-gradient(to bottom, #85FFBD, #FFFB7D);
+}
+

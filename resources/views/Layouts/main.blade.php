@@ -32,7 +32,7 @@
     <link type="text/css" rel="stylesheet" href="{{  asset('css/coba.css')  }}">
     <meta name="csrf_token" content="{{ csrf_token() }}">
 
-    <title>Page</title>
+    <title>International Hospitality School</title>
 </head>
 <body>
     

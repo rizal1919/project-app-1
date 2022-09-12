@@ -106,6 +106,7 @@ Route::get('/export-pdf/{student:id}', [StudentController::class, 'export'])->mi
 Route::get('/autocomplete', [StudentController::class, 'search'])->name('search');
 Route::get('/autocomplete-ktp', [StudentController::class, 'ktp'])->name('ktp');
 Route::get('/autocomplete-email', [StudentController::class, 'alamatEmail'])->name('email');
+Route::get('/studentDashboard', [StudentController::class, 'try']);
 
 
 // route aktivasi

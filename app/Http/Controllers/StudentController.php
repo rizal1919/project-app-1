@@ -139,6 +139,13 @@ class StudentController extends Controller
         ]);
     }
 
+    public function try(){
+
+        return view('DataSiswa.studentDashboard', [
+            'active' => 'Data Siswa'
+        ]);
+    }
+
     public function export(Student $student){
 
         $ayah = $student->tanggal_lahir_ayah;
