@@ -52,6 +52,12 @@
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
+            @if( session('createFailed') )
+            <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                <strong>{{ session('createFailed') }}</strong> belum ada program ditambahkan.
+                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <div class="card p-3 mt-2">
                 <table class="table table-hover table-stripes">
                     <thead>

@@ -73,17 +73,6 @@
                             <input type="date" name="penutupan" id="Periode_Pendaftaran" value="{{ old('penutupan', $aktivasi->penutupan) }}" class="form-control form-control-sm">
                         </div>
                     </div>
-                    <div class="row mb-3 text-start d-flex justify-content-center">
-                        <label for="category" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Kategori</label>
-                        <div class="col-sm-7">
-                            <select name="category_id" id="category_id" class="form-select form-select-sm">
-                                <option value="0">Pilih Kategori</option>
-                                @foreach( $categories as $category )
-                                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
                     <div class="row g-3 text-start mb-3 d-flex justify-content-center">
                         <div class="col-sm-3">
                             <label for="program_id" class="col-form-label col-form-label-sm fw-bold">Program Pilihan</label>
@@ -91,24 +80,18 @@
                         <div class="col-sm-7">
                             <p class="fw-bold">Daftar Program Diambil</p>
                             <div class="form-check" id="lainnya">
-                                @foreach( $aktivasi->program as $aktif )
-                                    <p><span data-feather="check" class="mx-2"></span>{{ $aktif->nama_program }}</p>
+                                @foreach( $programs as $program )
+                                    @if( in_array($program->id, $chosenPrograms)  )
+                                        <input type="checkbox" class="form-check-input" name="program_id_{{ $program->id }}" value="{{ $program->id }}" id="program_id_{{ $program->id }}" checked>
+                                        <label for="program_id_{{ $program->id }}" class="form-check-label">{{ $program->nama_program }}</label><br>
+                                    @else
+                                        <input type="checkbox" class="form-check-input" name="program_id_{{ $program->id }}" value="{{ $program->id }}" id="program_id_{{ $program->id }}">
+                                        <label for="program_id_{{ $program->id }}" class="form-check-label">{{ $program->nama_program }}</label><br>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
                     </div>
-                    <div class="row g-3 text-start mb-5 d-flex justify-content-center">
-                        <div class="col-sm-3">
-                            <label for="program_id" class="col-form-label col-form-label-sm fw-bold" hidden>Program Lainnya</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <p class="fw-bold">Daftar Program Tersedia</p>
-                            <div class="form-check" id="checkbox">
-                            </div>
-                        </div>
-                    </div>
-                    
-                
                     <div class="row d-flex justify-content-end mx-3 mt-3">
                         <div class="col-6 p-2 d-flex justify-content-center align-items-end">
                             <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>

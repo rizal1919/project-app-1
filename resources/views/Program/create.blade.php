@@ -22,20 +22,6 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                    
-                    <label for="category" class="form-label mt-3">Kategori</label>
-                    <div class="row g-1">
-                        <div class="col-lg-10">
-                            <select name="category_id" id="category" style="width: 100%;">
-                                @foreach( $categories as $category )
-                                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="btn btn-primary" id="clear" style="width: 100%;">Clear</button>
-                        </div>
-                    </div>
-
                     <button type="submit" class="btn btn-primary mt-3"><i class="fa-solid fa-database mx-2"></i>Tambah Program Baru</button>
                 </form>
                 </div>

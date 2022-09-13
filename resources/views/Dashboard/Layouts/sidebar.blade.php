@@ -12,7 +12,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {{ ($active == 'Kelas') ? 'active' : '' }}" href="/kelas-admin">
+                <a onclick="alert('Halaman dalam perbaikan')" class="nav-link {{ ($active == 'Kelas') ? 'active' : '' }}" href="#">
                   <span data-feather="layers" class="align-text-bottom"></span>
                   Kelas
                 </a>

@@ -14,11 +14,11 @@
                     <form action="/program" method="get" class="mx-2" style="width: 30%;" >
                         @csrf
                         <div class="input-group">
-                            <input type="text" name="search" value="{{ request('search') }}" class="form-control text-start" placeholder="Nama Kurikulum">
-                            <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                            <input type="text" name="search" value="{{ request('search') }}" class="form-control form-control-sm text-start" placeholder="Nama Kurikulum">
+                            <button class="btn btn-primary btn-sm" id="basic-addon2">Cari!</button>
                         </div>
                     </form>
-                    <a href="/create" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
+                    <a href="/create" class="text-decoration-none text-light btn btn-primary btn-sm"><i class="fa-solid fa-plus mx-1"></i>Tambah Program</a>
                 </div>
             </div>
             
@@ -56,7 +56,7 @@
                 <table class="table table-hover table-stripes">
                     <thead>
                         <th>No</th>
-                        <th colspan="2">Program</th>
+                        <th colspan="2">Nama Program</th>
                         <th>Aksi</th>
                     </thead>
                     <tbody>
@@ -65,12 +65,12 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $program->nama_program }}</td>
                                 <td>
-                                <a href="/materi/{{ $program->id }}" class="text-decoration-none btn btn-primary" style="color: white;"><i class="fa-solid fa-plus mx-1"></i>Tambah Materi</a>
+                                <a href="/materi/{{ $program->id }}" class="text-decoration-none btn btn-primary btn-sm" style="color: white;"><i class="fa-solid fa-plus mx-1"></i>Tambah Materi</a>
                                 </td>
                                 <td>
-                                    <a href="/show-program/{{ $program->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
-                                    <a href="/update-program/{{ $program->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                    <button type="button" id="delete" data-url="/delete-program/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $program->id }}', '{{ $program->nama_program }}')"><i class="fas fa-trash"></i></button>
+                                    <a href="/show-program/{{ $program->id }}" class="btn btn-info text-dark btn-sm"><i class="fas fa-eye"></i></a>
+                                    <a href="/update-program/{{ $program->id }}" class="btn btn-warning btn-sm text-dark"><i class="fas fa-pen-to-square"></i></a>
+                                    <button type="button" id="delete" data-url="/delete-program/" class="btn btn-danger btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $program->id }}', '{{ $program->nama_program }}')"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         @endforeach

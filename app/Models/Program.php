@@ -15,10 +15,6 @@ class Program extends Model
         return $this->hasMany(Materi::class);
     }
 
-    public function category(){
-        return $this->belongsTo(Category::class);
-    }
-
     public function aktivasi(){
         return $this->belongsToMany(Aktivasi::class);
     }

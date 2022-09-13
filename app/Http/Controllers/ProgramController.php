@@ -44,44 +44,20 @@ class ProgramController extends Controller
 
     public function create(){
 
+
         return view('Program.create', [
             'title' => 'Program',
-            'active' => 'Program',
-            'categories' => Category::all()
+            'active' => 'Program'
         ]);
     }
 
     public function store(Request $request){
 
-        $parseCategory = $request->collect('category_id');
-        $requestCategory = $parseCategory[0];
-        $apakahDiaString = "/[a-zA-Z]/i";
-        $hasil = preg_match($apakahDiaString, strval($requestCategory));
-        // cari apakah request category_id berisi string
-        // strval itu memaksa semua tipe int,double,string menjadi tipe string
-
-        if( $hasil == '1' ){
-            // kalau dia 1, berarti ada category baru yang akan ditambahkan / ada string yang terdeteksi
-
-            Category::create([
-                'category_name' => $requestCategory
-            ]); 
-
-            $category = Category::where('category_name', $requestCategory)->first();
-            $category_id = $category->id;
-            
-
-        }else if( $hasil == '0' ){
-
-            $category_id = $requestCategory;
-        }
-        
-
+       
         $validatedData = $request->validate([
             'nama_program' => 'required'
         ]);
 
-        $validatedData['category_id'] = $category_id;
         Program::create($validatedData);
 
         return redirect('/program')->with('create',$validatedData['nama_program']);
