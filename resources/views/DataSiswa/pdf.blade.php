@@ -55,7 +55,7 @@
             </div>
         </div>
         
-        <div class="content mt-3" style="margin-left: 30px;">
+        <div class="content mt-1" style="margin-left: 30px;">
             <h6 style="font-size: 13px;" class="fw-bold">A. KETERANGAN CALON PESERTA DIDIK</h6>
             <ol class="list-1">
                 <li class="">Nama Lengkap<p class="d-inline" style="margin-left: 75px;">: </p>{{ $student->nama_siswa }}</li>
@@ -95,6 +95,12 @@
 
                 <li class=""><strong>Lengkap Tinggal</strong><p class="d-inline" style="margin-left: 63px;">: Jl </p>{{ $student->nama_jalan_ortu }}<p class="d-inline" style="margin-left: 14px;">RT/RW : </p>{{ $student->rt_ortu }}/{{ $student->rw_ortu }}</li>
                 <li class="" style="list-style-type: none;"><p class="d-inline" style="margin-left: 142px; ">: Desa/Kel </p>{{ $student->nama_desa_ortu }}<p class="d-inline" style="margin-left: 14px;">Kec : </p>{{ $student->nama_kecamatan_ortu }}</li>
+            </ol>
+            <h6 style="font-size: 13px;" class="fw-bold">C. DATA PERIODIK CALON PESERTA DIDIK</h6>
+            <ol class="list-1">
+                <li class="">Tinggi Badan<p class="d-inline" style="margin-left: 86px;">: </p>{{ $student->tinggi_badan }} CM</li>
+                <li class="">Jarak Rumah Ke Sekolah<p class="d-inline" style="margin-left: 37px;">: </p>{{ $student->jarak_tempuh_sekolah }} KM</li>
+                <li class="">Anak Ke<p class="d-inline" style="margin-left: 108px;">: </p>{{ $student->urutan_anak }} Dari {{ $student->jumlah_saudara }}</li>
             </ol>
             <p class="list-1" style="width: 95%;">Sesuai dengan apa yang saya dapat dari informasi Lembaga LKP IHS Adhikari ini Saya sangat tertarik untuk menjadi Peserta Didik Tahun Ajaran 2022 - 2023 dengan pilihan :</p>
             <div class="foot">
