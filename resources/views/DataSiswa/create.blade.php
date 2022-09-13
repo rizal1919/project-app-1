@@ -212,7 +212,7 @@
                         <div class="row my-3">
                             <label for="no_hp" class="col-sm-3 col-form-label col-form-label-sm fw-bold">No Telfon</label>
                             <div class="col-sm-7">
-                                <input type="number" autocomplete="on" value="{{ old('no_hp') }}" name="no_hp" id="no_hp" class="form-control form-control-sm submit" placeholder="085xxxxxxxxx" required>
+                                <input type="number" id="no_hp" autocomplete="on" value="{{ old('no_hp') }}" name="no_hp" id="no_hp" class="form-control form-control-sm submit" placeholder="085xxxxxxxxx" required>
                             </div>
                             <p class="form-text" style="margin-left: 220px;">Harap untuk menginputkan nomor yang masih bisa dihubungi</p>
                         </div>
@@ -401,7 +401,7 @@
                         <label for="jumlah_saudara" class="text-center col-form-label col-form-label-sm fw-bold">Dari</label>
                     </div>
                     <div class="col-md-2">
-                        <input type="number" autocomplete="on" value="{{ old('jumlah_saudara') }}" name="jumlah_saudara" id="jumlah_saudara" class="form-control form-control-sm submit" placeholder="1" required>
+                        <input type="number" autocomplete="on" value="{{ old('jumlah_saudara') }}" name="jumlah_saudara" id="jumlah_saudara" class="form-control form-control-sm" placeholder="1" required>
                     </div>
                     <label for="jumlah_saudara" class="col-md-2 col-form-label col-form-label-sm fw-bold">Saudara</label>
                 </div>

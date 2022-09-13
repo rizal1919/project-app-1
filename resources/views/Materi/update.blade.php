@@ -33,7 +33,7 @@
                     <div class="mb-1">
                         <input type="hidden" class="form-control @error('program_id') is-invalid @enderror" id="program_id" name="program_id" value="{{ $dataMateri->program_id }}" required>
                     </div>
-                        <button type="submit" class="btn btn-primary mb-3"><i class="fas fa-pen-to-square mx-1"></i>Ubah Data</button>
+                        <button type="submit" class="btn btn-primary mb-3"><i class="fas fa-pen-to-square mx-1"></i>Update</button>
                     </form>
                     
                 </div>

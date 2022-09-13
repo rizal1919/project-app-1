@@ -105,7 +105,7 @@
                         <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square mx-1"></i>Tambah Data</button>
+                        <button class="btn btn-primary"><i class="fas fa-pen-to-square mx-2"></i>Update</button>
                         <a href="/assign-teacher" class="btn btn-primary">Kembali</a>
                     </div>
                     

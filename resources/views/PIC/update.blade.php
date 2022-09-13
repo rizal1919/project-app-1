@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button class="btn btn-primary mx-1"><i class="fas fa-database mx-2"></i>Ubah Data PIC</button>
+                    <button class="btn btn-primary mx-1"><i class="fas fa-pen-to-square mx-2"></i>Update</button>
                     <a href="/pic" class="text-decoration-none btn btn-primary">Kembali</a>
                 </div>
             </form>

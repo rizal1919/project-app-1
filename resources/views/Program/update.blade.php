@@ -21,7 +21,7 @@
                         @enderror
                         <label for="nama_program" class="form-label">Nama Program</label>
                     </div>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-pen-to-square mx-1"></i>Ubah Data</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-pen-to-square mx-1"></i>Update</button>
                 </form>
                 </div>
                 

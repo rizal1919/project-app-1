@@ -421,7 +421,7 @@
                         <label for="jumlah_saudara" class="text-center col-form-label col-form-label-sm fw-bold">Dari</label>
                     </div>
                     <div class="col-md-2">
-                        <input type="number" autocomplete="on" value="{{ old('jumlah_saudara', $student->jumlah_saudara) }}" name="jumlah_saudara" id="jumlah_saudara" class="form-control form-control-sm submit" placeholder="1" required>
+                        <input type="number" autocomplete="on" value="{{ old('jumlah_saudara', $student->jumlah_saudara) }}" name="jumlah_saudara" id="jumlah_saudara" class="form-control form-control-sm" placeholder="1" required>
                     </div>
                     <label for="jumlah_saudara" class="col-md-2 col-form-label col-form-label-sm fw-bold">Saudara</label>
                 </div>
@@ -431,7 +431,7 @@
                     <p><em><small>Pastikan semua data terisi dengan benar sebelum menekan tombol submit data.</small></em></p>
                 </div>
                 <div class="col-auto">
-                    <button id="submit" class="btn btn-primary"><i class="fa-solid fa-database mx-2"></i>Tambah Siswa</button>
+                    <button id="submit" class="btn btn-primary"><i class="fas fa-pen-to-square mx-2"></i>Update</button>
                     <a href="/data-siswa" class="btn btn-primary">Kembali</a>
                 </div>
             </div>
