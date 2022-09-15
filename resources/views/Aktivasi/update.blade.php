@@ -55,7 +55,7 @@
                     </div>
                     <div class="row g-3 mb-3 text-start d-flex justify-content-center">
                         <div class="col-sm-3">
-                            <label for="Periode_Pendafataran" class="col-form-label col-form-label-sm fw-bold">Periode Pendaftaran</label>
+                            <label for="Periode_Pendafataran" class="col-form-label col-form-label-sm fw-bold">Periode </label>
                         </div>
                         <div class="col-sm-1">
                             <label for="Periode_Pendafataran" class="col-form-label col-form-label-sm fw-bold">Pembukaan</label>

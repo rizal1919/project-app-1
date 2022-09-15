@@ -27,12 +27,6 @@
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
-                    @if( session('updateBerhasil') )
-                    <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                        Informasi siswa bernama <strong>{{ session('updateBerhasil') }}</strong> berhasil diubah.
-                        <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-12 d-flex mt-4 justify-content-end">
                         <form action="/data-siswa" method="get" class="mx-2" style="width: 80%;" >
@@ -74,7 +68,7 @@
                                     <td>
                                         <div class="btn btn-group-sm border border-0">
                                             <a href="/data-siswa/show/student/{{ $siswa->id }}" class="btn btn-info btn-sm text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
-                                            <a href="/export-pdf/{{ $siswa->id }}" class="btn btn-info btn-sm text-decoration-none text-dark">Export</a>
+                                            <a href="/export-pdf/{{ $siswa->id }}" target="_blank" class="btn btn-info btn-sm text-decoration-none text-dark">Export</a>
                                         </div>
                                         <a href="/data-siswa/update/student/{{ $siswa->id }}" class="btn btn-warning btn-sm text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
                                         <button class="btn btn-danger btn-sm text-dark" id="delete" data-url="/data-siswa/delete/student/" onclick="confirmation('{{ $siswa->id }}', '{{ $siswa->nama_siswa }}')"><i class="fas fa-trash"></i></button>

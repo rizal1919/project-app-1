@@ -2,25 +2,28 @@
 
 @section('container')
 
+
 <form action="/data-siswa/update-new/student/{{ $student->id }}" id="formTambahSiswa" method="post" enctype="multipart/form-data">
     <div class="container d-flex justify-content-center mt-4 mb-2">
         <div class="card col-12 justify-content-center">
-            @if( session('pendaftaranGagal') )
-            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            @if( session('pendaftaranBerhasil') )
-            <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                <strong>{{ session('pendaftaranBerhasil') }}</strong> adalah kode untuk aktivasi program.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
             <div class="card-header">
                 <p class="card-title">
                     <strong>Form A</strong> - Keterangan Calon Peserta Didik
                 </p>
+            </div>
+            <div class="col-lg-12 p-2" style="margin: 0px auto;">
+                @if( session('pendaftaranGagal') )
+                <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                    <strong>{{ session('pendaftaranGagal') }}</strong> paket pilihan harus dipilih.
+                    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+                @if( session('updateBerhasil') )
+                <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                    Informasi siswa bernama <strong>{{ session('updateBerhasil') }}</strong> berhasil diubah.
+                    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
             </div>
                 @csrf
                 <div class="d-flex justify-content-center p-4">

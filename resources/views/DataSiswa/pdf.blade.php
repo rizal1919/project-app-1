@@ -104,7 +104,7 @@
             </ol>
             <p class="list-1" style="width: 95%;">Sesuai dengan apa yang saya dapat dari informasi Lembaga LKP IHS Adhikari ini Saya sangat tertarik untuk menjadi Peserta Didik Tahun Ajaran 2022 - 2023 dengan pilihan :</p>
             <div class="foot">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <h6 style="font-size: 13px;" class="fw-bold">Lingkari Yang Dipilih</h6>
                     <ol class="list-1">
                         @foreach( $aktivasis as $aktivasi )
@@ -117,9 +117,10 @@
                         <li>Dicicil</li>
                     </ol>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6 text-center" style="width: 40%;">
                     <h6 style="font-size: 13px;" class="fw-bold mb-5">Tanda Tangan Siswa</h6>
-                    <p>(...................................)</p>
+                    <!-- <p>(...................................)</p> -->
+                    <p style="font-size: 13px;" class="fw-bold">Adinda Panca Muhammad Ridho Farizqi Utama Aziqraa Hudha Arrahman</p>
                 </div>
             </div>
         </div>
@@ -127,9 +128,9 @@
 
     </div>
     
-    <script>
+    <!-- <script>
         window.print();
-    </script>
+    </script> -->
 </body>
 </html>
 

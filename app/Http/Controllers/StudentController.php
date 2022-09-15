@@ -453,7 +453,7 @@ class StudentController extends Controller
         
         Student::where('id', $student->id)->update($validatedData);
 
-        return redirect('/data-siswa')->with('updateBerhasil', $validatedData['nama_siswa']);
+        return redirect('/data-siswa/update/student/' . $student->id)->with('updateBerhasil', $validatedData['nama_siswa']);
     }
 
     public function destroy(Student $student){
