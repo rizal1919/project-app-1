@@ -27,11 +27,9 @@ class PendaftaranController extends Controller
     {
 
         $dataAktivasi = Aktivasi::all();
+        $rakSementara = [];
         if($dataAktivasi->count() > 0){
 
-            
-
-            $rakSementara = [];
             foreach( $dataAktivasi as $aktivasi ){
 
                 if( $aktivasi->student->count() > 0 ){

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('program_id');
             $table->string('nama_materi')->unique();
+            $table->integer('bobot_persen')->nullable();
             $table->integer('menit');
             $table->timestamps();
         });

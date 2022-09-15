@@ -11,17 +11,30 @@ use Illuminate\Http\Request;
 
 
 class MateriController extends Controller
-{
+{   
+    public function index(Request $request, Program $program){
+
+        $data = Materi::with('program')->where('program_id', $program->id)->Filter(request(['search']))->orderBy('updated_at', 'DESC')->get();
+       
+        return view('Materi.index', [
+            'title' => 'Materi',
+            'active' => 'Program',
+            'dataProgram' => $program,
+            'dataMateri' => $data,
+            'total' => $data->sum('bobot_persen')
+        ]);
+    }
     
     public function createMateri(Program $program){
 
-
+        $data = Materi::where('program_id', $program->id)->Filter(request(['search']))->get();
         
 
         return view('Materi.create', [
             'title' => 'Create',
             'active' => 'Data Kurikulum',
             'dataProgram' => $program,
+            'total' => $data->sum('bobot_persen')
         ]);
     }
 
@@ -30,13 +43,14 @@ class MateriController extends Controller
         $validatedData = $request->validate([
             'nama_materi'=>'required|unique:materis',
             'program_id'=> 'required|numeric',
-            'menit' => 'required|numeric|between:30,240'
+            'menit' => 'required|numeric|between:30,240',
+            'bobot_persen' => 'required'
         ],[
             'nama_materi.required' => 'Silahkan isi terlebih dahulu nama materi',
             'nama_materi.unique' => 'Nama materi telah digunakan, silahkan gunakan nama yang berbeda',
             'menit.required' => 'Durasi menit wajib diisi',
             'menit.numeric' => 'Wajib diisi dengan angka',
-            'menit.between' => 'Durasi berkisar antara 60-240 menit / 1-4 Jam'
+            'menit.between' => 'Durasi berkisar antara 30-240 menit / 1-4 Jam',
         ]);
 
         
@@ -63,26 +77,35 @@ class MateriController extends Controller
 
     public function editMateri(Materi $materi){
 
+        
+
+        $data = Materi::where('program_id', $materi->program->id)->Filter(request(['search']))->get();
+        
+
        
         return view('Materi.update', [
             'title' => 'Materi',
             'active' => 'Program',
-            'dataMateri' => $materi
+            'dataMateri' => $materi,
+            'total' => $data->sum('bobot_persen')
         ]);
     }
 
     public function updateMateri(Request $request, Materi $materi){
 
+        // dd($request->collect());
+
         $validatedData = $request->validate([
-            'nama_materi'=>['required', \Illuminate\Validation\Rule::unique('materis')->ignore($materi->id)],
+            'nama_materi'=> ['required', \Illuminate\Validation\Rule::unique('materis')->ignore($materi->id)],
             'program_id'=> 'required|numeric',
-            'menit' => 'required|numeric|between:30,240'
+            'menit' => 'required|numeric|between:30,240',
+            'bobot_persen' => 'required'
         ],[
             'nama_materi.required' => 'Silahkan isi terlebih dahulu nama materi',
             'nama_materi.unique' => 'Nama materi telah digunakan, silahkan pilih nama lain',
             'menit.required' => 'Durasi menit wajib diisi',
             'menit.numeric' => 'Wajib diisi dengan angka',
-            'menit.between' => 'Durasi berkisar antara 60-240 menit / 1-4 Jam'
+            'menit.between' => 'Durasi berkisar antara 30-240 menit / 1-4 Jam'
         ]);
 
         $id = $validatedData['program_id'];
@@ -90,7 +113,8 @@ class MateriController extends Controller
         $materi->update([
             'nama_materi'=> $validatedData['nama_materi'],
             'program_id'=> $validatedData['program_id'],
-            'menit' => $validatedData['menit']
+            'menit' => $validatedData['menit'],
+            'bobot_persen' => $validatedData['bobot_persen']
         ]);
 
         return redirect('/materi/'. $id)->with('update',$validatedData['nama_materi']);

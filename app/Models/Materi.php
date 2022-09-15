@@ -32,7 +32,4 @@ class Materi extends Model
 
     }
 
-    public function scopeActive($query, $id){
-        return $query->where('program_id','=',$id);
-    }
 }

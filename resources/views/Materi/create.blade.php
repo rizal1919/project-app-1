@@ -10,24 +10,34 @@
         <div class="col-lg-8" style="height: 30%;">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">ACADEMY - Program {{ $dataProgram->nama_program }}</h5>
+                    <h5 class="card-title">Program {{ $dataProgram->nama_program }}</h5>
                 </div>
                 <div class="card-body">
                 <form action="/create-materi" method="post">
                     @csrf
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control @error('nama_materi') is-invalid @enderror" id="nama_materi" name="nama_materi" value="{{ old('nama_materi') }}" placeholder="Nama Materi" autofocus required>
+                        <input type="text" class="form-control form-control-sm @error('nama_materi') is-invalid @enderror" id="nama_materi" name="nama_materi" value="{{ old('nama_materi') }}" placeholder="Nama Materi" autofocus required>
                         @error('nama_materi')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <label for="nama_materi">Nama Materi</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="number" min="60" max="240" class="form-control @error('menit') is-invalid @enderror" id="menit" name="menit" value="{{ old('menit') }}" placeholder="Menit" required>
+                        <input type="number" min="30" max="240" class="form-control form-control-sm @error('menit') is-invalid @enderror" id="menit" name="menit" value="{{ old('menit') }}" placeholder="Menit" required>
                         @error('menit')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <label for="menit">Menit</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" max="100" name="bobot_persen" placeholder="Bobot Penilaian (%)" id="bobot_persen" value="{{ old('bobot_persen') }}" class="form-control @error('bobot_persen') is-invalid @enderror" required>
+                        @error('bobot_persen')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                        <label for="bobot_persen">Bobot Penilaian (%)</label>
+                        <p class="form-text px-1">Total bobot penilaian saat ini : {{ $total }}%</p>
                     </div>
                     <div class="form-floating mb-1">
                         <input type="hidden" class="form-control @error('program_id') is-invalid @enderror" id="program_id" name="program_id" value="{{ $dataProgram->id }}" required>

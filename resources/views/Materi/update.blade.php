@@ -24,11 +24,21 @@
                         <label for="nama_materi">Nama Materi</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="number" min="60" max="240" class="form-control @error('menit') is-invalid @enderror" id="menit" name="menit" value="{{ old('menit', $dataMateri->menit) }}" placeholder="Menit" required>
+                        <input type="number" min="30" max="240" class="form-control @error('menit') is-invalid @enderror" id="menit" name="menit" value="{{ old('menit', $dataMateri->menit) }}" placeholder="Menit" required>
                         @error('menit')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <label for="menit">Durasi Pertemuan (menit)</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" max="100" name="bobot_persen" placeholder="Bobot Penilaian (%)" id="bobot_persen" value="{{ old('bobot_persen', $dataMateri->bobot_persen) }}" class="form-control @error('bobot_persen') is-invalid @enderror" required>
+                        @error('bobot_persen')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                        <label for="bobot_persen">Bobot Penilaian (%)</label>
+                        <p class="form-text px-1">Total bobot penilaian saat ini : {{ $total }}%</p>
                     </div>
                     <div class="mb-1">
                         <input type="hidden" class="form-control @error('program_id') is-invalid @enderror" id="program_id" name="program_id" value="{{ $dataMateri->program_id }}" required>

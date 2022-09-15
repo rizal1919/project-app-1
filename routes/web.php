@@ -130,7 +130,7 @@ Route::post('/update-program/{program:id}', [ProgramController::class, 'update']
 Route::post('/delete-program/{program:id}', [ProgramController::class, 'destroy'])->Middleware('auth');
 
 // routes materi
-Route::get('/materi/{program:id}', [ProgramController::class, 'indexMateri'])->Middleware('auth');
+Route::get('/materi/{program:id}', [MateriController::class, 'index'])->Middleware('auth');
 Route::get('/create-materi/{program:id}', [MateriController::class, 'createMateri'])->Middleware('auth');
 Route::post('/create-materi', [MateriController::class, 'storeMateri']);
 Route::get('/show-materi/{materi:id}', [MateriController::class, 'showMateri'])->Middleware('auth');

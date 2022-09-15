@@ -120,7 +120,7 @@
                 <div class="col-lg-6 text-center" style="width: 40%;">
                     <h6 style="font-size: 13px;" class="fw-bold mb-5">Tanda Tangan Siswa</h6>
                     <!-- <p>(...................................)</p> -->
-                    <p style="font-size: 13px;" class="fw-bold">Adinda Panca Muhammad Ridho Farizqi Utama Aziqraa Hudha Arrahman</p>
+                    <p style="font-size: 13px;" class="fw-bold">{{ $student->nama_siswa }}</p>
                 </div>
             </div>
         </div>
@@ -128,9 +128,9 @@
 
     </div>
     
-    <!-- <script>
+    <script>
         window.print();
-    </script> -->
+    </script>
 </body>
 </html>
 

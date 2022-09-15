@@ -22,25 +22,7 @@ class ProgramController extends Controller
         ]);
     }
 
-    public function indexMateri(Request $request, Program $program){
-
-        // dd($program->materi());
-
-        $id = $program->id;
-       
-        $data = Materi::filter(request(['search']))->Active($id)->paginate(5)->withQueryString();
-
-
-        // dd($data);
-        return view('Materi.index', [
-            'title' => 'Materi',
-            'active' => 'Program',
-            'dataProgram' => $program,
-            'dataMateri' => $data
-        ]);
-
-    }
-
+    
 
     public function create(){
 

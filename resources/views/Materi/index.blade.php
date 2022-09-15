@@ -10,20 +10,20 @@
                 </div>
             </div>
             <div class="row g-1 my-3 d-flex justify-content-end">
-                <div class="col-md-3">
+                <div class="col-sm-2 text-end">
+                    <a href="/create-materi/{{ $dataProgram->id }}" class="text-decoration-none text-light btn btn-primary btn-sm"><i class="fa-solid fa-plus mx-2"></i>Tambah Materi</a>
+                </div>
+                <div class="col-sm-3">
                     <form action="/materi/{{ $dataProgram->id }}" method="get">
                         @csrf
                         <div class="input-group">
-                            <input type="text" name="search" value="{{ request('search') }}" class="form-control text-start" placeholder="Nama Materi">
-                            <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                            <input type="text" name="search" value="{{ request('search') }}" class="form-control form-control-sm text-start" placeholder="Nama Materi">
+                            <button class="btn btn-primary btn-sm" id="basic-addon2">Cari!</button>
                         </div>
                     </form>
                 </div>
-                <div class="col-md-2 text-center">
-                    <a href="/create-materi/{{ $dataProgram->id }}" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus"></i>Tambah Materi</a>
-                </div>
-                <div class="col-md-1 text-center">
-                    <a href="/program" class="text-decoration-none text-light btn btn-primary">Kembali</a>
+                <div class="col-sm-1 text-start">
+                    <a href="/program" class="text-decoration-none text-light btn btn-primary btn-sm">Kembali</a>
                 </div>
             </div>
             
@@ -57,6 +57,7 @@
                         <th>No</th>
                         <th>Materi</th>
                         <th>Menit</th>
+                        <th>Bobot Penilaian (%)</th>
                         <th>Aksi</th>
                     </thead>
                     <tbody>
@@ -65,18 +66,24 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $materis->nama_materi }}</td>
                                 <td>{{ $materis->menit }}</td>
+                                <td>{{ $materis->bobot_persen }}</td>
                                 <td>
                                     <?php $id = $materis->id; ?>
-                                    <a href="/show-materi/{{ $materis->id }}" class="btn btn-info text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
-                                    <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                    <button type="button" id="delete" data-url="/delete-materi/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $materis->id }}', '{{ $materis->nama_materi }}')"><i class="fas fa-trash"></i></button>
+                                    <a href="/show-materi/{{ $materis->id }}" class="btn btn-info btn-sm text-decoration-none text-dark"><i class="fas fa-eye"></i></a>
+                                    <a href="/update-materi/{{ $materis->id }}" class="btn btn-warning btn-sm text-decoration-none text-dark"><i class="fas fa-pen-to-square"></i></a>
+                                    <button type="button" id="delete" data-url="/delete-materi/" class="btn btn-danger btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $materis->id }}', '{{ $materis->nama_materi }}')"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <div class="mt-1">
-                    {{ $dataMateri->links('vendor.pagination.bootstrap-5') }}
+            </div>
+            <div class="row g-1 my-1 d-flex justify-content-start p-2 rounded text-bg-primary">
+                <div class="col-sm-4 text-center">
+                    <p class="fw-bold">Total Bobot Penilaian (%) : </p>
+                </div>
+                <div class="col-sm-2 text-center">
+                    <p>{{ $total }}%</p>
                 </div>
             </div>
         </div>
