@@ -96,9 +96,16 @@
                     <div class="row mb-3 text-end d-flex justify-content-center">
                         <label for="date" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Tanggal Pertemuan</label>
                         <div class="col-sm-7">
-                            <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm" value="{{ old('tanggal', $penugasan['tanggal']) }}">
+                            <div class="date" id="datepicker">
+                                <input type="text" value="{{ old('tanggal', $penugasan['tanggal']) }}" autocomplete="off" name="tanggal" class="form-control form-control-sm" placeholder="dd/mm/yyyy">
+                                <span class="input-group-append" style="display: none;">
+                                    <span class="input-group-text bg-white d-block">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </span>
+                            </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="row d-flex justify-content-end mx-3 mt-3">
                     <div class="col-7 p-2 d-flex justify-content-center align-items-end">
@@ -139,6 +146,10 @@
 
 <script>
     $(document).ready(function(){
+
+        $(function(){
+            $('#datepicker').datepicker();
+        });
 
         $('#paket').on('change', function(){
             var value = $('#paket').val();

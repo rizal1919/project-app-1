@@ -381,7 +381,9 @@ class AssignTeacherController extends Controller
 
     public function store(Request $request){
 
-        // dd($request->collect());
+        // dd($request->collect('tanggal')[0]);
+
+        
 
         $adaGurunya = Materi::find($request->materi_id)->teacher->count() > 0;
         
@@ -398,6 +400,10 @@ class AssignTeacherController extends Controller
             'status' => 'required|between:0,1',
             'tanggal' => 'required'
         ]);
+
+        // ini dilakukan karna request dari form adalah string. maka dari itu harus dirubah ke Unix time
+        $dateVersion = date('Y-m-d', strtotime(strval($request->collect('tanggal')[0])));
+        $validatedData['tanggal'] = $dateVersion;
             
         DB::table('materi_teacher')->insert([
             'materi_id' => $validatedData['materi_id'],
@@ -420,6 +426,10 @@ class AssignTeacherController extends Controller
         $dataGuru = Teacher::find($data[0]->teacher_id);
         $dataAktivasi = Aktivasi::find($data[0]->aktivasi_id);
         $dataMateri = Materi::find($data[0]->materi_id);
+        // dd($data[0]->tanggal);
+
+        $stringVersion = date('d/m/Y', strtotime($data[0]->tanggal));
+        
 
         $penugasan = [
             'idGuru' => $dataGuru->id,
@@ -429,7 +439,7 @@ class AssignTeacherController extends Controller
             'idMateri' => $dataMateri->id,
             'namaMateri' => $dataMateri->nama_materi,
             'status' => $data[0]->status,
-            'tanggal' => $data[0]->tanggal
+            'tanggal' => $stringVersion
         ];
 
         // dd($penugasan);
@@ -475,8 +485,9 @@ class AssignTeacherController extends Controller
             'tanggal' => 'required'
         ]);
         
-        // dd($materi->teacher[0]->id);
-        // dd($validatedData);
+        $dateVersion = date('Y-m-d', strtotime(strval($request->collect('tanggal')[0])));
+        $validatedData['tanggal'] = $dateVersion;
+        
 
 
 
