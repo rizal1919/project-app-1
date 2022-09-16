@@ -5,24 +5,32 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header p-5">
-                <a href="/form-registrasi" class="text-decoration-none d-block"><i class="fa-solid fa-arrow-left mx-2"></i>Kembali</a>
-                <div class="row g-2 my-2">
-                    <div class="col-sm-6 p-3">
-                        <div class="btn-group btn-group-lg mt-2">
-                            <h1 class="btn btn-outline-secondary" id="pembayaran">Pembayaran</h1>
-                            <h1 class="btn btn-outline-secondary" id="biodata">Biodata</h1>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 p-3 text-start">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4>Total Pembayaran : {{ $biayaAktivasi }}</h4>
-                            </div>
-                        </div>
+                <a href="/form-registrasi" class="text-decoration-none d-block mb-5"><i class="fa-solid fa-arrow-left mx-2"></i>Kembali</a>
+                <div class="row">
+                    <div class="card-header col-sm-6 text-bg-primary">
+                        <h5 class="card-title fw-bold">Biodata: {{ $siswa->nama_siswa }}</h5>
                     </div>
                 </div>
-                <div id="whiteboard" style="margin-left: 10px;">
-                    <div id="top" class="Pembayaran-head-atas card-body border border-1 mt-2 bg-white">
+                <div class="row mb-4" style="width: 75%;">
+                    <div class="card-body border border-1" style="background-color: white; border-radius: 0px 10px 10px 10px;">
+                        <ul style="list-style-type: square;">
+                            <li>Nama Panggilan : {{ $siswa->nama_panggilan_siswa }}</li>
+                            <li>Alamat : {{ $siswa->nama_jalan_domisili }}, RT {{ $siswa->rt_domisili }}/RW {{ $siswa->rw_domisili }}, Desa {{ $siswa->nama_desa_domisili }}, Kecamatan {{ $siswa->nama_kecamatan_domisili }}</li>
+                            <li>Tanggal Lahir : {{ $siswa->tanggal_lahir }}</li>
+                            <li>Jenis Kelamin : {{ $siswa->jenis_kelamin }}</li>
+                            <li>No KTP : {{ $siswa->ktp }}</li>
+                            <li>No HP / Telepon : {{ $siswa->no_hp }}</li>
+                            <li>Kelas Aktivasi : {{ $dataAktivasi->nama_aktivasi }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="card-header col-sm-6 text-bg-primary">
+                        <h5 class="card-title fw-bold">Total Pembayaran: {{ $biayaAktivasi }}</h5>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div id="top" class="Pembayaran-head-atas card-body border border-1" style="border-radius: 0px 10px 10px 10px; background-color: white;">
                         <div class="box-bagian-atas">
                             <div class="Pembayaran-bagian-atas">
                                 <p class="fw-bold judul-atas">Total Terbayar</p>
@@ -44,83 +52,76 @@
                             <a href="#" class="text-decoration-none fw-bold ">Lihat riwayat transaksi</a>
                         </div>
                     </div>
-                    <div id="bottom">
-                        <h5>Biodata Siswa</h5>
-                        <ul>
-                            <li>Nama Lengkap : {{ $siswa->nama_siswa }}</li>
-                            <li>Alamat : {{ $siswa->nama_jalan_domisili }}, RT {{ $siswa->rt_domisili }}/RW {{ $siswa->rw_domisili }}, Desa {{ $siswa->nama_desa_domisili }}, Kecamatan {{ $siswa->nama_kecamatan_domisili }}</li>
-                            <li>Tanggal Lahir : {{ $siswa->tanggal_lahir }}</li>
-                            <li>Jenis Kelamin : {{ $siswa->jenis_kelamin }}</li>
-                            <li>No KTP : {{ $siswa->ktp }}</li>
-                            <li>No HP / Telepon : {{ $siswa->no_hp }}</li>
-                            <li>Kelas Aktivasi : {{ $dataAktivasi->nama_aktivasi }}</li>
-                        </ul>
-                    </div>
-                    
                 </div>
             </div>
             <div class="card-body">
-            @if( session('PaymentSuccess') )
-            <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                <strong>{{ session('PaymentSuccess') }}</strong> membayar cicilan. Terima Kasih
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            @if( session('PaymentFailed') )
-            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                Maaf! Pembayaran <strong>{{ session('PaymentFailed') }}</strong> ditambahkan. Terima Kasih
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            @if( session('UpdateSuccess') )
-            <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
-                <strong>{{ session('UpdateSuccess') }}</strong> mengubah tanggal pembayaran.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-                <table class="table table-hover table-responsive mt-3">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal Pembayaran</th>
-                            <th>Jenis Pembayaran</th>
-                            <th>Tagihan</th>
-                            <th>Terbayar</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach( $dataCicilan as $cicilan )
+                @if( session('PaymentSuccess') )
+                <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                    <strong>{{ session('PaymentSuccess') }}</strong> membayar cicilan. Terima Kasih
+                    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+                @if( session('PaymentFailed') )
+                <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+                    Maaf! Pembayaran <strong>{{ session('PaymentFailed') }}</strong> ditambahkan. Terima Kasih
+                    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+                @if( session('UpdateSuccess') )
+                <div class="alert alert-success alert-dismissible fade show" id="hide" role="alert">
+                    <strong>{{ session('UpdateSuccess') }}</strong> mengubah tanggal pembayaran.
+                    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+                
+                <div class="card-body">
+                    <div class="card-header col-sm-4 text-bg-primary">
+                        <h5 class="card-title fw-bold">Detail Cicilan</h5>
+                    </div>
+                    <table class="table table-hover table-bordered table-responsive">
+                        <thead>
                             <tr>
-                                <?php $tagihan = $cicilan['Tagihan']; ?>
-                                <?php $idPembayaran = $cicilan['idCicilan']; ?>
-                                <?php $tanggalTagihan = $cicilan['Tanggal']; ?>
-                                <td>{{ $loop->iteration }}</td>
-                                @if( $cicilan['Status'] === 'Paid' )
-                                <td>{{ $cicilan['Tanggal'] }}</td>
-                                @else
-                                <td>{{ $cicilan['Tanggal'] }}
-                                    <button type="button" class="border border-0 bg-light" id="changeDate" data-url="/cost-payment-edit/" data-toggle="modal" data-bs-target="#staticBackdrop" onclick="changeDate('{{ $idPembayaran }}')"><i class="fa-regular fa-calendar mx-2"></i></button>
-                                </td>
-                                @endif
-                                <td>{{ $cicilan['Nama Cicilan'] }}</td>
-                                <td>{{ $cicilan['Tagihan'] }}</td>
-                                <td>{{ $cicilan['Terbayar'] }}</td>
-                                <td>{{ $cicilan['Status'] }}</td>
-                                @if( $cicilan['Status'] === 'Paid' )
-                                    <td>
-                                        <a href="/cost-payment-store/{{ $idPembayaran }}" class="btn btn-primary btn-sm" hidden>Bayar</a>
+                                <th>No</th>
+                                <th>Tanggal Pembayaran</th>
+                                <th>Jenis Pembayaran</th>
+                                <th>Tagihan</th>
+                                <th>Terbayar</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach( $dataCicilan as $cicilan )
+                                <tr>
+                                    <?php $tagihan = $cicilan['Tagihan']; ?>
+                                    <?php $idPembayaran = $cicilan['idCicilan']; ?>
+                                    <?php $tanggalTagihan = $cicilan['Tanggal']; ?>
+                                    <td>{{ $loop->iteration }}</td>
+                                    @if( $cicilan['Status'] === 'Paid' )
+                                    <td>{{ $cicilan['Tanggal'] }}</td>
+                                    @else
+                                    <td>{{ $cicilan['Tanggal'] }}
+                                        <button type="button" class="border border-0 bg-light" id="changeDate" data-url="/cost-payment-edit/" data-toggle="modal" data-bs-target="#staticBackdrop" onclick="changeDate('{{ $idPembayaran }}')"><i class="fa-regular fa-calendar mx-2"></i></button>
                                     </td>
-                                @else
-                                    <td>
-                                        <button id="delete" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-bs-target="#staticBackdrop" data-url="/cost-payment-store/" onclick="confirmation('{{ $idPembayaran }}', '{{ $tagihan }}', '{{ $tanggalTagihan }}')">Bayar</button>
-                                    </td>
-                                @endif
-                            </tr>   
-                        @endforeach
-                    </tbody>
-                </table>
+                                    @endif
+                                    <td>{{ $cicilan['Nama Cicilan'] }}</td>
+                                    <td>{{ $cicilan['Tagihan'] }}</td>
+                                    <td>{{ $cicilan['Terbayar'] }}</td>
+                                    <td>{{ $cicilan['Status'] }}</td>
+                                    @if( $cicilan['Status'] === 'Paid' )
+                                        <td>
+                                            <a href="/cost-payment-store/{{ $idPembayaran }}" class="btn btn-primary btn-sm" hidden>Bayar</a>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <button id="delete" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-bs-target="#staticBackdrop" data-url="/cost-payment-store/" onclick="confirmation('{{ $idPembayaran }}', '{{ $tagihan }}', '{{ $tanggalTagihan }}')">Bayar</button>
+                                        </td>
+                                    @endif
+                                </tr>   
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -156,25 +157,7 @@
 @push('js')
 <script>
 
-    let pembayaran = document.getElementById('pembayaran');
-    let biodata = document.getElementById('biodata');
-
-    document.getElementById('bottom').style.display = 'none';
-    document.getElementById('top').style.display = '';
-
-    pembayaran.addEventListener('click', function(){
-        
-        document.getElementById('top').style.display = '';
-        document.getElementById('bottom').style.display = 'none';
-        console.log('pembayaran clicked');
-    });
-
-    biodata.addEventListener('click', function(){
-        document.getElementById('top').style.display = 'none';
-        document.getElementById('bottom').style.display = '';
-        console.log('biodata clicked');
-    });
-
+    
     let headline = document.getElementById('headlines');
     let acceptanceModal = document.getElementById('acceptanceModal');
     let urlDelete = document.getElementById('delete').getAttribute('data-url');
