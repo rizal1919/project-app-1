@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="row g-1 d-flex justify-content-end my-3">
-                <div class="col-sm-9">
+                <div class="col-sm-11">
                     <form action="/assign-teacher" method="get">
                         @csrf
                         <div class="input-group">
@@ -28,10 +28,7 @@
                     </form>
                 </div>
                 <div class="col-sm-1">
-                    <button id="yes-here" class="btn btn-warning" data-toggle="tooltip" title="Click to Clear Filters"><i class="fa-solid fa-square-minus"></i></button>
-                </div>
-                <div class="col-sm-2">
-                    <a href="/assign-teacher-create" class="text-decoration-none btn btn-primary"><i class="fas fa-plus mx-2"></i>Tugaskan Guru</a>
+                    <a href="/assign-teacher" id="yes-here" class="btn btn-warning" data-toggle="tooltip" title="Click to Clear Filters"><i class="fa-solid fa-square-minus"></i></a>
                 </div>
             </div>
             
@@ -78,22 +75,25 @@
                     </thead>
                     <tbody>
                         @foreach( $dataGuru as $data )
-                            @if( $data['statusPenugasan'] === 0 )
+                            @if( $data['statusPenugasan'] == 0 )
 
-                                <?php $data['statusPenugasan'] = 'empty'; ?>
+                                <?php $data['statusPenugasan'] = 'empty' ?>
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $data['namaMateri'] }}</td>
                                     <td>{{ $data['namaAktivasi'] }}</td>
                                     <td>{{ $data['statusPelaksanaan'] }}</td>
-                                    <td><p class="badge rounded-pill text-bg-danger">{{ $data['statusPenugasan'] }}</p></td>
+                                    <td><p class="badge text-bg-danger">{{ $data['statusPenugasan'] }}</p></td>
                                     <td>
-                                        <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
-                                        <button class="btn btn-warning" data-toggle="tooltip" title="Materi belum memiliki guru" onclick="alert('Tugaskan guru terlebih dulu')"><i class="fas fa-pen-to-square"></i></button>
-                                        <button class="btn btn-danger text-dark" onclick="alert('Tugaskan guru terlebih dulu')" data-toggle="tooltip" title="Materi belum memiliki guru"><i class="fas fa-trash"></i></button>
+                                        <?php $idmateri = $data['idMateri']; ?>
+                                        <?php $namaMateri = $data['namaMateri']; ?>
+                                        <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="/assign-teacher-update/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
+                                        <button type="button" id="delete" class="btn btn-danger text-dark btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @else
+
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $data['namaMateri'] }}</td>
@@ -103,12 +103,13 @@
                                     <td>
                                         <?php $idmateri = $data['idMateri']; ?>
                                         <?php $namaMateri = $data['namaMateri']; ?>
-                                        <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
-                                        <a href="/assign-teacher-update/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
-                                        <button type="button" id="delete" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button>
+                                        <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="/assign-teacher-update/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
+                                        <button type="button" id="delete" class="btn btn-danger btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @endif
+                           
                         @endforeach
                     </tbody>
                 </table>
@@ -187,6 +188,8 @@
         aktivasi.value = '';
         guru.value = '';
         materi.value = '';
+        windows.location.href = "http://project-app-1.test/assign-teacher";
+        alert('gabisa');
         
         
         
