@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aktivasi;
 use App\Models\AktivasiStudent;
 use App\Models\Category;
+use App\Models\Materi;
 use App\Models\Program;
 use Illuminate\Support\Facades\DB;
 
@@ -90,7 +91,6 @@ class AktivasiController extends Controller
 
         if(count($request->collect()) > 4){
             
-            
             $i=0;
             foreach( $request->collect() as $data ){
                 
@@ -105,6 +105,7 @@ class AktivasiController extends Controller
             }
 
             
+
         }
 
         return redirect('/aktivasi')->with('create', $validatedData['nama_aktivasi']);
@@ -160,11 +161,7 @@ class AktivasiController extends Controller
             'pembukaan' => $validatedData['pembukaan'],
             'penutupan' => $validatedData['penutupan'],
         ]);
-        
-        
-        
-        
-
+ 
         if(count($request->collect()) > 4){
             
             DB::table('aktivasi_program')->where('aktivasi_id', $aktivasi->id)->delete();
@@ -188,18 +185,6 @@ class AktivasiController extends Controller
 
     public function destroy(Aktivasi $aktivasi){
 
-        // dd($aktivasi);
-
-        // $siswaTerdaftar = AktivasiStudent::where('aktivasi_id', $aktivasi->id)->get();
-        // dd($siswaTerdaftar);
-
-        // if( count($siswaTerdaftar) > 0 ){
-        //     return redirect('/aktivasi')->with('destroyFailed', $aktivasi->nama_aktivasi);
-        // }
-
-        // if( count(DB::table('assign_teachers')->where('aktivasi_id', $aktivasi->id)->get()) > 0 ){
-        //     return redirect('/aktivasi')->with('destroyFailedAssignment', $aktivasi->nama_aktivasi);
-        // }
 
         DB::table('aktivasi_program')->where('aktivasi_id', $aktivasi->id)->delete();
 
@@ -207,5 +192,198 @@ class AktivasiController extends Controller
 
         return redirect('/aktivasi')->with('destroy', $aktivasi->nama_aktivasi);
 
+    }
+
+    public function indexDetails(Aktivasi $aktivasi){
+
+        $rakMateri = [];
+
+        foreach( $aktivasi->program as $programs ){
+
+            foreach( $programs->materi as $materi ){
+
+                
+                if($materi->bobot_persen){
+
+                    $rak = [
+                        'nama_materi' => $materi->nama_materi,
+                        'bobot_materi' => $materi->bobot_persen
+                    ];
+                
+                    array_push($rakMateri, $rak);
+                        
+                }
+                
+            }
+        }
+
+        
+        
+        $rakStudent = [];
+        foreach( $aktivasi->student as $student ){
+            
+            $data = DB::table('daftar_nilai')->where(['student_id' => $student->id], ['aktivasi_id' => $aktivasi->id])->get();
+
+            $rakStudentSementara = [];
+            $totalNilai = 0;
+            foreach( $data as $daftar_nilai ){
+
+                $dataMateri = \App\Models\Materi::find($daftar_nilai->materi_id);
+                if( $dataMateri->bobot_persen ){
+                    
+                    
+                    $rak = [
+                        'daftar_nilai_id' => $daftar_nilai->id,
+                        'student_id' => $student->id,
+                        'aktivasi_id' => $daftar_nilai->aktivasi_id,
+                        'materi_id' => $daftar_nilai->materi_id,
+                        'nama_siswa' => $student->nama_siswa,
+                        'nilai' => $daftar_nilai->nilai*($dataMateri->bobot_persen/100)
+                    ];
+    
+                    $totalNilai = $totalNilai + $daftar_nilai->nilai*($dataMateri->bobot_persen/100);
+                    $rak['total_nilai'] = $totalNilai;
+                    array_push($rakStudentSementara, $rak);
+                }
+                
+
+            }
+
+            array_push($rakStudent, $rakStudentSementara);
+            
+
+        }
+
+        
+
+        return view('Aktivasi.details', [
+            'active' => 'Aktivasi',
+            'materis' => $rakMateri,
+            'students' => $rakStudent,
+            'aktivasi' => $aktivasi
+        ]);
+    }
+
+    public function editDetails(Request $request){
+
+
+        $data = DB::table('daftar_nilai')->where(['student_id' => $request->studentId], ['aktivasi_id' => $request->aktivasiId])->get();
+
+        $rakMateri = [];
+        foreach( $data as $materi ){
+
+            $dataMateri = \App\Models\Materi::find($materi->materi_id);
+            if( $dataMateri->bobot_persen ){
+
+                $rak = [
+                    'id' => $dataMateri->id,
+                    'nama_materi' => $dataMateri->nama_materi,
+                    'nilai' => $materi->nilai
+                ];
+
+                array_push($rakMateri, $rak);
+            }
+        }
+
+        
+
+        return view('Aktivasi.editform', [
+            'jumlahMateri' => $request->jumlahMateri,
+            'number' => $request->idDaftarNilai,
+            'materis' => $rakMateri
+        ]);
+    }
+
+    public function updateDetails(Request $request){
+
+        $data = $request->collect();
+        
+        $nilai = DB::table('daftar_nilai')->where(['id' => $request->daftarNilai])->get();
+        
+        $RAK = [];
+        foreach( $data as $dat => $val ){
+
+            $word = explode('_', strval($dat));
+            if( $dat != 'daftarNilai' ){
+             
+                DB::table('daftar_nilai')->where([
+                    'student_id' => $nilai[0]->student_id,
+                    'aktivasi_id' => $nilai[0]->aktivasi_id,
+                    'materi_id' => (int)$word[1]
+                ])->update(['nilai' => $val]);
+            }
+        }
+
+       
+
+        $aktivasi = Aktivasi::find($nilai[0]->aktivasi_id);
+
+        $rakMateri = [];
+
+        foreach( $aktivasi->program as $programs ){
+
+            foreach( $programs->materi as $materi ){
+
+                
+                if($materi->bobot_persen){
+
+                    $rak = [
+                        'nama_materi' => $materi->nama_materi,
+                        'bobot_materi' => $materi->bobot_persen
+                    ];
+                
+                    array_push($rakMateri, $rak);
+                        
+                }
+                
+            }
+        }
+
+        
+        
+        $rakStudent = [];
+        foreach( $aktivasi->student as $student ){
+            
+            $data = DB::table('daftar_nilai')->where(['student_id' => $student->id], ['aktivasi_id' => $aktivasi->id])->get();
+
+            $rakStudentSementara = [];
+            $totalNilai = 0;
+            foreach( $data as $daftar_nilai ){
+
+                $dataMateri = \App\Models\Materi::find($daftar_nilai->materi_id);
+                if( $dataMateri->bobot_persen ){
+                    
+                    
+                    $rak = [
+                        'daftar_nilai_id' => $daftar_nilai->id,
+                        'student_id' => $student->id,
+                        'aktivasi_id' => $daftar_nilai->aktivasi_id,
+                        'materi_id' => $daftar_nilai->materi_id,
+                        'nama_siswa' => $student->nama_siswa,
+                        'nilai' => $daftar_nilai->nilai*($dataMateri->bobot_persen/100)
+                    ];
+    
+                    $totalNilai = $totalNilai + $daftar_nilai->nilai*($dataMateri->bobot_persen/100);
+                    $rak['total_nilai'] = $totalNilai;
+                    array_push($rakStudentSementara, $rak);
+                }
+                
+
+            }
+
+            array_push($rakStudent, $rakStudentSementara);
+            
+
+        }
+
+
+        return view('Aktivasi.updateform', [
+            'active' => 'Aktivasi',
+            'materis' => $rakMateri,
+            'students' => $rakStudent,
+            'aktivasi' => $aktivasi,
+            'alert' => 'Success!'
+        ]);
+       
     }
 }

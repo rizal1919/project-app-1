@@ -35,7 +35,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     
     
-    <link type="text/css" rel="stylesheet" href="{{  asset('css/coba.css')  }}">
+    <link type="text/css" rel="stylesheet" href="{{  asset('css/main.css')  }}">
     <!-- <meta name="csrf_token" content="{{ csrf_token() }}"> -->
 
     <title>International Hospitality School</title>

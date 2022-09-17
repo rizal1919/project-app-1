@@ -16,6 +16,7 @@ use App\Http\Controllers\PICController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\TeacherController;
+use App\Models\Aktivasi;
 use App\Models\AssignTeacher;
 use App\Models\Classroom;
 use App\Models\Kurikulum;
@@ -116,8 +117,12 @@ Route::get('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class,
 Route::post('/update-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'update']);
 Route::get('/show-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'show']);
 Route::post('/delete-aktivasi-program/{aktivasi:id}', [AktivasiController::class, 'destroy']);
+// daftar nilai
+Route::get('/details/{aktivasi:id}', [AktivasiController::class, 'indexDetails'])->middleware('auth');
 // ajax
 Route::get('/program-cek', [AktivasiController::class, 'program'])->name('cariProgram');
+Route::get('/edit', [AktivasiController::class, 'editDetails'])->name('edit');
+Route::get('/update', [AktivasiController::class, 'updateDetails'])->name('update');
 
 
 // routes program

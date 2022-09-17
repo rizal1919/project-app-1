@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+/* font-family: 'Quicksand', sans-serif; */
 
+/* pembayaran index */
 
 .Pembayaran-head-atas{
     width: 100%;
@@ -57,5 +60,27 @@
     flex-direction: row;
     justify-content: flex-start;
 }
+
+/* details daftar nilai */
+
+#navbar-daftar-nilai{
+    box-shadow: 2px 1px 10px 5px #888888;
+
+}
+
+#nav-hover:hover{
+    border-bottom: 2px solid blue;
+}
+
+#page-title{
+    font-family: 'Quicksand', sans-serif;
+}
+
+.content{
+    overflow-x: scroll;
+}
+
+
+
 
 

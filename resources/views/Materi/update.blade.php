@@ -31,7 +31,7 @@
                         <label for="menit">Durasi Pertemuan (menit)</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="number" max="100" name="bobot_persen" placeholder="Bobot Penilaian (%)" id="bobot_persen" value="{{ old('bobot_persen', $dataMateri->bobot_persen) }}" class="form-control @error('bobot_persen') is-invalid @enderror" required>
+                        <input type="number" max="100" name="bobot_persen" placeholder="Bobot Penilaian (%)" id="bobot_persen" value="{{ old('bobot_persen', $dataMateri->bobot_persen) }}" class="form-control @error('bobot_persen') is-invalid @enderror">
                         @error('bobot_persen')
                         <div class="invalid-feedback">
                             {{ $message }}

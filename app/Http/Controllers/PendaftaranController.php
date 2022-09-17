@@ -371,11 +371,6 @@ class PendaftaranController extends Controller
 
     public function store(Request $request)
     {
-
-        $data = $request->collect();
-
-        // dd($data);
-
         
         $validatedData = $request->validate([
             'student_id' => 'required',
@@ -407,15 +402,33 @@ class PendaftaranController extends Controller
         $seconds = date('s');
 
         
+        
         $totalBiaya = Aktivasi::find($validatedData['aktivasi_id'])->biaya;
         $biayaPembulatan = strval(round($totalBiaya/(int)$validatedData['metode_pembayaran']));
         $biayaAkhir = explode(',',$biayaPembulatan)[0];
 
-        
-        
 
+        
+        // table 'daftar_nilai'
+        $programs = Aktivasi::find((int)$request->aktivasi_id)->program;
+        foreach( $programs as $program ){
+            
+            foreach( $program->materi as $materi ){
+
+                DB::table('daftar_nilai')->insert([
+                    'student_id' => $validatedData['student_id'],
+                    'aktivasi_id' => $validatedData['aktivasi_id'],
+                    'materi_id' => $materi->id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+                
+            }
+        }
+        
+        // table 'installments'
         for( $i=1; $i<=$validatedData['metode_pembayaran']; $i++ ){
-
+            
             $schedule = date('Y-m-d', mktime($hour, $minutes, $seconds, $month+$i, $day, $year));
 
             Installment::create([
@@ -428,6 +441,7 @@ class PendaftaranController extends Controller
             ]);
         }
 
+        // table 'aktivasi_student'
         DB::table('aktivasi_student')->insert([
             'aktivasi_id' => $validatedData['aktivasi_id'],
             'student_id' => $validatedData['student_id'],
@@ -435,9 +449,9 @@ class PendaftaranController extends Controller
             'updated_at' => date('Y-m-d H:i:s')
         ]);
 
-        $nama_siswa = Student::find($validatedData['student_id'])->nama_siswa;
-        
 
+
+        $nama_siswa = Student::find($validatedData['student_id'])->nama_siswa;
         return redirect('/form-registrasi')->with('pendaftaranBerhasil', $nama_siswa);
     }
 

@@ -14,11 +14,11 @@
                     <form action="/aktivasi" method="get" class="mx-2" style="width: 30%;" >
                         @csrf
                         <div class="input-group">
-                            <input type="text" name="search" value="{{ request('search') }}" class="form-control text-start" placeholder="Nama Aktivasi">
-                            <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                            <input type="text" name="search" value="{{ request('search') }}" class="form-control form-control-sm text-start" placeholder="Nama Aktivasi">
+                            <button class="btn btn-primary btn-sm" id="basic-addon2">Cari!</button>
                         </div>
                     </form>
-                    <a href="/create-aktivasi" class="text-decoration-none text-light btn btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Aktivasi</a>
+                    <a href="/create-aktivasi" class="text-decoration-none text-light btn-sm btn-primary"><i class="fa-solid fa-plus mx-1"></i>Tambah Aktivasi</a>
                 </div>
             </div>
             
@@ -82,9 +82,10 @@
                                     <td><p class="badge bg-primary text-light">{{ $aktif->status }}</p></td>
                                 @endif
                                 <td>
-                                        <a href="/show-aktivasi-program/{{ $aktif->id }}" class="btn btn-info text-dark"><i class="fas fa-eye"></i></a>
-                                        <a href="/update-aktivasi-program/{{ $aktif->id }}" class="btn btn-warning text-dark"><i class="fas fa-pen-to-square"></i></a>
-                                        <button type="button" id="delete" data-url="/delete-aktivasi-program/" style="margin-right: 50px;" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $aktif->id }}', '{{ $aktif->nama_aktivasi }}')"><i class="fas fa-trash"></i></button>
+                                    <a href="/show-aktivasi-program/{{ $aktif->id }}" class="btn btn-info btn-sm text-dark"><i class="fas fa-eye"></i></a>
+                                    <a href="/update-aktivasi-program/{{ $aktif->id }}" class="btn btn-warning btn-sm text-dark"><i class="fas fa-pen-to-square"></i></a>
+                                    <button type="button" id="delete" data-url="/delete-aktivasi-program/" style="margin-right: 50px;" class="btn btn-danger btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $aktif->id }}', '{{ $aktif->nama_aktivasi }}')"><i class="fas fa-trash"></i></button>
+                                    <a href="/details/{{ $aktif->id }}" class="btn btn-dark btn-sm"><i class="fa-solid fa-list-check mx-2"></i>Daftar Nilai</a>
                                 </td>
                             </tr>
                         @endforeach

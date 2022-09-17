@@ -44,7 +44,7 @@ class MateriController extends Controller
             'nama_materi'=>'required|unique:materis',
             'program_id'=> 'required|numeric',
             'menit' => 'required|numeric|between:30,240',
-            'bobot_persen' => 'required'
+            'bobot_persen' => 'nullable'
         ],[
             'nama_materi.required' => 'Silahkan isi terlebih dahulu nama materi',
             'nama_materi.unique' => 'Nama materi telah digunakan, silahkan gunakan nama yang berbeda',
@@ -99,7 +99,7 @@ class MateriController extends Controller
             'nama_materi'=> ['required', \Illuminate\Validation\Rule::unique('materis')->ignore($materi->id)],
             'program_id'=> 'required|numeric',
             'menit' => 'required|numeric|between:30,240',
-            'bobot_persen' => 'required'
+            'bobot_persen' => 'nullable'
         ],[
             'nama_materi.required' => 'Silahkan isi terlebih dahulu nama materi',
             'nama_materi.unique' => 'Nama materi telah digunakan, silahkan pilih nama lain',
