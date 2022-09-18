@@ -28,13 +28,14 @@ class MateriController extends Controller
     public function createMateri(Program $program){
 
         $data = Materi::where('program_id', $program->id)->Filter(request(['search']))->get();
+        $bobot = 100 - $data->sum('bobot_persen');
         
-
         return view('Materi.create', [
             'title' => 'Create',
             'active' => 'Data Kurikulum',
             'dataProgram' => $program,
-            'total' => $data->sum('bobot_persen')
+            'total' => $data->sum('bobot_persen'),
+            'bobot' => $bobot
         ]);
     }
 
@@ -79,7 +80,17 @@ class MateriController extends Controller
 
         
 
-        $data = Materi::where('program_id', $materi->program->id)->Filter(request(['search']))->get();
+        $data = Materi::where('program_id', $materi->program->id)->get();
+
+        if( $data->sum('bobot_persen') != 0 ){
+        // cek sisa bobot nya masih ada ga? kalau ada tambahkan dengan bobot yang sekarang agar nanti dapat diubah sesuai dengan porsi bobot yang tersedia
+
+            $bobot = (100 - $data->sum('bobot_persen')) + $materi->bobot_persen;
+        }else{
+        // kalau tidak ada sisa, yaudah paksa maksimal pengisian bobot itu sama dengan yang sekarang atau kurang dari itu
+
+            $bobot = $materi->bobot_persen;
+        }
         
 
        
@@ -87,7 +98,8 @@ class MateriController extends Controller
             'title' => 'Materi',
             'active' => 'Program',
             'dataMateri' => $materi,
-            'total' => $data->sum('bobot_persen')
+            'total' => $data->sum('bobot_persen'),
+            'bobot' => $bobot
         ]);
     }
 
