@@ -11,12 +11,12 @@
                   Dashboard
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a onclick="alert('Halaman dalam perbaikan')" class="nav-link {{ ($active == 'Kelas') ? 'active' : '' }}" href="#">
                   <span data-feather="layers" class="align-text-bottom"></span>
                   Kelas
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a class="nav-link {{ ($active == 'Data Siswa') ? 'active' : '' }}" href="/data-siswa">
                   <span data-feather="users" class="align-text-bottom"></span>
