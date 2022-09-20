@@ -65,7 +65,7 @@
                                 <!-- sesuaikan dengan kolom materi -->
                                     <td>{{ $data['nilai'] }}</td>
                                 @endforeach
-                                <td>{{ max($student)['total_nilai'] }}</td>
+                                <td>{{ max($student)['total_nilai'] / $dibagiProgram }}</td>
                                 <!-- ambil total nilainya -->
                                     
                                 <td>

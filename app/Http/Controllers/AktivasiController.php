@@ -256,11 +256,14 @@ class AktivasiController extends Controller
 
         
 
+       
+
         return view('Aktivasi.details', [
             'active' => 'Aktivasi',
             'materis' => $rakMateri,
             'students' => $rakStudent,
-            'aktivasi' => $aktivasi
+            'aktivasi' => $aktivasi,
+            'dibagiProgram' => $aktivasi->program->count()
         ]);
     }
 

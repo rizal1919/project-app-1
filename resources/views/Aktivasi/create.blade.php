@@ -1,9 +1,7 @@
 @extends('Dashboard.Layouts.main')
 
 @section('container')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Halaman {{ $active }}</h1>
-</div>
+
     <div class="container d-flex justify-content-center my-4">
         <div class="card col-lg-12 d-flex justify-content-center">
             @if( session('pendaftaranGagal') )
