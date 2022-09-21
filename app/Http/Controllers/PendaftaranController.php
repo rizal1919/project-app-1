@@ -411,6 +411,7 @@ class PendaftaranController extends Controller
         
         // table 'daftar_nilai'
         $programs = Aktivasi::find((int)$request->aktivasi_id)->program;
+
         foreach( $programs as $program ){
             
             foreach( $program->materi as $materi ){

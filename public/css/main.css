@@ -72,12 +72,17 @@
     border-bottom: 2px solid blue;
 }
 
-#page-title{
+#page-title, #headTitle{
     font-family: 'Quicksand', sans-serif;
 }
 
 .content{
     overflow-x: scroll;
+}
+
+#headTitle{
+    border: 1px solid gainsboro;
+    border-radius: 5px 5px 0px 0px;
 }
 
 

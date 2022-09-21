@@ -1,50 +1,56 @@
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>{{ $alert }}</strong> nilai berhasil diubah.
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-<div class="card">
-    <div class="card-body content">
-        <table class="table table-striped table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Siswa</th>
-                    @foreach( $materis as $materi )
-                        <th class="materi">{{ $materi['nama_materi'] }}({{ $materi['bobot_materi'] }}%)</th>
-                    @endforeach
-                    <th>Jumlah</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach( $students as $student )
-                <!-- data siswa -->
-                <tr>
-                    @if( count($students) > 0)
-                    <!-- cek dulu ada siswa nya nggak? -->
-
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ max($student)['nama_siswa'] }}</td>
-                        <!-- max ini karena jumlah nilai diambil dari perhitungan nilai materi id paling besar -->
-
-                        @foreach( $student as $data )
-                        <!-- sesuaikan dengan kolom materi -->
-                            <td>{{ $data['nilai'] }}</td>
-                        @endforeach
-                        <td>{{ max($student)['total_nilai'] / $dibagiProgram }}</td>
-                        <!-- ambil total nilainya -->
-                            
-                        <td>
-                            <?php $idDaftarNilai = max($student)['daftar_nilai_id']; ?>
-                            <?php $idStudent = max($student)['student_id']; ?>
-                            <?php $idAktivasi = max($student)['aktivasi_id']; ?>
-                            <button onclick="edit('{{ $idDaftarNilai }}', '{{ $idStudent }}', '{{ $idAktivasi }}')" class="edit btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></button>
-                        </td>
-                    @else
-                    @endif
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+<div class="container">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ $alert }}</strong> nilai berhasil diubah.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
+<?php $counter = 0; ?>
+@foreach( $datas as $data )
+    <div class="container">
+        <div class="card-body text-bg-primary col-sm-3 border-bottom-0 p-3" id="headTitle">
+            <p class="card-title">{{ $programs[$counter]->nama_program }}</p>
+        </div>
+    </div>
+    <?php $counter++; ?>
+    <div class="container mb-4" id="table-isi">
+        <div class="card" style="border-radius: 0px 5px 5px 5px;">
+            <div class="card-body content">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Siswa</th>
+                            @if( count($data) !== 0 )
+                                @foreach( max($data) as $materi )
+                                    <th>{{ $materi['nama_materi'] }}</th>
+                                @endforeach
+                            @endif
+                            <th>Jumlah</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach( $data as $student )
+                            <tr>
+                                
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ max($student)['nama_siswa'] }}</td>
+                                @foreach( $student as $skor )
+                                    <td>{{ $skor['nilai'] }}</td>
+                                    <?php $idPenilaian = $skor['idPenilaian']; ?>
+                                    <?php $studentId = $skor['idSiswa']; ?>
+                                    <?php $aktivasiId = $skor['idAktivasi']; ?>
+                                    <?php $programId = $skor['idProgram']; ?>
+                                @endforeach
+                                <td>{{ max($student)['total_nilai'] }}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" data-url="/delete-aktivasi-program/" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="edit('{{ $idPenilaian }}', '{{ $studentId }}', '{{ $aktivasiId }}', '{{ $programId }}')"><i class="fa fa-pen-to-square"></i></button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+@endforeach

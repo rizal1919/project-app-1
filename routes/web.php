@@ -47,7 +47,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
 // routes login
-Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login-admin', [LoginController::class, 'authenticate']);
 Route::post('/logout-admin', [LoginController::class, 'logout']);
 

@@ -196,76 +196,80 @@ class AktivasiController extends Controller
 
     public function indexDetails(Aktivasi $aktivasi){
 
-        $rakMateri = [];
-        $totalMateri = 0;
 
-        foreach( $aktivasi->program as $programs ){
+        
+        $arrayProgram = [];
+        $rakS = [];
+        $rakP = [];
+        $rakTotal = [];
+        foreach( $aktivasi->program as $program ){
 
-            foreach( $programs->materi as $materi ){
+            $arrayProgram = [];
+            $rakP = [];
 
-                $totalMateri++;
-                
-                if($materi->bobot_persen){
+            
+            foreach( $program->materi as $materi ){
+                array_push($arrayProgram, $materi->id);
+            }
+            // dd($arrayProgram);
+            // dd($aktivasi->program[0]->materi);
+            
+            foreach( $aktivasi->student as $student ){
 
-                    $rak = [
-                        'nama_materi' => $materi->nama_materi,
-                        'bobot_materi' => $materi->bobot_persen
-                    ];
-                
-                    array_push($rakMateri, $rak);
-                        
+                $rakS = [];
+
+                $daftarNilai = DB::table('daftar_nilai')->where([
+                    'student_id' => $student->id,
+                    'aktivasi_id' => $aktivasi->id
+                ])->get();
+                $totalNilai = 0;
+                foreach( $daftarNilai as $nilai ){
+
+                    $rakM = [];
+
+                    if(in_array($nilai->materi_id, $arrayProgram, TRUE)){
+
+                        $dataMateri = Materi::find($nilai->materi_id);
+                        // dd($dataMateri);
+
+                        if( $dataMateri->bobot_persen ){
+
+                            $totalNilai = $totalNilai + $nilai->nilai*($dataMateri->bobot_persen/100);
+
+                            $rakM = [
+                                'idPenilaian' => $nilai->id,
+                                'nama_siswa' => $student->nama_siswa,
+                                'idSiswa' => $student->id,
+                                'idAktivasi' => $aktivasi->id,
+                                'idProgram' => $program->id,
+                                'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
+                                'total_nilai' => $totalNilai,
+                                'nama_materi' => $dataMateri->nama_materi,
+                                'bobot_materi' => $dataMateri->bobot_persen
+                            ];
+
+                            array_push($rakS, $rakM);
+                        }
+
+                    }
+
                 }
 
-                
-            }
-        }
-
-        
-        
-        $rakStudent = [];
-        foreach( $aktivasi->student as $student ){
-            
-            $data = DB::table('daftar_nilai')->where(['student_id' => $student->id], ['aktivasi_id' => $aktivasi->id])->get();
-
-            $rakStudentSementara = [];
-            $totalNilai = 0;
-            foreach( $data as $daftar_nilai ){
-
-                $dataMateri = \App\Models\Materi::find($daftar_nilai->materi_id);
-                if( $dataMateri->bobot_persen ){
-                    
-                    
-                    $rak = [
-                        'daftar_nilai_id' => $daftar_nilai->id,
-                        'student_id' => $student->id,
-                        'aktivasi_id' => $daftar_nilai->aktivasi_id,
-                        'materi_id' => $daftar_nilai->materi_id,
-                        'nama_siswa' => $student->nama_siswa,
-                        'nilai' => $daftar_nilai->nilai*($dataMateri->bobot_persen/100)
-                    ];
-    
-                    $totalNilai = $totalNilai + $daftar_nilai->nilai*($dataMateri->bobot_persen/100);
-                    $rak['total_nilai'] = $totalNilai;
-                    array_push($rakStudentSementara, $rak);
-                }
-                
+                array_push($rakP, $rakS);
 
             }
 
-            array_push($rakStudent, $rakStudentSementara);
-            
+            array_push($rakTotal, $rakP);
 
         }
 
-        
-        
        
 
         return view('Aktivasi.details', [
             'active' => 'Aktivasi',
-            'materis' => $rakMateri,
-            'students' => $rakStudent,
+            'programs' => $aktivasi->program,
             'aktivasi' => $aktivasi,
+            'datas' => $rakTotal,
             'dibagiProgram' => $aktivasi->program->count()
         ]);
     }
@@ -273,28 +277,40 @@ class AktivasiController extends Controller
     public function editDetails(Request $request){
 
 
-        $data = DB::table('daftar_nilai')->where(['student_id' => $request->studentId], ['aktivasi_id' => $request->aktivasiId])->get();
+        $data = DB::table('daftar_nilai')->where([
+            'student_id' => $request->studentId,
+            'aktivasi_id' => $request->aktivasiId
+        ])->get();
+
+        $programs = Program::find($request->programId);
+        $rakProgram = [];
+        foreach( $programs->materi as $materi ){
+
+            array_push($rakProgram, $materi->id);
+        }
 
         $rakMateri = [];
         foreach( $data as $materi ){
 
             $dataMateri = \App\Models\Materi::find($materi->materi_id);
-            if( $dataMateri->bobot_persen ){
 
-                $rak = [
-                    'id' => $dataMateri->id,
-                    'nama_materi' => $dataMateri->nama_materi,
-                    'nilai' => $materi->nilai
-                ];
+            if( in_array($dataMateri->id, $rakProgram) ){
 
-                array_push($rakMateri, $rak);
+                if( $dataMateri->bobot_persen ){
+    
+                    $rak = [
+                        'id' => $dataMateri->id,
+                        'nama_materi' => $dataMateri->nama_materi,
+                        'nilai' => $materi->nilai
+                    ];
+    
+                    array_push($rakMateri, $rak);
+                }
             }
         }
 
         
-
         return view('Aktivasi.editform', [
-            'jumlahMateri' => $request->jumlahMateri,
             'number' => $request->idDaftarNilai,
             'materis' => $rakMateri
         ]);
@@ -324,70 +340,77 @@ class AktivasiController extends Controller
 
         $aktivasi = Aktivasi::find($nilai[0]->aktivasi_id);
 
-        $rakMateri = [];
+        $arrayProgram = [];
+        $rakS = [];
+        $rakP = [];
+        $rakTotal = [];
+        foreach( $aktivasi->program as $program ){
 
-        foreach( $aktivasi->program as $programs ){
+            $arrayProgram = [];
+            $rakP = [];
 
-            foreach( $programs->materi as $materi ){
-
-                
-                if($materi->bobot_persen){
-
-                    $rak = [
-                        'nama_materi' => $materi->nama_materi,
-                        'bobot_materi' => $materi->bobot_persen
-                    ];
-                
-                    array_push($rakMateri, $rak);
-                        
-                }
-                
+            
+            foreach( $program->materi as $materi ){
+                array_push($arrayProgram, $materi->id);
             }
+            // dd($arrayProgram);
+            // dd($aktivasi->program[0]->materi);
+            
+            foreach( $aktivasi->student as $student ){
+
+                $rakS = [];
+
+                $daftarNilai = DB::table('daftar_nilai')->where([
+                    'student_id' => $student->id,
+                    'aktivasi_id' => $aktivasi->id
+                ])->get();
+                $totalNilai = 0;
+                foreach( $daftarNilai as $nilai ){
+
+                    $rakM = [];
+
+                    if(in_array($nilai->materi_id, $arrayProgram, TRUE)){
+
+                        $dataMateri = Materi::find($nilai->materi_id);
+                        // dd($dataMateri);
+
+                        if( $dataMateri->bobot_persen ){
+
+                            $totalNilai = $totalNilai + $nilai->nilai*($dataMateri->bobot_persen/100);
+
+                            $rakM = [
+                                'idPenilaian' => $nilai->id,
+                                'nama_siswa' => $student->nama_siswa,
+                                'idSiswa' => $student->id,
+                                'idAktivasi' => $aktivasi->id,
+                                'idProgram' => $program->id,
+                                'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
+                                'total_nilai' => $totalNilai,
+                                'nama_materi' => $dataMateri->nama_materi,
+                                'bobot_materi' => $dataMateri->bobot_persen
+                            ];
+
+                            array_push($rakS, $rakM);
+                        }
+
+                    }
+
+                }
+
+                array_push($rakP, $rakS);
+
+            }
+
+            array_push($rakTotal, $rakP);
+
         }
 
         
-        
-        $rakStudent = [];
-        foreach( $aktivasi->student as $student ){
-            
-            $data = DB::table('daftar_nilai')->where(['student_id' => $student->id], ['aktivasi_id' => $aktivasi->id])->get();
-
-            $rakStudentSementara = [];
-            $totalNilai = 0;
-            foreach( $data as $daftar_nilai ){
-
-                $dataMateri = \App\Models\Materi::find($daftar_nilai->materi_id);
-                if( $dataMateri->bobot_persen ){
-                    
-                    
-                    $rak = [
-                        'daftar_nilai_id' => $daftar_nilai->id,
-                        'student_id' => $student->id,
-                        'aktivasi_id' => $daftar_nilai->aktivasi_id,
-                        'materi_id' => $daftar_nilai->materi_id,
-                        'nama_siswa' => $student->nama_siswa,
-                        'nilai' => $daftar_nilai->nilai*($dataMateri->bobot_persen/100)
-                    ];
-    
-                    $totalNilai = $totalNilai + $daftar_nilai->nilai*($dataMateri->bobot_persen/100);
-                    $rak['total_nilai'] = $totalNilai;
-                    array_push($rakStudentSementara, $rak);
-                }
-                
-
-            }
-
-            array_push($rakStudent, $rakStudentSementara);
-            
-
-        }
-
 
         return view('Aktivasi.updateform', [
             'active' => 'Aktivasi',
-            'materis' => $rakMateri,
-            'students' => $rakStudent,
-            'aktivasi' => $aktivasi,
+            'programs' => $aktivasi->program,
+            'datas' => $rakTotal,
             'alert' => 'Success!',
             'dibagiProgram' => $aktivasi->program->count()
         ]);
