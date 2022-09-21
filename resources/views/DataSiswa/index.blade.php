@@ -60,7 +60,7 @@
                         <tbody>
                             @foreach( $dataSiswa as $siswa)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ ($dataSiswa->currentPage() - 1) * $dataSiswa->perPage() + $loop->iteration }}</td>
                                     <td>{{ $siswa->nama_siswa }}</td>
                                     <td>{{ $siswa->nomor_pendaftaran }}</td>
                                     <td>{{ $siswa->ktp }}</td>

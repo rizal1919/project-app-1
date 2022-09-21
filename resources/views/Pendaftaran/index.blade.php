@@ -23,7 +23,7 @@
                                     <option selected disabled>Filter By</option>
                                     <option value="On Going">Siswa Aktif (On Going)</option>
                                     <option value="Graduated">Siswa Lulus (Graduated)</option>
-                                    <option value="Pending">Pembayaran Belum Lunas</option>
+                                    <option value="Belum Lunas">Pembayaran Belum Lunas</option>
                                     <option value="Paid">Pembayaran Lunas</option>
                                 </select>
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
@@ -66,7 +66,7 @@
                         <tbody>
                             @foreach( $dataSiswa as $siswa )
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ ($dataSiswa->currentPage() - 1) * $dataSiswa->perPage() + $loop->iteration }}</td>
                                     <td>{{ $siswa['studentName'] }}</td>
                                     <td>{{ $siswa['activationName'] }}</td>
                                     @if( $siswa['studentStatus'] == 'Graduated')

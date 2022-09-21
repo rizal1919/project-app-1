@@ -10,6 +10,7 @@ class Teacher extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $hidden = ['remember_token'];
 
     public function assignteacher(){
         return $this->hasMany(AssignTeacher::class);

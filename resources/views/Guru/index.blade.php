@@ -11,14 +11,14 @@
             </div>
             <div class="row d-flex justify-content-end mb-3">
                 <div class="col-md-12 d-flex mt-4 justify-content-end">
-                    <form action="/teacher" method="get" class="mx-2" style="width: 30%;" >
+                    <form action="/teacher" method="get" class="mx-2" style="width: 20%;" >
                         @csrf
                         <div class="input-group">
-                            <input type="text" name="teacher_name" value="{{ request()->teacher_name }}" class="form-control text-start" placeholder="Nama Guru">
-                            <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                            <input type="text" name="teacher_name" value="{{ request()->teacher_name }}" class="form-control form-control-sm text-start" placeholder="Nama Guru">
+                            <button class="btn btn-primary btn-sm" id="basic-addon2">Cari!</button>
                         </div>
                     </form>
-                    <a href="/teacher-create" class="btn btn-primary" style="width: 20%;"><i class="fas fa-plus mx-2"></i>Tambah Guru</a>
+                    <a href="/teacher-create" class="btn btn-primary btn-sm" style="width: 15%;">+ Tambah Guru</a>
                 </div>
             </div>
             
@@ -57,12 +57,12 @@
                     <tbody>
                         @foreach( $teachers as $teacher )
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ($teachers->currentPage() - 1) * $teachers->perPage() + $loop->iteration }}</td>
                                 <td>{{ $teacher->teacher_name }}</td>
                                 <td>
-                                    <a href="/teacher-show/{{ $teacher->id }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>
-                                    <a href="/teacher-update/{{ $teacher->id }}" class="text-decoration-none btn btn-warning"><i class="fas fa-pen-to-square"></i></a>
-                                    <button type="button" id="delete" data-url="/teacher-delete/" class="btn btn-danger text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $teacher->id }}', '{{ $teacher->teacher_name }}')"><i class="fas fa-trash"></i></button>
+                                    <a href="/teacher-show/{{ $teacher->id }}" class="text-decoration-none btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                    <a href="/teacher-update/{{ $teacher->id }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
+                                    <button type="button" id="delete" data-url="/teacher-delete/" class="btn btn-danger btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="confirmation('{{ $teacher->id }}', '{{ $teacher->teacher_name }}')"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         @endforeach

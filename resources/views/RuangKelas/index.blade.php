@@ -57,7 +57,7 @@
                     <tbody>
                         @foreach( $classrooms as $classroom )
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ($classrooms->currentPage() - 1) * $classrooms->perPage() + $loop->iteration }}</td>
                                 <td>{{ $classroom->classroom_name }}</td>
                                 <td>
                                     <a href="/classroom-show/{{ $classroom->id }}" class="text-decoration-none btn btn-info"><i class="fas fa-eye"></i></a>

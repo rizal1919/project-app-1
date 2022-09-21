@@ -60,7 +60,7 @@
                             <tr>
                                 <?php $namaSekolah = $sekolah->nama_sekolah; ?>
                                 <?php $id = $sekolah->id; ?>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ($dataSekolah->currentPage() - 1) * $dataSekolah->perPage() + $loop->iteration }}</td>
                                 <td>{{ $sekolah->nama_sekolah }}</td>
                                 <td>{{ $sekolah->alamat }}</td>
                                 <td>

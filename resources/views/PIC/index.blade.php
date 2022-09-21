@@ -53,7 +53,7 @@
                         @foreach( $dataPIC as $pic )
                             <tr>
                                 
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ($dataPIC->currentPage() - 1) * $dataPIC->perPage() + $loop->iteration }}</td>
                                 <td>{{ $pic->nama_pic }}</td>
                                 <td>{{ $pic->kode_referral }}</td>
                                 <td>{{ $pic->nomor_telepon }}</td>

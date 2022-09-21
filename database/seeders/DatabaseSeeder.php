@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Administrator;
 use App\Models\Kurikulum;
 use Illuminate\Database\Seeder;
 use App\Models\Program;
@@ -21,10 +22,21 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {   
+
+        Administrator::create([
+            'administrator_name' => 'admin',
+            'username' => 'admin',
+            'password' => \Illuminate\Support\Facades\Hash::make('admin')
+        ]);
+        Teacher::create([
+            'teacher_name' => 'Fakhri Sabil',
+            'username' => 'fakhri',
+            'password' => \Illuminate\Support\Facades\Hash::make('fakhri')
+        ]);
+
         // Program::factory(5)->create();
         // Materi::factory(15)->create();
-        UserAdmin::factory(1)->create();
         // Teacher::factory(10)->create();
 
         // Sekolah::factory(5)->create();

@@ -197,11 +197,13 @@ class AktivasiController extends Controller
     public function indexDetails(Aktivasi $aktivasi){
 
         $rakMateri = [];
+        $totalMateri = 0;
 
         foreach( $aktivasi->program as $programs ){
 
             foreach( $programs->materi as $materi ){
 
+                $totalMateri++;
                 
                 if($materi->bobot_persen){
 
@@ -213,6 +215,7 @@ class AktivasiController extends Controller
                     array_push($rakMateri, $rak);
                         
                 }
+
                 
             }
         }
@@ -255,7 +258,7 @@ class AktivasiController extends Controller
         }
 
         
-
+        
        
 
         return view('Aktivasi.details', [
@@ -385,7 +388,8 @@ class AktivasiController extends Controller
             'materis' => $rakMateri,
             'students' => $rakStudent,
             'aktivasi' => $aktivasi,
-            'alert' => 'Success!'
+            'alert' => 'Success!',
+            'dibagiProgram' => $aktivasi->program->count()
         ]);
        
     }

@@ -34,9 +34,9 @@
             @csrf
             <!-- <h1 class="h3 mb-4 fw-normal text-center"></i>Silahkan login</h1> -->
             <div class="form-floating">
-                <input type="text" name="username_admin" value="{{ old('username_admin') }}"  class="form-control @error('username_admin') is-invalid @enderror" id="username_admin" placeholder="username_admin" style="border-radius: 5px 5px 0px 0px; margin-bottom: -1px;" required autofocus>
-                <label for="username_admin">Username</label>
-                @error('username_admin')
+                <input type="text" name="username" value="{{ old('username') }}"  class="form-control @error('username') is-invalid @enderror" id="username" placeholder="username" style="border-radius: 5px 5px 0px 0px; margin-bottom: -1px;" required autofocus>
+                <label for="username">Username</label>
+                @error('username')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>

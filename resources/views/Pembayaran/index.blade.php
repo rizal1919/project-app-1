@@ -82,7 +82,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Tanggal Pembayaran</th>
+                                <th class="text-center">Tanggal Pembayaran</th>
                                 <th>Jenis Pembayaran</th>
                                 <th>Tagihan</th>
                                 <th>Terbayar</th>
@@ -98,9 +98,9 @@
                                     <?php $tanggalTagihan = $cicilan['Tanggal']; ?>
                                     <td>{{ $loop->iteration }}</td>
                                     @if( $cicilan['Status'] === 'Paid' )
-                                    <td>{{ $cicilan['Tanggal'] }}</td>
+                                    <td class="text-center">{{ $cicilan['Tanggal'] }}</td>
                                     @else
-                                    <td>{{ $cicilan['Tanggal'] }}
+                                    <td class="text-center">{{ $cicilan['Tanggal'] }}
                                         <button type="button" class="border border-0 bg-light" id="changeDate" data-url="/cost-payment-edit/" data-toggle="modal" data-bs-target="#staticBackdrop" onclick="changeDate('{{ $idPembayaran }}')"><i class="fa-regular fa-calendar mx-2"></i></button>
                                     </td>
                                     @endif
@@ -114,7 +114,7 @@
                                         </td>
                                     @else
                                         <td>
-                                            <button id="delete" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-bs-target="#staticBackdrop" data-url="/cost-payment-store/" onclick="confirmation('{{ $idPembayaran }}', '{{ $tagihan }}', '{{ $tanggalTagihan }}')">Bayar</button>
+                                            <button id="paymentButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-bs-target="#staticBackdrop" data-url="/cost-payment-store/" onclick="paymentConfirmation('{{ $idPembayaran }}', '{{ $tagihan }}', '{{ $tanggalTagihan }}')">Bayar</button>
                                         </td>
                                     @endif
                                 </tr>   
@@ -131,22 +131,23 @@
     <div class="modal-dialog">
         <form action="" method="post" id="forms" class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="headlines">
+                <h5 class="modal-title" id="messageHeadlines">
                     <!-- <i class="fa-solid fa-money-bill-1 mx-2"></i>Tagihan Pembayaran -->
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @csrf
-                <input type="hidden" id="dateModal" name="date" class="form-control form-control-sm mb-3" style="width: 50%;">
-                <h6 class="text-center mb-4" id="message3">Invoice Cicilan</h6>
-                <p id="dateconfirmation"></p>
-                <p id="message1"></p>
-                <p class="mt-5" id="message2">Anda yakin ingin melanjutkan pembayaran cicilan ini?</p>
+                <div class="mb-3">
+                    <label for="tanggal" class="col-form-label col-form-label-sm fw-bold mb-2">> Tanggal Pembayaran</label>
+                    <input type="date" class="form-control form-control-sm" name="tanggal" id="tanggalKonfirmasi">
+                </div>
+                <p id="tagihan" class="mb-4"></p>
+                <p id="messageConfirmation"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
-                <button type="submit" id="acceptanceModal" class="btn btn-primary">Bayar!</button>
+                <button type="submit" id="acceptanceModal" class="btn btn-primary">Konfirmasi</button>
             </div>
         </form>
     </div>
@@ -157,64 +158,89 @@
 @push('js')
 <script>
 
-    
-    let headline = document.getElementById('headlines');
-    let acceptanceModal = document.getElementById('acceptanceModal');
-    let urlDelete = document.getElementById('delete').getAttribute('data-url');
-    let urlChangeDate = document.getElementById('changeDate').getAttribute('data-url');
-    let inputTanggal = document.getElementById('dateModal');
-    let dateconfirmation = document.getElementById('dateconfirmation');
-    let message1 = document.getElementById('message1');
-    document.getElementById('message2').style.display = '';
-    document.getElementById('message3').style.display = '';
-    let completeUrl = '';
-
-    function confirmation(idPembayaran, tagihan, tanggalPembayaran){
-
-        
-        completeUrl = urlDelete + idPembayaran;
-        // output = delete-materi/1
-
-        // element.classList.add("mystyle");
-
-        // $('#name').val(delId);
-        $('#forms').attr('action', completeUrl);
-        message1.innerHTML = "> Total tagihan : <strong>" + tagihan + "? </strong>";
-
-        inputTanggal.type = "hidden";
-        document.getElementById('message3').style.display = '';
-        document.getElementById('message2').style.display = '';
-        headline.innerHTML = '<i class="fa-solid fa-money-bill-1 mx-2"></i>Tagihan Pembayaran';
-        dateconfirmation.style.display = '';
-        dateconfirmation.innerHTML = "<p>> Tanggal Pembayaran : <strong>" + tanggalPembayaran + " </strong></p>";
-        acceptanceModal.innerText = 'Bayar!';
-
-        $('#staticBackdrop').modal('show');
-        // menampilkan modal box
-
-    }
-
     function changeDate(idPembayaran){
 
-        completeUrl = urlChangeDate + idPembayaran;
+        let urlEditTanggal = document.getElementById('changeDate').getAttribute('data-url');
+        document.getElementById('messageHeadlines').innerHTML = "<i class='fa-regular fa-calendar mx-2'></i>Konfirmasi Perubahan Tanggal";
+        document.getElementById('forms').setAttribute('action', urlEditTanggal + idPembayaran);
+        document.getElementById('tagihan').style.display = "none";
+        document.getElementById('messageConfirmation').innerHTML = 'Yakin ingin mengubah tanggal?';
 
-        $('#forms').attr('action', completeUrl);
-
-        // document.getElementById('dateModal').classList.add("form-control");
-        // document.getElementById('dateModal').classList.add("form-control-sm");
-        inputTanggal.type = "date";
-
-        headline.innerHTML = '<i class="fa-regular fa-calendar mx-2"></i>Ubah Tanggal Pembayaran';
-        message1.innerHTML = 'Anda yakin ingin mengubah tanggal pembayaran tagihan ? ';
-        dateconfirmation.style.display = 'none';
-        document.getElementById('message2').style.display = 'none';
-        document.getElementById('message3').style.display = 'none';
-        acceptanceModal.innerText = 'Ubah Tanggal!';
-
-        $('#staticBackdrop').modal('show');
-        // alert('tes');
-
+        $("#staticBackdrop").modal('show');
     }
+    
+    function paymentConfirmation(idPembayaran, tagihan, tanggalTagihan){
+        
+        let urlPembayaran = document.getElementById('paymentButton').getAttribute('data-url');
+        document.getElementById('messageHeadlines').innerHTML = "<i class='fa-solid fa-money-bill-1 mx-2'></i>Konfirmasi Pembayaran";
+        document.getElementById('forms').setAttribute('action', urlPembayaran + idPembayaran);
+        document.getElementById('tagihan').style.display = "";
+        document.getElementById('tagihan').innerHTML = "<strong>> Total tagihan : </strong> " + tagihan;
+        document.getElementById('messageConfirmation').innerHTML = 'Yakin ingin melanjutkan pembayaran?';
+        
+        $("#staticBackdrop").modal('show');
+    }
+
+
+
+    
+    // let headline = document.getElementById('headlines');
+    // let acceptanceModal = document.getElementById('acceptanceModal');
+    // let urlDelete = document.getElementById('delete').getAttribute('data-url');
+    // let urlChangeDate = document.getElementById('changeDate').getAttribute('data-url');
+    // let inputTanggal = document.getElementById('dateModal');
+    // let dateconfirmation = document.getElementById('dateconfirmation');
+    // let message1 = document.getElementById('message1');
+    // document.getElementById('message2').style.display = '';
+    // document.getElementById('message3').style.display = '';
+    // let completeUrl = '';
+
+    // function confirmation(idPembayaran, tagihan, tanggalPembayaran){
+
+        
+    //     completeUrl = urlDelete + idPembayaran;
+    //     // output = delete-materi/1
+
+    //     // element.classList.add("mystyle");
+
+    //     // $('#name').val(delId);
+    //     $('#forms').attr('action', completeUrl);
+    //     message1.innerHTML = "> Total tagihan : <strong>" + tagihan + "? </strong>";
+
+    //     inputTanggal.type = "hidden";
+    //     document.getElementById('message3').style.display = '';
+    //     document.getElementById('message2').style.display = '';
+    //     headline.innerHTML = '<i class="fa-solid fa-money-bill-1 mx-2"></i>Tagihan Pembayaran';
+    //     dateconfirmation.style.display = '';
+    //     dateconfirmation.innerHTML = "<p>> Tanggal Pembayaran : <strong>" + tanggalPembayaran + " </strong></p>";
+    //     acceptanceModal.innerText = 'Bayar!';
+
+    //     $('#staticBackdrop').modal('show');
+    //     // menampilkan modal box
+
+    // }
+
+    // function changeDate(idPembayaran){
+
+    //     completeUrl = urlChangeDate + idPembayaran;
+
+    //     $('#forms').attr('action', completeUrl);
+
+    //     // document.getElementById('dateModal').classList.add("form-control");
+    //     // document.getElementById('dateModal').classList.add("form-control-sm");
+    //     inputTanggal.type = "date";
+
+    //     headline.innerHTML = '<i class="fa-regular fa-calendar mx-2"></i>Ubah Tanggal Pembayaran';
+    //     message1.innerHTML = 'Anda yakin ingin mengubah tanggal pembayaran tagihan ? ';
+    //     dateconfirmation.style.display = 'none';
+    //     document.getElementById('message2').style.display = 'none';
+    //     document.getElementById('message3').style.display = 'none';
+    //     acceptanceModal.innerText = 'Ubah Tanggal!';
+
+    //     $('#staticBackdrop').modal('show');
+    //     // alert('tes');
+
+    // }
 
     
 

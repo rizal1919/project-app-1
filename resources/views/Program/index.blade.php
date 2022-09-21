@@ -62,7 +62,7 @@
                     <tbody>
                         @foreach( $programs as $program)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ($programs->currentPage() - 1) * $programs->perPage() + $loop->iteration }}</td>
                                 <td>{{ $program->nama_program }}</td>
                                 <td>
                                 <a href="/materi/{{ $program->id }}" class="text-decoration-none btn btn-primary btn-sm" style="color: white;"><i class="fa-solid fa-plus mx-1"></i>Tambah Materi</a>

@@ -72,7 +72,7 @@
                         @foreach( $aktivasi as $aktif )
                             <tr>
                                 
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ($aktivasi->currentPage() - 1) * $aktivasi->perPage() + $loop->iteration }}</td>
                                 <td>{{ $aktif->nama_aktivasi }}</td>
                                 <td>{{ $aktif->biaya }}</td>
                                 <td>{{ $aktif->pembukaan }} - {{ $aktif->penutupan }}</td>

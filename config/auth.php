@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
@@ -40,6 +40,16 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // new guard
+        'administrator' => [
+            'driver' => 'session',
+            'provider' => 'administrators',
+        ],
+        'teacher' => [
+            'driver' => 'session',
+            'provider' => 'teachers',
+        ],
     ],
 
     /*
@@ -63,6 +73,16 @@ return [
         'users' => [
             'driver' => 'database',
             'table' => 'user_admins',
+        ],
+
+        // new providers
+        'administrators' => [
+            'driver' => 'eloquent',
+            'model' => app\Models\Administrator::class
+        ],
+        'teachers' => [
+            'driver' => 'eloquent',
+            'model' => app\Models\Teacher::class
         ],
 
         // 'users' => [

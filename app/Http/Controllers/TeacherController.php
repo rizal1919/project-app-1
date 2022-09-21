@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -42,8 +43,12 @@ class TeacherController extends Controller
 
         $validatedData = $request->validate([
 
-            'teacher_name' => 'required'
+            'teacher_name' => 'required',
+            'username' => 'required',
+            'password' => 'required'
         ]);
+
+        $validatedData['password'] = Hash::make($validatedData['password']);
 
         Teacher::create($validatedData);
 
@@ -64,11 +69,15 @@ class TeacherController extends Controller
 
         $validatedData = $request->validate([
 
-            'teacher_name' => 'required'
+            'teacher_name' => 'required',
+            'username' => 'required',
+            'password' => 'required'
         ]);
 
         $teacher->update([
-            'teacher_name' => $validatedData['teacher_name']
+            'teacher_name' => $validatedData['teacher_name'],
+            'username' => $validatedData['username'],
+            'password' => $validatedData['password'],
         ]);
 
         return redirect('/teacher')->with('update', $validatedData['teacher_name']);

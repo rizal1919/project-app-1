@@ -79,7 +79,7 @@
 
                                 <?php $data['statusPenugasan'] = 'empty' ?>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ ($dataGuru->currentPage() - 1) * $dataGuru->perPage() + $loop->iteration }}</td>
                                     <td>{{ $data['namaMateri'] }}</td>
                                     <td>{{ $data['namaAktivasi'] }}</td>
                                     <td>{{ $data['statusPelaksanaan'] }}</td>
@@ -95,7 +95,7 @@
                             @else
 
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ ($dataGuru->currentPage() - 1) * $dataGuru->perPage() + $loop->iteration }}</td>
                                     <td>{{ $data['namaMateri'] }}</td>
                                     <td>{{ $data['namaAktivasi'] }}</td>
                                     <td>{{ $data['statusPelaksanaan'] }}</td>

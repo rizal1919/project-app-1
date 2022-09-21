@@ -9,6 +9,9 @@ class LoginController extends Controller
 {
     public function index(){
 
+
+        
+
         return view('Login.index', [
 
             'title' => 'Login | ',
@@ -18,18 +21,25 @@ class LoginController extends Controller
 
     public function authenticate(Request $request){
 
+
+
+
         $credentials = $request->validate([
 
-            'username_admin' => "required|between:5,255|alpha",
+            'username' => "required",
             'password' => "required"
         ]);
 
-        // dd($credentials);
-        // dd(Auth::attempt($credentials));
-
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard('administrator')->attempt($credentials)) {
             $request->session()->regenerate();
  
+            return redirect()->intended('/dashboard');
+        }
+
+        if(Auth::guard('teacher')->attempt($credentials)){
+
+            $request->session()->regenerate();
+
             return redirect()->intended('/dashboard');
         }
 
@@ -40,9 +50,9 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
 
-        // dd($request);
+        
 
-        Auth::logout();
+        Auth::guard('administrator')->logout();
     
         $request->session()->invalidate();
     
@@ -51,10 +61,4 @@ class LoginController extends Controller
         return redirect('/')->with('logoutSuccess', 'Logout berhasil!');
     }
 
-    // public function logout(Request $request) {
-    //     $accessToken = auth()->user()->token();
-    //     $token= $request->user()->tokens->find($accessToken);
-    //     $token->revoke();
-    //     return redirect('/login-admin-baru');
-    // }
 }
