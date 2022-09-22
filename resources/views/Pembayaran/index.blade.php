@@ -47,7 +47,7 @@
                                 <p class="tanggal text-secondary ">{{ $terakhirPembayaran }}</p>
                             </div>
                             <div class="Pembayaran-bagian-tengah">
-                                <h2 class="d-inline">{{ $biayaSisaTagihan }} </h2><p class="badge text-bg-warning">Pending</p>
+                                <h2 class="d-inline">{{ $biayaSisaTagihan }} </h2><p class="badge text-bg-warning">Belum bayar</p>
                             </div>
                             <a href="#" class="text-decoration-none fw-bold ">Lihat riwayat transaksi</a>
                         </div>

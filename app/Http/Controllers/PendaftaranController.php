@@ -492,7 +492,10 @@ class PendaftaranController extends Controller
     public function indexCost(Student $student, $id){
 
        
-        $dataCicilan = Installment::where(['aktivasi_id' => $id], ['student_id' => $student->id])->get();
+        $dataCicilan = Installment::where([
+            'aktivasi_id' => $id,
+            'student_id' => $student->id
+        ])->get();
         
 
         // dd($dataCicilan);
@@ -501,10 +504,15 @@ class PendaftaranController extends Controller
         $terakhirPembayaran = $dataCicilan->max('updated_at')->format('d M Y');
         $biayaSisaTagihan = $dataAktivasi->biaya - $biayaTerbayar;
 
-        // ini untuk ditampilkan di bagian 
-        $cariPembayaranTerakhir = Installment::where(['aktivasi_id' => $id], ['student_id' => $student->id])->orderBy('updated_at', 'desc')->first();
+        // ini untuk ditampilkan di bagian informasi
+        $cariPembayaranTerakhir = Installment::where([
+            'aktivasi_id' => $id,
+            'student_id' => $student->id
+        ])->orderBy('updated_at', 'desc')->first();
         $tanggalPembayaranTerakhir = date('d M Y', strtotime($cariPembayaranTerakhir->date_payment));
 
+
+        
         // query data cicilan
         $rakCicilan = [];
         $count = 1;
@@ -513,10 +521,11 @@ class PendaftaranController extends Controller
             $hasilExplode = explode('-', $cicilan->date_payment);
             $hasilExplode = $hasilExplode[2] . '-' . $hasilExplode[1] . '-' . $hasilExplode[0];
             
+            $dataCicilan->count() === 1 ? $namaCicilan = 'Tunai' : $namaCicilan = 'Cicilan' . $count;
 
             $rak = [
                 'idCicilan' => $cicilan->id,
-                'Nama Cicilan' => 'Cicilan ' . $count,
+                'Nama Cicilan' => $namaCicilan,
                 'Tanggal' => $hasilExplode,
                 'Tagihan' => "Rp" . number_format($cicilan->installment, 2, ",", "."),
                 'Terbayar' => "Rp" . number_format($cicilan->paid, 2, ",", "."),
@@ -557,12 +566,16 @@ class PendaftaranController extends Controller
        
        $cicilan = Installment::find($id);
         
-        // dd($cicilan->installment);
+       if( $request->tanggal ){
+            $tanggal = $request->tanggal;
+       }
+
+       $tanggal = $cicilan->date_payment;
 
        Installment::where('id', $id)->update([
             'paid' => $cicilan->paid + (int)$cicilan->installment,
             'status' => 'Paid',
-            'date_payment' => $request->tanggal
+            'date_payment' => $tanggal
        ]);
 
        return redirect('/cost/' . $cicilan->student_id . '/' . $cicilan->aktivasi_id)->with('PaymentSuccess', 'Berhasil');

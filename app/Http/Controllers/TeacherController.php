@@ -74,6 +74,8 @@ class TeacherController extends Controller
             'password' => 'required'
         ]);
 
+        $validatedData['password'] = Hash::make($validatedData['password']);
+
         $teacher->update([
             'teacher_name' => $validatedData['teacher_name'],
             'username' => $validatedData['username'],
