@@ -17,10 +17,14 @@ class Administrator
      */
     public function handle(Request $request, Closure $next)
     {   
-        // if(! Auth::guard('administrator')->check()){
-        //     abort(403);
-        // }
+        if( auth('administrator')->check() || auth('teacher')->check() ){
 
-        return $next($request);
+            return $next($request);
+            
+        }else{
+
+            abort(403);
+        }
+
     }
 }
