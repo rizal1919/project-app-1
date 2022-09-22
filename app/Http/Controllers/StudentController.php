@@ -261,13 +261,7 @@ class StudentController extends Controller
         
         }
 
-        // $data = PIC::all();
-        // // dd(is_null($data->find(2)));
-        // foreach( $data as $d ){
-
-        //     dd(is_null($d->sekolah));
-        // }
-
+        
         return view('DataSiswa.create', [
 
             'title' => 'Daftar Siswa',

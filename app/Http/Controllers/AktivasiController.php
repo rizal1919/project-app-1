@@ -492,69 +492,167 @@ class AktivasiController extends Controller
        
 
         $aktivasi = Aktivasi::find($nilai[0]->aktivasi_id);
+        // bagian ini untuk membatasi program mana saja yang perlu ditampilkan sesuai dengan id guru
+        if( auth('teacher')->check() ){
+            // cek apakah guru login
+
+            $daftarProgram = [];
+            // untuk menyimpan id program-program
+
+            $cariProgram = AssignTeacher::where(['aktivasi_id' => $aktivasi->id, 'teacher_id' => auth('teacher')->user()->id])->get();
+            // query penugasan yang aktivasi dan guru nya sesuai. tujuannya adalah mengumpulkan materi2 yang diampu oleh guru
+
+            foreach( $cariProgram as $program ){
+
+                $data = Materi::find($program->materi_id);
+                // cari materi sesuai id
+
+                if( $data != null ){
+                // jika ada, cek lagi apakah id program sudah masuk dalam array atau belum
+
+                    if( in_array($data->program->id, $daftarProgram) ){
+
+                        continue;
+                    }else{
+                        
+                        array_push($daftarProgram, $data->program->id);
+                    }
+
+                
+                }
+            }
+        }
 
         $arrayProgram = [];
         $rakS = [];
         $rakP = [];
         $rakTotal = [];
+        $programs = [];
         foreach( $aktivasi->program as $program ){
 
             $arrayProgram = [];
             $rakP = [];
 
-            
-            foreach( $program->materi as $materi ){
-                array_push($arrayProgram, $materi->id);
-            }
-            // dd($arrayProgram);
-            // dd($aktivasi->program[0]->materi);
-            
-            foreach( $aktivasi->student as $student ){
+            if( auth('teacher')->check() ){
+            // cek apakah guru sedang login dan program id yang dilooping sekarang ada di dalam daftar program yang diambil gurunya
+                
 
-                $rakS = [];
+                if( in_array($program->id, $daftarProgram) ){
+                // cek pula apakah id program saat ini ada dalam daftar program yang diquery sebelumnya di atas
 
-                $daftarNilai = DB::table('daftar_nilai')->where([
-                    'student_id' => $student->id,
-                    'aktivasi_id' => $aktivasi->id
-                ])->get();
-                $totalNilai = 0;
-                foreach( $daftarNilai as $nilai ){
+                    foreach( $program->materi as $materi ){
+                    // cari materi id nya kemudian masukkan ke daftar
 
-                    $rakM = [];
+                        array_push($arrayProgram, $materi->id);
+                    }
+                    
+                    foreach( $aktivasi->student as $student ){
 
-                    if(in_array($nilai->materi_id, $arrayProgram, TRUE)){
+                        $rakS = [];
 
-                        $dataMateri = Materi::find($nilai->materi_id);
-                        // dd($dataMateri);
+                        $daftarNilai = DB::table('daftar_nilai')->where([
+                            'student_id' => $student->id,
+                            'aktivasi_id' => $aktivasi->id
+                        ])->get();
+                        $totalNilai = 0;
+                        foreach( $daftarNilai as $nilai ){
 
-                        if( $dataMateri->bobot_persen ){
+                            $rakM = [];
 
-                            $totalNilai = $totalNilai + $nilai->nilai*($dataMateri->bobot_persen/100);
+                            if(in_array($nilai->materi_id, $arrayProgram, TRUE)){
 
-                            $rakM = [
-                                'idPenilaian' => $nilai->id,
-                                'nama_siswa' => $student->nama_siswa,
-                                'idSiswa' => $student->id,
-                                'idAktivasi' => $aktivasi->id,
-                                'idProgram' => $program->id,
-                                'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
-                                'total_nilai' => $totalNilai,
-                                'nama_materi' => $dataMateri->nama_materi,
-                                'bobot_materi' => $dataMateri->bobot_persen
-                            ];
+                                $dataMateri = Materi::find($nilai->materi_id);
+                                // dd($dataMateri);
 
-                            array_push($rakS, $rakM);
+                                if( $dataMateri->bobot_persen ){
+
+                                    $totalNilai = $totalNilai + $nilai->nilai*($dataMateri->bobot_persen/100);
+
+                                    $rakM = [
+                                        'idPenilaian' => $nilai->id,
+                                        'nama_siswa' => $student->nama_siswa,
+                                        'idSiswa' => $student->id,
+                                        'idAktivasi' => $aktivasi->id,
+                                        'idProgram' => $program->id,
+                                        'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
+                                        'total_nilai' => $totalNilai,
+                                        'nama_materi' => $dataMateri->nama_materi,
+                                        'bobot_materi' => $dataMateri->bobot_persen
+                                    ];
+
+                                    array_push($rakS, $rakM);
+                                }
+
+                            }
+
+                        }
+
+                        array_push($rakP, $rakS);
+
+                    }
+
+                    array_push($rakTotal, $rakP);
+                    array_push($programs, $program->nama_program);
+                    
+                }
+
+                
+            }else{
+
+                foreach( $program->materi as $materi ){
+                    array_push($arrayProgram, $materi->id);
+                }
+                
+                foreach( $aktivasi->student as $student ){
+
+                    $rakS = [];
+
+                    $daftarNilai = DB::table('daftar_nilai')->where([
+                        'student_id' => $student->id,
+                        'aktivasi_id' => $aktivasi->id
+                    ])->get();
+                    $totalNilai = 0;
+                    foreach( $daftarNilai as $nilai ){
+
+                        $rakM = [];
+
+                        if(in_array($nilai->materi_id, $arrayProgram, TRUE)){
+
+                            $dataMateri = Materi::find($nilai->materi_id);
+                            // dd($dataMateri);
+
+                            if( $dataMateri->bobot_persen ){
+
+                                $totalNilai = $totalNilai + $nilai->nilai*($dataMateri->bobot_persen/100);
+
+                                $rakM = [
+                                    'idPenilaian' => $nilai->id,
+                                    'nama_siswa' => $student->nama_siswa,
+                                    'idSiswa' => $student->id,
+                                    'idAktivasi' => $aktivasi->id,
+                                    'idProgram' => $program->id,
+                                    'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
+                                    'total_nilai' => $totalNilai,
+                                    'nama_materi' => $dataMateri->nama_materi,
+                                    'bobot_materi' => $dataMateri->bobot_persen
+                                ];
+
+                                array_push($rakS, $rakM);
+                            }
+
                         }
 
                     }
 
+                    array_push($rakP, $rakS);
+
                 }
 
-                array_push($rakP, $rakS);
+                array_push($rakTotal, $rakP);
 
+                array_push($programs, $program->nama_program);
             }
 
-            array_push($rakTotal, $rakP);
 
         }
 

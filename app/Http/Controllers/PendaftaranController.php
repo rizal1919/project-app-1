@@ -36,7 +36,7 @@ class PendaftaranController extends Controller
 
                     foreach( $aktivasi->student as $student ){
 
-                        $installments = Installment::where(['aktivasi_id' => $aktivasi->id], ['student_id' => $student->id])->get();
+                        $installments = Installment::where(['aktivasi_id' => $aktivasi->id, 'student_id' => $student->id])->get();
 
                         $status = '';
                         foreach( $installments as $installment ){
@@ -501,7 +501,6 @@ class PendaftaranController extends Controller
         // dd($dataCicilan);
         $dataAktivasi = Aktivasi::find($dataCicilan[0]->aktivasi_id);
         $biayaTerbayar = $dataCicilan->sum('paid');
-        $terakhirPembayaran = $dataCicilan->max('updated_at')->format('d M Y');
         $biayaSisaTagihan = $dataAktivasi->biaya - $biayaTerbayar;
 
         // ini untuk ditampilkan di bagian informasi
@@ -566,11 +565,12 @@ class PendaftaranController extends Controller
        
        $cicilan = Installment::find($id);
         
-       if( $request->tanggal ){
+       
+       $tanggal = $cicilan->date_payment;
+
+       if( $request->tanggal != null ){
             $tanggal = $request->tanggal;
        }
-
-       $tanggal = $cicilan->date_payment;
 
        Installment::where('id', $id)->update([
             'paid' => $cicilan->paid + (int)$cicilan->installment,

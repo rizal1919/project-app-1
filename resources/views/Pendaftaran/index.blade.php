@@ -93,8 +93,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-2 d-flex justify-content-center">
-                    
+                <div class="mt-2">
+                    {{ $dataSiswa->links('vendor.pagination.bootstrap-5') }}
                 </div>
             </div>
         </div>

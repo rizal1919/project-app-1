@@ -95,7 +95,7 @@
                     <i class="fas fa-trash mx-2"></i>Hapus Data
                 </h5>
                 <input type="hidden" id="name" name="id">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @csrf
@@ -103,7 +103,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+                <button type="submit" id="close" class="btn btn-primary">Ya, Hapus!</button>
             </div>
         </form>
     </div>
@@ -135,5 +135,9 @@ function changeStyle(){
         // menampilkan modal box
 
     }
+
+    $("#close").on('click', function(e){
+        $("#close-btn").click();
+    });
 </script>
 @endpush
