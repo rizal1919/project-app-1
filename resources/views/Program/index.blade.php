@@ -36,7 +36,7 @@
             @endif
             @if( session('destroyFailed') )
             <div class="alert alert-warning alert-dismissible fade show" id="hide" role="alert">
-                Informasi Program <strong>{{ session('destroyFailed') }}</strong> gagal dihapus, silahkan hapus aktivasi terkait terlebih dahulu.
+                Informasi Program <strong>{{ session('destroyFailed') }}</strong> gagal dihapus. Program sedang diaktivasi.
                 <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
@@ -92,7 +92,7 @@
                     <i class="fas fa-trash mx-2"></i>Hapus Data
                 </h5>
                 <input type="hidden" id="name" name="id">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @csrf
@@ -100,7 +100,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+                <button type="submit" id="close" class="btn btn-primary">Ya, Hapus!</button>
             </div>
         </form>
     </div>
@@ -131,5 +131,10 @@
         // menampilkan modal box
 
     }
+
+    $("#close").on('click', function(e){
+        $("#close-btn").click();
+    });
+
 </script>
 @endpush

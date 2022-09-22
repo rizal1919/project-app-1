@@ -79,12 +79,12 @@ class ProgramController extends Controller
 
     public function destroy(Request $request, Program $program)
     {
-        // $program->delete($request);
-        // return back()->with('destroy','Deleted Successfully!');
-        // $aktivasiProgram = $program->aktivasi;
-        // if( count($aktivasiProgram) > 0 ){
-        //     return redirect('/program')->with('destroyFailed', $program->nama_program);
-        // }
+        
+        
+
+        if( $program->aktivasi->isNotEmpty()){
+            return redirect('/program')->with('destroyFailed', $program->nama_program);
+        }
         
         Program::find($program->id)->delete();
     

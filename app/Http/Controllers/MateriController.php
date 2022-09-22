@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssignTeacher;
 use App\Models\Kurikulum;
 use App\Models\Materi;
 use App\Models\Program;
@@ -135,26 +136,14 @@ class MateriController extends Controller
 
     public function destroyMateri(Request $request, Materi $materi)
     {
-        // $program->delete($request);
-        // return back()->with('destroy','Deleted Successfully!');
-
-        // dd($materi->id);
-        $namaMateri = $materi->nama_materi;
-        $idProgram = $materi->program->id;
-
-        if( count(DB::table('assign_teachers')->where('materi_id', $materi->id)->get()) > 0 ){
-            return redirect('/materi/' . $idProgram)->with('destroyFailed', $namaMateri);
-        }
-        
         
        
-
-        // dd($idProgram);
+        if( AssignTeacher::where(['materi_id' => $materi->id])->get()->isNotEmpty() ){
+            return redirect('/materi/' . $materi->program->id)->with('destroyFailed', $materi->nama_materi);
+        }
+        
         Materi::find($request->id)->delete();
-        // dd($tes);
-        // $id = $materi->program_id;
-    
-        return redirect('/materi/' . $idProgram)->with('destroy', $namaMateri);
+        return redirect('/materi/' . $materi->program->id)->with('destroy', $materi->nama_materi);
         
         
     }
