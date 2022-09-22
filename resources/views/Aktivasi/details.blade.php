@@ -35,12 +35,12 @@
         </div>
     </div>
     
-        <div id="table-isi">
-            <?php $counter = 0; ?>
-            @foreach( $datas as $data )
+    <div id="table-isi">
+        <?php $counter = 0; ?>
+        @foreach( $datas as $data )
             <div class="container">
                 <div class="card-body text-bg-primary col-sm-3 border-bottom-0 p-3" id="headTitle">
-                    <p class="card-title">{{ $programs[$counter]->nama_program }}</p>
+                    <p class="card-title">{{ $programs[$counter] }}</p>
                 </div>
             </div>
             <?php $counter++; ?>
@@ -85,8 +85,8 @@
                     </div>
                 </div>
             </div>
-            @endforeach
-        </div>
+        @endforeach
+    </div>
 </div>
 
 <!-- Modal -->
