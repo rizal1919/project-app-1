@@ -58,9 +58,11 @@
                             <label for="" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Pilihan Paket</label>
                             <div class="col-sm-7">
                                 <select name="aktivasi_id" id="paket" class="form-select form-select-sm">
-                                    <option selected disabled>Pilih Paket ...</option>
+                                    <option disabled>Pilih Paket ...</option>
                                     @foreach( $aktivasis as $aktivasi )
-                                        <option value="{{ $aktivasi->id }}">{{ $aktivasi->nama_aktivasi }}</option>
+                                        @if( $aktivasi->id == $penugasan['idAktivasi'] )
+                                            <option value="{{ $aktivasi->id }}" selected>{{ $aktivasi->nama_aktivasi }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -69,7 +71,7 @@
                             <label for="materi_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Materi Tersedia</label>
                             <div class="col-sm-7">
                                 <select name="materi_id" id="materi_id" class="form-select form-select-sm">
-                                    <option>Pilih Paket Dulu ...</option>
+                                    <option value="{{ $penugasan['idMateri'] }}">{{ $penugasan['namaMateri'] }}</option>
                                 </select>
                             </div>
                         </div>
@@ -112,7 +114,6 @@
                 <form action="/assign-teacher-update/{{ $penugasan['idMateri'] }}/{{ $penugasan['idAktivasi'] }}" method="POST">
                     @csrf
                     <div class="row p-4">
-                        
                         <div class="row my-3 text-end d-flex justify-content-center">
                             <label for="teacher_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold text-end">Guru</label>
                             <div class="col-sm-7 text-end">
@@ -133,13 +134,11 @@
                         <div class="row mb-3 text-end d-flex justify-content-center">
                             <label for="" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Pilihan Paket</label>
                             <div class="col-sm-7">
-                                <select name="aktivasi_id" id="paket" class="form-select form-select-sm text-bg-secondary">
+                                <select name="aktivasi_id" id="paket" class="form-select form-select-sm">
                                     <option selected disabled>Pilih Paket ...</option>
                                     @foreach( $aktivasis as $aktivasi )
                                         @if( $aktivasi->id === $penugasan['idAktivasi'] )
                                             <option value="{{ $aktivasi->id }}" selected>{{ $aktivasi->nama_aktivasi }}</option>
-                                        @else
-                                            <option value="{{ $aktivasi->id }}" disabled>{{ $aktivasi->nama_aktivasi }}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -148,7 +147,7 @@
                         <div class="row mb-3 text-end d-flex justify-content-center">
                             <label for="materi_id" class="col-sm-3 col-form-label col-form-label-sm fw-bold">Materi Tersedia</label>
                             <div class="col-sm-7">
-                                <select name="materi_id" id="materi_id" class="form-select form-select-sm text-bg-secondary">
+                                <select name="materi_id" id="materi_id" class="form-select form-select-sm">
                                     <option value="{{ $penugasan['idMateri'] }}">{{ $penugasan['namaMateri'] }}</option>
                                 </select>
                             </div>
@@ -230,7 +229,7 @@
         });
         
        let val = document.getElementById('penugasan').innerText;
-       if(val == false){
+       if(val == true || val == false){
         
             $('#paket').ready(function(){
                 var value = $('#paket').val();
@@ -247,34 +246,34 @@
             });
        }
 
-        $('#paket').on('change', function(){
-            var value = $('#paket').val();
-            $.ajax({
-                url:"{{ route('getmateri') }}",
-                type:"GET",
-                data:{'id_paket':value},
-                success: function(data){
-                    console.log(data);
-                    $('#materi_id').html(data);           
+        // $('#paket').on('change', function(){
+        //     var value = $('#paket').val();
+        //     $.ajax({
+        //         url:"{{ route('getmateri') }}",
+        //         type:"GET",
+        //         data:{'id_paket':value},
+        //         success: function(data){
+        //             console.log(data);
+        //             $('#materi_id').html(data);           
                     
-                }
-            });
-        });
+        //         }
+        //     });
+        // });
 
-        $('#paket').on('change', function(){
-            var value = $('#paket').val();
-            console.log(value);
-            $.ajax({
-                url:"{{ route('getteacher') }}",
-                type:"GET",
-                data:{'aktivasi_id':value},
-                success: function(data){
-                    console.log(data);
-                    $('#data_teacher').html(data);           
+        // $('#paket').on('change', function(){
+        //     var value = $('#paket').val();
+        //     console.log(value);
+        //     $.ajax({
+        //         url:"{{ route('getteacher') }}",
+        //         type:"GET",
+        //         data:{'aktivasi_id':value},
+        //         success: function(data){
+        //             console.log(data);
+        //             $('#data_teacher').html(data);           
                     
-                }
-            });
-        });
+        //         }
+        //     });
+        // });
           
     
 
@@ -287,16 +286,7 @@
 
 
 @push('js')
-<!-- <script>
-    const num = 0;
-function Function() {
-
-    const num = 0;
-    document.getElementById("demo").innerHTML = num;
-
-    num++;
-}
-</script> -->
+<!-- close alert -->
 <script>
     function changeStyle(){
         var element = document.getElementById("hide");
@@ -304,93 +294,5 @@ function Function() {
     }
     
 </script>
-<script>
-    function myFunction() {
-    var x = document.getElementById("myInput");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
-    }
-</script>
-<script>
 
-    function left(id){
-
-        let element = document.getElementById('tombol');
-        var x = element.getAttribute('href');
-        // alert(x);
-        
-        // let kal = document.getElementById('kalimat');
-        // var y = kal.getAttribute('value');
-        // alert(y);
-
-        var tes = x.split("");
-        let length = tes.length;
-        let citrus = tes.slice(1, length);
-        let coba = citrus.join("");
-        let angka = parseInt(coba);
-
-        // const name = "hello, world!";
-        // document.querySelector(`[data-name=${CSS.escape(name)}]`);
-        // document.querySelector(`[data-id-type=${CSS.escape(angka)}]`);
-
-        if( angka >= 0 && angka < id ){
-            angka++;
-            document.getElementById("tombol").href = "#" + angka;
-
-            document.querySelector(`[data-id-type=${CSS.escape(angka)}]`).style.display = "inline";
-            
-                // document.getElementById("kalimat").style.display = "inline"; 
-            
-            
-        }
-
-
-    }
-
-    function right(id){
-
-    let element = document.getElementById('tombols');
-    var x = element.getAttribute('href');
-    
-
-    var tes = x.split("");
-    let length = tes.length;
-    let citrus = tes.slice(1, length);
-    let coba = citrus.join("");
-    let angka = parseInt(coba);
-    // let hasil = Number(angka)-1;
-    
-    document.getElementById("tombol").href = "#" + angka;
-    
-
-    }
-
-
-    function details(id){
-
-        
-        let element = document.getElementById('pencet');
-        var x = element.getAttribute('value');
-        // alert(x);        
-
-        
-        
-        if( x == 1 ){
-            x=0;
-            document.querySelector(`[data-icon-type=${CSS.escape(id)}]`).setAttribute('class', 'fa-solid fa-arrow-down mx-3');
-            document.querySelector(`[data-id-type=${CSS.escape(id)}]`).style.display = "inline";
-            document.getElementById('pencet').value=x;
-        }else{
-            x=1;
-            document.querySelector(`[data-icon-type=${CSS.escape(id)}]`).setAttribute('class', 'fa-solid fa-arrow-right mx-3');
-            document.querySelector(`[data-id-type=${CSS.escape(id)}]`).style.display = "none";
-            document.getElementById('pencet').value=x;
-            // alert(x);
-        }
-
-    }
-</script>
 @endpush

@@ -448,7 +448,11 @@ class AssignTeacherController extends Controller
         if($isNull){
 
             $penugasan = [
-                'isNew' => true
+                'isNew' => true,
+                'idAktivasi' => $id,
+                'idMateri' => $materi->id,
+                'namaMateri' => $materi->nama_materi
+
             ];
 
         }else{
@@ -519,14 +523,12 @@ class AssignTeacherController extends Controller
 
     }
 
-    public function delete(Materi $materi, Aktivasi $aktivasi){
+    public function delete(Materi $materi, $id){
 
 
         // dd($materi);
 
-        DB::table('materi_teacher')->where(['materi_id' => $materi->id])->delete();
-
-        AssignTeacher::where('materi_id', $materi->id)->delete();
+        AssignTeacher::where(['materi_id' => $materi->id, 'aktivasi_id' => $id])->delete();
         // $assignteacher->delete();
 
         return redirect('/assign-teacher')->with('delete', 'Delete Successfully!');

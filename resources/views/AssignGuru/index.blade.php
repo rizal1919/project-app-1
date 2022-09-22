@@ -89,7 +89,7 @@
                                         <?php $namaMateri = $data['namaMateri']; ?>
                                         <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="/assign-teacher-update/{{ $data['idMateri'] }}/{{ $data['aktivasi_id'] }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
-                                        <button type="button" id="delete" class="btn btn-danger text-dark btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button>
+                                        <!-- <button type="button" id="delete" class="btn btn-danger text-dark btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button> -->
                                     </td>
                                 </tr>
                             @else
@@ -103,9 +103,10 @@
                                     <td>
                                         <?php $idmateri = $data['idMateri']; ?>
                                         <?php $namaMateri = $data['namaMateri']; ?>
+                                        <?php $idAktivasi = $data['aktivasi_id']; ?>
                                         <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="/assign-teacher-update/{{ $data['idMateri'] }}/{{ $data['aktivasi_id'] }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
-                                        <button type="button" id="delete" class="btn btn-danger btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button>
+                                        <button type="button" id="delete" class="btn btn-danger btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}', '{{ $idAktivasi }}')"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @endif
@@ -129,7 +130,7 @@
                     <i class="fas fa-trash mx-2"></i>Hapus Data
                 </h5>
                 <input type="hidden" id="name" name="id">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="close-btn-modal" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @csrf
@@ -137,7 +138,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+                <button type="submit" id="close-modal" class="btn btn-primary">Ya, Hapus!</button>
             </div>
         </form>
     </div>
@@ -158,10 +159,10 @@
         element.style.display = "none";
     }
 
-    function confirmation(delId, namaMateri){
+    function confirmation(delId, namaMateri, idAktivasi){
 
         let url = document.getElementById('delete').getAttribute('data-url');
-        let completeUrl = url + delId;
+        let completeUrl = url + delId + '/' + idAktivasi;
         // output = delete-materi/1
 
         $('#name').val(delId);
@@ -174,6 +175,10 @@
         // menampilkan modal box
 
     }
+
+    $("#close-modal").on('click', function(e){
+        $("#close-btn-modal").click();
+    });
 
     let clear = document.getElementById('yes-here');
     
