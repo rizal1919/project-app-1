@@ -88,7 +88,7 @@
                                         <?php $idmateri = $data['idMateri']; ?>
                                         <?php $namaMateri = $data['namaMateri']; ?>
                                         <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="/assign-teacher-update/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
+                                        <a href="/assign-teacher-update/{{ $data['idMateri'] }}/{{ $data['aktivasi_id'] }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
                                         <button type="button" id="delete" class="btn btn-danger text-dark btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -104,7 +104,7 @@
                                         <?php $idmateri = $data['idMateri']; ?>
                                         <?php $namaMateri = $data['namaMateri']; ?>
                                         <a href="/assign-teacher-show/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="/assign-teacher-update/{{ $data['idMateri'] }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
+                                        <a href="/assign-teacher-update/{{ $data['idMateri'] }}/{{ $data['aktivasi_id'] }}" class="text-decoration-none btn btn-warning btn-sm"><i class="fas fa-pen-to-square"></i></a>
                                         <button type="button" id="delete" class="btn btn-danger btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-url="/assign-teacher-delete/" onclick="confirmation('{{ $idmateri }}', '{{ $namaMateri }}')"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>

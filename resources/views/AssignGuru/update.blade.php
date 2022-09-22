@@ -1,35 +1,36 @@
 @extends('Dashboard.Layouts.main')
 
 @section('container')
+
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Halaman {{ $active }}</h1>
 </div>
+@if( session('teacher') )
+<div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+    Informasi <strong>{{ session('teacher') }}</strong> pilihan harus dipilih.
+    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+@if( session('aktivasi') )
+<div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+    Informasi <strong>{{ session('aktivasi') }}</strong> pilihan harus dipilih.
+    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+@if( session('materi') )
+<div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+    Informasi <strong>{{ session('materi') }}</strong> pilihan harus dipilih.
+    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+@if( session('createFailed') )
+<div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
+    <strong>{{ session('createFailed') }}</strong> materi sudah ada guru.
+    <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
     <div class="container d-flex justify-content-center my-4">
         <div class="card col-12 justify-content-center">
-            @if( session('teacher') )
-            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                Informasi <strong>{{ session('teacher') }}</strong> pilihan harus dipilih.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            @if( session('aktivasi') )
-            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                Informasi <strong>{{ session('aktivasi') }}</strong> pilihan harus dipilih.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            @if( session('materi') )
-            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                Informasi <strong>{{ session('materi') }}</strong> pilihan harus dipilih.
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            @if( session('updateFailed') )
-            <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
-                <strong>{{ session('updateFailed') }}</strong> materi sudah ada guru
-                <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
             <div class="card-header">
                 <p class="card-title">
                     Form Assign Guru
@@ -37,7 +38,7 @@
             </div>
            
             @if( $penugasan['isNew'] )
-                <form action="/assign-teacher-create" method="post">
+                <form action="/assign-teacher-create" method="POST">
                     @csrf
                     <div class="row p-4">
                         <div class="row my-3 text-end d-flex justify-content-center">
@@ -108,7 +109,7 @@
                     </div>
                 </form>
             @else
-                <form action="/assign-teacher-update/{{ $penugasan['idMateri'] }}" method="post">
+                <form action="/assign-teacher-update/{{ $penugasan['idMateri'] }}/{{ $penugasan['idAktivasi'] }}" method="POST">
                     @csrf
                     <div class="row p-4">
                         

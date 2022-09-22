@@ -37,18 +37,22 @@ class AssignTeacherController extends Controller
                         'materi_id' => $materi->id,
                         'aktivasi_id' => $aktivasi->id
                     ])->get();
-                    // dd($adaPenugasan->count());
+
+                    
                     
                     if($adaPenugasan->count() > 0){
 
+                        $idGuru = $adaPenugasan[0]->teacher_id;
+ 
                         $kotakMateri = [
     
                             'idPenugasan' => $adaPenugasan[0]->id,
                             'idMateri' => $materi->id,
+                            'aktivasi_id' => $aktivasi->id,
                             'namaMateri' => $materi->nama_materi,
                             'namaAktivasi' => $aktivasi->nama_aktivasi,
                             'statusPelaksanaan' => $adaPenugasan[0]->status,
-                            'statusPenugasan' => $materi->teacher->first()->teacher_name,
+                            'statusPenugasan' => Teacher::find($idGuru)->teacher_name,
                             'created_at' => $adaPenugasan[0]->created_at,
                             'updated_at' => $adaPenugasan[0]->updated_at
                         ];
@@ -63,6 +67,7 @@ class AssignTeacherController extends Controller
     
                             'idPenugasan' => '',
                             'idMateri' => $materi->id,
+                            'aktivasi_id' => $aktivasi->id,
                             'namaMateri' => $materi->nama_materi,
                             'namaAktivasi' => $aktivasi->nama_aktivasi,
                             'statusPelaksanaan' => 0,
@@ -239,9 +244,6 @@ class AssignTeacherController extends Controller
 
     public function create(Request $request){
 
-        
-        
-        
 
         return view('AssignGuru.create', [
 
@@ -307,25 +309,26 @@ class AssignTeacherController extends Controller
 
             $data = Aktivasi::find($request->aktivasi_id);
     
-           
             
             $array = [];
             foreach( $data->program as $program ){
-    
+                
                 
                 if(count($program->materi) === 0){
                     continue;
                 }else{
-    
+                    
                     foreach( $program->materi as $materi ){
-
+                        
                         
                         $data = DB::table('assign_teachers')->where([
                             'materi_id' => $materi->id,
                             'aktivasi_id' => $request->aktivasi_id
-                            ])->get();
+                        ])->get();
                         
-                        if( $data->count() === 0 ){
+                       
+                        
+                        if( count($data) == 0 ){
                             
                             $kotakMateri = [
                                 
@@ -335,28 +338,29 @@ class AssignTeacherController extends Controller
                                 'status' => '-',
                                 'tanggal' => '-'
                             ];
+
+                           
                         }else{
                             
-                                
-                            $data[0]->status == 1 ? $data[0]->status = 'Selesai' : $data[0]->status = 'Belum Terlaksana';
-                            // dd($data);
+                            
+                            $data->first()->status == 1 ? $status = 'Selesai' : $status = 'Belum Terlaksana';
 
                             $kotakMateri = [
             
                                 'idMateri' => $materi->id,
                                 'namaMateri' => $materi->nama_materi,
-                                'namaGuru' => $materi->teacher->first()->teacher_name,
-                                'status' => $data[0]->status,
-                                'tanggal' => $data[0]->tanggal
+                                'namaGuru' => Teacher::find($data->first()->teacher_id)->teacher_name,
+                                'status' => $status,
+                                'tanggal' => $data->first()->tanggal
                             ];
 
-                            
-                            
+                           
                         }
+
                         
                         array_push($array, $kotakMateri);
                     }
-                };
+                }
     
             }
 
@@ -367,7 +371,7 @@ class AssignTeacherController extends Controller
             $i=1;
             foreach( $array as $item){
                 $option .= "<tr>";
-
+               
                 $id = $item['idMateri'];
                 $nama_materi = $item['namaMateri'];
                 $nama_guru = $item['namaGuru'];
@@ -395,12 +399,18 @@ class AssignTeacherController extends Controller
 
     public function store(Request $request){
 
+        // dd($request);
         
-        $adaGurunya = Materi::find($request->materi_id)->teacher->count() > 0;
+        $adaGurunya = AssignTeacher::where([
+            'materi_id' => $request->materi_id, 
+            'aktivasi_id' => $request->aktivasi_id,
+            'teacher_id' => $request->teacher_id
+        ])->get();
+
         
-        if($adaGurunya){
+        if($adaGurunya->count() > 0){
             
-            return redirect('/assign-teacher-create')->with('createFailed', 'Gagal');
+            return redirect('/assign-teacher-update/' . $request->materi_id . '/' . $request->aktivasi_id)->with('createFailed', 'Gagal');
         }
         
         $validatedData = $request->validate([
@@ -416,12 +426,7 @@ class AssignTeacherController extends Controller
         // ini dilakukan karna request dari form adalah string. maka dari itu harus dirubah ke Unix time
         $dateVersion = date('Y-m-d', strtotime(strval($request->collect('tanggal')[0])));
         $validatedData['tanggal'] = $dateVersion;
-            
-        DB::table('materi_teacher')->insert([
-            'materi_id' => $validatedData['materi_id'],
-            'teacher_id' => $validatedData['teacher_id']
-        ]);
-
+        
 
         AssignTeacher::create($validatedData);
         $teacher = Teacher::find($validatedData['teacher_id']);
@@ -431,12 +436,15 @@ class AssignTeacherController extends Controller
 
     }
 
-    public function edit(Materi $materi){
+    public function edit(Materi $materi, $id){
+        // id ini sebenernya adalah id aktivasi
 
-        $isNull = $materi->teacher->count() == null;
+        $isNull = AssignTeacher::where([
+            'materi_id' => $materi->id, 
+            'aktivasi_id' => $id
+        ])->get()->count() === 0;
 
-        
-
+       
         if($isNull){
 
             $penugasan = [
@@ -446,15 +454,17 @@ class AssignTeacherController extends Controller
         }else{
 
             $data = AssignTeacher::where([
-                'materi_id' => $materi->id
-            ])->get();
+                'materi_id' => $materi->id,
+                'aktivasi_id' => $id
+            ])->first();
+
+           
+            $dataGuru = Teacher::find($data->teacher_id);
+            $dataAktivasi = Aktivasi::find($data->aktivasi_id);
+            $dataMateri = Materi::find($data->materi_id);
+            // dd($data->tanggal);
     
-            $dataGuru = Teacher::find($data[0]->teacher_id);
-            $dataAktivasi = Aktivasi::find($data[0]->aktivasi_id);
-            $dataMateri = Materi::find($data[0]->materi_id);
-            // dd($data[0]->tanggal);
-    
-            $stringVersion = date('d/m/Y', strtotime($data[0]->tanggal));
+            $stringVersion = date('d/m/Y', strtotime($data->tanggal));
             
     
             $penugasan = [
@@ -464,7 +474,7 @@ class AssignTeacherController extends Controller
                 'namaAktivasi' => $dataAktivasi->nama_aktivasi,
                 'idMateri' => $dataMateri->id,
                 'namaMateri' => $dataMateri->nama_materi,
-                'status' => $data[0]->status,
+                'status' => $data->status,
                 'tanggal' => $stringVersion,
                 'isNew' => false
             ];
@@ -485,9 +495,9 @@ class AssignTeacherController extends Controller
         ]);
     }
 
-    public function update(Request $request, Materi $materi){
+    public function update(Request $request, Materi $materi, $id){
 
-        // dd($request->collect());
+       
         
         $validatedData = $request->validate([
             
@@ -502,21 +512,14 @@ class AssignTeacherController extends Controller
         $validatedData['tanggal'] = $dateVersion;
         
 
-        if((int)$validatedData['teacher_id'] !== $materi->teacher->first()->id){
-
-            DB::table('materi_teacher')->where(['materi_id'=> $materi->id])->update(['teacher_id' => $validatedData['teacher_id']]);
-            
-        }
-
-
-        AssignTeacher::where(['materi_id' => $materi->id, 'aktivasi_id' => $validatedData['aktivasi_id']])->update($validatedData);
+        AssignTeacher::where(['materi_id' => $materi->id, 'aktivasi_id' => $id])->update($validatedData);
 
         return redirect('/assign-teacher')->with('update', 'Berhasil');
 
 
     }
 
-    public function delete(Materi $materi){
+    public function delete(Materi $materi, Aktivasi $aktivasi){
 
 
         // dd($materi);

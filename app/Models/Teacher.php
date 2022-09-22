@@ -16,10 +16,6 @@ class Teacher extends Model
         return $this->hasMany(AssignTeacher::class);
     }
 
-    public function materi(){
-        return $this->belongsToMany(Materi::class);
-    }
-
     public function scopeFilter($query,  array $filters){
 
         $query->when($filters['teacher_name'] ?? false, function($query, $teacher_name){

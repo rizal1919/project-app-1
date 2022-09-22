@@ -183,11 +183,10 @@ Route::post('/classroom-delete/{classroom:id}', [ClassroomController::class, 'de
 // route assign teacher
 Route::get('/assign-teacher', [AssignTeacherController::class, 'index']);
 Route::get('/assign-teacher-show/{materi:id}', [AssignTeacherController::class, 'show']);
-Route::get('/assign-teacher-create', [AssignTeacherController::class, 'create']);
 Route::post('/assign-teacher-create', [AssignTeacherController::class, 'store']);
-Route::get('/assign-teacher-update/{materi:id}', [AssignTeacherController::class, 'edit']);
-Route::post('/assign-teacher-update/{materi:id}', [AssignTeacherController::class, 'update']);
-Route::post('/assign-teacher-delete/{materi:id}', [AssignTeacherController::class, 'delete']);
+Route::get('/assign-teacher-update/{materi:id}/{id}', [AssignTeacherController::class, 'edit']);
+Route::post('/assign-teacher-update/{materi:id}/{id}', [AssignTeacherController::class, 'update']);
+Route::post('/assign-teacher-delete/{materi:id}/{id}', [AssignTeacherController::class, 'delete']);
 
 // jquery
 Route::get('/assign-teacher-create-new', [AssignTeacherController::class, 'materi'])->name('getmateri');
