@@ -262,6 +262,7 @@
 
         $('#paket').on('change', function(){
             var value = $('#paket').val();
+            console.log(value);
             $.ajax({
                 url:"{{ route('getteacher') }}",
                 type:"GET",
