@@ -249,15 +249,23 @@ class AktivasiController extends Controller
     public function indexDetails(Aktivasi $aktivasi){
  
         
+        // bagian ini untuk membatasi program mana saja yang perlu ditampilkan sesuai dengan id guru
         if( auth('teacher')->check() ){
+            // cek apakah guru login
 
             $daftarProgram = [];
+            // untuk menyimpan id program-program
+
             $cariProgram = AssignTeacher::where(['aktivasi_id' => $aktivasi->id, 'teacher_id' => auth('teacher')->user()->id])->get();
+            // query penugasan yang aktivasi dan guru nya sesuai. tujuannya adalah mengumpulkan materi2 yang diampu oleh guru
+
             foreach( $cariProgram as $program ){
     
                 $data = Materi::find($program->materi_id);
+                // cari materi sesuai id
     
                 if( $data != null ){
+                // jika ada, cek lagi apakah id program sudah masuk dalam array atau belum
     
                     if( in_array($data->program->id, $daftarProgram) ){
     
@@ -276,23 +284,22 @@ class AktivasiController extends Controller
         $rakS = [];
         $rakP = [];
         $rakTotal = [];
-        
         $programs = [];
         foreach( $aktivasi->program as $program ){
 
             $arrayProgram = [];
             $rakP = [];
 
-
-
-            
             if( auth('teacher')->check() ){
+            // cek apakah guru sedang login dan program id yang dilooping sekarang ada di dalam daftar program yang diambil gurunya
                 
 
                 if( in_array($program->id, $daftarProgram) ){
-                // cek apakah guru sedang login dan program id yang dilooping sekarang ada di dalam daftar program yang diambil gurunya
+                // cek pula apakah id program saat ini ada dalam daftar program yang diquery sebelumnya di atas
     
                     foreach( $program->materi as $materi ){
+                    // cari materi id nya kemudian masukkan ke daftar
+
                         array_push($arrayProgram, $materi->id);
                     }
                     
@@ -341,8 +348,6 @@ class AktivasiController extends Controller
         
                     }
 
-                    
-        
                     array_push($rakTotal, $rakP);
                     array_push($programs, $program->nama_program);
                     
@@ -407,16 +412,18 @@ class AktivasiController extends Controller
 
 
         }
-        
-        
+
+        // hasil dari query kondisi di atas adalah array bertingkat
+        // array level 1 adalah untuk program
+        // array level 2 adalah jumlah siswa
+        // array level 3 atau paling dalam adalah materi-materi
         
 
         return view('Aktivasi.details', [
             'active' => 'Aktivasi',
             'programs' => $programs,
             'aktivasi' => $aktivasi,
-            'datas' => $rakTotal,
-            'dibagiProgram' => $aktivasi->program->count()
+            'datas' => $rakTotal
         ]);
     }
 
