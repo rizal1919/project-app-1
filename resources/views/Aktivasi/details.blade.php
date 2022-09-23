@@ -74,9 +74,10 @@
                                             <?php $aktivasiId = $skor['idAktivasi']; ?>
                                             <?php $programId = $skor['idProgram']; ?>
                                         @endforeach
+                                        <?php $availables = max($student)['availables']; ?>
                                         <td>{{ max($student)['total_nilai'] }}</td>
                                         <td>
-                                            <button class="btn btn-warning btn-sm" data-url="/delete-aktivasi-program/" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="edit('{{ $idPenilaian }}', '{{ $studentId }}', '{{ $aktivasiId }}', '{{ $programId }}')"><i class="fa fa-pen-to-square"></i></button>
+                                            <button class="btn btn-warning btn-sm" data-url="/delete-aktivasi-program/" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="edit('{{ $idPenilaian }}', '{{ $studentId }}', '{{ $aktivasiId }}', '{{ $programId }}', '{{ $availables }}')"><i class="fa fa-pen-to-square"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -94,7 +95,7 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <h5 class="modal-title" id="staticBackdropLabel"><i class="fa-solid fa-chalkboard-user mx-2"></i>Form Penilaian</h5>
         <button type="button" class="btn-close" id="close-form" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="content">
@@ -113,13 +114,15 @@
 
    
         
-    function edit(idDaftarNilai, studentId, aktivasiId, programId){
+    function edit(idDaftarNilai, studentId, aktivasiId, programId, availables){
 
+        let data = `programId=${programId}&idDaftarNilai=${idDaftarNilai}&studentId=${studentId}&aktivasiId=${aktivasiId}&availables=${availables}`;
+        console.log(data);
         
         $.ajax({
             type:"GET",
             url:"{{ route('edit') }}",
-            data:`programId=${programId}&idDaftarNilai=${idDaftarNilai}&studentId=${studentId}&aktivasiId=${aktivasiId}`,
+            data:`programId=${programId}&idDaftarNilai=${idDaftarNilai}&studentId=${studentId}&aktivasiId=${aktivasiId}&availables=${availables}`,
             success:function(data){
 
                 console.log(data);

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use PDO;
 
+use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
 class AktivasiController extends Controller
@@ -311,7 +312,9 @@ class AktivasiController extends Controller
                             'student_id' => $student->id,
                             'aktivasi_id' => $aktivasi->id
                         ])->get();
+
                         $totalNilai = 0;
+                        $materiAvailable = "";
                         foreach( $daftarNilai as $nilai ){
         
                             $rakM = [];
@@ -322,7 +325,18 @@ class AktivasiController extends Controller
                                 // dd($dataMateri);
         
                                 if( $dataMateri->bobot_persen ){
-        
+
+                                    $guru = AssignTeacher::where(['materi_id' => $dataMateri->id, 'aktivasi_id' => $aktivasi->id, 'teacher_id' => auth('teacher')->user()->id])->get();
+                                    // cek dulu, bener ga materi ini diajar oleh guru yang lagi login
+
+                                   
+                                    if( $guru->isNotEmpty() ){
+                                        // kalau iya, masukin ke daftar available materinya
+
+                                        $materiAvailable = $materiAvailable . $dataMateri->id . '-';
+                                    }
+                                    
+
                                     $totalNilai = $totalNilai + $nilai->nilai*($dataMateri->bobot_persen/100);
         
                                     $rakM = [
@@ -334,7 +348,8 @@ class AktivasiController extends Controller
                                         'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
                                         'total_nilai' => $totalNilai,
                                         'nama_materi' => $dataMateri->nama_materi,
-                                        'bobot_materi' => $dataMateri->bobot_persen
+                                        'bobot_materi' => $dataMateri->bobot_persen,
+                                        'availables' => $materiAvailable 
                                     ];
         
                                     array_push($rakS, $rakM);
@@ -368,7 +383,9 @@ class AktivasiController extends Controller
                         'student_id' => $student->id,
                         'aktivasi_id' => $aktivasi->id
                     ])->get();
+
                     $totalNilai = 0;
+                    $materiAvailable = "-";
                     foreach( $daftarNilai as $nilai ){
     
                         $rakM = [];
@@ -391,7 +408,8 @@ class AktivasiController extends Controller
                                     'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
                                     'total_nilai' => $totalNilai,
                                     'nama_materi' => $dataMateri->nama_materi,
-                                    'bobot_materi' => $dataMateri->bobot_persen
+                                    'bobot_materi' => $dataMateri->bobot_persen,
+                                    'availables' => $$materiAvailable
                                 ];
     
                                 array_push($rakS, $rakM);
@@ -413,6 +431,8 @@ class AktivasiController extends Controller
 
         }
 
+       
+
         // hasil dari query kondisi di atas adalah array bertingkat
         // array level 1 adalah untuk program
         // array level 2 adalah jumlah siswa
@@ -428,6 +448,15 @@ class AktivasiController extends Controller
     }
 
     public function editDetails(Request $request){
+
+        
+        $primary = [];
+
+        if( auth('teacher')->check() ){
+
+            $primary = explode('-', $request->availables);
+        }
+
 
 
         $data = DB::table('daftar_nilai')->where([
@@ -464,14 +493,17 @@ class AktivasiController extends Controller
 
         
         return view('Aktivasi.editform', [
-            'number' => $request->idDaftarNilai,
-            'materis' => $rakMateri
+            'idDaftarNilai' => $request->idDaftarNilai,
+            'materis' => $rakMateri,
+            'materiDitugaskan' => $primary
         ]);
     }
 
     public function updateDetails(Request $request){
 
         $data = $request->collect();
+
+        
         
         $nilai = DB::table('daftar_nilai')->where(['id' => $request->daftarNilai])->get();
         
@@ -554,7 +586,9 @@ class AktivasiController extends Controller
                             'student_id' => $student->id,
                             'aktivasi_id' => $aktivasi->id
                         ])->get();
+
                         $totalNilai = 0;
+                        $materiAvailable = "";
                         foreach( $daftarNilai as $nilai ){
 
                             $rakM = [];
@@ -565,6 +599,16 @@ class AktivasiController extends Controller
                                 // dd($dataMateri);
 
                                 if( $dataMateri->bobot_persen ){
+
+                                    $guru = AssignTeacher::where(['materi_id' => $dataMateri->id, 'aktivasi_id' => $aktivasi->id, 'teacher_id' => auth('teacher')->user()->id])->get();
+                                    // cek dulu, bener ga materi ini diajar oleh guru yang lagi login
+
+                                   
+                                    if( $guru->isNotEmpty() ){
+                                        // kalau iya, masukin ke daftar available materinya
+
+                                        $materiAvailable = $materiAvailable . $dataMateri->id . '-';
+                                    }
 
                                     $totalNilai = $totalNilai + $nilai->nilai*($dataMateri->bobot_persen/100);
 
@@ -577,7 +621,8 @@ class AktivasiController extends Controller
                                         'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
                                         'total_nilai' => $totalNilai,
                                         'nama_materi' => $dataMateri->nama_materi,
-                                        'bobot_materi' => $dataMateri->bobot_persen
+                                        'bobot_materi' => $dataMateri->bobot_persen,
+                                        'availables' => $materiAvailable
                                     ];
 
                                     array_push($rakS, $rakM);
@@ -611,7 +656,9 @@ class AktivasiController extends Controller
                         'student_id' => $student->id,
                         'aktivasi_id' => $aktivasi->id
                     ])->get();
+
                     $totalNilai = 0;
+                    $materiAvailable = "-";
                     foreach( $daftarNilai as $nilai ){
 
                         $rakM = [];
@@ -634,7 +681,8 @@ class AktivasiController extends Controller
                                     'nilai' => $nilai->nilai*($dataMateri->bobot_persen/100),
                                     'total_nilai' => $totalNilai,
                                     'nama_materi' => $dataMateri->nama_materi,
-                                    'bobot_materi' => $dataMateri->bobot_persen
+                                    'bobot_materi' => $dataMateri->bobot_persen,
+                                    'availables' => $materiAvailable
                                 ];
 
                                 array_push($rakS, $rakM);
@@ -657,7 +705,6 @@ class AktivasiController extends Controller
         }
 
         
-
         return view('Aktivasi.updateform', [
             'active' => 'Aktivasi',
             'programs' => $aktivasi->program,

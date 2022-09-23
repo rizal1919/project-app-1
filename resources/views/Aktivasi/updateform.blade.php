@@ -42,9 +42,10 @@
                                     <?php $aktivasiId = $skor['idAktivasi']; ?>
                                     <?php $programId = $skor['idProgram']; ?>
                                 @endforeach
+                                <?php $availables = max($student)['availables']; ?>
                                 <td>{{ max($student)['total_nilai'] }}</td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm" data-url="/delete-aktivasi-program/" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="edit('{{ $idPenilaian }}', '{{ $studentId }}', '{{ $aktivasiId }}', '{{ $programId }}')"><i class="fa fa-pen-to-square"></i></button>
+                                    <button class="btn btn-warning btn-sm" data-url="/delete-aktivasi-program/" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="edit('{{ $idPenilaian }}', '{{ $studentId }}', '{{ $aktivasiId }}', '{{ $programId }}', '{{ $availables }}')"><i class="fa fa-pen-to-square"></i></button>
                                 </td>
                             </tr>
                         @endforeach
