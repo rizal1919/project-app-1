@@ -9,9 +9,6 @@ class LoginController extends Controller
 {
     public function index(){
 
-
-        
-
         return view('Login.index', [
 
             'title' => 'Login | ',
@@ -20,8 +17,6 @@ class LoginController extends Controller
     }
 
     public function authenticate(Request $request){
-
-
 
 
         $credentials = $request->validate([

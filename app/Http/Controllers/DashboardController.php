@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function index(){
 
 
-        return view('Dashboard.index', [
+        return view('Dashboard.Layouts.main', [
             'title' => 'Dashboard | ',
             'active' => 'Dashboard',
         ]);

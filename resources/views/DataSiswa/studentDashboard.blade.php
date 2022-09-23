@@ -1,5 +1,5 @@
-@extends('Layouts.main')
-@section('content')
+@extends('Dashboard.Layouts.main')
+@section('container')
 
 <div id="container" class="container bg-dark">
     <div class="row g-0 mt-4">

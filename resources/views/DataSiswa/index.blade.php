@@ -27,21 +27,21 @@
                         <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
-                <div class="row d-flex justify-content-end">
-                    <div class="col-md-12 d-flex mt-4 justify-content-end">
-                        <form action="/data-siswa" method="get" class="mx-2" style="width: 80%;" >
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" name="nama" value="{{ request()->nama }}" class="form-control text-end" placeholder="Nama">
-                                <input type="text" name="ktp" value="{{  request()->ktp }}" class="form-control text-end" placeholder="No KTP">
-                                <input type="text" name="tahun" value="{{ request()->tahun }}" class="form-control text-end" placeholder="Tahun">
-                                <button class="btn btn-primary" id="basic-addon2">Cari!</button>
-                            </div>
-                        </form>
-                        <a href="/data-siswa/create/student" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Tambah Siswa</a>
-                        
+                    <div class="row d-flex justify-content-end">
+                        <div class="col-md-12 d-flex mt-4 justify-content-end">
+                            <form action="/data-siswa" method="get" class="mx-2" style="width: 80%;" >
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" name="nama" value="{{ request()->nama }}" class="form-control text-end" placeholder="Nama">
+                                    <input type="text" name="ktp" value="{{  request()->ktp }}" class="form-control text-end" placeholder="No KTP">
+                                    <input type="text" name="tahun" value="{{ request()->tahun }}" class="form-control text-end" placeholder="Tahun">
+                                    <button class="btn btn-primary" id="basic-addon2">Cari!</button>
+                                </div>
+                            </form>
+                            <a href="/data-siswa/create/student" class="btn btn-primary mx-1" style="width: 20%; height: 100%;">Tambah Siswa</a>
+                            
+                        </div>
                     </div>
-                </div>
                 
             </div>
             <div class="card-body">

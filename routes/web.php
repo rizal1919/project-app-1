@@ -44,7 +44,11 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 //    ]);
 // })->name('home')->middleware('guest');
 
-
+// Route::get('/tes-design', function(){
+//     return view('Design.index', [
+//         'active' => 'Home'
+//     ]);
+// });
 
 // routes login
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');

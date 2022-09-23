@@ -409,7 +409,7 @@ class AktivasiController extends Controller
                                     'total_nilai' => $totalNilai,
                                     'nama_materi' => $dataMateri->nama_materi,
                                     'bobot_materi' => $dataMateri->bobot_persen,
-                                    'availables' => $$materiAvailable
+                                    'availables' => $materiAvailable
                                 ];
     
                                 array_push($rakS, $rakM);
