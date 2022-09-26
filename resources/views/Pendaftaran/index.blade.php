@@ -19,11 +19,11 @@
                             <div class="input-group">
                                 <input type="text" name="studentName" value="{{ request('studentName') }}" class="form-control text-end" placeholder="Nama">
                                 <input type="text" name="activationName" value="{{ request('activationName') }}" class="form-control text-end" placeholder="Kelas">
-                                <select name="search" id="search" class="form-select form-select-sm text-end">
+                                <select name="search" id="search" value="{{ Request('search') }}" class="form-select form-select-sm text-end">
                                     <option selected disabled>Filter By</option>
                                     <option value="On Going">Siswa Aktif (On Going)</option>
                                     <option value="Graduated">Siswa Lulus (Graduated)</option>
-                                    <option value="Belum Lunas">Pembayaran Belum Lunas</option>
+                                    <option value="Belum Bayar">Pembayaran Belum Lunas</option>
                                     <option value="Paid">Pembayaran Lunas</option>
                                 </select>
                                 <button class="btn btn-primary" id="basic-addon2">Cari!</button>
@@ -111,7 +111,7 @@
                     <i class="fas fa-trash mx-2"></i>Hapus Data
                 </h5>
                 <input type="hidden" id="name" name="id">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id="close-btn" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @csrf
@@ -119,7 +119,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+                <button type="submit" class="btn btn-primary" id="close">Ya, Hapus!</button>
             </div>
         </form>
     </div>
@@ -157,91 +157,18 @@
 </script>
 <script>
     function myFunction() {
-    var x = document.getElementById("myInput");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
-    }
-</script>
-<script>
-
-    function left(id){
-
-        let element = document.getElementById('tombol');
-        var x = element.getAttribute('href');
-        // alert(x);
-        
-        // let kal = document.getElementById('kalimat');
-        // var y = kal.getAttribute('value');
-        // alert(y);
-
-        var tes = x.split("");
-        let length = tes.length;
-        let citrus = tes.slice(1, length);
-        let coba = citrus.join("");
-        let angka = parseInt(coba);
-
-        // const name = "hello, world!";
-        // document.querySelector(`[data-name=${CSS.escape(name)}]`);
-        // document.querySelector(`[data-id-type=${CSS.escape(angka)}]`);
-
-        if( angka >= 0 && angka < id ){
-            angka++;
-            document.getElementById("tombol").href = "#" + angka;
-
-            document.querySelector(`[data-id-type=${CSS.escape(angka)}]`).style.display = "inline";
-            
-                // document.getElementById("kalimat").style.display = "inline"; 
-            
-            
+        var x = document.getElementById("myInput");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
         }
-
-
     }
 
-    function right(id){
-
-    let element = document.getElementById('tombols');
-    var x = element.getAttribute('href');
-    
-
-    var tes = x.split("");
-    let length = tes.length;
-    let citrus = tes.slice(1, length);
-    let coba = citrus.join("");
-    let angka = parseInt(coba);
-    // let hasil = Number(angka)-1;
-    
-    document.getElementById("tombol").href = "#" + angka;
-    
-
-    }
+    $("#close").on('click', function(){
+        $("#close-btn").click();
+    });
 
 
-    function details(id){
-
-        
-        let element = document.getElementById('pencet');
-        var x = element.getAttribute('value');
-        // alert(x);        
-
-        
-        
-        if( x == 1 ){
-            x=0;
-            document.querySelector(`[data-icon-type=${CSS.escape(id)}]`).setAttribute('class', 'fa-solid fa-arrow-down mx-3');
-            document.querySelector(`[data-id-type=${CSS.escape(id)}]`).style.display = "inline";
-            document.getElementById('pencet').value=x;
-        }else{
-            x=1;
-            document.querySelector(`[data-icon-type=${CSS.escape(id)}]`).setAttribute('class', 'fa-solid fa-arrow-right mx-3');
-            document.querySelector(`[data-id-type=${CSS.escape(id)}]`).style.display = "none";
-            document.getElementById('pencet').value=x;
-            // alert(x);
-        }
-
-    }
 </script>
 @endpush
