@@ -1,8 +1,8 @@
-@extends('Dashboard.Layouts.main')
-@section('container')
+@extends('Layouts.main')
+@section('content')
 
-<div id="container" class="container bg-dark">
-    <div class="row g-0 mt-4">
+<div id="container" class="container-fluid bg-dark">
+    <div class="row g-0">
         <div id="leftSideBar" class="text-bg-dark text-center">
             @if( $student->picture )
             <img src="{{ asset('Storage/' . $student->picture) }}" alt="tes" class="img-thumbnail text-center mt-5 mb-3" style="border-radius: 50%; margin: 0px auto;" width="80px;"> 

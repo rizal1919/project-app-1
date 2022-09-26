@@ -1,7 +1,15 @@
-@extends('Layouts.main')
-
-@section('content')
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    
+</head>
+<body>
+    
     <div class="container mt-5">
         <div class="col-lg-6 text-center mx-auto" >
         @if( session('success') )
@@ -16,7 +24,7 @@
             <button type="button" class="btn-close" onclick="changeStyle()" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
-
+    
         @if( session('loginError') )
         <div class="alert alert-danger alert-dismissible fade show" id="hide" role="alert">
             <strong>{{ session('loginError') }}</strong> Maaf autentikasi username/password anda salah.
@@ -56,26 +64,30 @@
         </main>
         </div>
     </div>
-@endsection
-
-@push('js')
-<script>
-    function myFunction() {
-        var x = document.getElementById("myInput");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-</script>
-
-<script>
-    function changeStyle(){
-        var element = document.getElementById("hide");
-        element.style.display = "none";
-    }
+   
     
-</script>
+    
+    
+    <script>
+        
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        
+        function changeStyle(){
+            var element = document.getElementById("hide");
+            element.style.display = "none";
+        }
 
-@endpush
+    </script>
+  
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    
+</body>
+</html>

@@ -2,10 +2,9 @@
 
 @section('content')
 
-<div class="container-fluid border border-1 bg-light">
+<div class="container-fluid border border-1 bg-light" id="top-nav">
 
-
-    <div id="navbar-daftar-nilai" class="container-fluid sticky-top navbar mb-5 bg-white d-flex justify-content-center">
+    <div id="navbar-daftar-nilai" class="container-fluid sticky-top navbar mb-5 bg-white d-flex justify-content-center" style="width: 100%;">
         <ul class="nav">
             <li class="nav-item">
                 <a class="text-decoration-none border border-0" style="background-color: rgba(255,255,255,0);" href="/">

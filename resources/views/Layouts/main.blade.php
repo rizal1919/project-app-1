@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/img/master-icon.jpg">
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
     <!-- Styles -->
@@ -18,9 +18,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     
-
-    <!-- data-feather icon -->
-    <script src="https://unpkg.com/feather-icons"></script>
 
     <link rel="stylesheet" href="{{ asset('fa/css/all.css') }}">
     <link href="/css/dashboard.css" rel="stylesheet">
@@ -40,58 +37,22 @@
 
     <link href="/test/bootstrap.min.css" rel="stylesheet"> 
     <link href="/test/dashboard.css" rel="stylesheet">
-  </head>
-  <body>
 
-    <!-- ini bagian header -->
-    @include('Dashboard.Layouts.header')
-    <div class="container-fluid">
-      <div class="row">
+    <title>Document</title>
+</head>
+<body>
 
-        <!-- ini bagian navbar -->
-        @include('Dashboard.Layouts.sidebar')
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        
-        @if( $active === 'Dashboard' )
-        <!-- header ini hanya akan muncul di halaman dashboard -->
-
-          @if( auth('administrator')->check() )
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Selamat datang, {{ auth('administrator')->user()->administrator_name }}</h1>
-          </div>
-          @else
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Selamat datang, {{ auth('teacher')->user()->teacher_name }}</h1>
-          </div>
-          @endif
-        @endif
-
-          <!-- tambahkan content web di bawah ini -->
-          @yield('container')
-        </main>
-      </div>
-    </div>
-
-
+    
+    @yield('content')
+    
     <!-- tambahkan javascript custom di bawah ini -->
     @stack('js')
-
-    <!-- data feather icons -->
-    feather.replace()
-
     
     <!-- ini javascript bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-    
-    <!-- ini javascript dari template dashboard -->
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-    <script src="/test/dashboard.js"></script>
 
-    <!-- ini javascript untuk data-feather icons -->
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script>
-      feather.replace()
-    </script>
-    
-  </body>
+    <!-- ini javascript dari template dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="/test/dashboard.js"></script>
+
+</body>
 </html>

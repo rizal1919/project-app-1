@@ -168,7 +168,7 @@ class StudentController extends Controller
                 $rak = [
                     'namaAktivasi' => $aktivasi->nama_aktivasi,
                     'status' => $status,
-                    'picture' => $pictures[rand(0,6)],
+                    'picture' => $pictures[rand(0,5)],
                     'programs' => $aktivasi->program->count(),
                     'materis' => $totalMateri
                 ];
