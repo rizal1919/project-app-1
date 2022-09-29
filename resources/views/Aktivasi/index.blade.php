@@ -67,7 +67,9 @@
                     <thead>
                         <th>No</th>
                         <th>Nama Aktivasi</th>
-                        <th>Biaya</th>
+                        @if( auth('administrator')->check() )
+                            <th>Biaya</th>
+                        @endif
                         <th>Periode</th>
                         <th>Status</th>
                         <th>Aksi</th>
@@ -78,7 +80,9 @@
                                 
                                 <td>{{ ($aktivasi->currentPage() - 1) * $aktivasi->perPage() + $loop->iteration }}</td>
                                 <td>{{ $aktif->nama_aktivasi }}</td>
-                                <td>{{ $aktif->biaya }}</td>
+                                @if( auth('administrator')->check() )
+                                    <td>{{ $aktif->biaya }}</td>
+                                @endif
                                 <td>{{ $aktif->pembukaan }} - {{ $aktif->penutupan }}</td>
                                 @if( $aktif->status === 'Ditutup' )
                                     <td><p class="badge bg-dark text-light">{{ $aktif->status }}</p></td>
